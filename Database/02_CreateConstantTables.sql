@@ -1,0 +1,49 @@
+--
+USE SceneSwarm01
+
+CREATE TABLE const.States(
+	StateID INT NOT NULL
+		CONSTRAINT PK_States
+		PRIMARY KEY IDENTITY
+	,StateAbbreviation NVARCHAR(2) NOT NULL
+	,StateName NVARCHAR(255) NOT NULL
+)
+
+CREATE TABLE const.ZipCodes(
+	ZipCode INT NOT NULL
+		CONSTRAINT PK_ZipCodes
+		PRIMARY KEY
+)
+
+CREATE TABLE const.Cities(
+	CityID INT NOT NULL
+		CONSTRAINT PK_Cities
+		PRIMARY KEY IDENTITY
+	,CityName NVARCHAR(2) NOT NULL
+)
+
+CREATE TABLE const.CityZipcodeXRef(
+	CityZipcodeXRefID INT NOT NULL
+		CONSTRAINT PK_CityZipcodeXRef
+		PRIMARY KEY IDENTITY
+	,ZipCode INT NOT NULL
+		CONSTRAINT FK_CityZipcodeXRef_ZipCode
+		REFERENCES const.ZipCodes(ZipCode)
+)
+
+CREATE TABLE const.ssDays(
+	ssDayID INT NOT NULL
+		CONSTRAINT PK_ssDays
+		PRIMARY KEY IDENTITY
+	,ssDay NVARCHAR(255)
+	)
+
+/*
+
+DROP TABLE const.ssDays
+DROP TABLE const.CityZipcodeXRef
+DROP TABLE const.Cities
+DROP TABLE const.ZipCodes
+DROP TABLE const.States
+
+*/

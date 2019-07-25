@@ -1,0 +1,12 @@
+sqlcmd -d SceneSwarm01 -i 01_CreateSchemas.sql
+sqlcmd -d SceneSwarm01 -i 02_CreateConstantTables.sql
+sqlcmd -d SceneSwarm01 -i 03_CreateEmployeeTables.sql
+sqlcmd -d SceneSwarm01 -i 04_CreateSSUserAndSSAdminTables.sql
+sqlcmd -d SceneSwarm01 -i 05_CreateAddressAndVenueTables.sql
+sqlcmd -d SceneSwarm01 -i 06_CreateEventTables.sql
+sqlcmd -d SceneSwarm01 -i 07_CreateArtistTables.sql
+sqlcmd -d SceneSwarm01 -i 08_CreateBeerTables.sql
+sqlcmd -d SceneSwarm01 -i 09_CreateWineTables.sql
+sqlcmd -d SceneSwarm01 -i 10_CreateSpiritTables.sql
+sqlcmd -d SceneSwarm01 -i 11_CreateCiderTables.sql
+sqlcmd -d SceneSwarm01 -i 12_CreateMeadTables.sql

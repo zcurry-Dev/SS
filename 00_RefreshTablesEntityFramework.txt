@@ -1,0 +1,4 @@
+Scaffold-DbContext "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir EFModels/Tables
+
+//Refresh // Force
+Scaffold-DbContext "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir EFModels/Tables -Force

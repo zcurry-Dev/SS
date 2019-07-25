@@ -1,0 +1,118 @@
+--
+USE SceneSwarm01
+
+CREATE TABLE refSSUser.UserStatuses(
+	UserStatusID INT NOT NULL
+		CONSTRAINT PK_UserStatuses
+		PRIMARY KEY IDENTITY
+	,UserStatus NVARCHAR(255)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_UserStatuses_CreatedDate
+		DEFAULT GETDATE()
+)
+
+CREATE TABLE refSSUser.UserRoles(
+	UserRoleID INT NOT NULL
+		CONSTRAINT PK_UserRoles
+		PRIMARY KEY IDENTITY
+	,UserRole NVARCHAR(255) NOT NULL
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_UserRoles_CreatedDate
+		DEFAULT GETDATE()
+)
+
+CREATE TABLE ssUser.SSUsers(
+	SSUserID INT NOT NULL
+		CONSTRAINT PK_SSUsers
+		PRIMARY KEY IDENTITY
+	,FirstName NVARCHAR(255) NOT NULL
+	,LastName NVARCHAR(255) NOT NULL
+	,Email NVARCHAR(255) NOT NULL
+	,UserStatusID INT NOT NULL
+		CONSTRAINT FK_SSUsers_UserStatusID
+		REFERENCES refSSUser.UserStatuses(UserStatusID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_SSUsers_CreatedDate
+		DEFAULT GETDATE()
+)
+
+CREATE TABLE hr.SSUsersEmployeeXRef(
+	SSUsersEmployeeXRefID INT NOT NULL
+		CONSTRAINT PK_SSUsersEmployeeXRef
+		PRIMARY KEY IDENTITY
+	,SSUserID INT NOT NULL
+		CONSTRAINT FK_SSUsersEmployeeXRef_SSUserID
+		REFERENCES ssUser.SSUsers(SSUserID)	
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_SSUsersEmployeeXRef_CreatedDate
+		DEFAULT GETDATE()
+	,Zapped BIT
+		CONSTRAINT DF_SSUsersEmployeeXRef_Zapped
+		DEFAULT 0
+)
+
+CREATE TABLE ssUser.UserRolesXRef(
+	UserRoleXRefID INT NOT NULL
+		CONSTRAINT PK_UserRolesXRef
+		PRIMARY KEY IDENTITY
+	,SSUserID INT NOT NULL
+		CONSTRAINT FK_UserRoleXRef_SSUserID
+		REFERENCES ssUser.SSUsers(SSUserID)
+	,UserRoles INT NOT NULL
+		CONSTRAINT FK_UserRoleXRef_UserRoleID
+		REFERENCES refSSUser.UserRoles(UserRoleID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_UserRolesXRef_CreatedDate
+		DEFAULT GETDATE()
+)
+
+CREATE TABLE refSSAdmin.AdminRoles(
+	AdminRoleID INT NOT NULL
+		CONSTRAINT PK_AdminRoles
+		PRIMARY KEY IDENTITY
+	,AdminRole NVARCHAR(255)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_AdminRoles_CreatedDate
+		DEFAULT GETDATE()
+)
+
+CREATE TABLE ssAdmin.Admins(
+	AdminID INT NOT NULL
+		CONSTRAINT PK_Admins
+		PRIMARY KEY IDENTITY
+	,SSUserID INT NOT NULL
+		CONSTRAINT FK_Admins_SSUserID
+		REFERENCES ssUser.SSUsers(SSUserID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_Admins_CreatedDate
+		DEFAULT GETDATE()
+)
+
+CREATE TABLE ssAdmin.AdminRolesXRef(
+	AdminRolesXRefID INT NOT NULL
+		CONSTRAINT PK_AdminRolesXRef
+		PRIMARY KEY IDENTITY
+	,AdminID INT NOT NULL
+		CONSTRAINT FK_AdminRolesXRef_AdminID
+		REFERENCES ssAdmin.Admins(AdminID)
+	,UserRoles INT NOT NULL
+		CONSTRAINT FK_AdminRolesXRef_AdminRoleID
+		REFERENCES refSSAdmin.AdminRoles(AdminRoleID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_AdminRolesXRef_CreatedDate
+		DEFAULT GETDATE()
+)
+
+
+/*
+
+DROP TABLE ssAdmin.AdminRolesXRef
+DROP TABLE ssAdmin.Admins
+DROP TABLE refSSAdmin.AdminRoles
+DROP TABLE ssUser.UserRolesXRef
+DROP TABLE hr.SSUsersEmployeeXRef
+DROP TABLE ssUser.SSUsers
+DROP TABLE refSSUser.UserRoles
+DROP TABLE refSSUser.UserStatuses
+
+*/
