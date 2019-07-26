@@ -41,8 +41,8 @@ DROP TABLE ref.ArtistStatuses
 DROP TABLE ref.ArtistTypes
 
 -- DROP EVENTS TABLES
-DROP TABLE dbo.SSEvents
-DROP TABLE ref.SSEventTypes
+DROP TABLE dbo.EventsSS
+DROP TABLE ref.EventTypesSS
 
 -- DROP ADDRESSES/VENUE TABLES
 DROP TABLE dbo.VenueHoursOpen
@@ -52,14 +52,14 @@ DROP TABLE ref.VenueTypes
 DROP TABLE dbo.Addresses
 
 -- DROP USER/ADMIN TABLES
-DROP TABLE ssAdmin.AdminRolesXRef
-DROP TABLE ssAdmin.Admins
-DROP TABLE refSSAdmin.AdminRoles
-DROP TABLE ssUser.UserRolesXRef
-DROP TABLE hr.SSUsersEmployeeXRef
-DROP TABLE ssUser.SSUsers
-DROP TABLE refSSUser.UserRoles
-DROP TABLE refSSUser.UserStatuses
+DROP TABLE AdminSS.AdminRolesXRef
+DROP TABLE AdminSS.Admins
+DROP TABLE refAdminSS.AdminRoles
+DROP TABLE UserSS.UserRolesXRef
+DROP TABLE hr.UserEmployeeXRef
+DROP TABLE UserSS.Users
+DROP TABLE refUserSS.UserRoles
+DROP TABLE refUserSS.UserStatuses
 
 -- DROP EMPLOYEE TABLES
 DROP TABLE hr.EmployeeRecords
@@ -68,7 +68,7 @@ DROP TABLE refHR.EmployeeTitles
 DROP TABLE refHR.EmploymentStatuses
 
 -- DROP CONSTANT TABLES
-DROP TABLE const.ssDays
+DROP TABLE const.DaysOfWeek
 DROP TABLE const.CityZipcodeXRef
 DROP TABLE const.Cities
 DROP TABLE const.ZipCodes
@@ -83,12 +83,12 @@ DROP SCHEMA ref
 GO
 DROP SCHEMA refHR
 GO
-DROP SCHEMA refSSAdmin
+DROP SCHEMA refAdminSS
 GO
-DROP SCHEMA refSSUser
+DROP SCHEMA refUserSS
 GO
-DROP SCHEMA ssAdmin
+DROP SCHEMA AdminSS
 GO
-DROP SCHEMA ssUser	
+DROP SCHEMA UserSS	
 GO
 

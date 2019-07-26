@@ -1,7 +1,7 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE refSSUser.UserStatuses(
+CREATE TABLE refUserSS.UserStatuses(
 	UserStatusID INT NOT NULL
 		CONSTRAINT PK_UserStatuses
 		PRIMARY KEY IDENTITY
@@ -11,7 +11,7 @@ CREATE TABLE refSSUser.UserStatuses(
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE refSSUser.UserRoles(
+CREATE TABLE refUserSS.UserRoles(
 	UserRoleID INT NOT NULL
 		CONSTRAINT PK_UserRoles
 		PRIMARY KEY IDENTITY
@@ -21,52 +21,52 @@ CREATE TABLE refSSUser.UserRoles(
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE ssUser.SSUsers(
-	SSUserID INT NOT NULL
-		CONSTRAINT PK_SSUsers
+CREATE TABLE UserSS.Users(
+	UserID INT NOT NULL
+		CONSTRAINT PK_UserID
 		PRIMARY KEY IDENTITY
 	,FirstName NVARCHAR(255) NOT NULL
 	,LastName NVARCHAR(255) NOT NULL
 	,Email NVARCHAR(255) NOT NULL
 	,UserStatusID INT NOT NULL
-		CONSTRAINT FK_SSUsers_UserStatusID
-		REFERENCES refSSUser.UserStatuses(UserStatusID)
+		CONSTRAINT FK_Users_UserStatusID
+		REFERENCES refUserSS.UserStatuses(UserStatusID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_SSUsers_CreatedDate
+		CONSTRAINT DF_Users_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE hr.SSUsersEmployeeXRef(
-	SSUsersEmployeeXRefID INT NOT NULL
-		CONSTRAINT PK_SSUsersEmployeeXRef
+CREATE TABLE hr.UserEmployeeXRef(
+	UserEmployeeXRefID INT NOT NULL
+		CONSTRAINT PK_UserEmployeeXRefID
 		PRIMARY KEY IDENTITY
-	,SSUserID INT NOT NULL
-		CONSTRAINT FK_SSUsersEmployeeXRef_SSUserID
-		REFERENCES ssUser.SSUsers(SSUserID)	
+	,UserID INT NOT NULL
+		CONSTRAINT FK_UserEmployeeXRef_UserID
+		REFERENCES UserSS.Users(UserID)	
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_SSUsersEmployeeXRef_CreatedDate
+		CONSTRAINT DF_UserEmployeeXRef_CreatedDate
 		DEFAULT GETDATE()
 	,Zapped BIT
-		CONSTRAINT DF_SSUsersEmployeeXRef_Zapped
+		CONSTRAINT DF_UserEmployeeXRef_Zapped
 		DEFAULT 0
 )
 
-CREATE TABLE ssUser.UserRolesXRef(
+CREATE TABLE UserSS.UserRolesXRef(
 	UserRoleXRefID INT NOT NULL
 		CONSTRAINT PK_UserRolesXRef
 		PRIMARY KEY IDENTITY
-	,SSUserID INT NOT NULL
-		CONSTRAINT FK_UserRoleXRef_SSUserID
-		REFERENCES ssUser.SSUsers(SSUserID)
+	,UserID INT NOT NULL
+		CONSTRAINT FK_UserRoleXRef_UserID
+		REFERENCES UserSS.Users(UserID)
 	,UserRoles INT NOT NULL
 		CONSTRAINT FK_UserRoleXRef_UserRoleID
-		REFERENCES refSSUser.UserRoles(UserRoleID)
+		REFERENCES refUserSS.UserRoles(UserRoleID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_UserRolesXRef_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE refSSAdmin.AdminRoles(
+CREATE TABLE refAdminSS.AdminRoles(
 	AdminRoleID INT NOT NULL
 		CONSTRAINT PK_AdminRoles
 		PRIMARY KEY IDENTITY
@@ -76,28 +76,28 @@ CREATE TABLE refSSAdmin.AdminRoles(
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE ssAdmin.Admins(
+CREATE TABLE AdminSS.Admins(
 	AdminID INT NOT NULL
 		CONSTRAINT PK_Admins
 		PRIMARY KEY IDENTITY
-	,SSUserID INT NOT NULL
-		CONSTRAINT FK_Admins_SSUserID
-		REFERENCES ssUser.SSUsers(SSUserID)
+	,UserID INT NOT NULL
+		CONSTRAINT FK_Admins_UserID
+		REFERENCES UserSS.Users(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Admins_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE ssAdmin.AdminRolesXRef(
+CREATE TABLE AdminSS.AdminRolesXRef(
 	AdminRolesXRefID INT NOT NULL
 		CONSTRAINT PK_AdminRolesXRef
 		PRIMARY KEY IDENTITY
 	,AdminID INT NOT NULL
 		CONSTRAINT FK_AdminRolesXRef_AdminID
-		REFERENCES ssAdmin.Admins(AdminID)
+		REFERENCES AdminSS.Admins(AdminID)
 	,UserRoles INT NOT NULL
 		CONSTRAINT FK_AdminRolesXRef_AdminRoleID
-		REFERENCES refSSAdmin.AdminRoles(AdminRoleID)
+		REFERENCES refAdminSS.AdminRoles(AdminRoleID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_AdminRolesXRef_CreatedDate
 		DEFAULT GETDATE()
@@ -106,13 +106,13 @@ CREATE TABLE ssAdmin.AdminRolesXRef(
 
 /*
 
-DROP TABLE ssAdmin.AdminRolesXRef
-DROP TABLE ssAdmin.Admins
-DROP TABLE refSSAdmin.AdminRoles
-DROP TABLE ssUser.UserRolesXRef
-DROP TABLE hr.SSUsersEmployeeXRef
-DROP TABLE ssUser.SSUsers
-DROP TABLE refSSUser.UserRoles
-DROP TABLE refSSUser.UserStatuses
+DROP TABLE AdminSS.AdminRolesXRef
+DROP TABLE AdminSS.Admins
+DROP TABLE refAdminSS.AdminRoles
+DROP TABLE UserSS.UserRolesXRef
+DROP TABLE hr.UserEmployeeXRef
+DROP TABLE UserSS.Users
+DROP TABLE refUserSS.UserRoles
+DROP TABLE refUserSS.UserStatuses
 
 */

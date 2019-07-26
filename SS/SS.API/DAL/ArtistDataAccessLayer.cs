@@ -1,10 +1,8 @@
 ﻿
-using Microsoft.EntityFrameworkCore;  
-using System;  
-using System.Collections.Generic;  
-using System.Linq;  
-using System.Threading.Tasks;
-using SS.API.EFModels.Tables;
+using Microsoft.EntityFrameworkCore;
+using SS.API.EFModels;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SS.API.DAL
 {
@@ -40,7 +38,7 @@ namespace SS.API.DAL
         }
 
         //To Update the records of a particluar artist  
-        public int UpdateEmployee(Artists artist)
+        public int UpdateArtist(Artists artist)
         {
             try
             {

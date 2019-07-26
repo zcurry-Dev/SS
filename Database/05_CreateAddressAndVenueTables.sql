@@ -44,7 +44,7 @@ CREATE TABLE dbo.Venues(
 		REFERENCES dbo.Addresses(AddressID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Venues_CreatedBy
-		REFERENCES ssUser.ssUsers(ssUserID)
+		REFERENCES UserSS.Users(UserID)
 	,CreatedDate DATETIME
 		CONSTRAINT DF_Venues_CreatedDate
 		DEFAULT GETDATE()
@@ -72,9 +72,9 @@ CREATE TABLE dbo.VenueHoursOpen(
 	,VenueID INT NOT NULL
 		CONSTRAINT FK_VenueHoursOpen_VenueID
 		REFERENCES dbo.Venues(VenueID)
-	,ssDayID INT NOT NULL
-		CONSTRAINT FK_VenueHoursOpen_ssDayID
-		REFERENCES const.ssDays(ssDayID)
+	,DayOfWeekID INT NOT NULL
+		CONSTRAINT FK_VenueHoursOpen_DayOfWeekID
+		REFERENCES const.DaysOfWeek(DayOfWeekID)
 	,HourOpen TIME NOT NULL
 	,HourClose TIME NOT NULL
 	)

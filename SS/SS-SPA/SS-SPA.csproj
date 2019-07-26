@@ -25,14 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\components\addEmployee\addArtist.component.ts" />
-    <None Remove="ClientApp\src\app\components\fetchArtist\fetchArtist.component.ts" />
     <None Remove="ClientApp\src\app\services\artistService.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\components\addEmployee\addArtist.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\components\fetchArtist\fetchArtist.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\services\artistService.service.ts" />
   </ItemGroup>
 

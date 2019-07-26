@@ -31,16 +31,16 @@ CREATE TABLE const.CityZipcodeXRef(
 		REFERENCES const.ZipCodes(ZipCode)
 )
 
-CREATE TABLE const.ssDays(
-	ssDayID INT NOT NULL
-		CONSTRAINT PK_ssDays
+CREATE TABLE const.DaysOfWeek(
+	DayOfWeekID INT NOT NULL
+		CONSTRAINT PK_DayOfWeekID
 		PRIMARY KEY IDENTITY
-	,ssDay NVARCHAR(255)
+	,DayOfWeekName NVARCHAR(255)
 	)
 
 /*
 
-DROP TABLE const.ssDays
+DROP TABLE const.DaysOfWeek
 DROP TABLE const.CityZipcodeXRef
 DROP TABLE const.Cities
 DROP TABLE const.ZipCodes

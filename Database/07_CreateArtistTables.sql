@@ -32,9 +32,9 @@ CREATE TABLE dbo.Artists(
 		CONSTRAINT PK_Artists
 		PRIMARY KEY IDENTITY
 	,ArtistName NVARCHAR(255)
-	,ArtistStatusID INT
-		CONSTRAINT FK_Artists_ArtistStatusID
-		REFERENCES ref.ArtistStatuses(ArtistStatusID)
+	--,ArtistStatusID INT
+	--	CONSTRAINT FK_Artists_ArtistStatusID
+	--	REFERENCES ref.ArtistStatuses(ArtistStatusID)
 	,CareerBeginDate DATETIME NOT NULL
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Artists_CreatedDate

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { HttpClientModule } from '@angular/common/http';
 
 @Injectable()
 export class ArtistService {
@@ -14,17 +15,11 @@ export class ArtistService {
     this.myAppUrl = baseUrl;
   }
 
-  getCityList() {
-    return this._http.get(this.myAppUrl + 'api/Artist/GetCityList')
-      .map(res => res.json())
-      .catch(this.errorHandler);
-  }
-
   getArtists() {
-    return this._http.get(this.myAppUrl + 'api/Artist/Index')
+    return this._http.get(this.myAppUrl + 'api/Artists/Index')
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
-  }
+  } 
 
   getArtistById(id: number) {
     return this._http.get(this.myAppUrl + "api/Artist/Details/" + id)
@@ -32,14 +27,14 @@ export class ArtistService {
       .catch(this.errorHandler)
   }
 
-  saveArtist(employee) {
-    return this._http.post(this.myAppUrl + 'api/Artist/Create', employee)
+  saveArtist(artist) {
+    return this._http.post(this.myAppUrl + 'api/Artist/Create', artist)
       .map((response: Response) => response.json())
       .catch(this.errorHandler)
   }
 
-  updateArtist(employee) {
-    return this._http.put(this.myAppUrl + 'api/Artist/Edit', employee)
+  updateArtist(artist) {
+    return this._http.put(this.myAppUrl + 'api/Artist/Edit', artist)
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
@@ -49,9 +44,9 @@ export class ArtistService {
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   }
-
+  
   errorHandler(error: Response) {
-    console.log(error);
+    console.log('Error:', error);
     return Observable.throw(error);
   }
 }  

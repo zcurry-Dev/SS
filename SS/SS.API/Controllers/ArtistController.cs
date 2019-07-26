@@ -1,53 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SS.API.DAL;
-using SS.API.EFModels.Tables;
+using SS.API.EFModels;
+using System.Collections.Generic;
 
 namespace SS.API.Controllers
 {
-    public class ArtistController
+    public class ArtistController : Controller
     {
-        public class EmployeeController : Controller
+        ArtistDataAccessLayer objArtist = new ArtistDataAccessLayer();
+
+        [HttpGet]
+        [Route("api/Artist/Index")]
+        public IEnumerable<Artists> Index()
         {
-            ArtistDataAccessLayer objemployee = new ArtistDataAccessLayer();
+            return objArtist.GetAllArtists();
+        }
 
-            [HttpGet]
-            [Route("api/Employee/Index")]
-            public IEnumerable<Artists> Index()
-            {
-                return objemployee.GetAllArtists();
-            }
+        [HttpPost]
+        [Route("api/Artist/Create")]
+        public int Create([FromBody] Artists artist)
+        {
+            return objArtist.AddArtist(artist);
+        }
 
-            [HttpPost]
-            [Route("api/Employee/Create")]
-            public int Create([FromBody] Artists employee)
-            {
-                return objemployee.AddArtist(employee);
-            }
+        [HttpGet]
+        [Route("api/Artist/Details/{id}")]
+        public Artists Details(int id)
+        {
+            return objArtist.GetArtistData(id);
+        }
 
-            [HttpGet]
-            [Route("api/Employee/Details/{id}")]
-            public Artists Details(int id)
-            {
-                return objemployee.GetArtistData(id);
-            }
+        [HttpPut]
+        [Route("api/Artist/Edit")]
+        public int Edit([FromBody]Artists artist)
+        {
+            return objArtist.UpdateArtist(artist);
+        }
 
-            [HttpPut]
-            [Route("api/Employee/Edit")]
-            public int Edit([FromBody]Artists employee)
-            {
-                return objemployee.UpdateEmployee(employee);
-            }
-
-            [HttpDelete]
-            [Route("api/Employee/Delete/{id}")]
-            public int Delete(int id)
-            {
-                return objemployee.DeleteArtist(id);
-            }
+        [HttpDelete]
+        [Route("api/Artist/Delete/{id}")]
+        public int Delete(int id)
+        {
+            return objArtist.DeleteArtist(id);
         }
     }
 }
