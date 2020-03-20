@@ -11,6 +11,12 @@ CREATE TABLE refHR.EmploymentStatuses(
 		DEFAULT GETDATE()
 )
 
+INSERT INTO refHR.EmploymentStatuses
+VALUES
+('Active', GETDATE())
+,('Terminated', GETDATE())
+,('Resigned', GETDATE())
+
 CREATE TABLE refHR.EmployeeTitles(
 	EmployeeTitleID INT NOT NULL
 		CONSTRAINT PK_EmployeeTitles

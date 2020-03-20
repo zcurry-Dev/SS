@@ -1,0 +1,14 @@
+C:\zCode\SS\SS\SS.API\bin\Release\netcoreapp2.1\SS.API.deps.json
+C:\zCode\SS\SS\SS.API\bin\Release\netcoreapp2.1\SS.API.runtimeconfig.json
+C:\zCode\SS\SS\SS.API\bin\Release\netcoreapp2.1\SS.API.runtimeconfig.dev.json
+C:\zCode\SS\SS\SS.API\bin\Release\netcoreapp2.1\SS.API.dll
+C:\zCode\SS\SS\SS.API\bin\Release\netcoreapp2.1\SS.API.pdb
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.csprojAssemblyReference.cache
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.csproj.CoreCompileInputs.cache
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.RazorAssemblyInfo.cache
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.RazorAssemblyInfo.cs
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.AssemblyInfoInputs.cache
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.AssemblyInfo.cs
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.RazorTargetAssemblyInfo.cache
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.dll
+C:\zCode\SS\SS\SS.API\obj\Release\netcoreapp2.1\SS.API.pdb

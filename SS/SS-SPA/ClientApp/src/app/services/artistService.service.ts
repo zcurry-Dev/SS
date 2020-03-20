@@ -16,7 +16,7 @@ export class ArtistService {
   }
 
   getArtists() {
-    return this._http.get(this.myAppUrl + 'api/Artists/Index')
+    return this._http.get(this.myAppUrl + 'api/Artist')
       .map((response: Response) => response.json())
       .catch(this.errorHandler);
   } 

@@ -5,14 +5,14 @@ CREATE TABLE dbo.Addresses(
 	AddressID INT NOT NULL
 		CONSTRAINT PK_Addresses
 		PRIMARY KEY IDENTITY
-	,StreetAddress NVARCHAR(255)
+	,StreetAddress NVARCHAR(255) NOT NULL
 	,StreetAddress2 NVARCHAR(255)
 	,CityID INT NOT NULL
 		CONSTRAINT FK_Addresses_CityID
 		REFERENCES const.Cities(CityID)
-	,ZipCode INT NOT NULL
-		CONSTRAINT FK_Addresses_ZipCode
-		REFERENCES const.ZipCodes(ZipCode)
+	,ZipCodeID INT NOT NULL
+		CONSTRAINT FK_Addresses_ZipCodeID
+		REFERENCES const.ZipCodes(ZipCodeID)
 	,StateID INT NOT NULL
 		CONSTRAINT FK_Addresses_StateID
 		REFERENCES const.States(StateID)
@@ -21,18 +21,34 @@ CREATE TABLE dbo.Addresses(
 		DEFAULT GETDATE()
 )
 
+INSERT INTO dbo.Addresses
+VALUES
+('7500 S I35', 'Apt 542', 1, 1, 43, GETDATE())
+
+
 CREATE TABLE ref.VenueTypes(
 	VenueTypeID INT NOT NULL
 		CONSTRAINT PK_VenueTypes
 		PRIMARY KEY IDENTITY
 	,VenueType NVARCHAR(255)
 	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_VenueTypes_CreatedBy
-		REFERENCES hr.Employees(EmployeeID)
+		--CONSTRAINT FK_VenueTypes_CreatedBy
+		--REFERENCES hr.Employees(EmployeeID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_VenueTypes_CreatedDate
 		DEFAULT GETDATE()
 	)
+	
+INSERT INTO ref.VenueTypes
+VALUES
+('Concert Venue', 1, GETDATE())
+,('Bar', 1, GETDATE())
+,('House Show', 1, GETDATE())
+,('Pavilion', 1, GETDATE())
+
+
+
+
 
 CREATE TABLE dbo.Venues(
 	VenueID INT NOT NULL
