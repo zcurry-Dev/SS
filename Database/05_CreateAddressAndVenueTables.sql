@@ -1,45 +1,45 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE dbo.Addresses(
+CREATE TABLE dbo.SSAddress(
 	AddressID INT NOT NULL
-		CONSTRAINT PK_Addresses
+		CONSTRAINT PK_AddressID
 		PRIMARY KEY IDENTITY
 	,StreetAddress NVARCHAR(255) NOT NULL
 	,StreetAddress2 NVARCHAR(255)
 	,CityID INT NOT NULL
-		CONSTRAINT FK_Addresses_CityID
-		REFERENCES const.Cities(CityID)
+		CONSTRAINT FK_Address_CityID
+		REFERENCES const.City(CityID)
 	,ZipCodeID INT NOT NULL
-		CONSTRAINT FK_Addresses_ZipCodeID
-		REFERENCES const.ZipCodes(ZipCodeID)
+		CONSTRAINT FK_Address_ZipCodeID
+		REFERENCES const.ZipCode(ZipCodeID)
 	,StateID INT NOT NULL
-		CONSTRAINT FK_Addresses_StateID
-		REFERENCES const.States(StateID)
+		CONSTRAINT FK_Address_StateID
+		REFERENCES const.USState(StateID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_Addresses_CreatedDate
+		CONSTRAINT DF_Address_CreatedDate
 		DEFAULT GETDATE()
 )
 
-INSERT INTO dbo.Addresses
+INSERT INTO dbo.SSAddress
 VALUES
 ('7500 S I35', 'Apt 542', 1, 1, 43, GETDATE())
 
 
-CREATE TABLE ref.VenueTypes(
+CREATE TABLE ref.VenueType(
 	VenueTypeID INT NOT NULL
-		CONSTRAINT PK_VenueTypes
+		CONSTRAINT PK_VenueType
 		PRIMARY KEY IDENTITY
 	,VenueType NVARCHAR(255)
 	,CreatedBy INT NOT NULL
-		--CONSTRAINT FK_VenueTypes_CreatedBy
-		--REFERENCES hr.Employees(EmployeeID)
+		--CONSTRAINT FK_VenueType_CreatedBy
+		--REFERENCES hr.Employee(EmployeeID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_VenueTypes_CreatedDate
+		CONSTRAINT DF_VenueType_CreatedDate
 		DEFAULT GETDATE()
 	)
 	
-INSERT INTO ref.VenueTypes
+INSERT INTO ref.VenueType
 VALUES
 ('Concert Venue', 1, GETDATE())
 ,('Bar', 1, GETDATE())
@@ -48,21 +48,19 @@ VALUES
 
 
 
-
-
-CREATE TABLE dbo.Venues(
+CREATE TABLE dbo.Venue(
 	VenueID INT NOT NULL
-		CONSTRAINT PK_Venues
+		CONSTRAINT PK_Venue
 		PRIMARY KEY IDENTITY
 	,VenueName NVARCHAR(255)
 	,VenueAddressID INT NOT NULL
-		CONSTRAINT FK_Venues_VenueAddressID
-		REFERENCES dbo.Addresses(AddressID)
+		CONSTRAINT FK_Venue_VenueAddressID
+		REFERENCES dbo.SSAddress(AddressID)
 	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_Venues_CreatedBy
-		REFERENCES UserSS.Users(UserID)
+		CONSTRAINT FK_Venue_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME
-		CONSTRAINT DF_Venues_CreatedDate
+		CONSTRAINT DF_Venue_CreatedDate
 		DEFAULT GETDATE()
 	)
 
@@ -72,10 +70,10 @@ CREATE TABLE dbo.VenueTypeXRef(
 		PRIMARY KEY IDENTITY
 	,VenueID INT NOT NULL
 		CONSTRAINT FK_VenueTypeXRef_VenueID
-		REFERENCES dbo.Venues(VenueID)
+		REFERENCES dbo.Venue(VenueID)
 	,VenueTypeID INT NOT NULL
 		CONSTRAINT FK_VenueTypeXRef_VenueTypeID
-		REFERENCES ref.VenueTypes(VenueTypeID)
+		REFERENCES ref.VenueType(VenueTypeID)
 	,MainType BIT NOT NULL
 		CONSTRAINT DF_VenueTypeXRef_MainType
 		DEFAULT 0
@@ -87,7 +85,7 @@ CREATE TABLE dbo.VenueHoursOpen(
 		PRIMARY KEY IDENTITY
 	,VenueID INT NOT NULL
 		CONSTRAINT FK_VenueHoursOpen_VenueID
-		REFERENCES dbo.Venues(VenueID)
+		REFERENCES dbo.Venue(VenueID)
 	,DayOfWeekID INT NOT NULL
 		CONSTRAINT FK_VenueHoursOpen_DayOfWeekID
 		REFERENCES const.DaysOfWeek(DayOfWeekID)
@@ -100,8 +98,8 @@ CREATE TABLE dbo.VenueHoursOpen(
 
 DROP TABLE dbo.VenueHoursOpen
 DROP TABLE dbo.VenueTypeXRef
-DROP TABLE dbo.Venues
-DROP TABLE ref.VenueTypes
-DROP TABLE dbo.Addresses
+DROP TABLE dbo.Venue
+DROP TABLE ref.VenueType
+DROP TABLE dbo.SSAddress
 
 */

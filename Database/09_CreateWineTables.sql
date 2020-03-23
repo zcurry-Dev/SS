@@ -1,56 +1,56 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.WineFamilies(
+CREATE TABLE ref.WineFamily(
 	WineFamilyID INT NOT NULL
-		CONSTRAINT PK_WineFamilies
+		CONSTRAINT PK_WineFamily
 		PRIMARY KEY IDENTITY
 	,WineFamily NVARCHAR(255) NOT NULL
 	)
 
-CREATE TABLE ref.WineTypes(
+CREATE TABLE ref.WineType(
 	WineTypeID INT NOT NULL
-		CONSTRAINT PK_WineTypes
+		CONSTRAINT PK_WineType
 		PRIMARY KEY IDENTITY
 	,WineType NVARCHAR(255) NOT NULL
 	,WineFamilyID INT NOT NULL
-		CONSTRAINT FK_WineTypes_WineFamilyID
-		REFERENCES ref.WineFamilies(WineFamilyID)
+		CONSTRAINT FK_WineType_WineFamilyID
+		REFERENCES ref.WineFamily(WineFamilyID)
 	)
 
-CREATE TABLE dbo.Wineries(
+CREATE TABLE dbo.Winery(
 	WineryID INT NOT NULL
-		CONSTRAINT PK_Wineries
+		CONSTRAINT PK_Winery
 		PRIMARY KEY IDENTITY
 	,WineryName NVARCHAR(255) NOT NULL
 	,AddressID INT NOT NULL
-		CONSTRAINT FK_Wineries_AddressID
-		REFERENCES dbo.Addresses(AddressID)
+		CONSTRAINT FK_Winery_AddressID
+		REFERENCES dbo.SSAddress(AddressID)
 	,VenueID INT NOT NULL
-		CONSTRAINT FK_Wineries_VenueID
-		REFERENCES dbo.Venues(VenueID)
+		CONSTRAINT FK_Winery_VenueID
+		REFERENCES dbo.Venue(VenueID)
 	,OpeningDate DATETIME NOT NULL
 	,ClosingDate DATETIME
 	,Vinyard BIT NOT NULL		
-		CONSTRAINT DF_Wineries_Vinyard
+		CONSTRAINT DF_Winery_Vinyard
 		DEFAULT 0
 	)
 
-CREATE TABLE dbo.Wines(
+CREATE TABLE dbo.Wine(
 	WineID INT NOT null
-		CONSTRAINT PK_Wines
+		CONSTRAINT PK_Wine
 		PRIMARY KEY IDENTITY
 	,WineName NVARCHAR(255) NOT NULL
 	,WineTypeID INT NOT NULL
-		CONSTRAINT FK_Wines_WineTypeID
-		REFERENCES ref.WineTypes(WineTypeID)
+		CONSTRAINT FK_Wine_WineTypeID
+		REFERENCES ref.WineType(WineTypeID)
 	)
 
 /*
 
-DROP TABLE dbo.Wines
-DROP TABLE dbo.Wineries
-DROP TABLE ref.WineTypes
-DROP TABLE ref.WineFamilies
+DROP TABLE dbo.Wine
+DROP TABLE dbo.Winery
+DROP TABLE ref.WineType
+DROP TABLE ref.WineFamily
 
 */

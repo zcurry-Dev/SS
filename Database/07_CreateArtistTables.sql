@@ -1,43 +1,43 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.ArtistTypes(
+CREATE TABLE ref.ArtistType(
 	ArtistTypeID INT NOT NULL
-		CONSTRAINT PK_ArtistTypes
+		CONSTRAINT PK_ArtistType
 		PRIMARY KEY IDENTITY
 	,ArtistType NVARCHAR(255)	
 	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_ArtistTypes_CreatedBy
-		REFERENCES hr.Employees(EmployeeID)
+		CONSTRAINT FK_ArtistType_CreatedBy
+		REFERENCES hr.Employee(EmployeeID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_ArtistTypes_CreatedDate
+		CONSTRAINT DF_ArtistType_CreatedDate
 		DEFAULT GETDATE()
 	)
 
-CREATE TABLE ref.ArtistStatuses(
+CREATE TABLE ref.ArtistStatus(
 	ArtistStatusID INT NOT NULL
-		CONSTRAINT PK_ArtistStatuses
+		CONSTRAINT PK_ArtistStatus
 		PRIMARY KEY IDENTITY
 	,ArtistStatus NVARCHAR(255)		
 	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_ArtistStatuses_CreatedBy
-		REFERENCES hr.Employees(EmployeeID)
+		CONSTRAINT FK_ArtistStatus_CreatedBy
+		REFERENCES hr.Employee(EmployeeID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_ArtistStatuses_CreatedDate
+		CONSTRAINT DF_ArtistStatus_CreatedDate
 		DEFAULT GETDATE()
 	)
 
-CREATE TABLE dbo.Artists(
+CREATE TABLE dbo.Artist(
 	ArtistID INT NOT NULL
-		CONSTRAINT PK_Artists
+		CONSTRAINT PK_Artist
 		PRIMARY KEY IDENTITY
 	,ArtistName NVARCHAR(255)
 	--,ArtistStatusID INT
-	--	CONSTRAINT FK_Artists_ArtistStatusID
-	--	REFERENCES ref.ArtistStatuses(ArtistStatusID)
+	--	CONSTRAINT FK_Artist_ArtistStatusID
+	--	REFERENCES ref.ArtistStatus(ArtistStatusID)
 	,CareerBeginDate DATETIME NOT NULL
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_Artists_CreatedDate
+		CONSTRAINT DF_Artist_CreatedDate
 		DEFAULT GETDATE()
 	)
 
@@ -47,41 +47,48 @@ CREATE TABLE dbo.ArtistTypeXRef(
 		PRIMARY KEY IDENTITY
 	,ArtistID INT NOT NULL
 		CONSTRAINT FK_ArtistTypeXRef_ArtistID
-		REFERENCES dbo.ArtistS(ArtistID)
+		REFERENCES dbo.Artist(ArtistID)
 	,ArtistTypeID INT NOT NULL
 		CONSTRAINT FK_ArtistTypeXRef_ArtistTypeID
-		REFERENCES ref.ArtistTypes(ArtistTypeID)
+		REFERENCES ref.ArtistType(ArtistTypeID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_ArtistTypeXRef_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE dbo.ArtistGroupMembers(
+CREATE TABLE dbo.ArtistGroupMember(
 	ArtistGroupMemberID INT NOT NULL
-		CONSTRAINT PK_ArtistGroupMembers
+		CONSTRAINT PK_ArtistGroupMember
 		PRIMARY KEY IDENTITY
 	,ArtistID INT NOT NULL	
-		CONSTRAINT FK_ArtistGroupMembers_ArtistTypeID
-		REFERENCES ref.ArtistTypes(ArtistTypeID)
+		CONSTRAINT FK_ArtistGroupMember_ArtistTypeID
+		REFERENCES ref.ArtistType(ArtistTypeID)
 	,JoinDate DATETIME NOT NULL
 	,LeaveDate DATETIME NULL
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_ArtistGroupMembers_CreatedDate
+		CONSTRAINT DF_ArtistGroupMember_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE ref.ArtistGroupMemberRoles(
+CREATE TABLE ref.ArtistGroupMemberRole(
 	ArtistGroupMemberRoleID INT NOT NULL
-		CONSTRAINT PK_ArtistGroupMemberRoles
+		CONSTRAINT PK_ArtistGroupMemberRole
 		PRIMARY KEY IDENTITY
 	,ArtistGroupMemberRole NVARCHAR(255) NOT NULL
 	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_ArtistGroupMemberRoles_CreatedBy
-		REFERENCES hr.Employees(EmployeeID)
+		CONSTRAINT FK_ArtistGroupMemberRole_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_ArtistGroupMemberRoles_CreatedDate
+		CONSTRAINT DF_ArtistGroupMemberRole_CreatedDate
 		DEFAULT GETDATE()
 	)
+
+INSERT INTO ref.ArtistGroupMemberRole 
+VALUES
+('Lead Vocals', 1, GETDATE())
+,('Guitar', 1, GETDATE())
+,('Bass', 1, GETDATE())
+,('Drums',1, GETDATE())
 
 CREATE TABLE dbo.ArtistGroupMemberRolesXRef(
 	ArtistGroupMemberRolesXRefID INT NOT NULL
@@ -89,10 +96,10 @@ CREATE TABLE dbo.ArtistGroupMemberRolesXRef(
 		PRIMARY KEY IDENTITY
 	,ArtistGroupMemberID INT NOT NULL
 		CONSTRAINT FK_ArtistGroupMemberRolesXRef_ArtistGroupMemberID
-		REFERENCES dbo.ArtistGroupMembers(ArtistGroupMemberID)
+		REFERENCES dbo.ArtistGroupMember(ArtistGroupMemberID)
 	,ArtistGroupMemberRoleID INT NOT NULL
 		CONSTRAINT FK_ArtistGroupMemberRolesXRef_ArtistGroupMemberRoleID
-		REFERENCES ref.ArtistGroupMemberRoles(ArtistGroupMemberRoleID)
+		REFERENCES ref.ArtistGroupMemberRole(ArtistGroupMemberRoleID)
 	,StartDate DATETIME NOT NULL
 	,EndDate DATETIME NULL
 	,CreatedDate DATETIME NOT NULL
@@ -103,11 +110,11 @@ CREATE TABLE dbo.ArtistGroupMemberRolesXRef(
 /*
 
 DROP TABLE dbo.ArtistGroupMemberRolesXRef
-DROP TABLE ref.ArtistGroupMemberRoles
-DROP TABLE dbo.ArtistGroupMembers
+DROP TABLE ref.ArtistGroupMemberRole
+DROP TABLE dbo.ArtistGroupMember
 DROP TABLE dbo.ArtistTypeXRef
-DROP TABLE dbo.Artists
-DROP TABLE ref.ArtistStatuses
-DROP TABLE ref.ArtistTypes
+DROP TABLE dbo.Artist
+DROP TABLE ref.ArtistStatus
+DROP TABLE ref.ArtistType
 
 */

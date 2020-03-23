@@ -15,120 +15,79 @@ namespace SS.API.Models
         {
         }
 
-        public virtual DbSet<Addresses> Addresses { get; set; }
-        public virtual DbSet<AdminRoles> AdminRoles { get; set; }
+        public virtual DbSet<AdminRole> AdminRole { get; set; }
         public virtual DbSet<AdminRolesXref> AdminRolesXref { get; set; }
-        public virtual DbSet<Admins> Admins { get; set; }
-        public virtual DbSet<ArtistGroupMemberRoles> ArtistGroupMemberRoles { get; set; }
+        public virtual DbSet<Artist> Artist { get; set; }
+        public virtual DbSet<ArtistGroupMember> ArtistGroupMember { get; set; }
+        public virtual DbSet<ArtistGroupMemberRole> ArtistGroupMemberRole { get; set; }
         public virtual DbSet<ArtistGroupMemberRolesXref> ArtistGroupMemberRolesXref { get; set; }
-        public virtual DbSet<ArtistGroupMembers> ArtistGroupMembers { get; set; }
-        public virtual DbSet<ArtistStatuses> ArtistStatuses { get; set; }
+        public virtual DbSet<ArtistStatus> ArtistStatus { get; set; }
+        public virtual DbSet<ArtistType> ArtistType { get; set; }
         public virtual DbSet<ArtistTypeXref> ArtistTypeXref { get; set; }
-        public virtual DbSet<ArtistTypes> ArtistTypes { get; set; }
-        public virtual DbSet<Artists> Artists { get; set; }
-        public virtual DbSet<BeerFamilies> BeerFamilies { get; set; }
-        public virtual DbSet<BeerTypes> BeerTypes { get; set; }
-        public virtual DbSet<Beers> Beers { get; set; }
-        public virtual DbSet<Breweries> Breweries { get; set; }
-        public virtual DbSet<CiderFamilies> CiderFamilies { get; set; }
-        public virtual DbSet<CiderTypes> CiderTypes { get; set; }
-        public virtual DbSet<Cideries> Cideries { get; set; }
-        public virtual DbSet<Ciders> Ciders { get; set; }
-        public virtual DbSet<Cities> Cities { get; set; }
+        public virtual DbSet<Beer> Beer { get; set; }
+        public virtual DbSet<BeerFamily> BeerFamily { get; set; }
+        public virtual DbSet<BeerType> BeerType { get; set; }
+        public virtual DbSet<Brewery> Brewery { get; set; }
+        public virtual DbSet<Cider> Cider { get; set; }
+        public virtual DbSet<CiderFamily> CiderFamily { get; set; }
+        public virtual DbSet<CiderType> CiderType { get; set; }
+        public virtual DbSet<Cidery> Cidery { get; set; }
+        public virtual DbSet<City> City { get; set; }
         public virtual DbSet<DatabaseDiagnostics> DatabaseDiagnostics { get; set; }
         public virtual DbSet<DaysOfWeek> DaysOfWeek { get; set; }
-        public virtual DbSet<Distilleries> Distilleries { get; set; }
-        public virtual DbSet<EmployeeRecords> EmployeeRecords { get; set; }
-        public virtual DbSet<EmployeeTitles> EmployeeTitles { get; set; }
-        public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<EmploymentStatuses> EmploymentStatuses { get; set; }
-        public virtual DbSet<EventTypesSs> EventTypesSs { get; set; }
-        public virtual DbSet<EventsSs> EventsSs { get; set; }
-        public virtual DbSet<MeadFamilies> MeadFamilies { get; set; }
-        public virtual DbSet<MeadTypes> MeadTypes { get; set; }
-        public virtual DbSet<Meaderies> Meaderies { get; set; }
-        public virtual DbSet<Meads> Meads { get; set; }
-        public virtual DbSet<SpiritFamiles> SpiritFamiles { get; set; }
-        public virtual DbSet<SpiritTypes> SpiritTypes { get; set; }
-        public virtual DbSet<Spirits> Spirits { get; set; }
-        public virtual DbSet<States> States { get; set; }
+        public virtual DbSet<Distillery> Distillery { get; set; }
+        public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<EmployeeRecord> EmployeeRecord { get; set; }
+        public virtual DbSet<EmployeeTitle> EmployeeTitle { get; set; }
+        public virtual DbSet<EmploymentStatus> EmploymentStatus { get; set; }
+        public virtual DbSet<EventType> EventType { get; set; }
+        public virtual DbSet<Mead> Mead { get; set; }
+        public virtual DbSet<MeadFamily> MeadFamily { get; set; }
+        public virtual DbSet<MeadType> MeadType { get; set; }
+        public virtual DbSet<Meadery> Meadery { get; set; }
+        public virtual DbSet<Spirit> Spirit { get; set; }
+        public virtual DbSet<SpiritFamily> SpiritFamily { get; set; }
+        public virtual DbSet<SpiritType> SpiritType { get; set; }
+        public virtual DbSet<Ssaddress> Ssaddress { get; set; }
+        public virtual DbSet<Ssadmin> Ssadmin { get; set; }
+        public virtual DbSet<Ssevent> Ssevent { get; set; }
+        public virtual DbSet<Ssuser> Ssuser { get; set; }
         public virtual DbSet<UserEmployeeXref> UserEmployeeXref { get; set; }
-        public virtual DbSet<UserRoles> UserRoles { get; set; }
+        public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<UserRolesXref> UserRolesXref { get; set; }
-        public virtual DbSet<UserStatuses> UserStatuses { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<UserStatus> UserStatus { get; set; }
+        public virtual DbSet<Usstate> Usstate { get; set; }
         public virtual DbSet<Values> Values { get; set; }
+        public virtual DbSet<Venue> Venue { get; set; }
         public virtual DbSet<VenueHoursOpen> VenueHoursOpen { get; set; }
+        public virtual DbSet<VenueType> VenueType { get; set; }
         public virtual DbSet<VenueTypeXref> VenueTypeXref { get; set; }
-        public virtual DbSet<VenueTypes> VenueTypes { get; set; }
-        public virtual DbSet<Venues> Venues { get; set; }
-        public virtual DbSet<WineFamilies> WineFamilies { get; set; }
-        public virtual DbSet<WineTypes> WineTypes { get; set; }
-        public virtual DbSet<Wineries> Wineries { get; set; }
-        public virtual DbSet<Wines> Wines { get; set; }
-        public virtual DbSet<ZipCodes> ZipCodes { get; set; }
+        public virtual DbSet<Wine> Wine { get; set; }
+        public virtual DbSet<WineFamily> WineFamily { get; set; }
+        public virtual DbSet<WineType> WineType { get; set; }
+        public virtual DbSet<Winery> Winery { get; set; }
+        public virtual DbSet<ZipCode> ZipCode { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=.;Database=SceneSwarm01;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Addresses>(entity =>
+            modelBuilder.Entity<AdminRole>(entity =>
             {
-                entity.HasKey(e => e.AddressId);
-
-                entity.Property(e => e.AddressId).HasColumnName("AddressID");
-
-                entity.Property(e => e.CityId).HasColumnName("CityID");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.StateId).HasColumnName("StateID");
-
-                entity.Property(e => e.StreetAddress)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.StreetAddress2).HasMaxLength(255);
-
-                entity.Property(e => e.ZipCodeId).HasColumnName("ZipCodeID");
-
-                entity.HasOne(d => d.City)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.CityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Addresses_CityID");
-
-                entity.HasOne(d => d.State)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.StateId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Addresses_StateID");
-
-                entity.HasOne(d => d.ZipCode)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.ZipCodeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Addresses_ZipCodeID");
-            });
-
-            modelBuilder.Entity<AdminRoles>(entity =>
-            {
-                entity.HasKey(e => e.AdminRoleId);
-
-                entity.ToTable("AdminRoles", "refAdminSS");
+                entity.ToTable("AdminRole", "refAdminSS");
 
                 entity.Property(e => e.AdminRoleId).HasColumnName("AdminRoleID");
 
-                entity.Property(e => e.AdminRole).HasMaxLength(255);
+                entity.Property(e => e.AdminRole1)
+                    .HasColumnName("AdminRole")
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
@@ -160,37 +119,49 @@ namespace SS.API.Models
                     .HasConstraintName("FK_AdminRolesXRef_AdminRoleID");
             });
 
-            modelBuilder.Entity<Admins>(entity =>
+            modelBuilder.Entity<Artist>(entity =>
             {
-                entity.HasKey(e => e.AdminId);
+                entity.Property(e => e.ArtistId).HasColumnName("ArtistID");
 
-                entity.ToTable("Admins", "AdminSS");
+                entity.Property(e => e.ArtistName).HasMaxLength(255);
 
-                entity.Property(e => e.AdminId).HasColumnName("AdminID");
+                entity.Property(e => e.CareerBeginDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
+
+            modelBuilder.Entity<ArtistGroupMember>(entity =>
+            {
+                entity.Property(e => e.ArtistGroupMemberId).HasColumnName("ArtistGroupMemberID");
+
+                entity.Property(e => e.ArtistId).HasColumnName("ArtistID");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.JoinDate).HasColumnType("datetime");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Admins)
-                    .HasForeignKey(d => d.UserId)
+                entity.Property(e => e.LeaveDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Artist)
+                    .WithMany(p => p.ArtistGroupMember)
+                    .HasForeignKey(d => d.ArtistId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Admins_UserID");
+                    .HasConstraintName("FK_ArtistGroupMember_ArtistTypeID");
             });
 
-            modelBuilder.Entity<ArtistGroupMemberRoles>(entity =>
+            modelBuilder.Entity<ArtistGroupMemberRole>(entity =>
             {
-                entity.HasKey(e => e.ArtistGroupMemberRoleId);
-
-                entity.ToTable("ArtistGroupMemberRoles", "ref");
+                entity.ToTable("ArtistGroupMemberRole", "ref");
 
                 entity.Property(e => e.ArtistGroupMemberRoleId).HasColumnName("ArtistGroupMemberRoleID");
 
-                entity.Property(e => e.ArtistGroupMemberRole)
+                entity.Property(e => e.ArtistGroupMemberRole1)
                     .IsRequired()
+                    .HasColumnName("ArtistGroupMemberRole")
                     .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate)
@@ -198,10 +169,10 @@ namespace SS.API.Models
                     .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.ArtistGroupMemberRoles)
+                    .WithMany(p => p.ArtistGroupMemberRole)
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ArtistGroupMemberRoles_CreatedBy");
+                    .HasConstraintName("FK_ArtistGroupMemberRole_CreatedBy");
             });
 
             modelBuilder.Entity<ArtistGroupMemberRolesXref>(entity =>
@@ -235,48 +206,46 @@ namespace SS.API.Models
                     .HasConstraintName("FK_ArtistGroupMemberRolesXRef_ArtistGroupMemberRoleID");
             });
 
-            modelBuilder.Entity<ArtistGroupMembers>(entity =>
+            modelBuilder.Entity<ArtistStatus>(entity =>
             {
-                entity.HasKey(e => e.ArtistGroupMemberId);
-
-                entity.Property(e => e.ArtistGroupMemberId).HasColumnName("ArtistGroupMemberID");
-
-                entity.Property(e => e.ArtistId).HasColumnName("ArtistID");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.JoinDate).HasColumnType("datetime");
-
-                entity.Property(e => e.LeaveDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Artist)
-                    .WithMany(p => p.ArtistGroupMembers)
-                    .HasForeignKey(d => d.ArtistId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ArtistGroupMembers_ArtistTypeID");
-            });
-
-            modelBuilder.Entity<ArtistStatuses>(entity =>
-            {
-                entity.HasKey(e => e.ArtistStatusId);
-
-                entity.ToTable("ArtistStatuses", "ref");
+                entity.ToTable("ArtistStatus", "ref");
 
                 entity.Property(e => e.ArtistStatusId).HasColumnName("ArtistStatusID");
 
-                entity.Property(e => e.ArtistStatus).HasMaxLength(255);
+                entity.Property(e => e.ArtistStatus1)
+                    .HasColumnName("ArtistStatus")
+                    .HasMaxLength(255);
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
                 entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.ArtistStatuses)
+                    .WithMany(p => p.ArtistStatus)
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ArtistStatuses_CreatedBy");
+                    .HasConstraintName("FK_ArtistStatus_CreatedBy");
+            });
+
+            modelBuilder.Entity<ArtistType>(entity =>
+            {
+                entity.ToTable("ArtistType", "ref");
+
+                entity.Property(e => e.ArtistTypeId).HasColumnName("ArtistTypeID");
+
+                entity.Property(e => e.ArtistType1)
+                    .HasColumnName("ArtistType")
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.ArtistType)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ArtistType_CreatedBy");
             });
 
             modelBuilder.Entity<ArtistTypeXref>(entity =>
@@ -306,80 +275,8 @@ namespace SS.API.Models
                     .HasConstraintName("FK_ArtistTypeXRef_ArtistTypeID");
             });
 
-            modelBuilder.Entity<ArtistTypes>(entity =>
+            modelBuilder.Entity<Beer>(entity =>
             {
-                entity.HasKey(e => e.ArtistTypeId);
-
-                entity.ToTable("ArtistTypes", "ref");
-
-                entity.Property(e => e.ArtistTypeId).HasColumnName("ArtistTypeID");
-
-                entity.Property(e => e.ArtistType).HasMaxLength(255);
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.ArtistTypes)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ArtistTypes_CreatedBy");
-            });
-
-            modelBuilder.Entity<Artists>(entity =>
-            {
-                entity.HasKey(e => e.ArtistId);
-
-                entity.Property(e => e.ArtistId).HasColumnName("ArtistID");
-
-                entity.Property(e => e.ArtistName).HasMaxLength(255);
-
-                entity.Property(e => e.CareerBeginDate).HasColumnType("datetime");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<BeerFamilies>(entity =>
-            {
-                entity.HasKey(e => e.BeerFamilyId);
-
-                entity.ToTable("BeerFamilies", "ref");
-
-                entity.Property(e => e.BeerFamilyId).HasColumnName("BeerFamilyID");
-
-                entity.Property(e => e.BeerFamily)
-                    .IsRequired()
-                    .HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<BeerTypes>(entity =>
-            {
-                entity.HasKey(e => e.BeerTypeId);
-
-                entity.ToTable("BeerTypes", "ref");
-
-                entity.Property(e => e.BeerTypeId).HasColumnName("BeerTypeID");
-
-                entity.Property(e => e.BeerFamilyId).HasColumnName("BeerFamilyID");
-
-                entity.Property(e => e.BeerType)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.HasOne(d => d.BeerFamily)
-                    .WithMany(p => p.BeerTypes)
-                    .HasForeignKey(d => d.BeerFamilyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_BeerTypes_BeerFamilyID");
-            });
-
-            modelBuilder.Entity<Beers>(entity =>
-            {
-                entity.HasKey(e => e.BeerId);
-
                 entity.Property(e => e.BeerId).HasColumnName("BeerID");
 
                 entity.Property(e => e.BeerName)
@@ -389,16 +286,46 @@ namespace SS.API.Models
                 entity.Property(e => e.BeerTypeId).HasColumnName("BeerTypeID");
 
                 entity.HasOne(d => d.BeerType)
-                    .WithMany(p => p.Beers)
+                    .WithMany(p => p.Beer)
                     .HasForeignKey(d => d.BeerTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Beers_BeerTypeID");
+                    .HasConstraintName("FK_Beer_BeerTypeID");
             });
 
-            modelBuilder.Entity<Breweries>(entity =>
+            modelBuilder.Entity<BeerFamily>(entity =>
             {
-                entity.HasKey(e => e.BreweryId);
+                entity.ToTable("BeerFamily", "ref");
 
+                entity.Property(e => e.BeerFamilyId).HasColumnName("BeerFamilyID");
+
+                entity.Property(e => e.BeerFamily1)
+                    .IsRequired()
+                    .HasColumnName("BeerFamily")
+                    .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<BeerType>(entity =>
+            {
+                entity.ToTable("BeerType", "ref");
+
+                entity.Property(e => e.BeerTypeId).HasColumnName("BeerTypeID");
+
+                entity.Property(e => e.BeerFamilyId).HasColumnName("BeerFamilyID");
+
+                entity.Property(e => e.BeerType1)
+                    .IsRequired()
+                    .HasColumnName("BeerType")
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.BeerFamily)
+                    .WithMany(p => p.BeerType)
+                    .HasForeignKey(d => d.BeerFamilyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BeerType_BeerFamilyID");
+            });
+
+            modelBuilder.Entity<Brewery>(entity =>
+            {
                 entity.Property(e => e.BreweryId).HasColumnName("BreweryID");
 
                 entity.Property(e => e.AddressId).HasColumnName("AddressID");
@@ -414,56 +341,69 @@ namespace SS.API.Models
                 entity.Property(e => e.VenueId).HasColumnName("VenueID");
 
                 entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Breweries)
+                    .WithMany(p => p.Brewery)
                     .HasForeignKey(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Breweries_AddressID");
+                    .HasConstraintName("FK_Brewery_AddressID");
 
                 entity.HasOne(d => d.Venue)
-                    .WithMany(p => p.Breweries)
+                    .WithMany(p => p.Brewery)
                     .HasForeignKey(d => d.VenueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Breweries_VenueID");
+                    .HasConstraintName("FK_Brewery_VenueID");
             });
 
-            modelBuilder.Entity<CiderFamilies>(entity =>
+            modelBuilder.Entity<Cider>(entity =>
             {
-                entity.HasKey(e => e.CiderFamilyId);
+                entity.Property(e => e.CiderId).HasColumnName("CiderID");
 
-                entity.ToTable("CiderFamilies", "ref");
+                entity.Property(e => e.CiderName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.CiderTypeId).HasColumnName("CiderTypeID");
+
+                entity.HasOne(d => d.CiderType)
+                    .WithMany(p => p.Cider)
+                    .HasForeignKey(d => d.CiderTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Cider_CiderTypeID");
+            });
+
+            modelBuilder.Entity<CiderFamily>(entity =>
+            {
+                entity.ToTable("CiderFamily", "ref");
 
                 entity.Property(e => e.CiderFamilyId).HasColumnName("CiderFamilyID");
 
-                entity.Property(e => e.CiderFamily)
+                entity.Property(e => e.CiderFamily1)
                     .IsRequired()
+                    .HasColumnName("CiderFamily")
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<CiderTypes>(entity =>
+            modelBuilder.Entity<CiderType>(entity =>
             {
-                entity.HasKey(e => e.CiderTypeId);
-
-                entity.ToTable("CiderTypes", "ref");
+                entity.ToTable("CiderType", "ref");
 
                 entity.Property(e => e.CiderTypeId).HasColumnName("CiderTypeID");
 
                 entity.Property(e => e.CiderFamilyId).HasColumnName("CiderFamilyID");
 
-                entity.Property(e => e.CiderType)
+                entity.Property(e => e.CiderType1)
                     .IsRequired()
+                    .HasColumnName("CiderType")
                     .HasMaxLength(255);
 
                 entity.HasOne(d => d.CiderFamily)
-                    .WithMany(p => p.CiderTypes)
+                    .WithMany(p => p.CiderType)
                     .HasForeignKey(d => d.CiderFamilyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CiderTypes_CiderFamilyID");
+                    .HasConstraintName("FK_CiderType_CiderFamilyID");
             });
 
-            modelBuilder.Entity<Cideries>(entity =>
+            modelBuilder.Entity<Cidery>(entity =>
             {
-                entity.HasKey(e => e.CideryId);
-
                 entity.Property(e => e.CideryId).HasColumnName("CideryID");
 
                 entity.Property(e => e.AddressId).HasColumnName("AddressID");
@@ -479,42 +419,21 @@ namespace SS.API.Models
                 entity.Property(e => e.VenueId).HasColumnName("VenueID");
 
                 entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Cideries)
+                    .WithMany(p => p.Cidery)
                     .HasForeignKey(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Cideries_AddressID");
+                    .HasConstraintName("FK_Cidery_AddressID");
 
                 entity.HasOne(d => d.Venue)
-                    .WithMany(p => p.Cideries)
+                    .WithMany(p => p.Cidery)
                     .HasForeignKey(d => d.VenueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Cideries_VenueID");
+                    .HasConstraintName("FK_Cidery_VenueID");
             });
 
-            modelBuilder.Entity<Ciders>(entity =>
+            modelBuilder.Entity<City>(entity =>
             {
-                entity.HasKey(e => e.CiderId);
-
-                entity.Property(e => e.CiderId).HasColumnName("CiderID");
-
-                entity.Property(e => e.CiderName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.CiderTypeId).HasColumnName("CiderTypeID");
-
-                entity.HasOne(d => d.CiderType)
-                    .WithMany(p => p.Ciders)
-                    .HasForeignKey(d => d.CiderTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Ciders_CiderTypeID");
-            });
-
-            modelBuilder.Entity<Cities>(entity =>
-            {
-                entity.HasKey(e => e.CityId);
-
-                entity.ToTable("Cities", "const");
+                entity.ToTable("City", "const");
 
                 entity.Property(e => e.CityId).HasColumnName("CityID");
 
@@ -525,10 +444,10 @@ namespace SS.API.Models
                 entity.Property(e => e.StateId).HasColumnName("StateID");
 
                 entity.HasOne(d => d.State)
-                    .WithMany(p => p.Cities)
+                    .WithMany(p => p.City)
                     .HasForeignKey(d => d.StateId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Cities_StateID");
+                    .HasConstraintName("FK_City_StateID");
             });
 
             modelBuilder.Entity<DatabaseDiagnostics>(entity =>
@@ -555,7 +474,7 @@ namespace SS.API.Models
             modelBuilder.Entity<DaysOfWeek>(entity =>
             {
                 entity.HasKey(e => e.DayOfWeekId)
-                    .HasName("PK_DayOfWeekID");
+                    .HasName("PK_DaysOfWeekID");
 
                 entity.ToTable("DaysOfWeek", "const");
 
@@ -568,10 +487,8 @@ namespace SS.API.Models
                 entity.Property(e => e.DayOfWeekName).HasMaxLength(10);
             });
 
-            modelBuilder.Entity<Distilleries>(entity =>
+            modelBuilder.Entity<Distillery>(entity =>
             {
-                entity.HasKey(e => e.DistilleryId);
-
                 entity.Property(e => e.DistilleryId).HasColumnName("DistilleryID");
 
                 entity.Property(e => e.AddressId).HasColumnName("AddressID");
@@ -587,23 +504,32 @@ namespace SS.API.Models
                 entity.Property(e => e.VenueId).HasColumnName("VenueID");
 
                 entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Distilleries)
+                    .WithMany(p => p.Distillery)
                     .HasForeignKey(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Distilleries_AddressID");
+                    .HasConstraintName("FK_Distillery_AddressID");
 
                 entity.HasOne(d => d.Venue)
-                    .WithMany(p => p.Distilleries)
+                    .WithMany(p => p.Distillery)
                     .HasForeignKey(d => d.VenueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Distilleries_VenueID");
+                    .HasConstraintName("FK_Distillery_VenueID");
             });
 
-            modelBuilder.Entity<EmployeeRecords>(entity =>
+            modelBuilder.Entity<Employee>(entity =>
             {
-                entity.HasKey(e => e.EmployeeRecordId);
+                entity.ToTable("Employee", "hr");
 
-                entity.ToTable("EmployeeRecords", "hr");
+                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+
+                entity.Property(e => e.FirstName).HasMaxLength(255);
+
+                entity.Property(e => e.LastName).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<EmployeeRecord>(entity =>
+            {
+                entity.ToTable("EmployeeRecord", "hr");
 
                 entity.Property(e => e.EmployeeRecordId).HasColumnName("EmployeeRecordID");
 
@@ -622,29 +548,27 @@ namespace SS.API.Models
                 entity.Property(e => e.TerminationDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.EmployeeRecords)
+                    .WithMany(p => p.EmployeeRecord)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeRecords_EmployeeID");
+                    .HasConstraintName("FK_EmployeeRecord_EmployeeID");
 
                 entity.HasOne(d => d.EmployeeTitle)
-                    .WithMany(p => p.EmployeeRecords)
+                    .WithMany(p => p.EmployeeRecord)
                     .HasForeignKey(d => d.EmployeeTitleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Employees_EmployeeTitleID");
+                    .HasConstraintName("FK_Employee_EmployeeTitleID");
 
                 entity.HasOne(d => d.EmploymentStatus)
-                    .WithMany(p => p.EmployeeRecords)
+                    .WithMany(p => p.EmployeeRecord)
                     .HasForeignKey(d => d.EmploymentStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Employees_EmploymentStatusID");
+                    .HasConstraintName("FK_Employee_EmploymentStatusID");
             });
 
-            modelBuilder.Entity<EmployeeTitles>(entity =>
+            modelBuilder.Entity<EmployeeTitle>(entity =>
             {
-                entity.HasKey(e => e.EmployeeTitleId);
-
-                entity.ToTable("EmployeeTitles", "refHR");
+                entity.ToTable("EmployeeTitle", "refHR");
 
                 entity.Property(e => e.EmployeeTitleId).HasColumnName("EmployeeTitleID");
 
@@ -652,27 +576,14 @@ namespace SS.API.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.EmployeeTitle).HasMaxLength(255);
+                entity.Property(e => e.EmployeeTitle1)
+                    .HasColumnName("EmployeeTitle")
+                    .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Employees>(entity =>
+            modelBuilder.Entity<EmploymentStatus>(entity =>
             {
-                entity.HasKey(e => e.EmployeeId);
-
-                entity.ToTable("Employees", "hr");
-
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-
-                entity.Property(e => e.FirstName).HasMaxLength(255);
-
-                entity.Property(e => e.LastName).HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<EmploymentStatuses>(entity =>
-            {
-                entity.HasKey(e => e.EmploymentStatusId);
-
-                entity.ToTable("EmploymentStatuses", "refHR");
+                entity.ToTable("EmploymentStatus", "refHR");
 
                 entity.Property(e => e.EmploymentStatusId).HasColumnName("EmploymentStatusID");
 
@@ -680,15 +591,14 @@ namespace SS.API.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.EmploymentStatus).HasMaxLength(255);
+                entity.Property(e => e.EmploymentStatus1)
+                    .HasColumnName("EmploymentStatus")
+                    .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<EventTypesSs>(entity =>
+            modelBuilder.Entity<EventType>(entity =>
             {
-                entity.HasKey(e => e.EventTypeId)
-                    .HasName("PK_EventTypeID");
-
-                entity.ToTable("EventTypesSS", "ref");
+                entity.ToTable("EventType", "ref");
 
                 entity.Property(e => e.EventTypeId).HasColumnName("EventTypeID");
 
@@ -696,21 +606,218 @@ namespace SS.API.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.EventType).HasMaxLength(255);
+                entity.Property(e => e.EventType1)
+                    .HasColumnName("EventType")
+                    .HasMaxLength(255);
 
                 entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.EventTypesSs)
+                    .WithMany(p => p.EventType)
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EventTypesSSID_CreatedBy");
+                    .HasConstraintName("FK_EventType_CreatedBy");
             });
 
-            modelBuilder.Entity<EventsSs>(entity =>
+            modelBuilder.Entity<Mead>(entity =>
+            {
+                entity.Property(e => e.MeadId).HasColumnName("MeadID");
+
+                entity.Property(e => e.HoneyWine).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.MeadName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.MeadTypeId).HasColumnName("MeadTypeID");
+
+                entity.HasOne(d => d.MeadType)
+                    .WithMany(p => p.Mead)
+                    .HasForeignKey(d => d.MeadTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Mead_MeadTypeID");
+            });
+
+            modelBuilder.Entity<MeadFamily>(entity =>
+            {
+                entity.ToTable("MeadFamily", "ref");
+
+                entity.Property(e => e.MeadFamilyId).HasColumnName("MeadFamilyID");
+
+                entity.Property(e => e.MeadFamily1)
+                    .IsRequired()
+                    .HasColumnName("MeadFamily")
+                    .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<MeadType>(entity =>
+            {
+                entity.ToTable("MeadType", "ref");
+
+                entity.Property(e => e.MeadTypeId).HasColumnName("MeadTypeID");
+
+                entity.Property(e => e.MeadFamilyId).HasColumnName("MeadFamilyID");
+
+                entity.Property(e => e.MeadType1)
+                    .IsRequired()
+                    .HasColumnName("MeadType")
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.MeadFamily)
+                    .WithMany(p => p.MeadType)
+                    .HasForeignKey(d => d.MeadFamilyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MeadFamily_MeadFamilyID");
+            });
+
+            modelBuilder.Entity<Meadery>(entity =>
+            {
+                entity.Property(e => e.MeaderyId).HasColumnName("MeaderyID");
+
+                entity.Property(e => e.AddressId).HasColumnName("AddressID");
+
+                entity.Property(e => e.ClosingDate).HasColumnType("datetime");
+
+                entity.Property(e => e.MeaderyName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.OpeningDate).HasColumnType("datetime");
+
+                entity.Property(e => e.VenueId).HasColumnName("VenueID");
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.Meadery)
+                    .HasForeignKey(d => d.AddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Meadery_AddressID");
+
+                entity.HasOne(d => d.Venue)
+                    .WithMany(p => p.Meadery)
+                    .HasForeignKey(d => d.VenueId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Meadery_VenueID");
+            });
+
+            modelBuilder.Entity<Spirit>(entity =>
+            {
+                entity.Property(e => e.SpiritId).HasColumnName("SpiritID");
+
+                entity.Property(e => e.SpiritName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.SpiritTypeId).HasColumnName("SpiritTypeID");
+
+                entity.HasOne(d => d.SpiritType)
+                    .WithMany(p => p.Spirit)
+                    .HasForeignKey(d => d.SpiritTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Spirit_SpiritTypeID");
+            });
+
+            modelBuilder.Entity<SpiritFamily>(entity =>
+            {
+                entity.ToTable("SpiritFamily", "ref");
+
+                entity.Property(e => e.SpiritFamilyId).HasColumnName("SpiritFamilyID");
+
+                entity.Property(e => e.SpiritFamily1)
+                    .IsRequired()
+                    .HasColumnName("SpiritFamily")
+                    .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<SpiritType>(entity =>
+            {
+                entity.ToTable("SpiritType", "ref");
+
+                entity.Property(e => e.SpiritTypeId).HasColumnName("SpiritTypeID");
+
+                entity.Property(e => e.SpiritFamilyId).HasColumnName("SpiritFamilyID");
+
+                entity.Property(e => e.SpiritType1)
+                    .IsRequired()
+                    .HasColumnName("SpiritType")
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.SpiritFamily)
+                    .WithMany(p => p.SpiritType)
+                    .HasForeignKey(d => d.SpiritFamilyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SpiritType_SpiritFamilyID");
+            });
+
+            modelBuilder.Entity<Ssaddress>(entity =>
+            {
+                entity.HasKey(e => e.AddressId)
+                    .HasName("PK_AddressID");
+
+                entity.ToTable("SSAddress");
+
+                entity.Property(e => e.AddressId).HasColumnName("AddressID");
+
+                entity.Property(e => e.CityId).HasColumnName("CityID");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.StateId).HasColumnName("StateID");
+
+                entity.Property(e => e.StreetAddress)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.StreetAddress2).HasMaxLength(255);
+
+                entity.Property(e => e.ZipCodeId).HasColumnName("ZipCodeID");
+
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.Ssaddress)
+                    .HasForeignKey(d => d.CityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Address_CityID");
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.Ssaddress)
+                    .HasForeignKey(d => d.StateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Address_StateID");
+
+                entity.HasOne(d => d.ZipCode)
+                    .WithMany(p => p.Ssaddress)
+                    .HasForeignKey(d => d.ZipCodeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Address_ZipCodeID");
+            });
+
+            modelBuilder.Entity<Ssadmin>(entity =>
+            {
+                entity.HasKey(e => e.AdminId)
+                    .HasName("PK_AdminID");
+
+                entity.ToTable("SSAdmin", "AdminSS");
+
+                entity.Property(e => e.AdminId).HasColumnName("AdminID");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Ssadmin)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Admin_UserID");
+            });
+
+            modelBuilder.Entity<Ssevent>(entity =>
             {
                 entity.HasKey(e => e.EventId)
                     .HasName("PK_EventID");
 
-                entity.ToTable("EventsSS");
+                entity.ToTable("SSEvent");
 
                 entity.Property(e => e.EventId).HasColumnName("EventID");
 
@@ -727,171 +834,61 @@ namespace SS.API.Models
                 entity.Property(e => e.EventVenueId).HasColumnName("EventVenueID");
 
                 entity.HasOne(d => d.EventType)
-                    .WithMany(p => p.EventsSs)
+                    .WithMany(p => p.Ssevent)
                     .HasForeignKey(d => d.EventTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EventsSS_EventTypeID");
+                    .HasConstraintName("FK_Event_EventTypeID");
 
                 entity.HasOne(d => d.EventVenue)
-                    .WithMany(p => p.EventsSs)
+                    .WithMany(p => p.Ssevent)
                     .HasForeignKey(d => d.EventVenueId)
-                    .HasConstraintName("FK_EventsSS_EventVenueID");
+                    .HasConstraintName("FK_Event_EventVenueID");
             });
 
-            modelBuilder.Entity<MeadFamilies>(entity =>
+            modelBuilder.Entity<Ssuser>(entity =>
             {
-                entity.HasKey(e => e.MeadFamilyId);
+                entity.HasKey(e => e.UserId)
+                    .HasName("PK_UserID");
 
-                entity.ToTable("MeadFamilies", "ref");
+                entity.ToTable("SSUser", "UserSS");
 
-                entity.Property(e => e.MeadFamilyId).HasColumnName("MeadFamilyID");
+                entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.Property(e => e.MeadFamily)
-                    .IsRequired()
-                    .HasMaxLength(255);
-            });
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
 
-            modelBuilder.Entity<MeadTypes>(entity =>
-            {
-                entity.HasKey(e => e.MeadTypeId);
-
-                entity.ToTable("MeadTypes", "ref");
-
-                entity.Property(e => e.MeadTypeId).HasColumnName("MeadTypeID");
-
-                entity.Property(e => e.MeadFamilyId).HasColumnName("MeadFamilyID");
-
-                entity.Property(e => e.MeadType)
+                entity.Property(e => e.Email)
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.HasOne(d => d.MeadFamily)
-                    .WithMany(p => p.MeadTypes)
-                    .HasForeignKey(d => d.MeadFamilyId)
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PwHash)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.PwSalt)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.UserName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.UserStatusId).HasColumnName("UserStatusID");
+
+                entity.HasOne(d => d.UserStatus)
+                    .WithMany(p => p.Ssuser)
+                    .HasForeignKey(d => d.UserStatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MeadFamilies_MeadFamilyID");
-            });
-
-            modelBuilder.Entity<Meaderies>(entity =>
-            {
-                entity.HasKey(e => e.MeaderyId);
-
-                entity.Property(e => e.MeaderyId).HasColumnName("MeaderyID");
-
-                entity.Property(e => e.AddressId).HasColumnName("AddressID");
-
-                entity.Property(e => e.ClosingDate).HasColumnType("datetime");
-
-                entity.Property(e => e.MeaderyName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.OpeningDate).HasColumnType("datetime");
-
-                entity.Property(e => e.VenueId).HasColumnName("VenueID");
-
-                entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Meaderies)
-                    .HasForeignKey(d => d.AddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Meaderies_AddressID");
-
-                entity.HasOne(d => d.Venue)
-                    .WithMany(p => p.Meaderies)
-                    .HasForeignKey(d => d.VenueId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Meaderies_VenueID");
-            });
-
-            modelBuilder.Entity<Meads>(entity =>
-            {
-                entity.HasKey(e => e.MeadId);
-
-                entity.Property(e => e.MeadId).HasColumnName("MeadID");
-
-                entity.Property(e => e.HoneyWine).HasDefaultValueSql("((0))");
-
-                entity.Property(e => e.MeadName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.MeadTypeId).HasColumnName("MeadTypeID");
-
-                entity.HasOne(d => d.MeadType)
-                    .WithMany(p => p.Meads)
-                    .HasForeignKey(d => d.MeadTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Meads_MeadTypeID");
-            });
-
-            modelBuilder.Entity<SpiritFamiles>(entity =>
-            {
-                entity.HasKey(e => e.SpiritFamilyId);
-
-                entity.ToTable("SpiritFamiles", "ref");
-
-                entity.Property(e => e.SpiritFamilyId).HasColumnName("SpiritFamilyID");
-
-                entity.Property(e => e.SpiritFamily)
-                    .IsRequired()
-                    .HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<SpiritTypes>(entity =>
-            {
-                entity.HasKey(e => e.SpiritTypeId);
-
-                entity.ToTable("SpiritTypes", "ref");
-
-                entity.Property(e => e.SpiritTypeId).HasColumnName("SpiritTypeID");
-
-                entity.Property(e => e.SpiritFamilyId).HasColumnName("SpiritFamilyID");
-
-                entity.Property(e => e.SpiritType)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.HasOne(d => d.SpiritFamily)
-                    .WithMany(p => p.SpiritTypes)
-                    .HasForeignKey(d => d.SpiritFamilyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SpiritTypes_SpiritFamilyID");
-            });
-
-            modelBuilder.Entity<Spirits>(entity =>
-            {
-                entity.HasKey(e => e.SpiritId);
-
-                entity.Property(e => e.SpiritId).HasColumnName("SpiritID");
-
-                entity.Property(e => e.SpiritName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.SpiritTypeId).HasColumnName("SpiritTypeID");
-
-                entity.HasOne(d => d.SpiritType)
-                    .WithMany(p => p.Spirits)
-                    .HasForeignKey(d => d.SpiritTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Spirits_SpiritTypeID");
-            });
-
-            modelBuilder.Entity<States>(entity =>
-            {
-                entity.HasKey(e => e.StateId);
-
-                entity.ToTable("States", "const");
-
-                entity.Property(e => e.StateId).HasColumnName("StateID");
-
-                entity.Property(e => e.StateAbbreviation)
-                    .IsRequired()
-                    .HasMaxLength(2);
-
-                entity.Property(e => e.StateName)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                    .HasConstraintName("FK_User_UserStatusID");
             });
 
             modelBuilder.Entity<UserEmployeeXref>(entity =>
@@ -915,11 +912,9 @@ namespace SS.API.Models
                     .HasConstraintName("FK_UserEmployeeXRef_UserID");
             });
 
-            modelBuilder.Entity<UserRoles>(entity =>
+            modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.HasKey(e => e.UserRoleId);
-
-                entity.ToTable("UserRoles", "refUserSS");
+                entity.ToTable("UserRole", "refUserSS");
 
                 entity.Property(e => e.UserRoleId).HasColumnName("UserRoleID");
 
@@ -927,8 +922,9 @@ namespace SS.API.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.UserRole)
+                entity.Property(e => e.UserRole1)
                     .IsRequired()
+                    .HasColumnName("UserRole")
                     .HasMaxLength(255);
             });
 
@@ -950,20 +946,18 @@ namespace SS.API.Models
                     .WithMany(p => p.UserRolesXref)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRoleXRef_UserID");
+                    .HasConstraintName("FK_UserRolesXRef_UserID");
 
                 entity.HasOne(d => d.UserRolesNavigation)
                     .WithMany(p => p.UserRolesXref)
                     .HasForeignKey(d => d.UserRoles)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRoleXRef_UserRoleID");
+                    .HasConstraintName("FK_UserRolesXRef_UserRoleID");
             });
 
-            modelBuilder.Entity<UserStatuses>(entity =>
+            modelBuilder.Entity<UserStatus>(entity =>
             {
-                entity.HasKey(e => e.UserStatusId);
-
-                entity.ToTable("UserStatuses", "refUserSS");
+                entity.ToTable("UserStatus", "refUserSS");
 
                 entity.Property(e => e.UserStatusId).HasColumnName("UserStatusID");
 
@@ -971,41 +965,26 @@ namespace SS.API.Models
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.UserStatus).HasMaxLength(255);
+                entity.Property(e => e.UserStatus1)
+                    .HasColumnName("UserStatus")
+                    .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<Users>(entity =>
+            modelBuilder.Entity<Usstate>(entity =>
             {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK_UserID");
+                entity.HasKey(e => e.StateId);
 
-                entity.ToTable("Users", "UserSS");
+                entity.ToTable("USState", "const");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.StateId).HasColumnName("StateID");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                entity.Property(e => e.StateAbbreviation)
+                    .IsRequired()
+                    .HasMaxLength(2);
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.StateName)
                     .IsRequired()
                     .HasMaxLength(255);
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.UserStatusId).HasColumnName("UserStatusID");
-
-                entity.HasOne(d => d.UserStatus)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.UserStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Users_UserStatusID");
             });
 
             modelBuilder.Entity<Values>(entity =>
@@ -1015,6 +994,31 @@ namespace SS.API.Models
                 entity.Property(e => e.Name)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Venue>(entity =>
+            {
+                entity.Property(e => e.VenueId).HasColumnName("VenueID");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.VenueAddressId).HasColumnName("VenueAddressID");
+
+                entity.Property(e => e.VenueName).HasMaxLength(255);
+
+                entity.HasOne(d => d.CreatedByNavigation)
+                    .WithMany(p => p.Venue)
+                    .HasForeignKey(d => d.CreatedBy)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Venue_CreatedBy");
+
+                entity.HasOne(d => d.VenueAddress)
+                    .WithMany(p => p.Venue)
+                    .HasForeignKey(d => d.VenueAddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Venue_VenueAddressID");
             });
 
             modelBuilder.Entity<VenueHoursOpen>(entity =>
@@ -1036,6 +1040,21 @@ namespace SS.API.Models
                     .HasForeignKey(d => d.VenueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_VenueHoursOpen_VenueID");
+            });
+
+            modelBuilder.Entity<VenueType>(entity =>
+            {
+                entity.ToTable("VenueType", "ref");
+
+                entity.Property(e => e.VenueTypeId).HasColumnName("VenueTypeID");
+
+                entity.Property(e => e.CreatedDate)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.VenueType1)
+                    .HasColumnName("VenueType")
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<VenueTypeXref>(entity =>
@@ -1061,86 +1080,57 @@ namespace SS.API.Models
                     .HasConstraintName("FK_VenueTypeXRef_VenueTypeID");
             });
 
-            modelBuilder.Entity<VenueTypes>(entity =>
+            modelBuilder.Entity<Wine>(entity =>
             {
-                entity.HasKey(e => e.VenueTypeId);
+                entity.Property(e => e.WineId).HasColumnName("WineID");
 
-                entity.ToTable("VenueTypes", "ref");
+                entity.Property(e => e.WineName)
+                    .IsRequired()
+                    .HasMaxLength(255);
 
-                entity.Property(e => e.VenueTypeId).HasColumnName("VenueTypeID");
+                entity.Property(e => e.WineTypeId).HasColumnName("WineTypeID");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.VenueType).HasMaxLength(255);
+                entity.HasOne(d => d.WineType)
+                    .WithMany(p => p.Wine)
+                    .HasForeignKey(d => d.WineTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Wine_WineTypeID");
             });
 
-            modelBuilder.Entity<Venues>(entity =>
+            modelBuilder.Entity<WineFamily>(entity =>
             {
-                entity.HasKey(e => e.VenueId);
-
-                entity.Property(e => e.VenueId).HasColumnName("VenueID");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.VenueAddressId).HasColumnName("VenueAddressID");
-
-                entity.Property(e => e.VenueName).HasMaxLength(255);
-
-                entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.Venues)
-                    .HasForeignKey(d => d.CreatedBy)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Venues_CreatedBy");
-
-                entity.HasOne(d => d.VenueAddress)
-                    .WithMany(p => p.Venues)
-                    .HasForeignKey(d => d.VenueAddressId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Venues_VenueAddressID");
-            });
-
-            modelBuilder.Entity<WineFamilies>(entity =>
-            {
-                entity.HasKey(e => e.WineFamilyId);
-
-                entity.ToTable("WineFamilies", "ref");
+                entity.ToTable("WineFamily", "ref");
 
                 entity.Property(e => e.WineFamilyId).HasColumnName("WineFamilyID");
 
-                entity.Property(e => e.WineFamily)
+                entity.Property(e => e.WineFamily1)
                     .IsRequired()
+                    .HasColumnName("WineFamily")
                     .HasMaxLength(255);
             });
 
-            modelBuilder.Entity<WineTypes>(entity =>
+            modelBuilder.Entity<WineType>(entity =>
             {
-                entity.HasKey(e => e.WineTypeId);
-
-                entity.ToTable("WineTypes", "ref");
+                entity.ToTable("WineType", "ref");
 
                 entity.Property(e => e.WineTypeId).HasColumnName("WineTypeID");
 
                 entity.Property(e => e.WineFamilyId).HasColumnName("WineFamilyID");
 
-                entity.Property(e => e.WineType)
+                entity.Property(e => e.WineType1)
                     .IsRequired()
+                    .HasColumnName("WineType")
                     .HasMaxLength(255);
 
                 entity.HasOne(d => d.WineFamily)
-                    .WithMany(p => p.WineTypes)
+                    .WithMany(p => p.WineType)
                     .HasForeignKey(d => d.WineFamilyId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_WineTypes_WineFamilyID");
+                    .HasConstraintName("FK_WineType_WineFamilyID");
             });
 
-            modelBuilder.Entity<Wineries>(entity =>
+            modelBuilder.Entity<Winery>(entity =>
             {
-                entity.HasKey(e => e.WineryId);
-
                 entity.Property(e => e.WineryId).HasColumnName("WineryID");
 
                 entity.Property(e => e.AddressId).HasColumnName("AddressID");
@@ -1156,53 +1146,33 @@ namespace SS.API.Models
                     .HasMaxLength(255);
 
                 entity.HasOne(d => d.Address)
-                    .WithMany(p => p.Wineries)
+                    .WithMany(p => p.Winery)
                     .HasForeignKey(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Wineries_AddressID");
+                    .HasConstraintName("FK_Winery_AddressID");
 
                 entity.HasOne(d => d.Venue)
-                    .WithMany(p => p.Wineries)
+                    .WithMany(p => p.Winery)
                     .HasForeignKey(d => d.VenueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Wineries_VenueID");
+                    .HasConstraintName("FK_Winery_VenueID");
             });
 
-            modelBuilder.Entity<Wines>(entity =>
+            modelBuilder.Entity<ZipCode>(entity =>
             {
-                entity.HasKey(e => e.WineId);
-
-                entity.Property(e => e.WineId).HasColumnName("WineID");
-
-                entity.Property(e => e.WineName)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.WineTypeId).HasColumnName("WineTypeID");
-
-                entity.HasOne(d => d.WineType)
-                    .WithMany(p => p.Wines)
-                    .HasForeignKey(d => d.WineTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Wines_WineTypeID");
-            });
-
-            modelBuilder.Entity<ZipCodes>(entity =>
-            {
-                entity.HasKey(e => e.ZipCodeId)
-                    .HasName("PK_ZipCodeID");
-
-                entity.ToTable("ZipCodes", "const");
+                entity.ToTable("ZipCode", "const");
 
                 entity.Property(e => e.ZipCodeId).HasColumnName("ZipCodeID");
 
                 entity.Property(e => e.CityId).HasColumnName("CityID");
 
+                entity.Property(e => e.ZipCode1).HasColumnName("ZipCode");
+
                 entity.HasOne(d => d.City)
-                    .WithMany(p => p.ZipCodes)
+                    .WithMany(p => p.ZipCode)
                     .HasForeignKey(d => d.CityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ZipCodes_CityID");
+                    .HasConstraintName("FK_ZipCode_CityID");
             });
 
             OnModelCreatingPartial(modelBuilder);

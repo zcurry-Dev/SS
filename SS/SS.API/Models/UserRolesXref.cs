@@ -10,7 +10,7 @@ namespace SS.API.Models
         public int UserRoles { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public virtual Users User { get; set; }
-        public virtual UserRoles UserRolesNavigation { get; set; }
+        public virtual Ssuser User { get; set; }
+        public virtual UserRole UserRolesNavigation { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace SS.API.Models
         public DateTime? EndDate { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public virtual ArtistGroupMembers ArtistGroupMember { get; set; }
-        public virtual ArtistGroupMemberRoles ArtistGroupMemberRole { get; set; }
+        public virtual ArtistGroupMember ArtistGroupMember { get; set; }
+        public virtual ArtistGroupMemberRole ArtistGroupMemberRole { get; set; }
     }
 }

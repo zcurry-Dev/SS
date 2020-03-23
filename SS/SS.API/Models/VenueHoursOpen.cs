@@ -12,6 +12,6 @@ namespace SS.API.Models
         public TimeSpan HourClose { get; set; }
 
         public virtual DaysOfWeek DayOfWeek { get; set; }
-        public virtual Venues Venue { get; set; }
+        public virtual Venue Venue { get; set; }
     }
 }

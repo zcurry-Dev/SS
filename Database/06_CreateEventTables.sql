@@ -1,39 +1,39 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.EventTypesSS(
+CREATE TABLE ref.EventType(
 	EventTypeID INT NOT NULL
-		CONSTRAINT PK_EventTypeID
+		CONSTRAINT PK_EventType
 		PRIMARY KEY IDENTITY
-	,EventType NVARCHAR(255) NULL	
+	,EventType NVARCHAR(255) NULL
 	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_EventTypesSSID_CreatedBy
-		REFERENCES hr.Employees(EmployeeID)
+		CONSTRAINT FK_EventType_CreatedBy
+		REFERENCES hr.Employee(EmployeeID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_EventTypesSSID_CreatedDate
+		CONSTRAINT DF_EventType_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE dbo.EventsSS(
+CREATE TABLE dbo.SSEvent(
 	EventID INT NOT NULL
 		CONSTRAINT PK_EventID
 		PRIMARY KEY IDENTITY
 	,EventTypeID INT NOT NULL
-		CONSTRAINT FK_EventsSS_EventTypeID
-		REFERENCES ref.EventTypesSS(EventTypeID)
+		CONSTRAINT FK_Event_EventTypeID
+		REFERENCES ref.EventType(EventTypeID)
 	,EventDate DATETIME NOT NULL
 	,EventTime DATETIME
 	,EventVenueID INT NULL
-		CONSTRAINT FK_EventsSS_EventVenueID
-		REFERENCES dbo.Venues(VenueID)
+		CONSTRAINT FK_Event_EventVenueID
+		REFERENCES dbo.Venue(VenueID)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_EventsSS_CreatedDate
+		CONSTRAINT DF_Event_CreatedDate
 		DEFAULT GETDATE()
 )
 
 /*
 
-DROP TABLE dbo.EventsSS
-DROP TABLE ref.EventTypesSS
+DROP TABLE dbo.SSEvent
+DROP TABLE ref.EventType
 
 */

@@ -10,7 +10,7 @@ namespace SS.API.Models
         public int VenueTypeId { get; set; }
         public bool MainType { get; set; }
 
-        public virtual Venues Venue { get; set; }
-        public virtual VenueTypes VenueType { get; set; }
+        public virtual Venue Venue { get; set; }
+        public virtual VenueType VenueType { get; set; }
     }
 }

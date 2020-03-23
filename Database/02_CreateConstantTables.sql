@@ -1,37 +1,37 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE const.States(
+CREATE TABLE const.USState(
 	StateID INT NOT NULL
-		CONSTRAINT PK_States
+		CONSTRAINT PK_USState
 		PRIMARY KEY IDENTITY
 	,StateAbbreviation NVARCHAR(2) NOT NULL
 	,StateName NVARCHAR(255) NOT NULL
 )
 
-CREATE TABLE const.Cities(
+CREATE TABLE const.City(
 	CityID INT NOT NULL
-		CONSTRAINT PK_Cities
+		CONSTRAINT PK_City
 		PRIMARY KEY IDENTITY
 	,CityName NVARCHAR(255) NOT NULL
 	,StateID INT NOT NULL
-		CONSTRAINT FK_Cities_StateID
-		REFERENCES const.States(StateID)
+		CONSTRAINT FK_City_StateID
+		REFERENCES const.USState(StateID)
 )
 
-CREATE TABLE const.ZipCodes(
+CREATE TABLE const.ZipCode(
 	ZipCodeID INT NOT NULL
 		CONSTRAINT PK_ZipCodeID		
 		PRIMARY KEY IDENTITY
 	,ZipCode INT NOT NULL
 	,CityID INT NOT NULL
-		CONSTRAINT FK_ZipCodes_CityID
-		REFERENCES const.Cities(CityID)
+		CONSTRAINT FK_ZipCode_CityID
+		REFERENCES const.City(CityID)
 )
 
 CREATE TABLE const.DaysOfWeek(
 	DayOfWeekID INT NOT NULL
-		CONSTRAINT PK_DayOfWeekID
+		CONSTRAINT PK_DaysOfWeekID
 		PRIMARY KEY IDENTITY
 	,DayOfWeekName NVARCHAR(10)
 	,DayOfWeekAbbreviation NVARCHAR(5)
@@ -39,7 +39,7 @@ CREATE TABLE const.DaysOfWeek(
 	,Weekend BIT NOT NULL
 	)
 
-INSERT INTO const.States
+INSERT INTO const.USState
 VALUES
 ('AL','Alabama')
 ,('AK','Alaska')
@@ -93,11 +93,11 @@ VALUES
 ,('WY','Wyoming')
 
 
-INSERT INTO const.Cities
+INSERT INTO const.City
 VALUES
 ('Austin',43)
 
-INSERT INTO const.ZipCodes
+INSERT INTO const.ZipCode
 VALUES
 (78610,1)
 ,(78613,1)
@@ -168,8 +168,8 @@ VALUES
 /*
 
 DROP TABLE const.DaysOfWeek
-DROP TABLE const.ZipCodes
-DROP TABLE const.Cities
-DROP TABLE const.States
+DROP TABLE const.ZipCode
+DROP TABLE const.City
+DROP TABLE const.USState
 
 */

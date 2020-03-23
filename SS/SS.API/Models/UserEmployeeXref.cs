@@ -10,6 +10,6 @@ namespace SS.API.Models
         public DateTime CreatedDate { get; set; }
         public bool? Zapped { get; set; }
 
-        public virtual Users User { get; set; }
+        public virtual Ssuser User { get; set; }
     }
 }

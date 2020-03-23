@@ -1,53 +1,53 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.CiderFamilies(
+CREATE TABLE ref.CiderFamily(
 	CiderFamilyID INT NOT NULL
 		CONSTRAINT PK_CiderFamilies
 		PRIMARY KEY IDENTITY
 	,CiderFamily NVARCHAR(255) NOT NULL
 	)
 
-CREATE TABLE ref.CiderTypes(
+CREATE TABLE ref.CiderType(
 	CiderTypeID INT NOT NULL
-		CONSTRAINT PK_CiderTypes
+		CONSTRAINT PK_CiderType
 		PRIMARY KEY IDENTITY
 	,CiderType NVARCHAR(255) NOT NULL
 	,CiderFamilyID INT NOT NULL
-		CONSTRAINT FK_CiderTypes_CiderFamilyID
-		REFERENCES ref.CiderFamilies(CiderFamilyID)
+		CONSTRAINT FK_CiderType_CiderFamilyID
+		REFERENCES ref.CiderFamily(CiderFamilyID)
 	)
 
-CREATE TABLE dbo.Cideries(
+CREATE TABLE dbo.Cidery(
 	CideryID INT NOT NULL
-		CONSTRAINT PK_Cideries
+		CONSTRAINT PK_Ciderie
 		PRIMARY KEY IDENTITY
 	,CideryName NVARCHAR(255) NOT NULL
 	,AddressID INT NOT NULL
-		CONSTRAINT FK_Cideries_AddressID
-		REFERENCES dbo.Addresses(AddressID)
+		CONSTRAINT FK_Cidery_AddressID
+		REFERENCES dbo.SSAddress(AddressID)
 	,VenueID INT NOT NULL
-		CONSTRAINT FK_Cideries_VenueID
-		REFERENCES dbo.Venues(VenueID)
+		CONSTRAINT FK_Cidery_VenueID
+		REFERENCES dbo.Venue(VenueID)
 	,OpeningDate DATETIME NOT NULL
 	,ClosingDate DATETIME
 	)
 
-CREATE TABLE dbo.Ciders(
+CREATE TABLE dbo.Cider(
 	CiderID INT NOT null
-		CONSTRAINT PK_Ciders
+		CONSTRAINT PK_Cider
 		PRIMARY KEY IDENTITY
 	,CiderName NVARCHAR(255) NOT NULL
 	,CiderTypeID INT NOT NULL
-		CONSTRAINT FK_Ciders_CiderTypeID
-		REFERENCES ref.CiderTypes(CiderTypeID)
+		CONSTRAINT FK_Cider_CiderTypeID
+		REFERENCES ref.CiderType(CiderTypeID)
 	)
 
 /*
 
-DROP TABLE dbo.Ciders
-DROP TABLE dbo.Cideries
-DROP TABLE ref.CiderTypes
-DROP TABLE ref.CiderFamilies
+DROP TABLE dbo.Cider
+DROP TABLE dbo.Cidery
+DROP TABLE ref.CiderType
+DROP TABLE ref.CiderFamily
 
 */

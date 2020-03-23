@@ -1,56 +1,56 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.MeadFamilies(
+CREATE TABLE ref.MeadFamily(
 	MeadFamilyID INT NOT NULL
-		CONSTRAINT PK_MeadFamilies
+		CONSTRAINT PK_MeadFamily
 		PRIMARY KEY IDENTITY
 	,MeadFamily NVARCHAR(255) NOT NULL
 	)
 
-CREATE TABLE ref.MeadTypes(
+CREATE TABLE ref.MeadType(
 	MeadTypeID INT NOT NULL
-		CONSTRAINT PK_MeadTypes
+		CONSTRAINT PK_MeadType
 		PRIMARY KEY IDENTITY
 	,MeadType NVARCHAR(255) NOT NULL
 	,MeadFamilyID INT NOT NULL
-		CONSTRAINT FK_MeadFamilies_MeadFamilyID
-		REFERENCES ref.MeadFamilies(MeadFamilyID)
+		CONSTRAINT FK_MeadFamily_MeadFamilyID
+		REFERENCES ref.MeadFamily(MeadFamilyID)
 	)
 
-CREATE TABLE dbo.Meaderies(
+CREATE TABLE dbo.Meadery(
 	MeaderyID INT NOT NULL
-		CONSTRAINT PK_Meaderies
+		CONSTRAINT PK_Meadery
 		PRIMARY KEY IDENTITY
 	,MeaderyName NVARCHAR(255) NOT NULL
 	,AddressID INT NOT NULL
-		CONSTRAINT FK_Meaderies_AddressID
-		REFERENCES dbo.Addresses(AddressID)
+		CONSTRAINT FK_Meadery_AddressID
+		REFERENCES dbo.SSAddress(AddressID)
 	,VenueID INT NOT NULL
-		CONSTRAINT FK_Meaderies_VenueID
-		REFERENCES dbo.Venues(VenueID)
+		CONSTRAINT FK_Meadery_VenueID
+		REFERENCES dbo.Venue(VenueID)
 	,OpeningDate DATETIME NOT NULL
 	,ClosingDate DATETIME
 	)
 
-CREATE TABLE dbo.Meads(
+CREATE TABLE dbo.Mead(
 	MeadID INT NOT null
-		CONSTRAINT PK_Meads
+		CONSTRAINT PK_Mead
 		PRIMARY KEY IDENTITY
 	,MeadName NVARCHAR(255) NOT NULL
 	,MeadTypeID INT NOT NULL
-		CONSTRAINT FK_Meads_MeadTypeID
-		REFERENCES ref.MeadTypes(MeadTypeID)
+		CONSTRAINT FK_Mead_MeadTypeID
+		REFERENCES ref.MeadType(MeadTypeID)
 	,HoneyWine BIT
-		CONSTRAINT DF_Meads_HoneyWine
+		CONSTRAINT DF_Mead_HoneyWine
 		DEFAULT 0
 	)
 
 /*
 
-DROP TABLE dbo.Meads
-DROP TABLE dbo.Meaderies
-DROP TABLE ref.MeadTypes
-DROP TABLE ref.MeadFamilies
+DROP TABLE dbo.Mead
+DROP TABLE dbo.Meadery
+DROP TABLE ref.MeadType
+DROP TABLE ref.MeadFamily
 
 */

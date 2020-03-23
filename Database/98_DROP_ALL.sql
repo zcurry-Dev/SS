@@ -2,77 +2,76 @@
 USE SceneSwarm01
 
 -- DROP MEAD TABLES
-DROP TABLE dbo.Meads
-DROP TABLE dbo.Meaderies
-DROP TABLE ref.MeadTypes
-DROP TABLE ref.MeadFamilies
+DROP TABLE dbo.Mead
+DROP TABLE dbo.Meadery
+DROP TABLE ref.MeadType
+DROP TABLE ref.MeadFamily
 
 -- DROP CIDER TABLES
-DROP TABLE dbo.Ciders
-DROP TABLE dbo.Cideries
-DROP TABLE ref.CiderTypes
-DROP TABLE ref.CiderFamilies
+DROP TABLE dbo.Cider
+DROP TABLE dbo.Cidery
+DROP TABLE ref.CiderType
+DROP TABLE ref.CiderFamily
 
 -- DROP SPIRIT TABLES
-DROP TABLE dbo.Spirits
-DROP TABLE dbo.Distilleries
-DROP TABLE ref.SpiritTypes
-DROP TABLE ref.SpiritFamiles
+DROP TABLE dbo.Spirit
+DROP TABLE dbo.Distillery
+DROP TABLE ref.SpiritType
+DROP TABLE ref.SpiritFamily
 
 -- DROP WINE TABLES
-DROP TABLE dbo.Wines
-DROP TABLE dbo.Wineries
-DROP TABLE ref.WineTypes
-DROP TABLE ref.WineFamilies
+DROP TABLE dbo.Wine
+DROP TABLE dbo.Winery
+DROP TABLE ref.WineType
+DROP TABLE ref.WineFamily
 
 -- DROP BEER TABLES
-DROP TABLE dbo.Beers
-DROP TABLE dbo.Breweries
-DROP TABLE ref.BeerTypes
-DROP TABLE ref.BeerFamilies
+DROP TABLE dbo.Beer
+DROP TABLE dbo.Brewery
+DROP TABLE ref.BeerType
+DROP TABLE ref.BeerFamily
 
 -- DROP ARTISTS TABLES
 DROP TABLE dbo.ArtistGroupMemberRolesXRef
-DROP TABLE ref.ArtistGroupMemberRoles
-DROP TABLE dbo.ArtistGroupMembers
+DROP TABLE ref.ArtistGroupMemberRole
+DROP TABLE dbo.ArtistGroupMember
 DROP TABLE dbo.ArtistTypeXRef
-DROP TABLE dbo.Artists
-DROP TABLE ref.ArtistStatuses
-DROP TABLE ref.ArtistTypes
+DROP TABLE dbo.Artist
+DROP TABLE ref.ArtistStatus
+DROP TABLE ref.ArtistType
 
 -- DROP EVENTS TABLES
-DROP TABLE dbo.EventsSS
-DROP TABLE ref.EventTypesSS
+DROP TABLE dbo.SSEvent
+DROP TABLE ref.EventType
 
 -- DROP ADDRESSES/VENUE TABLES
 DROP TABLE dbo.VenueHoursOpen
 DROP TABLE dbo.VenueTypeXRef
-DROP TABLE dbo.Venues
-DROP TABLE ref.VenueTypes
-DROP TABLE dbo.Addresses
+DROP TABLE dbo.Venue
+DROP TABLE ref.VenueType
+DROP TABLE dbo.SSAddress
 
 -- DROP USER/ADMIN TABLES
 DROP TABLE AdminSS.AdminRolesXRef
-DROP TABLE AdminSS.Admins
-DROP TABLE refAdminSS.AdminRoles
+DROP TABLE AdminSS.SSAdmin
+DROP TABLE refAdminSS.AdminRole
 DROP TABLE UserSS.UserRolesXRef
 DROP TABLE hr.UserEmployeeXRef
-DROP TABLE UserSS.Users
-DROP TABLE refUserSS.UserRoles
-DROP TABLE refUserSS.UserStatuses
+DROP TABLE UserSS.SSUser
+DROP TABLE refUserSS.UserRole
+DROP TABLE refUserSS.UserStatus
 
 -- DROP EMPLOYEE TABLES
-DROP TABLE hr.EmployeeRecords
-DROP TABLE hr.Employees
-DROP TABLE refHR.EmployeeTitles
-DROP TABLE refHR.EmploymentStatuses
+DROP TABLE hr.EmployeeRecord
+DROP TABLE hr.Employee
+DROP TABLE refHR.EmployeeTitle
+DROP TABLE refHR.EmploymentStatus
 
 -- DROP CONSTANT TABLES
 DROP TABLE const.DaysOfWeek
-DROP TABLE const.CityZipcodeXRef
-DROP TABLE const.Cities
-DROP TABLE const.ZipCodes
-DROP TABLE const.States
+DROP TABLE const.ZipCode
+DROP TABLE const.City
+DROP TABLE const.USState
 
 -- DROP SCHEMAS
 DROP SCHEMA const

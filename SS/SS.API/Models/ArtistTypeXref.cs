@@ -10,7 +10,7 @@ namespace SS.API.Models
         public int ArtistTypeId { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public virtual Artists Artist { get; set; }
-        public virtual ArtistTypes ArtistType { get; set; }
+        public virtual Artist Artist { get; set; }
+        public virtual ArtistType ArtistType { get; set; }
     }
 }

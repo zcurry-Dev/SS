@@ -1,68 +1,68 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE refHR.EmploymentStatuses(
+CREATE TABLE refHR.EmploymentStatus(
 	EmploymentStatusID INT NOT NULL
-		CONSTRAINT PK_EmploymentStatuses
+		CONSTRAINT PK_EmploymentStatus
 		PRIMARY KEY IDENTITY
 	,EmploymentStatus NVARCHAR(255)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_EmploymentStatuses_CreatedDate
+		CONSTRAINT DF_EmploymentStatus_CreatedDate
 		DEFAULT GETDATE()
 )
 
-INSERT INTO refHR.EmploymentStatuses
+INSERT INTO refHR.EmploymentStatus
 VALUES
 ('Active', GETDATE())
 ,('Terminated', GETDATE())
 ,('Resigned', GETDATE())
 
-CREATE TABLE refHR.EmployeeTitles(
+CREATE TABLE refHR.EmployeeTitle(
 	EmployeeTitleID INT NOT NULL
-		CONSTRAINT PK_EmployeeTitles
+		CONSTRAINT PK_EmployeeTitle
 		PRIMARY KEY IDENTITY
 	,EmployeeTitle NVARCHAR(255)
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_EmployeeTitles_CreatedDate
+		CONSTRAINT DF_EmployeeTitle_CreatedDate
 		DEFAULT GETDATE()
 )
 
-CREATE TABLE hr.Employees(
+CREATE TABLE hr.Employee(
 	EmployeeID INT NOT NULL
-		CONSTRAINT PK_Employees
+		CONSTRAINT PK_Employee
 		PRIMARY KEY IDENTITY
 	,FirstName NVARCHAR(255)
 	,LastName NVARCHAR(255)
 )
 
-CREATE TABLE hr.EmployeeRecords(
+CREATE TABLE hr.EmployeeRecord(
 	EmployeeRecordID  INT NOT NULL
-		CONSTRAINT PK_EmployeeRecords
+		CONSTRAINT PK_EmployeeRecord
 		PRIMARY KEY IDENTITY
 	,EmployeeID INT NOT NULL
-		CONSTRAINT FK_EmployeeRecords_EmployeeID
-		REFERENCES hr.Employees(EmployeeID)	
+		CONSTRAINT FK_EmployeeRecord_EmployeeID
+		REFERENCES hr.Employee(EmployeeID)	
 	,EmployeeTitleID INT NOT NULL
-		CONSTRAINT FK_Employees_EmployeeTitleID
-		REFERENCES refHR.EmployeeTitles(EmployeeTitleID)
+		CONSTRAINT FK_Employee_EmployeeTitleID
+		REFERENCES refHR.EmployeeTitle(EmployeeTitleID)
 	,HireDate DATETIME NOT NULL
 	,EmploymentStatusID INT NOT NULL
-		CONSTRAINT FK_Employees_EmploymentStatusID
-		REFERENCES refHR.EmploymentStatuses(EmploymentStatusID)
+		CONSTRAINT FK_Employee_EmploymentStatusID
+		REFERENCES refHR.EmploymentStatus(EmploymentStatusID)
 	,Terminated BIT NOT NULL
-		CONSTRAINT DF_EmployeeRecords_Terminated
+		CONSTRAINT DF_EmployeeRecord_Terminated
 		DEFAULT 0
 	,TerminationDate DATETIME NULL
 	,CreatedDate DATETIME NOT NULL
-		CONSTRAINT DF_EmployeeRecords_CreatedDate
+		CONSTRAINT DF_EmployeeRecord_CreatedDate
 		DEFAULT GETDATE()
 )
 
 /*
 
-DROP TABLE hr.EmployeeRecords
-DROP TABLE hr.Employees
-DROP TABLE refHR.EmployeeTitles
-DROP TABLE refHR.EmploymentStatuses
+DROP TABLE hr.EmployeeRecord
+DROP TABLE hr.Employee
+DROP TABLE refHR.EmployeeTitle
+DROP TABLE refHR.EmploymentStatus
 
 */

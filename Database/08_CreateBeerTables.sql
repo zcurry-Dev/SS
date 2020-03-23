@@ -1,53 +1,53 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.BeerFamilies(
+CREATE TABLE ref.BeerFamily(
 	BeerFamilyID INT NOT NULL
-		CONSTRAINT PK_BeerFamilies
+		CONSTRAINT PK_BeerFamily
 		PRIMARY KEY IDENTITY
 	,BeerFamily NVARCHAR(255) NOT NULL
 	)
 
-CREATE TABLE ref.BeerTypes(
+CREATE TABLE ref.BeerType(
 	BeerTypeID INT NOT NULL
-		CONSTRAINT PK_BeerTypes
+		CONSTRAINT PK_BeerType
 		PRIMARY KEY IDENTITY
 	,BeerType NVARCHAR(255) NOT NULL
 	,BeerFamilyID INT NOT NULL
-		CONSTRAINT FK_BeerTypes_BeerFamilyID
-		REFERENCES ref.BeerFamilies(BeerFamilyID)
+		CONSTRAINT FK_BeerType_BeerFamilyID
+		REFERENCES ref.BeerFamily(BeerFamilyID)
 	)
 
-CREATE TABLE dbo.Breweries(
+CREATE TABLE dbo.Brewery(
 	BreweryID INT NOT NULL
-		CONSTRAINT PK_Breweries
+		CONSTRAINT PK_Brewery
 		PRIMARY KEY IDENTITY
 	,BreweryName NVARCHAR(255) NOT NULL
 	,AddressID INT NOT NULL
-		CONSTRAINT FK_Breweries_AddressID
-		REFERENCES dbo.Addresses(AddressID)
+		CONSTRAINT FK_Brewery_AddressID
+		REFERENCES dbo.SSAddress(AddressID)
 	,VenueID INT NOT NULL
-		CONSTRAINT FK_Breweries_VenueID
-		REFERENCES dbo.Venues(VenueID)
+		CONSTRAINT FK_Brewery_VenueID
+		REFERENCES dbo.Venue(VenueID)
 	,OpeningDate DATETIME NOT NULL
 	,ClosingDate DATETIME
 	)
 
-CREATE TABLE dbo.Beers(
+CREATE TABLE dbo.Beer(
 	BeerID INT NOT null
-		CONSTRAINT PK_Beers
+		CONSTRAINT PK_Beer
 		PRIMARY KEY IDENTITY
 	,BeerName NVARCHAR(255) NOT NULL
 	,BeerTypeID INT NOT NULL
-		CONSTRAINT FK_Beers_BeerTypeID
-		REFERENCES ref.BeerTypes(BeerTypeID)
+		CONSTRAINT FK_Beer_BeerTypeID
+		REFERENCES ref.BeerType(BeerTypeID)
 	)
 
 /*
 
-DROP TABLE dbo.Beers
-DROP TABLE dbo.Breweries
-DROP TABLE ref.BeerTypes
-DROP TABLE ref.BeerFamilies
+DROP TABLE dbo.Beer
+DROP TABLE dbo.Brewery
+DROP TABLE ref.BeerType
+DROP TABLE ref.BeerFamily
 
 */
