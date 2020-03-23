@@ -1,4 +1,21 @@
+//
+//Visual Studio
+//
 Scaffold-DbContext "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir EFModels
 
 //Refresh // Force
 Scaffold-DbContext "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir EFModels -Force
+
+
+//
+//
+//
+//
+//VSCode
+//
+dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+
+//Refresh // Force
+dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -f
+
