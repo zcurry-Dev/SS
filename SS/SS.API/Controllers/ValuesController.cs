@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using SS.API.Data;
 
 namespace SS.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -27,7 +29,7 @@ namespace SS.API.Controllers
             return Ok(values);
         }
 
-        // GET: api/values/5
+        [AllowAnonymous]
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> GetValue(int id)
         {
