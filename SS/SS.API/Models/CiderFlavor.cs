@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace SS.API.Models
 {
-    public partial class CiderType
+    public partial class CiderFlavor
     {
-        public CiderType()
+        public CiderFlavor()
         {
             Cider = new HashSet<Cider>();
         }
 
-        public int CiderTypeId { get; set; }
-        public string CiderType1 { get; set; }
+        public int CiderFlavorId { get; set; }
+        public string CiderFlavor1 { get; set; }
 
         public virtual ICollection<Cider> Cider { get; set; }
     }

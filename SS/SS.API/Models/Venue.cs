@@ -11,6 +11,7 @@ namespace SS.API.Models
             Cidery = new HashSet<Cidery>();
             Distillery = new HashSet<Distillery>();
             Meadery = new HashSet<Meadery>();
+            Seltzery = new HashSet<Seltzery>();
             Ssevent = new HashSet<Ssevent>();
             VenueHoursOpen = new HashSet<VenueHoursOpen>();
             VenueTypeXref = new HashSet<VenueTypeXref>();
@@ -29,6 +30,7 @@ namespace SS.API.Models
         public virtual ICollection<Cidery> Cidery { get; set; }
         public virtual ICollection<Distillery> Distillery { get; set; }
         public virtual ICollection<Meadery> Meadery { get; set; }
+        public virtual ICollection<Seltzery> Seltzery { get; set; }
         public virtual ICollection<Ssevent> Ssevent { get; set; }
         public virtual ICollection<VenueHoursOpen> VenueHoursOpen { get; set; }
         public virtual ICollection<VenueTypeXref> VenueTypeXref { get; set; }

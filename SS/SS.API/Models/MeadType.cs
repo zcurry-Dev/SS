@@ -12,9 +12,7 @@ namespace SS.API.Models
 
         public int MeadTypeId { get; set; }
         public string MeadType1 { get; set; }
-        public int MeadFamilyId { get; set; }
 
-        public virtual MeadFamily MeadFamily { get; set; }
         public virtual ICollection<Mead> Mead { get; set; }
     }
 }

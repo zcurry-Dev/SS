@@ -8,7 +8,6 @@ namespace SS.API.Models
         public Usstate()
         {
             City = new HashSet<City>();
-            Ssaddress = new HashSet<Ssaddress>();
         }
 
         public int StateId { get; set; }
@@ -16,6 +15,5 @@ namespace SS.API.Models
         public string StateName { get; set; }
 
         public virtual ICollection<City> City { get; set; }
-        public virtual ICollection<Ssaddress> Ssaddress { get; set; }
     }
 }

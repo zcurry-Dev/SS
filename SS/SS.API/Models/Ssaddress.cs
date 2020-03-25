@@ -20,11 +20,9 @@ namespace SS.API.Models
         public string StreetAddress2 { get; set; }
         public int CityId { get; set; }
         public int ZipCodeId { get; set; }
-        public int StateId { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public virtual City City { get; set; }
-        public virtual Usstate State { get; set; }
         public virtual ZipCode ZipCode { get; set; }
         public virtual ICollection<Brewery> Brewery { get; set; }
         public virtual ICollection<Cidery> Cidery { get; set; }

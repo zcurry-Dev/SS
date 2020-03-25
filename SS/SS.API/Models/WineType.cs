@@ -8,6 +8,7 @@ namespace SS.API.Models
         public WineType()
         {
             Wine = new HashSet<Wine>();
+            WineTypeSpecific = new HashSet<WineTypeSpecific>();
         }
 
         public int WineTypeId { get; set; }
@@ -16,5 +17,6 @@ namespace SS.API.Models
 
         public virtual WineFamily WineFamily { get; set; }
         public virtual ICollection<Wine> Wine { get; set; }
+        public virtual ICollection<WineTypeSpecific> WineTypeSpecific { get; set; }
     }
 }

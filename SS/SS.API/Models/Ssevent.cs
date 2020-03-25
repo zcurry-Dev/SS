@@ -10,8 +10,10 @@ namespace SS.API.Models
         public DateTime EventDate { get; set; }
         public DateTime? EventTime { get; set; }
         public int? EventVenueId { get; set; }
+        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
+        public virtual Ssuser CreatedByNavigation { get; set; }
         public virtual EventType EventType { get; set; }
         public virtual Venue EventVenue { get; set; }
     }

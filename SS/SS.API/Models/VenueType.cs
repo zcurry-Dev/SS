@@ -15,6 +15,7 @@ namespace SS.API.Models
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
+        public virtual Ssuser CreatedByNavigation { get; set; }
         public virtual ICollection<VenueTypeXref> VenueTypeXref { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace SS.API.Models
     {
         public BeerType()
         {
-            Beer = new HashSet<Beer>();
+            BeerTypeSpecific = new HashSet<BeerTypeSpecific>();
         }
 
         public int BeerTypeId { get; set; }
@@ -15,6 +15,6 @@ namespace SS.API.Models
         public int BeerFamilyId { get; set; }
 
         public virtual BeerFamily BeerFamily { get; set; }
-        public virtual ICollection<Beer> Beer { get; set; }
+        public virtual ICollection<BeerTypeSpecific> BeerTypeSpecific { get; set; }
     }
 }

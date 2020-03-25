@@ -5,11 +5,15 @@ namespace SS.API.Models
 {
     public partial class ArtistStatus
     {
+        public ArtistStatus()
+        {
+            Artist = new HashSet<Artist>();
+        }
+
         public int ArtistStatusId { get; set; }
         public string ArtistStatus1 { get; set; }
-        public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public virtual Employee CreatedByNavigation { get; set; }
+        public virtual ICollection<Artist> Artist { get; set; }
     }
 }
