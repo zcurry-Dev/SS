@@ -8,11 +8,17 @@ CREATE TABLE ref.EventType(
 	,EventType NVARCHAR(255) NULL
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_EventType_CreatedBy
-		REFERENCES hr.Employee(EmployeeID)
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_EventType_CreatedDate
 		DEFAULT GETDATE()
 )
+
+INSERT INTO ref.EventType
+VALUES
+('Concert', 1, GETDATE())
+,('Comedy', 1, GETDATE())
+,('Fundraiser', 1, GETDATE())
 
 CREATE TABLE dbo.SSEvent(
 	EventID INT NOT NULL
@@ -26,6 +32,9 @@ CREATE TABLE dbo.SSEvent(
 	,EventVenueID INT NULL
 		CONSTRAINT FK_Event_EventVenueID
 		REFERENCES dbo.Venue(VenueID)
+	,CreatedBy INT NOT NULL
+		CONSTRAINT FK_Event_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Event_CreatedDate
 		DEFAULT GETDATE()

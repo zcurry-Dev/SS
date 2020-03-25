@@ -14,9 +14,15 @@ CREATE TABLE const.City(
 		CONSTRAINT PK_City
 		PRIMARY KEY IDENTITY
 	,CityName NVARCHAR(255) NOT NULL
+	,ClosestMajorCityID INT NULL
+		CONSTRAINT FK_City_ClosestMajorCityID
+		REFERENCES const.City(CityID)
 	,StateID INT NOT NULL
 		CONSTRAINT FK_City_StateID
 		REFERENCES const.USState(StateID)
+	,MajorCity BIT NOT NULL
+		CONSTRAINT DF_City_MajorCity
+		DEFAULT 0
 )
 
 CREATE TABLE const.ZipCode(
@@ -92,10 +98,10 @@ VALUES
 ,('WI','Wisconsin')
 ,('WY','Wyoming')
 
-
 INSERT INTO const.City
 VALUES
-('Austin',43)
+('Austin', 1, 43, 1)
+,('Buda', 1, 43, 0)
 
 INSERT INTO const.ZipCode
 VALUES
@@ -152,6 +158,7 @@ VALUES
 ,(78757,1)
 ,(78758,1)
 ,(78759,1)
+,(78610,2)
 
 INSERT INTO const.DaysOfWeek
 VALUES
@@ -162,8 +169,6 @@ VALUES
 ,('Friday','Fri','F',1)
 ,('Saturday','Sat','Sa',1)
 ,('Sunday','Sun','Su',1)
-
-
 
 /*
 

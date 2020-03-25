@@ -1,21 +1,11 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.MeadFamily(
-	MeadFamilyID INT NOT NULL
-		CONSTRAINT PK_MeadFamily
-		PRIMARY KEY IDENTITY
-	,MeadFamily NVARCHAR(255) NOT NULL
-	)
-
 CREATE TABLE ref.MeadType(
 	MeadTypeID INT NOT NULL
 		CONSTRAINT PK_MeadType
 		PRIMARY KEY IDENTITY
 	,MeadType NVARCHAR(255) NOT NULL
-	,MeadFamilyID INT NOT NULL
-		CONSTRAINT FK_MeadFamily_MeadFamilyID
-		REFERENCES ref.MeadFamily(MeadFamilyID)
 	)
 
 CREATE TABLE dbo.Meadery(
@@ -44,6 +34,15 @@ CREATE TABLE dbo.Mead(
 	,HoneyWine BIT
 		CONSTRAINT DF_Mead_HoneyWine
 		DEFAULT 0
+	,MeaderyID INT NOT NULL
+		CONSTRAINT FK_Mead_MeaderyID
+		REFERENCES dbo.Meadery(MeaderyID)
+	,CreatedBy INT NOT NULL
+		CONSTRAINT FK_Mead_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_Mead_CreatedDate
+		DEFAULT GETDATE()
 	)
 
 /*
@@ -51,6 +50,5 @@ CREATE TABLE dbo.Mead(
 DROP TABLE dbo.Mead
 DROP TABLE dbo.Meadery
 DROP TABLE ref.MeadType
-DROP TABLE ref.MeadFamily
 
 */

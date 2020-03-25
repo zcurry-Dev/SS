@@ -5,41 +5,65 @@ CREATE TABLE ref.ArtistType(
 	ArtistTypeID INT NOT NULL
 		CONSTRAINT PK_ArtistType
 		PRIMARY KEY IDENTITY
-	,ArtistType NVARCHAR(255)	
-	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_ArtistType_CreatedBy
-		REFERENCES hr.Employee(EmployeeID)
+	,ArtistType NVARCHAR(255)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_ArtistType_CreatedDate
 		DEFAULT GETDATE()
 	)
 
+INSERT INTO ref.ArtistType
+VALUES
+('ArtistType1', GETDATE())
+,('ArtistType2', GETDATE())
+
 CREATE TABLE ref.ArtistStatus(
 	ArtistStatusID INT NOT NULL
 		CONSTRAINT PK_ArtistStatus
 		PRIMARY KEY IDENTITY
-	,ArtistStatus NVARCHAR(255)		
-	,CreatedBy INT NOT NULL
-		CONSTRAINT FK_ArtistStatus_CreatedBy
-		REFERENCES hr.Employee(EmployeeID)
+	,ArtistStatus NVARCHAR(255)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_ArtistStatus_CreatedDate
 		DEFAULT GETDATE()
 	)
+
+INSERT INTO ref.ArtistStatus
+VALUES
+('Active', GETDATE())
+,('Inactive', GETDATE())
 
 CREATE TABLE dbo.Artist(
 	ArtistID INT NOT NULL
 		CONSTRAINT PK_Artist
 		PRIMARY KEY IDENTITY
 	,ArtistName NVARCHAR(255)
-	--,ArtistStatusID INT
-	--	CONSTRAINT FK_Artist_ArtistStatusID
-	--	REFERENCES ref.ArtistStatus(ArtistStatusID)
+	,ArtistStatusID INT
+		CONSTRAINT FK_Artist_ArtistStatusID
+		REFERENCES ref.ArtistStatus(ArtistStatusID)
 	,CareerBeginDate DATETIME NOT NULL
+	,CreatedBy INT NOT NULL
+		CONSTRAINT FK_Artist_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Artist_CreatedDate
 		DEFAULT GETDATE()
 	)
+
+CREATE TABLE dbo.ArtistPhoto(	
+	ArtistPhotoID INT NOT NULL
+		CONSTRAINT PK_ArtistPhoto
+		PRIMARY KEY IDENTITY
+	,ArtistID INT NOT NULL
+		CONSTRAINT FK_ArtistPhoto_ArtistID
+		REFERENCES dbo.Artist(ArtistID)
+	,PhotoURL NVARCHAR(255) NOT NULL
+	,PhotoDescription NVARCHAR(255) NOT NULL
+	,DateAdded DATETIME NOT NULL
+		CONSTRAINT DF_ArtistPhoto_DateAdded
+		DEFAULT GETDATE()
+	,IsMain BIT NOT NULL
+		CONSTRAINT DF_ArtistPhoto_IsMain
+		DEFAULT 0
+)
 
 CREATE TABLE dbo.ArtistTypeXRef(
 	ArtistTypeXRefID INT NOT NULL
@@ -65,6 +89,9 @@ CREATE TABLE dbo.ArtistGroupMember(
 		REFERENCES ref.ArtistType(ArtistTypeID)
 	,JoinDate DATETIME NOT NULL
 	,LeaveDate DATETIME NULL
+	,CreatedBy INT NOT NULL
+		CONSTRAINT FK_ArtistGroupMember_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_ArtistGroupMember_CreatedDate
 		DEFAULT GETDATE()
@@ -113,6 +140,7 @@ DROP TABLE dbo.ArtistGroupMemberRolesXRef
 DROP TABLE ref.ArtistGroupMemberRole
 DROP TABLE dbo.ArtistGroupMember
 DROP TABLE dbo.ArtistTypeXRef
+DROP TABLE dbo.ArtistPhoto
 DROP TABLE dbo.Artist
 DROP TABLE ref.ArtistStatus
 DROP TABLE ref.ArtistType

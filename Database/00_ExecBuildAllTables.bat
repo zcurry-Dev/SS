@@ -7,6 +7,7 @@ sqlcmd -d SceneSwarm01 -i 06_CreateEventTables.sql
 sqlcmd -d SceneSwarm01 -i 07_CreateArtistTables.sql
 sqlcmd -d SceneSwarm01 -i 08_CreateBeerTables.sql
 sqlcmd -d SceneSwarm01 -i 09_CreateWineTables.sql
-sqlcmd -d SceneSwarm01 -i 10_CreateSpiritTables.sql
+sqlcmd -d SceneSwarm01 -i 10_CreateLiquorTables.sql
 sqlcmd -d SceneSwarm01 -i 11_CreateCiderTables.sql
 sqlcmd -d SceneSwarm01 -i 12_CreateMeadTables.sql
+sqlcmd -d SceneSwarm01 -i 13_CreateSeltzerTables.sql

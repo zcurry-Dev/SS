@@ -13,9 +13,6 @@ CREATE TABLE dbo.SSAddress(
 	,ZipCodeID INT NOT NULL
 		CONSTRAINT FK_Address_ZipCodeID
 		REFERENCES const.ZipCode(ZipCodeID)
-	,StateID INT NOT NULL
-		CONSTRAINT FK_Address_StateID
-		REFERENCES const.USState(StateID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Address_CreatedDate
 		DEFAULT GETDATE()
@@ -23,8 +20,8 @@ CREATE TABLE dbo.SSAddress(
 
 INSERT INTO dbo.SSAddress
 VALUES
-('7500 S I35', 'Apt 542', 1, 1, 43, GETDATE())
-
+('7500 S I35', 'Apt 542', 1, 1, GETDATE())
+,('450 Thornless Circle', null, 2, 54, GETDATE())
 
 CREATE TABLE ref.VenueType(
 	VenueTypeID INT NOT NULL
@@ -32,8 +29,8 @@ CREATE TABLE ref.VenueType(
 		PRIMARY KEY IDENTITY
 	,VenueType NVARCHAR(255)
 	,CreatedBy INT NOT NULL
-		--CONSTRAINT FK_VenueType_CreatedBy
-		--REFERENCES hr.Employee(EmployeeID)
+		CONSTRAINT FK_VenueType_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_VenueType_CreatedDate
 		DEFAULT GETDATE()
@@ -44,9 +41,6 @@ VALUES
 ('Concert Venue', 1, GETDATE())
 ,('Bar', 1, GETDATE())
 ,('House Show', 1, GETDATE())
-,('Pavilion', 1, GETDATE())
-
-
 
 CREATE TABLE dbo.Venue(
 	VenueID INT NOT NULL
@@ -92,7 +86,6 @@ CREATE TABLE dbo.VenueHoursOpen(
 	,HourOpen TIME NOT NULL
 	,HourClose TIME NOT NULL
 	)
-
 
 /*
 

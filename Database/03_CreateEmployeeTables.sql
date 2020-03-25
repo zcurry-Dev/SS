@@ -27,6 +27,12 @@ CREATE TABLE refHR.EmployeeTitle(
 		DEFAULT GETDATE()
 )
 
+INSERT INTO refHR.EmployeeTitle
+VALUES
+('President', GETDATE())
+,('Director', GETDATE())
+,('CSR', GETDATE())
+
 CREATE TABLE hr.Employee(
 	EmployeeID INT NOT NULL
 		CONSTRAINT PK_Employee
@@ -34,6 +40,10 @@ CREATE TABLE hr.Employee(
 	,FirstName NVARCHAR(255)
 	,LastName NVARCHAR(255)
 )
+
+INSERT INTO hr.Employee
+VALUES
+('Zachary', 'Curry')
 
 CREATE TABLE hr.EmployeeRecord(
 	EmployeeRecordID  INT NOT NULL
@@ -57,6 +67,10 @@ CREATE TABLE hr.EmployeeRecord(
 		CONSTRAINT DF_EmployeeRecord_CreatedDate
 		DEFAULT GETDATE()
 )
+
+INSERT INTO hr.EmployeeRecord
+VALUES
+(1, 1, GETDATE(), 1, 0, null, GETDATE());
 
 /*
 

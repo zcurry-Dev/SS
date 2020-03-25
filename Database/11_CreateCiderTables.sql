@@ -1,26 +1,39 @@
 --
 USE SceneSwarm01
 
-CREATE TABLE ref.CiderFamily(
-	CiderFamilyID INT NOT NULL
-		CONSTRAINT PK_CiderFamilies
-		PRIMARY KEY IDENTITY
-	,CiderFamily NVARCHAR(255) NOT NULL
-	)
-
 CREATE TABLE ref.CiderType(
 	CiderTypeID INT NOT NULL
 		CONSTRAINT PK_CiderType
 		PRIMARY KEY IDENTITY
 	,CiderType NVARCHAR(255) NOT NULL
-	,CiderFamilyID INT NOT NULL
-		CONSTRAINT FK_CiderType_CiderFamilyID
-		REFERENCES ref.CiderFamily(CiderFamilyID)
 	)
+
+INSERT INTO ref.CiderType
+VALUES
+('Dry')
+,('Off-Dry')
+,('Semi-Dry')
+
+CREATE TABLE ref.CiderFlavor(
+	CiderFlavorID INT NOT NULL
+		CONSTRAINT PK_CiderFlavor
+		PRIMARY KEY IDENTITY
+	,CiderFlavor NVARCHAR(255) NOT NULL
+	)
+
+INSERT INTO ref.CiderFlavor
+VALUES
+('Apple')
+,('Pear')
+,('Rosé')
+,('Blood Orange')
+,('Black Cherry')
+,('Peach')
+,('Watermelon')
 
 CREATE TABLE dbo.Cidery(
 	CideryID INT NOT NULL
-		CONSTRAINT PK_Ciderie
+		CONSTRAINT PK_Cidery
 		PRIMARY KEY IDENTITY
 	,CideryName NVARCHAR(255) NOT NULL
 	,AddressID INT NOT NULL
@@ -31,6 +44,12 @@ CREATE TABLE dbo.Cidery(
 		REFERENCES dbo.Venue(VenueID)
 	,OpeningDate DATETIME NOT NULL
 	,ClosingDate DATETIME
+	,CreatedBy INT NOT NULL
+		CONSTRAINT FK_Cidery_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_Cidery_CreatedDate
+		DEFAULT GETDATE()
 	)
 
 CREATE TABLE dbo.Cider(
@@ -41,13 +60,25 @@ CREATE TABLE dbo.Cider(
 	,CiderTypeID INT NOT NULL
 		CONSTRAINT FK_Cider_CiderTypeID
 		REFERENCES ref.CiderType(CiderTypeID)
+	,CiderFlavorID INT NOT NULL
+		CONSTRAINT FK_Cider_CiderFlavorID
+		REFERENCES ref.CiderFlavor(CiderFlavorID)
+	,CideryID INT NOT NULL
+		CONSTRAINT FK_Cider_CideryID
+		REFERENCES dbo.Cidery(CideryID)
+	,CreatedBy INT NOT NULL
+		CONSTRAINT FK_Cider_CreatedBy
+		REFERENCES UserSS.SSUser(UserID)
+	,CreatedDate DATETIME NOT NULL
+		CONSTRAINT DF_Cider_CreatedDate
+		DEFAULT GETDATE()
 	)
 
 /*
 
 DROP TABLE dbo.Cider
 DROP TABLE dbo.Cidery
+DROP TABLE ref.CiderFlavor
 DROP TABLE ref.CiderType
-DROP TABLE ref.CiderFamily
 
 */
