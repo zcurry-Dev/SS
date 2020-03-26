@@ -148,16 +148,23 @@ namespace SS.API.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
                 entity.HasOne(d => d.ArtistStatus)
                     .WithMany(p => p.Artist)
                     .HasForeignKey(d => d.ArtistStatusId)
                     .HasConstraintName("FK_Artist_ArtistStatusID");
 
                 entity.HasOne(d => d.CreatedByNavigation)
-                    .WithMany(p => p.Artist)
+                    .WithMany(p => p.ArtistCreatedByNavigation)
                     .HasForeignKey(d => d.CreatedBy)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Artist_CreatedBy");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.ArtistUser)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK_Artist_UserID");
             });
 
             modelBuilder.Entity<ArtistGroupMember>(entity =>

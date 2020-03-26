@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 
 namespace SS.API.Helpers
@@ -9,6 +10,14 @@ namespace SS.API.Helpers
             response.Headers.Add("Application-Error", message);
             response.Headers.Add("Access-Control-Expose-Headers", "Application-Error");
             response.Headers.Add("Access-Control-Allow-Origin", "*");
+        }
+
+        public static int CalculateArtistYearsActive(this DateTime theDateTime)
+        {
+            var yearsActive = DateTime.Today.Year - theDateTime.Year;
+            if (theDateTime.AddYears(yearsActive) > DateTime.Today) { yearsActive--; }
+
+            return yearsActive;
         }
     }
 }

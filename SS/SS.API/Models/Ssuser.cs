@@ -7,9 +7,10 @@ namespace SS.API.Models
     {
         public Ssuser()
         {
-            Artist = new HashSet<Artist>();
+            ArtistCreatedByNavigation = new HashSet<Artist>();
             ArtistGroupMember = new HashSet<ArtistGroupMember>();
             ArtistGroupMemberRole = new HashSet<ArtistGroupMemberRole>();
+            ArtistUser = new HashSet<Artist>();
             Beer = new HashSet<Beer>();
             Brewery = new HashSet<Brewery>();
             Cider = new HashSet<Cider>();
@@ -43,9 +44,10 @@ namespace SS.API.Models
         public byte[] PwSalt { get; set; }
 
         public virtual UserStatus UserStatus { get; set; }
-        public virtual ICollection<Artist> Artist { get; set; }
+        public virtual ICollection<Artist> ArtistCreatedByNavigation { get; set; }
         public virtual ICollection<ArtistGroupMember> ArtistGroupMember { get; set; }
         public virtual ICollection<ArtistGroupMemberRole> ArtistGroupMemberRole { get; set; }
+        public virtual ICollection<Artist> ArtistUser { get; set; }
         public virtual ICollection<Beer> Beer { get; set; }
         public virtual ICollection<Brewery> Brewery { get; set; }
         public virtual ICollection<Cider> Cider { get; set; }

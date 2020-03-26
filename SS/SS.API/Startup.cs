@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using SS.API.Helpers;
 using System.Text;
+using AutoMapper;
 
 namespace SS.API
 {
@@ -36,9 +37,11 @@ namespace SS.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
+            services.AddAutoMapper(typeof(ArtistRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -56,27 +59,27 @@ namespace SS.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            // if (env.IsDevelopment())
-            // {
-            //     app.UseDeveloperExceptionPage();
-            // }
-            // else
-            // {
-            app.UseExceptionHandler(builder =>
+            if (env.IsDevelopment())
             {
-                builder.Run(async context =>
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(builder =>
                 {
-                    context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-                    var error = context.Features.Get<IExceptionHandlerFeature>();
-                    if (error != null)
+                    builder.Run(async context =>
                     {
-                        context.Response.AddApplicationError(error.Error.Message);
-                        await context.Response.WriteAsync(error.Error.Message);
-                    }
+                        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+                        var error = context.Features.Get<IExceptionHandlerFeature>();
+                        if (error != null)
+                        {
+                            context.Response.AddApplicationError(error.Error.Message);
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
                 });
-            });
-            // }
+            }
 
             //app.UseHttpsRedirection();
 

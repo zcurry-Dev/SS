@@ -40,8 +40,10 @@ namespace SS.API.Controllers
                 FirstName = "",
                 LastName = "",
                 Email = "",
+                DisplayName = "",
                 UserStatusId = 1,
                 CreatedDate = DateTime.UtcNow,
+                LastActive = DateTime.UtcNow,
                 PwHash = null,
                 PwSalt = null
             };

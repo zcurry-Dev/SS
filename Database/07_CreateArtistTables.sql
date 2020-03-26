@@ -40,6 +40,15 @@ CREATE TABLE dbo.Artist(
 		CONSTRAINT FK_Artist_ArtistStatusID
 		REFERENCES ref.ArtistStatus(ArtistStatusID)
 	,CareerBeginDate DATETIME NOT NULL
+	,Solo BIT NOT NULL
+		CONSTRAINT DF_Artist_Solo
+		DEFAULT 0
+	,UserID INT NULL
+		CONSTRAINT FK_Artist_UserID
+		REFERENCES UserSS.SSUser(UserID)
+	,Verified BIT NOT NULL
+		CONSTRAINT DF_Artist_Verified
+		DEFAULT 0
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Artist_CreatedBy
 		REFERENCES UserSS.SSUser(UserID)
@@ -47,6 +56,15 @@ CREATE TABLE dbo.Artist(
 		CONSTRAINT DF_Artist_CreatedDate
 		DEFAULT GETDATE()
 	)
+
+INSERT INTO dbo.Artist
+VALUES
+('Test Artist1', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
+,('Test Artist2', 1, GETDATE(), 0, 2, 1, 1, GETDATE())
+,('Test Artist3', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
+,('Test Artist4', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
+,('Test Artist5', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
+
 
 CREATE TABLE dbo.ArtistPhoto(	
 	ArtistPhotoID INT NOT NULL
@@ -64,6 +82,13 @@ CREATE TABLE dbo.ArtistPhoto(
 		CONSTRAINT DF_ArtistPhoto_IsMain
 		DEFAULT 0
 )
+
+INSERT INTO dbo.ArtistPhoto
+VALUES
+(1, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
+,(2, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
+,(3, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
+,(4, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
 
 CREATE TABLE dbo.ArtistTypeXRef(
 	ArtistTypeXRefID INT NOT NULL
