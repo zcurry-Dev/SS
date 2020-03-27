@@ -1,0 +1,54 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img
+          class="card-img-top img-thumbnail"
+          src="{{ artist.photoUrl }}"
+          alt="{{ artist.artistName }}"
+        />
+        <div class="card-body">
+          <strong>Solo/Status:</strong>
+          <p>{{ artist.solo }}, {{ artist.statusId }}</p>
+        </div>
+        <div class="card-body">
+          <strong>Years Active:</strong>
+          <p>{{ artist.yearsActive }}</p>
+        </div>
+        <div class="card-body">
+          <strong>Verified:</strong>
+          <p>{{ artist.verified }}</p>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="btn-group d-flex">
+          <button class="btn btn-primary w-100">Like</button>
+          <button class="btn btn-success w-100">Message</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <tabset class="artist-tabset  ">
+          <tab heading="About {{ artist.artistName }}">
+            <h4>Description</h4>
+            <p>{{ artist.createdBy }}</p>
+            <h4>Looking For</h4>
+            <p>{{ artist.yearsActive }}</p>
+          </tab>
+          <tab heading="Interests">
+            <h4>Interests</h4>
+            <p>{{ artist.artistName }}</p>
+          </tab>
+          <tab heading="Photos">
+            <ngx-gallery
+              [options]="galleryOptions"
+              [images]="galleryImages"
+              class="ngx-gallery"
+            ></ngx-gallery>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>

@@ -49,6 +49,12 @@ CREATE TABLE dbo.Artist(
 	,Verified BIT NOT NULL
 		CONSTRAINT DF_Artist_Verified
 		DEFAULT 0
+	,HomeCity INT NULL
+		CONSTRAINT FK_Artist_HomeCity
+		REFERENCES const.City(CityID)
+	,CurrentCity INT NULL
+		CONSTRAINT FK_Artist_CurrentCity
+		REFERENCES const.City(CityID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Artist_CreatedBy
 		REFERENCES UserSS.SSUser(UserID)
