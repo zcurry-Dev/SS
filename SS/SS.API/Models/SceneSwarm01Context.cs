@@ -1,16 +1,19 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Configuration;
-using SS.API.Models;
 
-namespace SS.API.Data
+namespace SS.API.Models
 {
-    public partial class DataContext : DbContext
+    public partial class SceneSwarm01Context : DbContext
     {
-        public DataContext() { }
+        public SceneSwarm01Context()
+        {
+        }
 
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public SceneSwarm01Context(DbContextOptions<SceneSwarm01Context> options)
+            : base(options)
+        {
+        }
 
         public virtual DbSet<AdminRole> AdminRole { get; set; }
         public virtual DbSet<AdminRolesXref> AdminRolesXref { get; set; }
@@ -71,12 +74,12 @@ namespace SS.API.Data
         public virtual DbSet<Winery> Winery { get; set; }
         public virtual DbSet<ZipCode> ZipCode { get; set; }
 
-        private readonly IConfiguration _config;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=.;Database=SceneSwarm01;Trusted_Connection=True;");
             }
         }
 

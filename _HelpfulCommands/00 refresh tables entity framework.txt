@@ -28,12 +28,12 @@ dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=
 //
 ////
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _config;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             }
         }
 
