@@ -33,22 +33,41 @@
     <div class="col-sm-8">
       <div class="tab-panel">
         <tabset class="artist-tabset  ">
-          <tab heading="About {{ artist.name }}">
-            <h4>Current City</h4>
-            <p>{{ artist.currentCity }}</p>
-            <h4>Home City</h4>
-            <p>{{ artist.yearsActive }}</p>
+          <tab heading="Edit Artist Details">
+            <form>
+              <h4>Description</h4>
+              <textarea
+                name="Introduction"
+                rows="6"
+                [(ngModel)]="artist.name"
+              ></textarea>
+              <h4>Looking For</h4>
+              <textarea
+                name="LookingFor"
+                rows="6"
+                [(ngModel)]="artist.yearsActive"
+              ></textarea>
+              <h4>Location Details:</h4>
+              <div class="form inline">
+                <label for="currentCity">Current City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="city"
+                  [(ngModel)]="artist.currentCity"
+                />
+                <label for="homeCity">Home City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="city"
+                  [(ngModel)]="artist.homeCity"
+                />
+              </div>
+            </form>
           </tab>
-          <tab heading="Work">
-            <h4>Albums and more to go here</h4>
-            <p>{{ artist.name }}</p>
-          </tab>
-          <tab heading="Photos">
-            <ngx-gallery
-              [options]="galleryOptions"
-              [images]="galleryImages"
-              class="ngx-gallery"
-            ></ngx-gallery>
+          <tab heading="Edit Photos">
+            <p>TBD</p>
           </tab>
         </tabset>
       </div>

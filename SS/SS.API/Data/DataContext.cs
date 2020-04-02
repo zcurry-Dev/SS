@@ -162,6 +162,16 @@ namespace SS.API.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Artist_CreatedBy");
 
+                entity.HasOne(d => d.CurrentCityNavigation)
+                    .WithMany(p => p.ArtistCurrentCityNavigation)
+                    .HasForeignKey(d => d.CurrentCity)
+                    .HasConstraintName("FK_Artist_CurrentCity");
+
+                entity.HasOne(d => d.HomeCityNavigation)
+                    .WithMany(p => p.ArtistHomeCityNavigation)
+                    .HasForeignKey(d => d.HomeCity)
+                    .HasConstraintName("FK_Artist_HomeCity");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ArtistUser)
                     .HasForeignKey(d => d.UserId)

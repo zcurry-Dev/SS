@@ -19,3 +19,22 @@ dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=
 //Refresh // Force
 dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -f
 
+
+
+
+
+////
+//
+//
+////
+
+        public IConfiguration Configuration { get; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            }
+        }
+
+

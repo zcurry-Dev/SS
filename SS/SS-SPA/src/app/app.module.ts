@@ -25,6 +25,8 @@ import { AuthGuard } from './_guards/auth.guard';
 import { ArtistService } from './_services/artist.service';
 import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
 import { ArtistListResolver } from './_resolver/artist-list.resolver';
+import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
+import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -40,7 +42,8 @@ export function tokenGetter() {
     BeersComponent,
     ArtistListComponent,
     ArtistCardComponent,
-    ArtistDetailComponent
+    ArtistDetailComponent,
+    ArtistEditComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ export function tokenGetter() {
     AuthGuard,
     ArtistService,
     ArtistDetailResolver,
-    ArtistListResolver
+    ArtistListResolver,
+    ArtistEditResolver
   ],
   bootstrap: [AppComponent]
 })

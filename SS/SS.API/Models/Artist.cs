@@ -18,11 +18,15 @@ namespace SS.API.Models
         public bool Solo { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
+        public int? HomeCity { get; set; }
+        public int? CurrentCity { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public virtual ArtistStatus ArtistStatus { get; set; }
         public virtual Ssuser CreatedByNavigation { get; set; }
+        public virtual City CurrentCityNavigation { get; set; }
+        public virtual City HomeCityNavigation { get; set; }
         public virtual Ssuser User { get; set; }
         public virtual ICollection<ArtistPhoto> ArtistPhoto { get; set; }
         public virtual ICollection<ArtistTypeXref> ArtistTypeXref { get; set; }

@@ -14,7 +14,8 @@ namespace SS.API.Helpers
 
         public static int CalculateArtistYearsActive(this DateTime theDateTime)
         {
-            var yearsActive = DateTime.Today.Year - theDateTime.Year;
+            // var yearsActive = DateTime.Today.Year - theDateTime.Year;
+            var yearsActive = DateTime.Today.Year - theDateTime.Year + 1;
             if (theDateTime.AddYears(yearsActive) > DateTime.Today) { yearsActive--; }
 
             return yearsActive;

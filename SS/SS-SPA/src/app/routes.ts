@@ -7,6 +7,8 @@ import { ArtistListComponent } from './artist/artist-list/artist-list.component'
 import { ArtistDetailComponent } from './artist/artist-detail/artist-detail.component';
 import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
 import { ArtistListResolver } from './_resolver/artist-list.resolver';
+import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
+import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +21,11 @@ export const appRoutes: Routes = [
         path: 'artists',
         component: ArtistListComponent,
         resolve: { artists: ArtistListResolver }
+      },
+      {
+        path: 'artists/edit/:id',
+        component: ArtistEditComponent,
+        resolve: { artist: ArtistEditResolver }
       },
       {
         path: 'artists/:id',

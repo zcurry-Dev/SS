@@ -65,11 +65,11 @@ CREATE TABLE dbo.Artist(
 
 INSERT INTO dbo.Artist
 VALUES
-('Test Artist1', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
-,('Test Artist2', 1, GETDATE(), 0, 2, 1, 1, GETDATE())
-,('Test Artist3', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
-,('Test Artist4', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
-,('Test Artist5', 1, GETDATE(), 1, 2, 1, 1, GETDATE())
+('Test Artist1', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
+,('Test Artist2', 1, GETDATE(), 0, 2, 1, 1, 1, 1, GETDATE())
+,('Test Artist3', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
+,('Test Artist4', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
+,('Test Artist5', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
 
 
 CREATE TABLE dbo.ArtistPhoto(	
@@ -92,9 +92,15 @@ CREATE TABLE dbo.ArtistPhoto(
 INSERT INTO dbo.ArtistPhoto
 VALUES
 (1, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
-,(2, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
-,(3, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
-,(4, 'https://randomuser.me/api/portraits/men/23.jpg', 'Rocker1', GETDATE(), 1)
+,(2, 'https://randomuser.me/api/portraits/men/24.jpg', 'Rocker2', GETDATE(), 1)
+,(3, 'https://randomuser.me/api/portraits/men/25.jpg', 'Rocker3', GETDATE(), 1)
+,(4, 'https://randomuser.me/api/portraits/men/26.jpg', 'Rocker4', GETDATE(), 1)
+,(5, 'https://randomuser.me/api/portraits/men/27.jpg', 'Rocker5', GETDATE(), 1)
+,(1, 'https://randomuser.me/api/portraits/men/28.jpg', 'Rocker1', GETDATE(), 1)
+,(2, 'https://randomuser.me/api/portraits/men/29.jpg', 'Rocker2', GETDATE(), 1)
+,(3, 'https://randomuser.me/api/portraits/men/30.jpg', 'Rocker3', GETDATE(), 1)
+,(4, 'https://randomuser.me/api/portraits/men/31.jpg', 'Rocker4', GETDATE(), 1)
+,(5, 'https://randomuser.me/api/portraits/men/32.jpg', 'Rocker5', GETDATE(), 1)
 
 CREATE TABLE dbo.ArtistTypeXRef(
 	ArtistTypeXRefID INT NOT NULL
