@@ -1,13 +1,13 @@
-using System.Linq;
-using AutoMapper;
 using SS.API.Dtos;
 using SS.API.Models;
+using AutoMapper;
+using System.Linq;
 
-namespace SS.API.Helpers
+namespace SS.API.Helpers.MapperProfiles
 {
-    public class AutoMapperProfiles : Profile
+    public class ArtistProfile : Profile
     {
-        public AutoMapperProfiles()
+        public ArtistProfile()
         {
             CreateMap<Artist, ArtistForListDto>()
                 .ForMember(dest => dest.Id, opt =>
@@ -29,7 +29,6 @@ namespace SS.API.Helpers
                     opt.MapFrom(src => src.ArtistPhoto))
                 .ForMember(dest => dest.YearsActive, opt =>
                     opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()));
-            CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>();
         }
     }
 }

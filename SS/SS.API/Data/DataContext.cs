@@ -72,12 +72,12 @@ namespace SS.API.Data
         public virtual DbSet<Winery> Winery { get; set; }
         public virtual DbSet<ZipCode> ZipCode { get; set; }
 
-        public IConfiguration Configuration { get; }
+        private readonly IConfiguration _config;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                optionsBuilder.UseSqlServer(_config.GetConnectionString("DefaultConnection"));
             }
         }
 

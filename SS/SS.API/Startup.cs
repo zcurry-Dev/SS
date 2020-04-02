@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Http;
 using SS.API.Helpers;
 using System.Text;
 using AutoMapper;
+using SS.API.Helpers.MapperProfiles;
 
 namespace SS.API
 {
@@ -39,9 +40,19 @@ namespace SS.API
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
-            services.AddAutoMapper(typeof(ArtistRepository).Assembly);
+
+            //AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new ArtistProfile());
+                mc.AddProfile(new ArtistPhotoProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
