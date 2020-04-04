@@ -1,6 +1,17 @@
 <div class="container mt-4">
-  <div>
-    <h1>{{ artist.name }}</h1>
+  <div class="row">
+    <div class="col-sm-4">
+      <h1>
+        {{ artist.name }}
+        <strong>Verified: {{ artist.verified }}</strong>
+      </h1>
+    </div>
+    <div class="col-sm-8">
+      <div *ngIf="editForm.dirty" class="alert alert-info">
+        <strong>Information:</strong> You have made changes. Any unsaved changes
+        will be lost!
+      </div>
+    </div>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -18,23 +29,22 @@
           <strong>Years Active:</strong>
           <p>{{ artist.yearsActive }}</p>
         </div>
-        <div class="card-body">
-          <strong>Verified:</strong>
-          <p>{{ artist.verified }}</p>
-        </div>
       </div>
       <div class="card-footer">
-        <div class="btn-group d-flex">
-          <button class="btn btn-primary w-100">Follow/UnFollow</button>
-          <button class="btn btn-success w-100">Message</button>
-        </div>
+        <button
+          [disabled]="!editForm.dirty"
+          form="editForm"
+          class="btn btn-success btn-block"
+        >
+          Save Changes
+        </button>
       </div>
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
         <tabset class="artist-tabset  ">
           <tab heading="Edit Artist Details">
-            <form>
+            <form #editForm="ngForm" id="editForm" (ngSubmit)="updateArtist()">
               <h4>Description</h4>
               <textarea
                 name="Introduction"

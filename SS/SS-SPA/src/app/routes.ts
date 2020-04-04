@@ -9,6 +9,7 @@ import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
 import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
 import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 export const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,7 +26,8 @@ export const appRoutes: Routes = [
       {
         path: 'artists/edit/:id',
         component: ArtistEditComponent,
-        resolve: { artist: ArtistEditResolver }
+        resolve: { artist: ArtistEditResolver },
+        canDeactivate: [PreventUnsavedChanges]
       },
       {
         path: 'artists/:id',

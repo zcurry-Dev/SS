@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +39,26 @@ namespace SS.API.Controllers
             var artistToReturn = _mapper.Map<ArtistForDetailedDto>(artist);
 
             return Ok(artistToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateArtist(int id, ArtistForUpdateDto artistForUpdateDto)
+        {
+            // if updating logged in user logic, swap artist and user
+            // if (id != int.Parse(Artist.FindFirst(ClaimTypes.NameIdentifier).Vale)) {
+            //     return Unauthorized();
+            // }
+
+            var artistFromRepo = await _repo.GetArtist(id);
+
+            _mapper.Map(artistForUpdateDto, artistFromRepo);
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+
+            throw new Exception($"Updating user {id} failed on save");
         }
     }
 }

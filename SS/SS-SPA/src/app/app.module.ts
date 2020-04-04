@@ -27,6 +27,7 @@ import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
 import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
 import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -73,7 +74,8 @@ export function tokenGetter() {
     ArtistService,
     ArtistDetailResolver,
     ArtistListResolver,
-    ArtistEditResolver
+    ArtistEditResolver,
+    PreventUnsavedChanges
   ],
   bootstrap: [AppComponent]
 })

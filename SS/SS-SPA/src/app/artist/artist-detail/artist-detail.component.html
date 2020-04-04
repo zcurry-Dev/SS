@@ -1,6 +1,9 @@
 <div class="container mt-4">
-  <div>
-    <h1>{{ artist.name }}</h1>
+  <div class="row">
+    <h1>
+      {{ artist.name }}
+      <strong>Verified: {{ artist.verified }}</strong>
+    </h1>
   </div>
   <div class="row">
     <div class="col-sm-4">
@@ -17,10 +20,6 @@
         <div class="card-body">
           <strong>Years Active:</strong>
           <p>{{ artist.yearsActive }}</p>
-        </div>
-        <div class="card-body">
-          <strong>Verified:</strong>
-          <p>{{ artist.verified }}</p>
         </div>
       </div>
       <div class="card-footer">
@@ -39,7 +38,7 @@
             <h4>Home City</h4>
             <p>{{ artist.yearsActive }}</p>
           </tab>
-          <tab heading="Work">
+          <tab heading="Work/Albums and more">
             <h4>Albums and more to go here</h4>
             <p>{{ artist.name }}</p>
           </tab>

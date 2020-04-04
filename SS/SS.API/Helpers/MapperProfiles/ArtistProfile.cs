@@ -29,6 +29,9 @@ namespace SS.API.Helpers.MapperProfiles
                     opt.MapFrom(src => src.ArtistPhoto))
                 .ForMember(dest => dest.YearsActive, opt =>
                     opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()));
+            CreateMap<ArtistForUpdateDto, Artist>()
+                .ForMember(dest => dest.ArtistName, opt =>
+                    opt.MapFrom(src => src.Name));
         }
     }
 }

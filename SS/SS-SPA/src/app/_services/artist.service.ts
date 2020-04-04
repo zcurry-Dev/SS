@@ -19,4 +19,8 @@ export class ArtistService {
   getArtist(id): Observable<Artist> {
     return this.http.get<Artist>(this.baseUrl + 'artists/' + id);
   }
+
+  updateArtist(id: number, artist: Artist) {
+    return this.http.put(this.baseUrl + 'artists/' + id, artist);
+  }
 }
