@@ -17,7 +17,7 @@ export class ArtistEditResolver implements Resolve<Artist> {
   resolve(route: ActivatedRouteSnapshot): Observable<Artist> {
     return this.artistService.getArtist(route.params['id']).pipe(
       catchError(error => {
-        this.alertify.error("Problem retrieving a specific artist's data");
+        this.alertify.error('Problem retrieving a specific artist\'s data');
         this.router.navigate(['/artists']);
         return of(null);
       })
