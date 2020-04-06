@@ -29,9 +29,7 @@ export class ArtistEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
-      this.artist = data['artist'];
-    });
+    this.getArtist();
   }
 
   updateArtist() {
@@ -45,5 +43,11 @@ export class ArtistEditComponent implements OnInit {
         this.alertify.error(error);
       }
     );
+  }
+
+  private getArtist() {
+    this.route.data.subscribe(data => {
+      this.artist = data['artist'];
+    });
   }
 }

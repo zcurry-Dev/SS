@@ -45,15 +45,15 @@
         <tabset class="artist-tabset  ">
           <tab heading="Edit Artist Details">
             <form #editForm="ngForm" id="editForm" (ngSubmit)="updateArtist()">
-              <h4>Description</h4>
+              <h4>Artist Name</h4>
               <textarea
-                name="Introduction"
+                name="name"
                 rows="6"
                 [(ngModel)]="artist.name"
               ></textarea>
-              <h4>Looking For</h4>
+              <h4>Years Active</h4>
               <textarea
-                name="LookingFor"
+                name="yearsActive"
                 rows="6"
                 [(ngModel)]="artist.yearsActive"
               ></textarea>
