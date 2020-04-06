@@ -2,3 +2,4 @@
 /obj
 /appsettings.json
 /appsettings.Development.json
+/Models/SceneSwarm01Context.cs
