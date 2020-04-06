@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ArtistService } from '../../_services/artist.service';
-import { AlertifyService } from '../../_services/Alertify.service';
+import { ArtistService } from '../../_services/artist.service/artist.service';
+import { AlertifyService } from '../../_services/alertify.service/alertify.service';
 import { Artist } from '../../_models/artist';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 

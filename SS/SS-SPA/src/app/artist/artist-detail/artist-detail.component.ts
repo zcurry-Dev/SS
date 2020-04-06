@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
-import { ArtistService } from 'src/app/_services/artist.service';
-import { AlertifyService } from 'src/app/_services/Alertify.service';
+import { ArtistService } from 'src/app/_services/artist.service/artist.service';
+import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import {
   NgxGalleryOptions,

@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
 import { ActivatedRoute } from '@angular/router';
-import { AlertifyService } from 'src/app/_services/Alertify.service';
+import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
 import { NgForm } from '@angular/forms';
-import { ArtistService } from 'src/app/_services/artist.service';
-import { AuthService } from 'src/app/_services/auth.service';
+import { ArtistService } from 'src/app/_services/artist.service/artist.service';
+import { AuthService } from 'src/app/_services/auth.service/auth.service';
 
 @Component({
   selector: 'app-artist-edit',
@@ -35,7 +35,6 @@ export class ArtistEditComponent implements OnInit {
   }
 
   updateArtist() {
-    console.log(this.artist);
     // this.artistService.updateArtist(this.authService.decodedToken.nameid, this.artist);
     this.artistService.updateArtist(this.artist.id, this.artist).subscribe(
       next => {
