@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
+import { SafePipe } from './_pipes/safe.pipe';
+
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service/auth.service';
@@ -44,7 +46,8 @@ export function tokenGetter() {
     ArtistListComponent,
     ArtistCardComponent,
     ArtistDetailComponent,
-    ArtistEditComponent
+    ArtistEditComponent,
+    SafePipe,
   ],
   imports: [
     BrowserModule,
@@ -61,10 +64,10 @@ export function tokenGetter() {
         whitelistedDomains: ['localhost:5000', '192.168.1.25:700'],
         blacklistedRoutes: [
           'localhost:5000/api/auth',
-          '192.168.1.25:700/api/auth'
-        ]
-      }
-    })
+          '192.168.1.25:700/api/auth',
+        ],
+      },
+    }),
   ],
   providers: [
     AuthService,
@@ -75,8 +78,8 @@ export function tokenGetter() {
     ArtistDetailResolver,
     ArtistListResolver,
     ArtistEditResolver,
-    PreventUnsavedChanges
+    PreventUnsavedChanges,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

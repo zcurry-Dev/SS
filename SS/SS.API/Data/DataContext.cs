@@ -271,9 +271,8 @@ namespace SS.API.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.PhotoUrl)
+                entity.Property(e => e.PhotoPath)
                     .IsRequired()
-                    .HasColumnName("PhotoURL")
                     .HasMaxLength(255);
 
                 entity.HasOne(d => d.Artist)

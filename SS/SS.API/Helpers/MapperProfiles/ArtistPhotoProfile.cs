@@ -10,6 +10,8 @@ namespace SS.API.Helpers.MapperProfiles
         public ArtistPhotoProfile()
         {
             CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>();
+            CreateMap<ArtistPhoto, PhotoforReturnDto>();
+            CreateMap<PhotoForCreationDto, ArtistPhoto>();
         }
     }
 }

@@ -79,7 +79,7 @@ CREATE TABLE dbo.ArtistPhoto(
 	,ArtistID INT NOT NULL
 		CONSTRAINT FK_ArtistPhoto_ArtistID
 		REFERENCES dbo.Artist(ArtistID)
-	,PhotoURL NVARCHAR(255) NOT NULL
+	,PhotoPath NVARCHAR(255) NOT NULL
 	,PhotoDescription NVARCHAR(255) NOT NULL
 	,DateAdded DATETIME NOT NULL
 		CONSTRAINT DF_ArtistPhoto_DateAdded
@@ -96,11 +96,11 @@ VALUES
 ,(3, 'https://randomuser.me/api/portraits/men/25.jpg', 'Rocker3', GETDATE(), 1)
 ,(4, 'https://randomuser.me/api/portraits/men/26.jpg', 'Rocker4', GETDATE(), 1)
 ,(5, 'https://randomuser.me/api/portraits/men/27.jpg', 'Rocker5', GETDATE(), 1)
-,(1, 'https://randomuser.me/api/portraits/men/28.jpg', 'Rocker1', GETDATE(), 1)
-,(2, 'https://randomuser.me/api/portraits/men/29.jpg', 'Rocker2', GETDATE(), 1)
-,(3, 'https://randomuser.me/api/portraits/men/30.jpg', 'Rocker3', GETDATE(), 1)
-,(4, 'https://randomuser.me/api/portraits/men/31.jpg', 'Rocker4', GETDATE(), 1)
-,(5, 'https://randomuser.me/api/portraits/men/32.jpg', 'Rocker5', GETDATE(), 1)
+,(1, 'https://randomuser.me/api/portraits/men/28.jpg', 'Rocker1', GETDATE(), 0)
+,(2, 'https://randomuser.me/api/portraits/men/29.jpg', 'Rocker2', GETDATE(), 0)
+,(3, 'https://randomuser.me/api/portraits/men/30.jpg', 'Rocker3', GETDATE(), 0)
+,(4, 'https://randomuser.me/api/portraits/men/31.jpg', 'Rocker4', GETDATE(), 0)
+,(5, 'https://randomuser.me/api/portraits/men/32.jpg', 'Rocker5', GETDATE(), 0)
 
 CREATE TABLE dbo.ArtistTypeXRef(
 	ArtistTypeXRefID INT NOT NULL

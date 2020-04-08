@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using SS.API.Models;
 
@@ -11,5 +12,7 @@ namespace SS.API.Data
         Task<bool> SaveAll();
         Task<IEnumerable<Artist>> GetArtists();
         Task<Artist> GetArtist(int id);
+        Task<ArtistPhoto> GetPhoto(int id);
+        Task<FileStream> GetArtistPhoto();
     }
 }
