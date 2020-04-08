@@ -17,10 +17,6 @@ namespace SS.API.Dtos
         public bool Verified { get; set; }
         public string CurrentCity { get; set; }
         public string HomeCity { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string PhotoPath { get; set; }
-        public PhysicalFileResult PhotoFile { get; set; }
         public ICollection<ArtistPhotosForDetailedDto> Photos { get; set; }
     }
 }

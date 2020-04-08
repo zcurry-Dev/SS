@@ -45,9 +45,9 @@ namespace SS.API.Controllers
         public async Task<IActionResult> GetArtistPhoto(int id)
         {
             var artistPhoto = await _repo.GetArtistPhoto(id);
-            var file = await _repo.GetPhoto(id);
+            var file = await _repo.GetPhotoFile(id);
 
-            return File(file, "image/" + artistPhoto.PhotoFileMimeType, artistPhoto.PhotoFileName);
+            return File(file, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
         }
 
         [HttpPut("{id}")]

@@ -81,7 +81,7 @@ CREATE TABLE dbo.ArtistPhoto(
 		REFERENCES dbo.Artist(ArtistID)
 	,PhotoPath NVARCHAR(255) NOT NULL
 	,PhotoDescription NVARCHAR(255) NOT NULL
-	,PhotoFileMimeType NVARCHAR(255) NOT NULL
+	,PhotoFileContentType NVARCHAR(255) NOT NULL
 	,PhotoFileExt NVARCHAR(255) NOT NULL
 	,PhotoFileName NVARCHAR(255) NOT NULL
 	,DateAdded DATETIME NOT NULL
@@ -107,16 +107,16 @@ CREATE TABLE dbo.ArtistPhoto(
 
 INSERT INTO dbo.ArtistPhoto
 VALUES
-(1,  'uploadedFiles/artists/1/myArcher.jpg', 'Rocker1', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
-,(2, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker2', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
-,(3, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker3', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
-,(4, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker4', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
-,(5, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker5', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
-,(1, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker1', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
-,(2, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker2', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
-,(3, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker3', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
-,(4, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker4', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
-,(5, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker5', 'jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
+(1,  'uploadedFiles/artists/1/myArcher.jpg', 'Rocker1', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
+,(2, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker2', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
+,(3, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker3', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
+,(4, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker4', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
+,(5, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker5', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 1)
+,(1, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker1', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
+,(2, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker2', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
+,(3, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker3', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
+,(4, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker4', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
+,(5, 'uploadedFiles/artists/1/myArcher.jpg', 'Rocker5', 'image/jpeg', '.jpg', 'myArcher.jpg', GETDATE(), 0)
 
 CREATE TABLE dbo.ArtistTypeXRef(
 	ArtistTypeXRefID INT NOT NULL

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using SS.API.Dtos;
 using SS.API.Models;
 
 namespace SS.API.Data
@@ -13,8 +14,9 @@ namespace SS.API.Data
         Task<bool> SaveAll();
         Task<IEnumerable<Artist>> GetArtists();
         Task<Artist> GetArtist(int id);
-        Task<ArtistPhoto> GetPhoto2(int id);
+        Task<ArtistPhoto> GetPhoto(int id);
         Task<ArtistPhoto> GetArtistPhoto(int artistPhotoId);
-        Task<Byte[]> GetPhoto(int artistPhotoId);
+        Task<Byte[]> GetPhotoFile(int artistPhotoId);
+        Task<ArtistPhoto> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto);
     }
 }

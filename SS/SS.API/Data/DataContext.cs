@@ -276,11 +276,11 @@ namespace SS.API.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.PhotoFileExt)
+                entity.Property(e => e.PhotoFileContentType)
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.PhotoFileMimeType)
+                entity.Property(e => e.PhotoFileExt)
                     .IsRequired()
                     .HasMaxLength(255);
 
