@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using SS.API.Models;
 
 namespace SS.API.Dtos
@@ -18,7 +19,8 @@ namespace SS.API.Dtos
         public string HomeCity { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string PhotoUrl { get; set; }
+        public string PhotoPath { get; set; }
+        public PhysicalFileResult PhotoFile { get; set; }
         public ICollection<ArtistPhotosForDetailedDto> Photos { get; set; }
     }
 }

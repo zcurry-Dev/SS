@@ -6,13 +6,14 @@ import { ActivatedRoute } from '@angular/router';
 import {
   NgxGalleryOptions,
   NgxGalleryImage,
-  NgxGalleryAnimation
+  NgxGalleryAnimation,
 } from '@kolkov/ngx-gallery';
+import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-artist-detail',
   templateUrl: './artist-detail.component.html',
-  styleUrls: ['./artist-detail.component.css']
+  styleUrls: ['./artist-detail.component.css'],
 })
 export class ArtistDetailComponent implements OnInit {
   artist: Artist;
@@ -22,12 +23,15 @@ export class ArtistDetailComponent implements OnInit {
   constructor(
     private artistService: ArtistService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.artist = data['artist'];
+      this.artist.photoPath = '../uploadedImages/artists/1/myArcher.jpg';
+      console.log(this.artist.photoPath);
     });
 
     this.galleryOptions = [
@@ -37,20 +41,24 @@ export class ArtistDetailComponent implements OnInit {
         imagePercent: 100,
         thumbnailsColumns: 4,
         imageAnimation: NgxGalleryAnimation.Slide,
-        preview: false
-      }
+        preview: false,
+      },
     ];
     this.galleryImages = this.getImages();
+  }
+
+  getlink(): SafeUrl {
+    return this.sanitizer.bypassSecurityTrustUrl(this.artist.photoPath);
   }
 
   getImages() {
     const imageUrls = [];
     for (const photo of this.artist.photos) {
       imageUrls.push({
-        small: photo.photoUrl,
-        medium: photo.photoUrl,
-        big: photo.photoUrl,
-        description: photo.description
+        small: photo.photoPath,
+        medium: photo.photoPath,
+        big: photo.photoPath,
+        description: photo.description,
       });
     }
     return imageUrls;

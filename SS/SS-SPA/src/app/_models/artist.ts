@@ -10,7 +10,8 @@ export interface Artist {
   verified: boolean;
   currentCity: string;
   homeCity: string;
-  photoUrl: string;
+  photoPath: string;
+  photoFile: any;
 
   careerBeginDate: Date;
   createdBy: number;

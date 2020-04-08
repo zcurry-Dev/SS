@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using SS.API.Data;
 using SS.API.Dtos;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace SS.API.Controllers
 {
@@ -39,6 +45,28 @@ namespace SS.API.Controllers
             var artistToReturn = _mapper.Map<ArtistForDetailedDto>(artist);
 
             return Ok(artistToReturn);
+        }
+
+        [HttpGet]
+        [Route("GetArtistPhoto")]
+        public async Task<IActionResult> GetArtistPhoto(ArtistPhotoForReturnDto artistPhotoForReturnDto)
+        {
+            var artistPhoto = await _repo.GetArtistPhoto(artistPhotoForReturnDto.ArtistId, artistPhotoForReturnDto.PhotoId);
+            var file = await _repo.GetPhoto(artistPhoto);
+
+            var fileType = "jpeg";
+            var fileName = "fileName.jpg";
+
+            return File(file, "image/" + fileType, fileName);
+        }
+
+        [HttpGet]
+        [Route("test")]
+        public async Task<IActionResult> GetImageTest()
+        {
+            string fullPath = @"X:/uploadedImages/artists/1/myArcher.jpg";
+            var b = await System.IO.File.ReadAllBytesAsync(fullPath);
+            return File(b, "image/jpeg");
         }
 
         [HttpPut("{id}")]

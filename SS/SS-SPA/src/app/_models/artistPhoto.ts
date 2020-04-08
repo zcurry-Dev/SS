@@ -1,6 +1,6 @@
 export interface ArtistPhoto {
   id: number;
-  photoUrl: string;
+  photoPath: string;
   description: string;
   dateAdded: Date;
   isMain: boolean;

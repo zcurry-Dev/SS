@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -12,7 +13,8 @@ namespace SS.API.Data
         Task<bool> SaveAll();
         Task<IEnumerable<Artist>> GetArtists();
         Task<Artist> GetArtist(int id);
-        Task<ArtistPhoto> GetPhoto(int id);
-        Task<FileStream> GetArtistPhoto();
+        Task<ArtistPhoto> GetPhoto2(int id);
+        Task<ArtistPhoto> GetArtistPhoto(int artistId, int photoId);
+        Task<Byte[]> GetPhoto(ArtistPhoto artistPhoto);
     }
 }

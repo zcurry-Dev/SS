@@ -18,7 +18,7 @@
       <div class="card">
         <img
           class="card-img-top img-thumbnail"
-          src="{{ artist.photoUrl }}"
+          src="{{ artist.photoPath }}"
           alt="{{ artist.name }}"
         />
         <div class="card-body">
@@ -42,7 +42,7 @@
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-        <tabset class="artist-tabset  ">
+        <tabset class="artist-tabset">
           <tab heading="Edit Artist Details">
             <form #editForm="ngForm" id="editForm" (ngSubmit)="updateArtist()">
               <h4>Artist Name</h4>
