@@ -8,9 +8,15 @@ namespace SS.API.Data
 {
     public partial class DataContext : DbContext
     {
+        private readonly IConfiguration _config;
         public DataContext() { }
-
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+        public DataContext(
+            DbContextOptions<DataContext> options,
+            IConfiguration config)
+            : base(options)
+        {
+            _config = config;
+        }
 
         public virtual DbSet<AdminRole> AdminRole { get; set; }
         public virtual DbSet<AdminRolesXref> AdminRolesXref { get; set; }
@@ -71,7 +77,6 @@ namespace SS.API.Data
         public virtual DbSet<Winery> Winery { get; set; }
         public virtual DbSet<ZipCode> ZipCode { get; set; }
 
-        private readonly IConfiguration _config;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -268,6 +273,18 @@ namespace SS.API.Data
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.PhotoDescription)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PhotoFileExt)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PhotoFileMimeType)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.PhotoFileName)
                     .IsRequired()
                     .HasMaxLength(255);
 

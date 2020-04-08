@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using SS.API.Models;
 
 namespace SS.API.Data
@@ -13,9 +13,10 @@ namespace SS.API.Data
     {
         private readonly DataContext _context;
         private readonly IConfiguration _config;
-        public ArtistRepository(DataContext context)
+        public ArtistRepository(DataContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
         public void Add<T>(T entity) where T : class
         {
@@ -42,34 +43,20 @@ namespace SS.API.Data
             return artists;
         }
 
-        public async Task<ArtistPhoto> GetArtistPhoto(int artistId, int photoId)
+        public async Task<ArtistPhoto> GetArtistPhoto(int artistPhotoId)
         {
-            // string fullPath = @"X:/uploadedImages/artists/1/myArcher.jpg";
-            // Byte[] b = System.IO.File.ReadAllBytes(fullPath);
-
-            // var rootPath = _config.GetValue<string>("UploadedImages:Artists");
-
-            // var photoPath = await _context.ArtistPhoto.Where(p => p.ArtistPhotoId == artistPhotoId).FirstOrDefaultAsync();
-            // var fullPath = rootPath + photoPath;
-
             return await _context.ArtistPhoto
-                .FirstOrDefaultAsync(
-                    p => p.ArtistId == artistId
-                    && p.ArtistId == artistId);
-
-
+                .FirstOrDefaultAsync(p => p.ArtistPhotoId == artistPhotoId);
         }
 
-        public async Task<Byte[]> GetPhoto(ArtistPhoto artistPhoto)
+        public async Task<Byte[]> GetPhoto(int artistPhotoId)
         {
-            // var rootPath = _config.GetValue<string>("UploadedImages:Artists");
-            // var photoPath = await _context.ArtistPhoto.Where(p => p.ArtistPhotoId == artistPhotoId).FirstOrDefaultAsync();
-            // var fullPath = rootPath + photoPath;
-            string fullPath = @"X:/uploadedImages/artists/1/myArcher.jpg";
+            var rootPath = _config.GetValue<string>("UploadedFiles:Images:Artists");
+            var photo = await _context.ArtistPhoto.Where(p => p.ArtistPhotoId == artistPhotoId)
+                .FirstOrDefaultAsync();
+            var fullPath = rootPath + photo.ArtistId + "/" + photo.PhotoFileName;
 
-            var b = await System.IO.File.ReadAllBytesAsync(fullPath);
-
-            return b;
+            return await System.IO.File.ReadAllBytesAsync(fullPath);
         }
 
         public async Task<ArtistPhoto> GetPhoto2(int id)

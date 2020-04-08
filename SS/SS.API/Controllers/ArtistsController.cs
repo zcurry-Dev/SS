@@ -1,18 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using SS.API.Data;
 using SS.API.Dtos;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SS.API.Controllers
 {
@@ -48,25 +41,13 @@ namespace SS.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetArtistPhoto")]
-        public async Task<IActionResult> GetArtistPhoto(ArtistPhotoForReturnDto artistPhotoForReturnDto)
+        [Route("GetArtistPhoto/{id}")]
+        public async Task<IActionResult> GetArtistPhoto(int id)
         {
-            var artistPhoto = await _repo.GetArtistPhoto(artistPhotoForReturnDto.ArtistId, artistPhotoForReturnDto.PhotoId);
-            var file = await _repo.GetPhoto(artistPhoto);
+            var artistPhoto = await _repo.GetArtistPhoto(id);
+            var file = await _repo.GetPhoto(id);
 
-            var fileType = "jpeg";
-            var fileName = "fileName.jpg";
-
-            return File(file, "image/" + fileType, fileName);
-        }
-
-        [HttpGet]
-        [Route("test")]
-        public async Task<IActionResult> GetImageTest()
-        {
-            string fullPath = @"X:/uploadedImages/artists/1/myArcher.jpg";
-            var b = await System.IO.File.ReadAllBytesAsync(fullPath);
-            return File(b, "image/jpeg");
+            return File(file, "image/" + artistPhoto.PhotoFileMimeType, artistPhoto.PhotoFileName);
         }
 
         [HttpPut("{id}")]
