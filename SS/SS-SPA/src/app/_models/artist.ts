@@ -1,4 +1,5 @@
 import { ArtistPhoto } from './artistPhoto';
+import { SafeUrl } from '@angular/platform-browser';
 
 export interface Artist {
   id: number;
@@ -10,8 +11,8 @@ export interface Artist {
   verified: boolean;
   currentCity: string;
   homeCity: string;
-  photoPath: string;
-  photoFile: any;
+  photoId: number;
+  mainPhotoURL: SafeUrl;
 
   careerBeginDate: Date;
   createdBy: number;

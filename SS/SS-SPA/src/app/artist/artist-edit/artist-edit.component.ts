@@ -5,11 +5,12 @@ import { AlertifyService } from 'src/app/_services/alertify.service/alertify.ser
 import { NgForm } from '@angular/forms';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
 import { AuthService } from 'src/app/_services/auth.service/auth.service';
+import { ImageService } from 'src/app/_services/images.service';
 
 @Component({
   selector: 'app-artist-edit',
   templateUrl: './artist-edit.component.html',
-  styleUrls: ['./artist-edit.component.css']
+  styleUrls: ['./artist-edit.component.css'],
 })
 export class ArtistEditComponent implements OnInit {
   @ViewChild('editForm', { static: true }) editForm: NgForm;
@@ -25,7 +26,8 @@ export class ArtistEditComponent implements OnInit {
     private route: ActivatedRoute,
     private alertify: AlertifyService,
     private artistService: ArtistService,
-    private authService: AuthService
+    private authService: AuthService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
@@ -35,19 +37,25 @@ export class ArtistEditComponent implements OnInit {
   updateArtist() {
     // this.artistService.updateArtist(this.authService.decodedToken.nameid, this.artist);
     this.artistService.updateArtist(this.artist.id, this.artist).subscribe(
-      next => {
+      (next) => {
         this.alertify.success('Artist updated successfully');
         this.editForm.reset(this.artist);
       },
-      error => {
+      (error) => {
         this.alertify.error(error);
       }
     );
   }
 
   private getArtist() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.artist = data['artist'];
     });
+
+    this.artistService
+      .getArtistPhoto(this.artist.photoId)
+      .subscribe((image) => {
+        this.artist.mainPhotoURL = this.imageService.sanitizeURL(image);
+      });
   }
 }

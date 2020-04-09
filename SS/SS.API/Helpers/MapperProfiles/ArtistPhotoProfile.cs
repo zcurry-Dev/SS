@@ -9,7 +9,9 @@ namespace SS.API.Helpers.MapperProfiles
     {
         public ArtistPhotoProfile()
         {
-            CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>();
+            CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>()
+                .ForMember(dest => dest.Id, opt =>
+                    opt.MapFrom(src => src.ArtistPhotoId));
             CreateMap<ArtistPhoto, PhotoforReturnDto>()
                 .ForMember(dest => dest.Id, opt =>
                     opt.MapFrom(src => src.ArtistPhotoId));

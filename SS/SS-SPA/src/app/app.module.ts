@@ -1,35 +1,38 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgModule } from '@angular/core';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
-
-import { SafePipe } from './_pipes/safe.pipe';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavComponent } from './nav/nav.component';
-import { AuthService } from './_services/auth.service/auth.service';
-import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
+import { AppRoutes } from './routes';
+
+import { AuthGuard } from './_guards/auth.guard';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+
+import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
+import { ArtistListResolver } from './_resolver/artist-list.resolver';
+import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
+
 import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.interceptor';
-import { VenuesComponent } from './venues/venues.component';
-import { BeersComponent } from './beers/beers.component';
-import { appRoutes } from './routes';
-import { ArtistListComponent } from './artist/artist-list/artist-list.component';
+import { AlertifyService } from './_services/alertify.service/alertify.service';
+import { ArtistService } from './_services/artist.service/artist.service';
+import { AuthService } from './_services/auth.service/auth.service';
+import { ImageService } from './_services/images.service';
+
 import { ArtistCardComponent } from './artist/artist-card/artist-card.component';
 import { ArtistDetailComponent } from './artist/artist-detail/artist-detail.component';
-import { AlertifyService } from './_services/alertify.service/alertify.service';
-import { AuthGuard } from './_guards/auth.guard';
-import { ArtistService } from './_services/artist.service/artist.service';
-import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
-import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
-import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
-import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { ArtistListComponent } from './artist/artist-list/artist-list.component';
+import { BeersComponent } from './beers/beers.component';
+import { HomeComponent } from './home/home.component';
+import { NavComponent } from './nav/nav.component';
+import { RegisterComponent } from './register/register.component';
+import { VenuesComponent } from './venues/venues.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -47,7 +50,6 @@ export function tokenGetter() {
     ArtistCardComponent,
     ArtistDetailComponent,
     ArtistEditComponent,
-    SafePipe,
   ],
   imports: [
     BrowserModule,
@@ -56,7 +58,7 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(AppRoutes),
     NgxGalleryModule,
     JwtModule.forRoot({
       config: {
@@ -79,6 +81,7 @@ export function tokenGetter() {
     ArtistListResolver,
     ArtistEditResolver,
     PreventUnsavedChanges,
+    ImageService,
   ],
   bootstrap: [AppComponent],
 })

@@ -7,7 +7,7 @@ import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 @Component({
   selector: 'app-artist-list',
   templateUrl: './artist-list.component.html',
-  styleUrls: ['./artist-list.component.css']
+  styleUrls: ['./artist-list.component.css'],
 })
 export class ArtistListComponent implements OnInit {
   artists: Artist[];
@@ -19,7 +19,7 @@ export class ArtistListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.artists = data['artists'];
     });
   }

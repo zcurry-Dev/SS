@@ -11,7 +11,7 @@ import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component'
 import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
-export const appRoutes: Routes = [
+export const AppRoutes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: '',
@@ -21,22 +21,22 @@ export const appRoutes: Routes = [
       {
         path: 'artists',
         component: ArtistListComponent,
-        resolve: { artists: ArtistListResolver }
+        resolve: { artists: ArtistListResolver },
       },
       {
         path: 'artists/edit/:id',
         component: ArtistEditComponent,
         resolve: { artist: ArtistEditResolver },
-        canDeactivate: [PreventUnsavedChanges]
+        canDeactivate: [PreventUnsavedChanges],
       },
       {
         path: 'artists/:id',
         component: ArtistDetailComponent,
-        resolve: { artist: ArtistDetailResolver }
+        resolve: { artist: ArtistDetailResolver },
       },
       { path: 'venues', component: VenuesComponent },
-      { path: 'beers', component: BeersComponent }
-    ]
+      { path: 'beers', component: BeersComponent },
+    ],
   },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

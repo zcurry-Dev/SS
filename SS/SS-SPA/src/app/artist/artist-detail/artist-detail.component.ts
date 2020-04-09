@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SecurityContext } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
-import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import {
   NgxGalleryOptions,
   NgxGalleryImage,
   NgxGalleryAnimation,
 } from '@kolkov/ngx-gallery';
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
+import { ImageService } from 'src/app/_services/images.service';
 
 @Component({
   selector: 'app-artist-detail',
@@ -19,20 +18,20 @@ export class ArtistDetailComponent implements OnInit {
   artist: Artist;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  isImageLoading = false;
 
   constructor(
     private artistService: ArtistService,
-    private alertify: AlertifyService,
     private route: ActivatedRoute,
-    private sanitizer: DomSanitizer
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
     this.route.data.subscribe((data) => {
       this.artist = data['artist'];
-      this.artist.photoPath = '../uploadedImages/artists/1/myArcher.jpg';
-      console.log(this.artist.photoPath);
     });
+
+    this.getMainImage();
 
     this.galleryOptions = [
       {
@@ -47,20 +46,27 @@ export class ArtistDetailComponent implements OnInit {
     this.galleryImages = this.getImages();
   }
 
-  getlink(): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(this.artist.photoPath);
-  }
-
   getImages() {
-    const imageUrls = [];
+    const images = [];
     for (const photo of this.artist.photos) {
-      imageUrls.push({
-        small: photo.photoPath,
-        medium: photo.photoPath,
-        big: photo.photoPath,
-        description: photo.description,
+      this.artistService.getArtistPhoto(photo.id).subscribe((image) => {
+        photo.photoURL = this.imageService.sanitizeSecurityContextURL(image);
+        images.push({
+          small: photo.photoURL,
+          medium: photo.photoURL,
+          big: photo.photoURL,
+          description: photo.description,
+        });
       });
     }
-    return imageUrls;
+    return images;
+  }
+
+  getMainImage() {
+    this.artistService
+      .getArtistPhoto(this.artist.photoId)
+      .subscribe((image) => {
+        this.artist.mainPhotoURL = this.imageService.sanitizeURL(image);
+      });
   }
 }

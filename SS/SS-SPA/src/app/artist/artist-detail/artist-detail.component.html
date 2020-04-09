@@ -10,9 +10,13 @@
       <div class="card">
         <img
           class="card-img-top img-thumbnail"
-          src="{{ artist.photoPath }}"
+          [src]="artist.mainPhotoURL"
           alt="{{ artist.name }}"
+          *ngIf="!isImageLoading; else noImageFound"
         />
+        <ng-template #noImageFound>
+          <img src="../../../assests/fallbackUser.png" alt="FallbackUser" />
+        </ng-template>
         <div class="card-body">
           <strong>Solo/Status:</strong>
           <p>{{ artist.solo }}, {{ artist.statusId }}</p>
