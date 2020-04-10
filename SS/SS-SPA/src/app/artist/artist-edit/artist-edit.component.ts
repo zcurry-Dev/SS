@@ -58,4 +58,8 @@ export class ArtistEditComponent implements OnInit {
         this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
       });
   }
+
+  updateMainPhoto(photoUrl) {
+    this.artist.mainPhotoURL = photoUrl;
+  }
 }

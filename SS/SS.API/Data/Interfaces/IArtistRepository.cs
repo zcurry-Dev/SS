@@ -14,9 +14,9 @@ namespace SS.API.Data
         Task<bool> SaveAll();
         Task<IEnumerable<Artist>> GetArtists();
         Task<Artist> GetArtist(int id);
-        Task<ArtistPhoto> GetPhoto(int id);
         Task<ArtistPhoto> GetArtistPhoto(int artistPhotoId);
         Task<Byte[]> GetPhotoFile(int artistPhotoId);
         Task<ArtistPhoto> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto);
+        Task<ArtistPhoto> GetMainPhotoForArtist(int artistId);
     }
 }

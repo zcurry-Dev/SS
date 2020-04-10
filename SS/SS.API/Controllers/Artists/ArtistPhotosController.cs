@@ -28,10 +28,10 @@ namespace SS.API.Controllers
             _config = config;
         }
 
-        [HttpGet("{id}", Name = "GetPhoto")]
-        public async Task<IActionResult> GetPhoto(int id)
+        [HttpGet("{id}", Name = "GetArtistPhoto")]
+        public async Task<IActionResult> GetArtistPhoto(int id)
         {
-            var photoFromRepo = await _repo.GetPhoto(id);
+            var photoFromRepo = await _repo.GetArtistPhoto(id);
             var photo = _mapper.Map<PhotoforReturnDto>(photoFromRepo);
 
             return Ok(photo);
@@ -48,12 +48,75 @@ namespace SS.API.Controllers
                 // return Ok();
                 var photoToReturn = _mapper.Map<PhotoforReturnDto>(photo);
                 return CreatedAtRoute(
-                    "GetPhoto",
+                    "GetArtistPhoto",
                     new { artistId = artistId, id = photo.ArtistPhotoId },
                     photoToReturn);
             }
 
             return BadRequest("Could not add the photo");
+        }
+
+        [HttpPost("{photoId}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int artistId, int photoId)
+        {
+            var artist = await _repo.GetArtist(artistId);
+            if (!artist.ArtistPhoto.Any(p => p.ArtistPhotoId == photoId))
+            {
+                return Unauthorized();
+            }
+
+            var photoFromRepo = await _repo.GetArtistPhoto(photoId);
+
+            if (photoFromRepo.IsMain)
+            {
+                return BadRequest("This is already the main photo");
+            }
+
+            var currentMainPhoto = await _repo.GetMainPhotoForArtist(artistId);
+            currentMainPhoto.IsMain = false;
+            photoFromRepo.IsMain = true;
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Could not set photo to main");
+        }
+
+        [HttpDelete("{photoId}")]
+        public async Task<IActionResult> DeletePhoto(int artistId, int photoId)
+        {
+            var artist = await _repo.GetArtist(artistId);
+            if (!artist.ArtistPhoto.Any(p => p.ArtistPhotoId == photoId))
+            {
+                return Unauthorized();
+            }
+
+            var photoFromRepo = await _repo.GetArtistPhoto(photoId);
+
+            if (photoFromRepo.IsMain)
+            {
+                return BadRequest("You cannot delete your main photo");
+            }
+
+
+            //
+            // DELETE FILE FROM SYSTEM
+            //
+            //
+
+            // if file deleted "OK"
+            // if (result.Result == "ok") {} then 
+            _repo.Delete(photoFromRepo);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+
+            return BadRequest("Failed to delete the photo");
+
         }
     }
 }

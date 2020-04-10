@@ -64,13 +64,6 @@ namespace SS.API.Data
             return await System.IO.File.ReadAllBytesAsync(fullPath);
         }
 
-        public async Task<ArtistPhoto> GetPhoto(int id)
-        {
-            var photo = await _context.ArtistPhoto.FirstOrDefaultAsync(p => p.ArtistId == id);
-
-            return photo;
-        }
-
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
@@ -113,6 +106,12 @@ namespace SS.API.Data
             artistFromRepo.ArtistPhoto.Add(photo);
 
             return photo;
+        }
+
+        public async Task<ArtistPhoto> GetMainPhotoForArtist(int artistId)
+        {
+            return await _context.ArtistPhoto.Where(p => p.ArtistId == artistId)
+                .FirstOrDefaultAsync(p => p.IsMain);
         }
     }
 }

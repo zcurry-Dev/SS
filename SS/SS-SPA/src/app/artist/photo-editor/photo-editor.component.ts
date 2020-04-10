@@ -1,12 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ArtistPhoto } from 'src/app/_models/artistPhoto';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
 import { ImageService } from 'src/app/_services/images.service';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Artist } from 'src/app/_models/artist';
+import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
 import { SafeUrl } from '@angular/platform-browser';
-import { resolve } from 'dns';
 
 @Component({
   selector: 'app-photo-editor',
@@ -15,19 +15,19 @@ import { resolve } from 'dns';
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() artist: Artist;
+  @Output() getArtistPhotoChange = new EventEmitter<SafeUrl>();
   photos: ArtistPhoto[];
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   response: string;
   baseUrl = environment.apiUrl;
+  currentMain: ArtistPhoto;
 
   constructor(
     private artistService: ArtistService,
-    private imageService: ImageService
-  ) {
-    // this.response = '';
-    // this.uploader.response.subscribe((res) => (this.response = res));
-  }
+    private imageService: ImageService,
+    private alertify: AlertifyService
+  ) {}
 
   ngOnInit() {
     this.photos = this.artist.photos;
@@ -53,18 +53,6 @@ export class PhotoEditorComponent implements OnInit {
       removeAfterUpload: true,
       autoUpload: false,
       maxFileSize: 10 * 1024 * 1024,
-      // disableMultipart: true, // 'DisableMultipart' must be 'true' for formatDataFunction to be called.
-      // formatDataFunctionIsAsync: true,
-      // formatDataFunction: async (item) => {
-      //   return new Promise((resolve, reject) => {
-      //     resolve({
-      //       name: item._file.name,
-      //       length: item._file.size,
-      //       contentType: item._file.type,
-      //       date: new Date(),
-      //     });
-      //   });
-      // },
     });
 
     this.uploader.onAfterAddingFile = (file) => {
@@ -83,6 +71,8 @@ export class PhotoEditorComponent implements OnInit {
     this.artistService.getArtistPhoto(res.id).subscribe((image) => {
       res.photoURL = this.imageService.sanitizeImage(image);
 
+      // would prefer to move back into initializeUploader
+      //
       const photo = {
         id: res.id,
         description: res.description,
@@ -90,8 +80,40 @@ export class PhotoEditorComponent implements OnInit {
         isMain: res.isMain,
         photoURL: res.photoURL,
       };
-
       this.photos.push(photo);
+      //
+      //
+    });
+  }
+
+  setMainPhoto(photo: ArtistPhoto) {
+    this.artistService.setMainPhoto(this.artist.id, photo.id).subscribe(
+      () => {
+        this.currentMain = this.photos.filter((p) => p.isMain === true)[0];
+        this.currentMain.isMain = false;
+        photo.isMain = true;
+        this.getArtistPhotoChange.emit(photo.photoURL);
+      },
+      (error) => {
+        this.alertify.error(error);
+      }
+    );
+  }
+
+  deletePhoto(photoId: number) {
+    this.alertify.confirm('Are you sure you want to delete this photo?', () => {
+      this.artistService.deletePhoto(this.artist.id, photoId).subscribe(
+        () => {
+          this.photos.splice(
+            this.photos.findIndex((p) => p.id === photoId),
+            1
+          );
+          this.alertify.success('Photo has been deleted');
+        },
+        (error) => {
+          this.alertify.error('Failed to delete photo');
+        }
+      );
     });
   }
 }

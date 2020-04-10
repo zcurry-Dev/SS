@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+  styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
   model: any = {};
@@ -21,10 +21,10 @@ export class NavComponent implements OnInit {
 
   login() {
     this.authService.login(this.model).subscribe(
-      next => {
+      (next) => {
         this.alterify.success('Logged in successfully');
       },
-      error => {
+      (error) => {
         this.alterify.error(error);
       },
       () => {
@@ -39,6 +39,7 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    this.authService.decodedToken = null;
     this.alterify.message('logged out');
     this.router.navigate(['/home']);
   }
