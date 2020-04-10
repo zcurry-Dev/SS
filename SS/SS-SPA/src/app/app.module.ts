@@ -1,6 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
+import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -31,6 +32,7 @@ import { ArtistListComponent } from './artist/artist-list/artist-list.component'
 import { BeersComponent } from './beers/beers.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
+import { PhotoEditorComponent } from './artist/photo-editor/photo-editor.component';
 import { RegisterComponent } from './register/register.component';
 import { VenuesComponent } from './venues/venues.component';
 
@@ -41,15 +43,16 @@ export function tokenGetter() {
 @NgModule({
   declarations: [
     AppComponent,
-    NavComponent,
-    HomeComponent,
-    RegisterComponent,
-    VenuesComponent,
-    BeersComponent,
-    ArtistListComponent,
     ArtistCardComponent,
     ArtistDetailComponent,
     ArtistEditComponent,
+    ArtistListComponent,
+    BeersComponent,
+    HomeComponent,
+    NavComponent,
+    PhotoEditorComponent,
+    RegisterComponent,
+    VenuesComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +63,7 @@ export function tokenGetter() {
     TabsModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
     NgxGalleryModule,
+    FileUploadModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,

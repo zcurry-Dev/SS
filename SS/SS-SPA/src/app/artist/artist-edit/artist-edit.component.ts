@@ -55,7 +55,7 @@ export class ArtistEditComponent implements OnInit {
     this.artistService
       .getArtistPhoto(this.artist.photoId)
       .subscribe((image) => {
-        this.artist.mainPhotoURL = this.imageService.sanitizeURL(image);
+        this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
       });
   }
 }
