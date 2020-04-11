@@ -1,9 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SS.API.Data.Interfaces;
 using SS.API.Models;
 
-namespace SS.API.Data
+namespace SS.API.Data.Repos
 {
     public class AuthRepository : IAuthRepository
     {

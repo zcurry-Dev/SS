@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using SS.API.Models;
 
-namespace SS.API.Data
+namespace SS.API.Data.Interfaces
 {
     public interface IAuthRepository
     {

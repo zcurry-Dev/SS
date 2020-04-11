@@ -7,10 +7,11 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
+using SS.API.Data.Interfaces;
 using SS.API.Dtos;
 using SS.API.Models;
 
-namespace SS.API.Data
+namespace SS.API.Data.Repos
 {
     public class ArtistRepository : IArtistRepository
     {
@@ -33,10 +34,10 @@ namespace SS.API.Data
             _context.Remove(entity);
         }
 
-        public async Task<Artist> GetArtist(int id)
+        public async Task<Artist> GetArtist(int artistId)
         {
-            var artist = await _context.Artist.Include(p => p.ArtistPhoto)
-                .FirstOrDefaultAsync(u => u.ArtistId == id);
+            var artist = await _context.Artist.Include(a => a.ArtistPhoto)
+                .FirstOrDefaultAsync(a => a.ArtistId == artistId);
 
             return artist;
         }

@@ -22,6 +22,8 @@ using SS.API.Helpers;
 using System.Text;
 using AutoMapper;
 using SS.API.Helpers.MapperProfiles;
+using SS.API.Data.Interfaces;
+using SS.API.Data.Repos;
 
 namespace SS.API
 {
@@ -46,12 +48,14 @@ namespace SS.API
             {
                 mc.AddProfile(new ArtistProfile());
                 mc.AddProfile(new ArtistPhotoProfile());
+                mc.AddProfile(new UserProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

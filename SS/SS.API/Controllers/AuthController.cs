@@ -3,10 +3,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SS.API.Data;
+using SS.API.Data.Interfaces;
 using SS.API.Dtos;
 using SS.API.Models;
 
@@ -18,9 +20,11 @@ namespace SS.API.Controllers
     {
         private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
-        public AuthController(IAuthRepository repo, IConfiguration config)
+        private readonly IMapper _mapper;
+        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
         {
             _config = config;
+            _mapper = mapper;
             _repo = repo;
         }
 
@@ -34,31 +38,20 @@ namespace SS.API.Controllers
                 return BadRequest("UserName already exists");
             }
 
-            var userToCreate = new Ssuser()
-            {
-                UserName = userForRegisterDto.UserName,
-                FirstName = "",
-                LastName = "",
-                Email = "",
-                DisplayName = "",
-                UserStatusId = 1,
-                CreatedDate = DateTime.UtcNow,
-                LastActive = DateTime.UtcNow,
-                PwHash = null,
-                PwSalt = null
-            };
+            var userToCreate = _mapper.Map<Ssuser>(userForRegisterDto);
+            userToCreate.UserStatusId = 1;
 
-            var createdUser = new Ssuser();
-            try
-            {
-                createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
-            }
-            catch
-            {
-                return BadRequest("Error Registering User");
-            }
+            var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
+            var userToReturn = _mapper.Map<UserforDetailDto>(createdUser);
 
-            return StatusCode(201); //CreatedAtRoute() todo
+            return CreatedAtRoute(
+                "GetUser",
+                new
+                {
+                    controller = "Users",
+                    userId = createdUser.UserId
+                },
+                userToReturn);
         }
 
         [HttpPost("login")]

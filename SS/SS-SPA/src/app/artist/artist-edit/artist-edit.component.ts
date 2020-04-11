@@ -5,7 +5,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service/alertify.ser
 import { NgForm } from '@angular/forms';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
 import { AuthService } from 'src/app/_services/auth.service/auth.service';
-import { ImageService } from 'src/app/_services/images.service';
+import { ImageService } from 'src/app/_services/image.service/images.service';
 
 @Component({
   selector: 'app-artist-edit',

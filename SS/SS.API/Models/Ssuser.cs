@@ -37,6 +37,7 @@ namespace SS.API.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string DisplayName { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public int UserStatusId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastActive { get; set; }

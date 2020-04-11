@@ -7,7 +7,7 @@ import {
   NgxGalleryImage,
   NgxGalleryAnimation,
 } from '@kolkov/ngx-gallery';
-import { ImageService } from 'src/app/_services/images.service';
+import { ImageService } from 'src/app/_services/image.service/images.service';
 
 @Component({
   selector: 'app-artist-detail',

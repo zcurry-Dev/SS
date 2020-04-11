@@ -1169,6 +1169,10 @@ namespace SS.API.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.DateOfBirth)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.DisplayName)
                     .IsRequired()
                     .HasMaxLength(255);

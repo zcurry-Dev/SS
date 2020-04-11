@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Artist } from '../../_models/artist';
-import { ImageService } from '../images.service';
+import { ImageService } from '../image.service/images.service';
 import { SafeHtml, SafeUrl } from '@angular/platform-browser';
 import { error } from 'protractor';
 

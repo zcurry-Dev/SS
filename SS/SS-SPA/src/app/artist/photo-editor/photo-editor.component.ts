@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ArtistPhoto } from 'src/app/_models/artistPhoto';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
-import { ImageService } from 'src/app/_services/images.service';
+import { ImageService } from 'src/app/_services/image.service/images.service';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { Artist } from 'src/app/_models/artist';

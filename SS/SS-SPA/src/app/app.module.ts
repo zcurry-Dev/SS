@@ -1,8 +1,9 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BsDropdownModule, TabsModule } from 'ngx-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgModule } from '@angular/core';
@@ -23,7 +24,7 @@ import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.i
 import { AlertifyService } from './_services/alertify.service/alertify.service';
 import { ArtistService } from './_services/artist.service/artist.service';
 import { AuthService } from './_services/auth.service/auth.service';
-import { ImageService } from './_services/images.service';
+import { ImageService } from './_services/image.service/images.service';
 
 import { ArtistCardComponent } from './artist/artist-card/artist-card.component';
 import { ArtistDetailComponent } from './artist/artist-detail/artist-detail.component';
@@ -55,15 +56,13 @@ export function tokenGetter() {
     VenuesComponent,
   ],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    FormsModule,
     BrowserAnimationsModule,
+    BrowserModule,
+    BsDatepickerModule.forRoot(),
     BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
-    RouterModule.forRoot(AppRoutes),
-    NgxGalleryModule,
     FileUploadModule,
+    FormsModule,
+    HttpClientModule,
     JwtModule.forRoot({
       config: {
         tokenGetter,
@@ -74,6 +73,10 @@ export function tokenGetter() {
         ],
       },
     }),
+    NgxGalleryModule,
+    ReactiveFormsModule,
+    RouterModule.forRoot(AppRoutes),
+    TabsModule.forRoot(),
   ],
   providers: [
     AuthService,

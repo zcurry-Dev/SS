@@ -5,6 +5,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Data;
+using SS.API.Data.Interfaces;
 using SS.API.Dtos;
 
 namespace SS.API.Controllers

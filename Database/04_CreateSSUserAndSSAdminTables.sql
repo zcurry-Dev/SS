@@ -40,6 +40,9 @@ CREATE TABLE UserSS.SSUser(
 	,LastName NVARCHAR(255) NOT NULL
 	,Email NVARCHAR(255) NOT NULL
 	,DisplayName NVARCHAR(255) NOT NULL
+	,DateOfBirth DATETIME NOT NULL
+		CONSTRAINT DF_User_DateOfBirth
+		DEFAULT GETDATE()
 	,UserStatusID INT NOT NULL
 		CONSTRAINT FK_User_UserStatusID
 		REFERENCES refUserSS.UserStatus(UserStatusID)
@@ -56,9 +59,9 @@ CREATE TABLE UserSS.SSUser(
 
 INSERT INTO UserSS.SSUser
 VALUES
-('zCurry', 'zach', 'curry', 'admin@ss.com', 'txDukeDog', 1, GETDATE(), GETDATE(), 0, 0)
-,('john', 'john', 'doe', 'john@ss.com', 'john', 1, GETDATE(), GETDATE(), 0, 0)
-,('bob', 'bob', 'bobby', 'bob@ss.com', 'bob', 1, GETDATE(), GETDATE(), 0, 0)
+('zCurry', 'zach', 'curry', 'admin@ss.com', 'txDukeDog', '05-18-1994', 1, GETDATE(), GETDATE(), 0, 0)
+,('john', 'john', 'doe', 'john@ss.com', 'john', GETDATE(), 1, GETDATE(), GETDATE(), 0, 0)
+,('bob', 'bob', 'bobby', 'bob@ss.com', 'bob', GETDATE(), 1, GETDATE(), GETDATE(), 0, 0)
 
 CREATE TABLE hr.UserEmployeeXRef(
 	UserEmployeeXRefID INT NOT NULL
