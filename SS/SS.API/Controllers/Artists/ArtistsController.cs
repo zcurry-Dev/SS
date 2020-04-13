@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using SS.API.Data;
 using SS.API.Data.Interfaces;
 using SS.API.Dtos;
+using SS.API.Helpers;
 
 namespace SS.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

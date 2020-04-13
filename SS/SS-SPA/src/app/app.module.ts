@@ -9,6 +9,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { NgModule } from '@angular/core';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { RouterModule } from '@angular/router';
+import { TimeagoModule } from 'ngx-timeago';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './routes';
@@ -77,6 +78,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterModule.forRoot(AppRoutes),
     TabsModule.forRoot(),
+    TimeagoModule.forRoot(),
   ],
   providers: [
     AuthService,
