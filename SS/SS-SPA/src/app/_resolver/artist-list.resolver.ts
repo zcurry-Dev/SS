@@ -8,6 +8,9 @@ import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ArtistListResolver implements Resolve<Artist[]> {
+  pn = 1;
+  ps = 2;
+
   constructor(
     private artistService: ArtistService,
     private router: Router,
@@ -15,8 +18,8 @@ export class ArtistListResolver implements Resolve<Artist[]> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Artist[]> {
-    return this.artistService.getArtists().pipe(
-      catchError(error => {
+    return this.artistService.getArtists(this.pn, this.ps).pipe(
+      catchError((error) => {
         console.log(error);
         this.alertify.error('Problem retrieving data');
         this.router.navigate(['/home']);

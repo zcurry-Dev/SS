@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using SS.API.Data.Interfaces;
 using SS.API.Dtos;
+using SS.API.Helpers;
+using SS.API.Helpers.Pagination;
+using SS.API.Helpers.Pagination.PagedParams;
 using SS.API.Models;
 
 namespace SS.API.Data.Repos
@@ -42,11 +45,26 @@ namespace SS.API.Data.Repos
             return artist;
         }
 
-        public async Task<IEnumerable<Artist>> GetArtists()
+        public async Task<PagedList<Artist>> GetArtists(ArtistParams artistParams)
         {
-            var artists = await _context.Artist.Include(p => p.ArtistPhoto).ToListAsync();
+            var artists = _context.Artist.Include(p => p.ArtistPhoto)
+                .OrderByDescending(a => a.CareerBeginDate).AsQueryable();
 
-            return artists;
+            if (!string.IsNullOrEmpty(artistParams.OrderBy))
+            {
+                switch (artistParams.OrderBy)
+                {
+                    case "created":
+                        artists = artists.OrderByDescending(a => a.CreatedDate);
+                        break;
+                    default:
+                        artists = artists.OrderByDescending(a => a.CareerBeginDate);
+                        break;
+                }
+            }
+
+            return await PagedList<Artist>.CreateAsync(artists,
+                artistParams.PN, artistParams.PS);
         }
 
         public async Task<ArtistPhoto> GetArtistPhoto(int artistPhotoId)

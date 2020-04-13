@@ -8,6 +8,7 @@ using SS.API.Data;
 using SS.API.Data.Interfaces;
 using SS.API.Dtos;
 using SS.API.Helpers;
+using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Controllers
 {
@@ -26,10 +27,12 @@ namespace SS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetArtists()
+        public async Task<IActionResult> GetArtists([FromQuery]ArtistParams artistParams)
         {
-            var artists = await _repo.GetArtists();
+            var artists = await _repo.GetArtists(artistParams);
             var artistsToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artists);
+            Response.AddPagination(artists.CurrentPage, artists.PageSize,
+                artists.TotalCount, artists.TotalPages);
 
             return Ok(artistsToReturn);
         }
