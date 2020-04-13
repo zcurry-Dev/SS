@@ -11,7 +11,12 @@ namespace SS.API.Helpers.MapperProfiles
             CreateMap<Ssuser, UserforDetailDto>();
             CreateMap<UserForRegisterDto, Ssuser>()
                 .ForMember(dest => dest.DisplayName, opt =>
-                        opt.MapFrom(src => src.FirstName));
+                        opt.MapFrom(src => src.FirstName))
+                .ForMember(dest => dest.CreatedDate, opt =>
+                        opt.MapFrom(src => src.Created));
+            CreateMap<Ssuser, UserforDetailDto>()
+                .ForMember(dest => dest.Created, opt =>
+                        opt.MapFrom(src => src.CreatedDate));
         }
     }
 }
