@@ -30,7 +30,7 @@ CREATE TABLE ref.VenueType(
 	,VenueType NVARCHAR(255)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_VenueType_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_VenueType_CreatedDate
 		DEFAULT GETDATE()
@@ -52,7 +52,7 @@ CREATE TABLE dbo.Venue(
 		REFERENCES dbo.SSAddress(AddressID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Venue_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME
 		CONSTRAINT DF_Venue_CreatedDate
 		DEFAULT GETDATE()

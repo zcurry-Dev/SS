@@ -97,7 +97,7 @@ CREATE TABLE dbo.Winery(
 		DEFAULT 0	
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Winery_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Winery_CreatedDate
 		DEFAULT GETDATE()
@@ -116,7 +116,7 @@ CREATE TABLE dbo.Wine(
 		REFERENCES dbo.Winery(WineryID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Wine_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Wine_CreatedDate
 		DEFAULT GETDATE()

@@ -18,8 +18,6 @@ namespace SS.API.Data
             _config = config;
         }
 
-        public virtual DbSet<AdminRole> AdminRole { get; set; }
-        public virtual DbSet<AdminRolesXref> AdminRolesXref { get; set; }
         public virtual DbSet<AmericanWhiskeyType> AmericanWhiskeyType { get; set; }
         public virtual DbSet<Artist> Artist { get; set; }
         public virtual DbSet<ArtistGroupMember> ArtistGroupMember { get; set; }
@@ -58,13 +56,15 @@ namespace SS.API.Data
         public virtual DbSet<SeltzerFlavor> SeltzerFlavor { get; set; }
         public virtual DbSet<Seltzery> Seltzery { get; set; }
         public virtual DbSet<Ssaddress> Ssaddress { get; set; }
-        public virtual DbSet<Ssadmin> Ssadmin { get; set; }
         public virtual DbSet<Ssevent> Ssevent { get; set; }
+        public virtual DbSet<Ssrole> Ssrole { get; set; }
+        public virtual DbSet<SsroleClaim> SsroleClaim { get; set; }
         public virtual DbSet<Ssuser> Ssuser { get; set; }
-        public virtual DbSet<UserEmployeeXref> UserEmployeeXref { get; set; }
-        public virtual DbSet<UserRole> UserRole { get; set; }
-        public virtual DbSet<UserRolesXref> UserRolesXref { get; set; }
-        public virtual DbSet<UserStatus> UserStatus { get; set; }
+        public virtual DbSet<SsuserClaim> SsuserClaim { get; set; }
+        public virtual DbSet<SsuserLogin> SsuserLogin { get; set; }
+        public virtual DbSet<SsuserRole> SsuserRole { get; set; }
+        public virtual DbSet<SsuserStatus> SsuserStatus { get; set; }
+        public virtual DbSet<SsuserToken> SsuserToken { get; set; }
         public virtual DbSet<Usstate> Usstate { get; set; }
         public virtual DbSet<Venue> Venue { get; set; }
         public virtual DbSet<VenueHoursOpen> VenueHoursOpen { get; set; }
@@ -87,46 +87,6 @@ namespace SS.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AdminRole>(entity =>
-            {
-                entity.ToTable("AdminRole", "refAdminSS");
-
-                entity.Property(e => e.AdminRoleId).HasColumnName("AdminRoleID");
-
-                entity.Property(e => e.AdminRole1)
-                    .HasColumnName("AdminRole")
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-            });
-
-            modelBuilder.Entity<AdminRolesXref>(entity =>
-            {
-                entity.ToTable("AdminRolesXRef", "AdminSS");
-
-                entity.Property(e => e.AdminRolesXrefId).HasColumnName("AdminRolesXRefID");
-
-                entity.Property(e => e.AdminId).HasColumnName("AdminID");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.HasOne(d => d.Admin)
-                    .WithMany(p => p.AdminRolesXref)
-                    .HasForeignKey(d => d.AdminId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AdminRolesXRef_AdminID");
-
-                entity.HasOne(d => d.UserRolesNavigation)
-                    .WithMany(p => p.AdminRolesXref)
-                    .HasForeignKey(d => d.UserRoles)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AdminRolesXRef_AdminRoleID");
-            });
-
             modelBuilder.Entity<AmericanWhiskeyType>(entity =>
             {
                 entity.ToTable("AmericanWhiskeyType", "ref");
@@ -1095,28 +1055,6 @@ namespace SS.API.Data
                     .HasConstraintName("FK_Address_ZipCodeID");
             });
 
-            modelBuilder.Entity<Ssadmin>(entity =>
-            {
-                entity.HasKey(e => e.AdminId)
-                    .HasName("PK_AdminID");
-
-                entity.ToTable("SSAdmin", "AdminSS");
-
-                entity.Property(e => e.AdminId).HasColumnName("AdminID");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Ssadmin)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Admin_UserID");
-            });
-
             modelBuilder.Entity<Ssevent>(entity =>
             {
                 entity.HasKey(e => e.EventId)
@@ -1156,12 +1094,52 @@ namespace SS.API.Data
                     .HasConstraintName("FK_Event_EventVenueID");
             });
 
+            modelBuilder.Entity<Ssrole>(entity =>
+            {
+                entity.HasKey(e => e.RoleId);
+
+                entity.ToTable("SSRole", "ident");
+
+                entity.HasIndex(e => e.NormalizedName)
+                    .HasName("RoleNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedName] IS NOT NULL)");
+
+                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.Property(e => e.Name).HasMaxLength(256);
+
+                entity.Property(e => e.NormalizedName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<SsroleClaim>(entity =>
+            {
+                entity.HasKey(e => e.RoleClaimId);
+
+                entity.ToTable("SSRoleClaim", "ident");
+
+                entity.HasIndex(e => e.RoleId);
+
+                entity.Property(e => e.RoleClaimId).HasColumnName("RoleClaimID");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.SsroleClaim)
+                    .HasForeignKey(d => d.RoleId);
+            });
+
             modelBuilder.Entity<Ssuser>(entity =>
             {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK_UserID");
+                entity.HasKey(e => e.UserId);
 
-                entity.ToTable("SSUser", "UserSS");
+                entity.ToTable("SSUser", "ident");
+
+                entity.HasIndex(e => e.NormalizedEmail)
+                    .HasName("EmailIndex");
+
+                entity.HasIndex(e => e.NormalizedUserName)
+                    .HasName("UserNameIndex")
+                    .IsUnique()
+                    .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
@@ -1177,9 +1155,7 @@ namespace SS.API.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(256);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
@@ -1193,17 +1169,11 @@ namespace SS.API.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.PwHash)
-                    .IsRequired()
-                    .HasMaxLength(64);
+                entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
-                entity.Property(e => e.PwSalt)
-                    .IsRequired()
-                    .HasMaxLength(128);
+                entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.UserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserStatusId).HasColumnName("UserStatusID");
 
@@ -1214,81 +1184,60 @@ namespace SS.API.Data
                     .HasConstraintName("FK_User_UserStatusID");
             });
 
-            modelBuilder.Entity<UserEmployeeXref>(entity =>
+            modelBuilder.Entity<SsuserClaim>(entity =>
             {
-                entity.ToTable("UserEmployeeXRef", "hr");
+                entity.HasKey(e => e.UserClaimId);
 
-                entity.Property(e => e.UserEmployeeXrefId).HasColumnName("UserEmployeeXRefID");
+                entity.ToTable("SSUserClaim", "ident");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                entity.HasIndex(e => e.UserId);
 
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.Property(e => e.Zapped).HasDefaultValueSql("((0))");
-
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.UserEmployeeXref)
-                    .HasForeignKey(d => d.EmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserEmployeeXRef_EmployeeID");
+                entity.Property(e => e.UserClaimId).HasColumnName("UserClaimID");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserEmployeeXref)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserEmployeeXRef_UserID");
+                    .WithMany(p => p.SsuserClaim)
+                    .HasForeignKey(d => d.UserId);
             });
 
-            modelBuilder.Entity<UserRole>(entity =>
+            modelBuilder.Entity<SsuserLogin>(entity =>
             {
-                entity.ToTable("UserRole", "refUserSS");
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
 
-                entity.Property(e => e.UserRoleId).HasColumnName("UserRoleID");
+                entity.ToTable("SSUserLogin", "ident");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                entity.HasIndex(e => e.UserId);
 
-                entity.Property(e => e.UserRole1)
-                    .IsRequired()
-                    .HasColumnName("UserRole")
-                    .HasMaxLength(255);
-            });
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
 
-            modelBuilder.Entity<UserRolesXref>(entity =>
-            {
-                entity.HasKey(e => e.UserRoleXrefId);
-
-                entity.ToTable("UserRolesXRef", "UserSS");
-
-                entity.Property(e => e.UserRoleXrefId).HasColumnName("UserRoleXRefID");
-
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.ProviderKey).HasMaxLength(128);
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserRolesXref)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRolesXRef_UserID");
-
-                entity.HasOne(d => d.UserRolesNavigation)
-                    .WithMany(p => p.UserRolesXref)
-                    .HasForeignKey(d => d.UserRoles)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserRolesXRef_UserRoleID");
+                    .WithMany(p => p.SsuserLogin)
+                    .HasForeignKey(d => d.UserId);
             });
 
-            modelBuilder.Entity<UserStatus>(entity =>
+            modelBuilder.Entity<SsuserRole>(entity =>
             {
-                entity.ToTable("UserStatus", "refUserSS");
+                entity.HasKey(e => new { e.UserId, e.RoleId });
+
+                entity.ToTable("SSUserRole", "ident");
+
+                entity.HasIndex(e => e.RoleId);
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.SsuserRole)
+                    .HasForeignKey(d => d.RoleId);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.SsuserRole)
+                    .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<SsuserStatus>(entity =>
+            {
+                entity.HasKey(e => e.UserStatusId);
+
+                entity.ToTable("SSUserStatus", "ident");
 
                 entity.Property(e => e.UserStatusId).HasColumnName("UserStatusID");
 
@@ -1296,9 +1245,22 @@ namespace SS.API.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.UserStatus1)
-                    .HasColumnName("UserStatus")
-                    .HasMaxLength(255);
+                entity.Property(e => e.UserStatus).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<SsuserToken>(entity =>
+            {
+                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+                entity.ToTable("SSUserToken", "ident");
+
+                entity.Property(e => e.LoginProvider).HasMaxLength(128);
+
+                entity.Property(e => e.Name).HasMaxLength(128);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.SsuserToken)
+                    .HasForeignKey(d => d.UserId);
             });
 
             modelBuilder.Entity<Usstate>(entity =>

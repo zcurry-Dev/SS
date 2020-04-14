@@ -8,7 +8,6 @@ namespace SS.API.Models
         public Employee()
         {
             EmployeeRecord = new HashSet<EmployeeRecord>();
-            UserEmployeeXref = new HashSet<UserEmployeeXref>();
         }
 
         public int EmployeeId { get; set; }
@@ -16,6 +15,5 @@ namespace SS.API.Models
         public string LastName { get; set; }
 
         public virtual ICollection<EmployeeRecord> EmployeeRecord { get; set; }
-        public virtual ICollection<UserEmployeeXref> UserEmployeeXref { get; set; }
     }
 }

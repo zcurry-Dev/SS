@@ -21,10 +21,11 @@ namespace SS.API.Models
             Mead = new HashSet<Mead>();
             Seltzer = new HashSet<Seltzer>();
             Seltzery = new HashSet<Seltzery>();
-            Ssadmin = new HashSet<Ssadmin>();
             Ssevent = new HashSet<Ssevent>();
-            UserEmployeeXref = new HashSet<UserEmployeeXref>();
-            UserRolesXref = new HashSet<UserRolesXref>();
+            SsuserClaim = new HashSet<SsuserClaim>();
+            SsuserLogin = new HashSet<SsuserLogin>();
+            SsuserRole = new HashSet<SsuserRole>();
+            SsuserToken = new HashSet<SsuserToken>();
             Venue = new HashSet<Venue>();
             VenueType = new HashSet<VenueType>();
             Wine = new HashSet<Wine>();
@@ -33,18 +34,28 @@ namespace SS.API.Models
 
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string NormalizedUserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public string NormalizedEmail { get; set; }
+        public bool EmailConfirmed { get; set; }
+        public string PasswordHash { get; set; }
+        public string SecurityStamp { get; set; }
+        public string ConcurrencyStamp { get; set; }
+        public string PhoneNumber { get; set; }
+        public bool PhoneNumberConfirmed { get; set; }
+        public bool TwoFactorEnabled { get; set; }
+        public DateTimeOffset? LockoutEnd { get; set; }
+        public bool LockoutEnabled { get; set; }
+        public int AccessFailedCount { get; set; }
         public string DisplayName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int UserStatusId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastActive { get; set; }
-        public byte[] PwHash { get; set; }
-        public byte[] PwSalt { get; set; }
 
-        public virtual UserStatus UserStatus { get; set; }
+        public virtual SsuserStatus UserStatus { get; set; }
         public virtual ICollection<Artist> ArtistCreatedByNavigation { get; set; }
         public virtual ICollection<ArtistGroupMember> ArtistGroupMember { get; set; }
         public virtual ICollection<ArtistGroupMemberRole> ArtistGroupMemberRole { get; set; }
@@ -59,10 +70,11 @@ namespace SS.API.Models
         public virtual ICollection<Mead> Mead { get; set; }
         public virtual ICollection<Seltzer> Seltzer { get; set; }
         public virtual ICollection<Seltzery> Seltzery { get; set; }
-        public virtual ICollection<Ssadmin> Ssadmin { get; set; }
         public virtual ICollection<Ssevent> Ssevent { get; set; }
-        public virtual ICollection<UserEmployeeXref> UserEmployeeXref { get; set; }
-        public virtual ICollection<UserRolesXref> UserRolesXref { get; set; }
+        public virtual ICollection<SsuserClaim> SsuserClaim { get; set; }
+        public virtual ICollection<SsuserLogin> SsuserLogin { get; set; }
+        public virtual ICollection<SsuserRole> SsuserRole { get; set; }
+        public virtual ICollection<SsuserToken> SsuserToken { get; set; }
         public virtual ICollection<Venue> Venue { get; set; }
         public virtual ICollection<VenueType> VenueType { get; set; }
         public virtual ICollection<Wine> Wine { get; set; }

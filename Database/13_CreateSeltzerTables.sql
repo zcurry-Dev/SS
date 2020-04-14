@@ -30,7 +30,7 @@ CREATE TABLE dbo.Seltzery(
 	,ClosingDate DATETIME
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Seltzery_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Seltzery_CreatedDate
 		DEFAULT GETDATE()
@@ -58,7 +58,7 @@ CREATE TABLE dbo.Seltzer(
 		REFERENCES dbo.Meadery(MeaderyID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT Seltzer_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Seltzer_CreatedDate
 		DEFAULT GETDATE()

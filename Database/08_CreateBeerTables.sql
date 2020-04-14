@@ -71,7 +71,7 @@ CREATE TABLE dbo.Brewery(
 	,ClosingDate DATETIME
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Brewery_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Brewery_CreatedDate
 		DEFAULT GETDATE()
@@ -90,7 +90,7 @@ CREATE TABLE dbo.Beer(
 		REFERENCES dbo.Brewery(BreweryID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Beer_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Beer_CreatedDate
 		DEFAULT GETDATE()

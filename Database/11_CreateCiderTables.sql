@@ -46,7 +46,7 @@ CREATE TABLE dbo.Cidery(
 	,ClosingDate DATETIME
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Cidery_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Cidery_CreatedDate
 		DEFAULT GETDATE()
@@ -68,7 +68,7 @@ CREATE TABLE dbo.Cider(
 		REFERENCES dbo.Cidery(CideryID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Cider_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Cider_CreatedDate
 		DEFAULT GETDATE()

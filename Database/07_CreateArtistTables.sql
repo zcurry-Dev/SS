@@ -45,7 +45,7 @@ CREATE TABLE dbo.Artist(
 		DEFAULT 0
 	,UserID INT NULL
 		CONSTRAINT FK_Artist_UserID
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,Verified BIT NOT NULL
 		CONSTRAINT DF_Artist_Verified
 		DEFAULT 0
@@ -57,7 +57,7 @@ CREATE TABLE dbo.Artist(
 		REFERENCES const.City(CityID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Artist_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Artist_CreatedDate
 		DEFAULT GETDATE()
@@ -65,11 +65,11 @@ CREATE TABLE dbo.Artist(
 
 INSERT INTO dbo.Artist
 VALUES
-('Test Artist1', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
-,('Test Artist2', 1, GETDATE(), 0, 2, 1, 1, 1, 1, GETDATE())
-,('Test Artist3', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
-,('Test Artist4', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
-,('Test Artist5', 1, GETDATE(), 1, 2, 1, 1, 1, 1, GETDATE())
+('Test Artist1', 1, GETDATE(), 1, 1, 1, 1, 1, 1, GETDATE())
+,('Test Artist2', 1, GETDATE(), 0, 1, 1, 1, 1, 1, GETDATE())
+,('Test Artist3', 1, GETDATE(), 1, 1, 1, 1, 1, 1, GETDATE())
+,('Test Artist4', 1, GETDATE(), 1, 1, 1, 1, 1, 1, GETDATE())
+,('Test Artist5', 1, GETDATE(), 1, 1, 1, 1, 1, 1, GETDATE())
 
 
 CREATE TABLE dbo.ArtistPhoto(	
@@ -144,7 +144,7 @@ CREATE TABLE dbo.ArtistGroupMember(
 	,LeaveDate DATETIME NULL
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_ArtistGroupMember_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_ArtistGroupMember_CreatedDate
 		DEFAULT GETDATE()
@@ -157,7 +157,7 @@ CREATE TABLE ref.ArtistGroupMemberRole(
 	,ArtistGroupMemberRole NVARCHAR(255) NOT NULL
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_ArtistGroupMemberRole_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_ArtistGroupMemberRole_CreatedDate
 		DEFAULT GETDATE()

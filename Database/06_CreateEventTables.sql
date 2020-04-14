@@ -8,7 +8,7 @@ CREATE TABLE ref.EventType(
 	,EventType NVARCHAR(255) NULL
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_EventType_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_EventType_CreatedDate
 		DEFAULT GETDATE()
@@ -34,7 +34,7 @@ CREATE TABLE dbo.SSEvent(
 		REFERENCES dbo.Venue(VenueID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Event_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Event_CreatedDate
 		DEFAULT GETDATE()

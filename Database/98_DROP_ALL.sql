@@ -17,7 +17,7 @@ DROP TABLE dbo.Cidery
 DROP TABLE ref.CiderFlavor
 DROP TABLE ref.CiderType
 
--- DROP SPIRIT TABLES
+-- DROP LIQUOR TABLES
 DROP TABLE dbo.Liquor
 DROP TABLE dbo.Distillery
 DROP TABLE ref.ScotchWhiskeyType
@@ -61,14 +61,14 @@ DROP TABLE ref.VenueType
 DROP TABLE dbo.SSAddress
 
 -- DROP USER/ADMIN TABLES
-DROP TABLE AdminSS.AdminRolesXRef
-DROP TABLE AdminSS.SSAdmin
-DROP TABLE refAdminSS.AdminRole
-DROP TABLE UserSS.UserRolesXRef
-DROP TABLE hr.UserEmployeeXRef
-DROP TABLE UserSS.SSUser
-DROP TABLE refUserSS.UserRole
-DROP TABLE refUserSS.UserStatus
+DROP TABLE ident.SSUserToken
+DROP TABLE ident.SSUserRole
+DROP TABLE ident.SSUserLogin
+DROP TABLE ident.SSUserClaim
+DROP TABLE ident.SSRoleClaim
+DROP TABLE ident.SSUser
+DROP TABLE ident.SSUserStatus
+DROP TABLE ident.SSRole
 
 -- DROP EMPLOYEE TABLES
 DROP TABLE hr.EmployeeRecord
@@ -95,8 +95,6 @@ DROP SCHEMA refAdminSS
 GO
 DROP SCHEMA refUserSS
 GO
-DROP SCHEMA AdminSS
-GO
-DROP SCHEMA UserSS	
+DROP SCHEMA ident
 GO
 

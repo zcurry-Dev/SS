@@ -39,7 +39,7 @@ CREATE TABLE dbo.Mead(
 		REFERENCES dbo.Meadery(MeaderyID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Mead_CreatedBy
-		REFERENCES UserSS.SSUser(UserID)
+		REFERENCES ident.SSUser(UserID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Mead_CreatedDate
 		DEFAULT GETDATE()
