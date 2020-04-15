@@ -4,6 +4,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,57 +18,72 @@ namespace SS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _repo;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public AuthController(IAuthRepository repo, IConfiguration config, IMapper mapper)
+        private readonly SignInManager<Ssuser> _signInManager;
+        private readonly UserManager<Ssuser> _userManager;
+        public AuthController(IConfiguration config, IMapper mapper,
+        UserManager<Ssuser> userManager, SignInManager<Ssuser> signInManager)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _config = config;
             _mapper = mapper;
-            _repo = repo;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            userForRegisterDto.UserName = userForRegisterDto.UserName.ToLower();
-
-            if (await _repo.UserExists(userForRegisterDto.UserName))
-            {
-                return BadRequest("UserName already exists");
-            }
-
             var userToCreate = _mapper.Map<Ssuser>(userForRegisterDto);
             userToCreate.UserStatusId = 1;
 
-            var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
-            var userToReturn = _mapper.Map<UserforDetailDto>(createdUser);
+            var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+            var userToReturn = _mapper.Map<UserforDetailDto>(userToCreate);
 
-            return CreatedAtRoute(
-                "GetUser",
-                new
-                {
-                    controller = "Users",
-                    userId = createdUser.UserId
-                },
-                userToReturn);
+            if (result.Succeeded)
+            {
+                return CreatedAtRoute(
+                    "GetUser",
+                    new
+                    {
+                        controller = "Users",
+                        userId = userToCreate.Id
+                    },
+                    userToReturn);
+            }
+
+            return BadRequest(result.Errors);
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var userFromRepo = await _repo.Login(userForLoginDto.UserName.ToLower(), userForLoginDto.Password);
+            var user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
 
-            if (userFromRepo == null)
+            var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
+
+            if (result.Succeeded)
             {
-                return Unauthorized();
+                var appUser = _mapper.Map<UserforDetailDto>(user);
+
+                return Ok(new
+                {
+                    token = GenerateJwtToken(user),
+                    appUser
+                });
             }
 
+            return Unauthorized();
+        }
+
+        private string GenerateJwtToken(Ssuser user)
+        {
             var claims = new[] {
-                new Claim(ClaimTypes.NameIdentifier, userFromRepo.UserId.ToString()),
-                new Claim(ClaimTypes.Name, userFromRepo.UserName)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
@@ -84,10 +101,7 @@ namespace SS.API.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new
-            {
-                token = tokenHandler.WriteToken(token)
-            });
+            return tokenHandler.WriteToken(token);
         }
     }
 }

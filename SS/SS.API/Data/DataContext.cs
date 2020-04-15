@@ -1,4 +1,6 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
@@ -6,7 +8,8 @@ using SS.API.Models;
 
 namespace SS.API.Data
 {
-    public partial class DataContext : DbContext
+    public partial class DataContext : IdentityDbContext<Ssuser, Ssrole, int,
+        SsuserClaim, SsuserRole, SsuserLogin, SsroleClaim, SsuserToken>
     {
         private readonly IConfiguration _config;
         public DataContext() { }
@@ -1129,7 +1132,7 @@ namespace SS.API.Data
 
             modelBuilder.Entity<Ssuser>(entity =>
             {
-                entity.HasKey(e => e.UserId);
+                entity.HasKey(e => e.Id);
 
                 entity.ToTable("SSUser", "ident");
 
@@ -1141,7 +1144,7 @@ namespace SS.API.Data
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.Id).HasColumnName("UserID");
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
@@ -1514,6 +1517,9 @@ namespace SS.API.Data
             });
 
             OnModelCreatingPartial(modelBuilder);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Ssuser>().ToTable("SSUser", "ident");
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

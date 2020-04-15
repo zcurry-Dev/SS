@@ -13,7 +13,6 @@ using SS.API.Models;
 
 namespace SS.API.Controllers
 {
-    [Authorize]
     [Route("api/artists/{artistId}/photos")]
     [ApiController]
     public class ArtistPhotosController : ControllerBase

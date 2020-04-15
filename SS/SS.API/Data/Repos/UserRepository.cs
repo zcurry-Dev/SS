@@ -36,7 +36,7 @@ namespace SS.API.Data.Repos
 
         public async Task<Ssuser> GetUser(int userId)
         {
-            var user = await _context.Ssuser.FirstOrDefaultAsync(u => u.UserId == userId);
+            var user = await _context.Ssuser.FirstOrDefaultAsync(u => u.Id == userId);
 
             return user;
         }

@@ -10,7 +10,6 @@ using SS.API.Dtos;
 
 namespace SS.API.Controllers.Users
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 

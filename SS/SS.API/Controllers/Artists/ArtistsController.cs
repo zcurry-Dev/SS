@@ -13,7 +13,6 @@ using SS.API.Helpers.Pagination.PagedParams;
 namespace SS.API.Controllers
 {
     [ServiceFilter(typeof(LogUserActivity))]
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ArtistsController : ControllerBase

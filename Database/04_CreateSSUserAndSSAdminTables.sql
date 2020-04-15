@@ -7,6 +7,13 @@ CREATE TABLE ident.[SSRole] (
     ,CONSTRAINT [PK_SSRole] PRIMARY KEY ([RoleID])
 );
 
+INSERT INTO ident.[SSRole]
+VALUES
+('User', 'user', NEWID())
+,('Admin', 'admin', NEWID())
+,('Artist', 'artist', NEWID())
+,('Venue Manager', 'venue manager', NEWID())
+
 GO
 
 CREATE TABLE ident.SSUserStatus(

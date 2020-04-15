@@ -24,6 +24,10 @@ using AutoMapper;
 using SS.API.Helpers.MapperProfiles;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Repos;
+using Microsoft.AspNetCore.Identity;
+using SS.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace SS.API
 {
@@ -36,26 +40,46 @@ namespace SS.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureDevelopmentServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(x =>
+            {
+                x.UseLazyLoadingProxies();
+                x.UseSqlServer(
+                Configuration.GetConnectionString("DefaultConnection"));
+            });
+            ConfigureServices(services);
+        }
+
+        public void ConfigureProductionServices(IServiceCollection services)
+        {
+            services.AddDbContext<DataContext>(x =>
+             {
+                 x.UseLazyLoadingProxies();
+                 x.UseSqlServer(
+                 Configuration.GetConnectionString("DefaultConnection"));
+             });
+            ConfigureServices(services);
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddCors();
-
-            //AutoMapper
-            var mappingConfig = new MapperConfiguration(mc =>
+            // Identity Section
+            IdentityBuilder builder = services.AddIdentityCore<Ssuser>(opt =>
             {
-                mc.AddProfile(new ArtistProfile());
-                mc.AddProfile(new ArtistPhotoProfile());
-                mc.AddProfile(new UserProfile());
+                // to be changed, set up for development
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+                //
             });
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
 
-            services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IArtistRepository, ArtistRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            builder = new IdentityBuilder(builder.UserType, typeof(Ssrole), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Ssrole>>();
+            builder.AddRoleManager<RoleManager<Ssrole>>();
+            builder.AddSignInManager<SignInManager<Ssuser>>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -70,6 +94,37 @@ namespace SS.API
                     };
                 });
             services.AddScoped<LogUserActivity>();
+            //
+
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddNewtonsoftJson(opt =>
+            {
+                opt.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
+
+            services.AddCors();
+
+            // AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new ArtistProfile());
+                mc.AddProfile(new ArtistPhotoProfile());
+                mc.AddProfile(new UserProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            //
+
+            services.AddScoped<IArtistRepository, ArtistRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -39,16 +39,14 @@ namespace SS.API.Data.Repos
 
         public async Task<Artist> GetArtist(int artistId)
         {
-            var artist = await _context.Artist.Include(a => a.ArtistPhoto)
-                .FirstOrDefaultAsync(a => a.ArtistId == artistId);
+            var artist = await _context.Artist.FirstOrDefaultAsync(a => a.ArtistId == artistId);
 
             return artist;
         }
 
         public async Task<PagedList<Artist>> GetArtists(ArtistParams artistParams)
         {
-            var artists = _context.Artist.Include(p => p.ArtistPhoto)
-                .OrderByDescending(a => a.CareerBeginDate).AsQueryable();
+            var artists = _context.Artist.OrderByDescending(a => a.CareerBeginDate).AsQueryable();
 
             if (!string.IsNullOrEmpty(artistParams.OrderBy))
             {

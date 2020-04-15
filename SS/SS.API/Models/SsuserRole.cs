@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace SS.API.Models
 {
-    public partial class SsuserRole
+    public partial class SsuserRole : IdentityUserRole<int>
     {
-        public int UserId { get; set; }
-        public int RoleId { get; set; }
+        // public int UserId { get; set; }
+        // public int RoleId { get; set; }
 
         public virtual Ssrole Role { get; set; }
         public virtual Ssuser User { get; set; }

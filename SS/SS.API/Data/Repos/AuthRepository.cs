@@ -28,10 +28,10 @@ namespace SS.API.Data.Repos
                 return null;
             }
 
-            if (!VerifyPasswordHash(password, user.PwHash, user.PwSalt))
-            {
-                return null;
-            }
+            // if (!VerifyPasswordHash(password, user.PwHash, user.PwSalt))
+            // {
+            //     return null;
+            // }
 
             return user;
         }
@@ -55,8 +55,8 @@ namespace SS.API.Data.Repos
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.PwHash = passwordHash;
-            user.PwSalt = passwordSalt;
+            // user.PwHash = passwordHash;
+            // user.PwSalt = passwordSalt;
 
             await _context.Ssuser.AddAsync(user);
             await _context.SaveChangesAsync();
