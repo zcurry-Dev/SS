@@ -1108,7 +1108,8 @@ namespace SS.API.Data
                     .IsUnique()
                     .HasFilter("([NormalizedName] IS NOT NULL)");
 
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+                entity.Property(e => e.Id).HasColumnName("RoleID");
+                entity.Ignore(e => e.RoleId);
 
                 entity.Property(e => e.Name).HasMaxLength(256);
 
@@ -1121,18 +1122,19 @@ namespace SS.API.Data
 
                 entity.ToTable("SSRoleClaim", "ident");
 
-                entity.HasIndex(e => e.RoleId);
+                entity.HasIndex(e => e.RoleClaimId);
 
-                entity.Property(e => e.RoleClaimId).HasColumnName("RoleClaimID");
+                entity.Property(e => e.Id).HasColumnName("RoleClaimID");
+                entity.Ignore(e => e.RoleClaimId);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.SsroleClaim)
-                    .HasForeignKey(d => d.RoleId);
+                    .HasForeignKey(d => d.RoleClaimId);
             });
 
             modelBuilder.Entity<Ssuser>(entity =>
             {
-                entity.HasKey(e => e.Id);
+                entity.HasKey(e => e.UserId);
 
                 entity.ToTable("SSUser", "ident");
 
@@ -1145,6 +1147,7 @@ namespace SS.API.Data
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
                 entity.Property(e => e.Id).HasColumnName("UserID");
+                entity.Ignore(e => e.UserId);
 
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
@@ -1195,7 +1198,8 @@ namespace SS.API.Data
 
                 entity.HasIndex(e => e.UserId);
 
-                entity.Property(e => e.UserClaimId).HasColumnName("UserClaimID");
+                entity.Property(e => e.Id).HasColumnName("UserClaimID");
+                entity.Ignore(e => e.UserClaimId);
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.SsuserClaim)
@@ -1517,9 +1521,6 @@ namespace SS.API.Data
             });
 
             OnModelCreatingPartial(modelBuilder);
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Ssuser>().ToTable("SSUser", "ident");
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

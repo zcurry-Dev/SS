@@ -68,8 +68,12 @@ CREATE TABLE ident.[SSUser] (
 INSERT INTO ident.SSUSER
 VALUES
 (
-'zCurry', 'zcurry', 'zach', 'curry', 'z@ss.com', 'z@ss.com',
- 1, null, null, null, null, 0, 0, null, 0,
+'z', 'z', 'zach', 'curry', 'z@ss.com', 'z@ss.com',
+ 1,
+ 'AQAAAAEAACcQAAAAEJvRXEbwhdhrlRHBQ0QvszTOJwoWbUyyKi6Nicq92EmmjJ1xf6xzINPtWExAFUU16A==',
+ 'E2XVSLUAZYY3SGKQ3KKPLNNDSXEPXO7X',
+ 'a66eff1f-8bbd-4520-b50c-8424e43e68d9',
+ null, 0, 0, null, 0,
  0, 'Zach', '05-18-1994', 1, GETDATE(), GETDATE()
 )
 
@@ -211,6 +215,13 @@ CREATE TABLE ident.[SSUserRole] (
     ,CONSTRAINT [FK_SSUserRole_SSRole_RoleId] FOREIGN KEY ([RoleId]) REFERENCES ident.[SSRole] ([RoleID]) ON DELETE CASCADE
     ,CONSTRAINT [FK_SSUserRole_SSUser_UserId] FOREIGN KEY ([UserId]) REFERENCES ident.[SSUser] ([UserID]) ON DELETE CASCADE
 );
+
+
+INSERT INTO [SceneSwarm01].[ident].[SSUserRole]
+VALUES
+(1,1)
+,(1,2)
+,(1,4)
 
 GO
 

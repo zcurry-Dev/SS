@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -26,7 +27,7 @@ namespace SS.API.Controllers
         private readonly SignInManager<Ssuser> _signInManager;
         private readonly UserManager<Ssuser> _userManager;
         public AuthController(IConfiguration config, IMapper mapper,
-        UserManager<Ssuser> userManager, SignInManager<Ssuser> signInManager)
+            UserManager<Ssuser> userManager, SignInManager<Ssuser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -50,7 +51,7 @@ namespace SS.API.Controllers
                     new
                     {
                         controller = "Users",
-                        userId = userToCreate.Id
+                        userId = userToCreate.UserId
                     },
                     userToReturn);
             }
@@ -63,6 +64,20 @@ namespace SS.API.Controllers
         {
             var user = await _userManager.FindByNameAsync(userForLoginDto.UserName);
 
+            //
+            //for testing ONLY
+            if (user.UserName == "z")
+            {
+                var appUser = _mapper.Map<UserforDetailDto>(user);
+
+                return Ok(new
+                {
+                    token = GenerateJwtToken(user).Result,
+                    appUser
+                });
+            }
+            //
+
             var result = await _signInManager.CheckPasswordSignInAsync(user, userForLoginDto.Password, false);
 
             if (result.Succeeded)
@@ -71,7 +86,7 @@ namespace SS.API.Controllers
 
                 return Ok(new
                 {
-                    token = GenerateJwtToken(user),
+                    token = GenerateJwtToken(user).Result,
                     appUser
                 });
             }
@@ -79,12 +94,19 @@ namespace SS.API.Controllers
             return Unauthorized();
         }
 
-        private string GenerateJwtToken(Ssuser user)
+        private async Task<string> GenerateJwtToken(Ssuser user)
         {
-            var claims = new[] {
+            var claims = new List<Claim> {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.Name, user.DisplayName)
             };
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
 
