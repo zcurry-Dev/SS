@@ -94,6 +94,13 @@ namespace SS.API
                     };
                 });
             services.AddScoped<LogUserActivity>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("ModeratePhotoRole", policy => policy.RequireRole("Admin", "Moderator"));
+                options.AddPolicy("Venue Manager", policy => policy.RequireRole("Venue Manager"));
+            });
             //
 
             services.AddControllers(options =>
