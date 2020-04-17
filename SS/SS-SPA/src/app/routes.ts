@@ -10,6 +10,7 @@ import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
 import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 export const AppRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,6 +37,11 @@ export const AppRoutes: Routes = [
       },
       { path: 'venues', component: VenuesComponent },
       { path: 'beers', component: BeersComponent },
+      {
+        path: 'admin',
+        component: AdminPanelComponent,
+        data: { roles: ['Admin', 'Moderator'] },
+      },
     ],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },

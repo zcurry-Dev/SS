@@ -13,6 +13,8 @@ VALUES
 ,('Admin', 'admin', NEWID())
 ,('Artist', 'artist', NEWID())
 ,('Venue Manager', 'venue manager', NEWID())
+,('Promoter', 'promoter', NEWID())
+,('Artist Manager', 'artist manager', NEWID())
 
 GO
 

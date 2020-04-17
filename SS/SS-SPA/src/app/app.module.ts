@@ -27,6 +27,7 @@ import { ArtistService } from './_services/artist.service/artist.service';
 import { AuthService } from './_services/auth.service/auth.service';
 import { ImageService } from './_services/image.service/images.service';
 
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { ArtistCardComponent } from './artist/artist-card/artist-card.component';
 import { ArtistDetailComponent } from './artist/artist-detail/artist-detail.component';
 import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
@@ -37,6 +38,7 @@ import { NavComponent } from './nav/nav.component';
 import { PhotoEditorComponent } from './artist/photo-editor/photo-editor.component';
 import { RegisterComponent } from './register/register.component';
 import { VenuesComponent } from './venues/venues.component';
+import { HasRoleDirective } from './_directives/hasRole.directive';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -44,6 +46,7 @@ export function tokenGetter() {
 
 @NgModule({
   declarations: [
+    AdminPanelComponent,
     AppComponent,
     ArtistCardComponent,
     ArtistDetailComponent,
@@ -55,6 +58,7 @@ export function tokenGetter() {
     PhotoEditorComponent,
     RegisterComponent,
     VenuesComponent,
+    HasRoleDirective,
   ],
   imports: [
     BrowserAnimationsModule,
