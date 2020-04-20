@@ -8,4 +8,5 @@ export interface User {
   lastActive: Date;
   userName: string;
   displayName: string;
+  roles?: string[];
 }

@@ -1,7 +1,12 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { BsDropdownModule, TabsModule, PaginationModule } from 'ngx-bootstrap';
+import {
+  BsDropdownModule,
+  TabsModule,
+  PaginationModule,
+  ModalModule,
+} from 'ngx-bootstrap';
 import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,6 +26,7 @@ import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
 
+import { AdminService } from './_services/admin.service/admin.service';
 import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.interceptor';
 import { AlertifyService } from './_services/alertify.service/alertify.service';
 import { ArtistService } from './_services/artist.service/artist.service';
@@ -36,7 +42,10 @@ import { BeersComponent } from './beers/beers.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
 import { PhotoEditorComponent } from './artist/photo-editor/photo-editor.component';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RegisterComponent } from './register/register.component';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { VenuesComponent } from './venues/venues.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
 
@@ -56,7 +65,10 @@ export function tokenGetter() {
     HomeComponent,
     NavComponent,
     PhotoEditorComponent,
+    PhotoManagementComponent,
     RegisterComponent,
+    RolesModalComponent,
+    UserManagementComponent,
     VenuesComponent,
     HasRoleDirective,
   ],
@@ -78,6 +90,7 @@ export function tokenGetter() {
         ],
       },
     }),
+    ModalModule.forRoot(),
     NgxGalleryModule,
     PaginationModule.forRoot(),
     ReactiveFormsModule,
@@ -86,6 +99,7 @@ export function tokenGetter() {
     TimeagoModule.forRoot(),
   ],
   providers: [
+    AdminService,
     AuthService,
     ErrorInterceptorProvider,
     AlertifyService,
@@ -97,6 +111,7 @@ export function tokenGetter() {
     PreventUnsavedChanges,
     ImageService,
   ],
+  entryComponents: [RolesModalComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
