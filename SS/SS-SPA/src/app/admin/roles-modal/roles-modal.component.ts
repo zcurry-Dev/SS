@@ -1,7 +1,8 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { User } from 'src/app/_models/user';
 import { AuthService } from 'src/app/_services/auth.service/auth.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-roles-modal',
@@ -13,16 +14,19 @@ export class RolesModalComponent implements OnInit {
   user: User;
   roles: any[];
 
-  constructor(
-    public bsModalRef: BsModalRef,
-    private authService: AuthService
-  ) {}
+  ngOnInit() {
+    this.user = this.data.user;
+    this.roles = this.data.roles;
+  }
 
-  ngOnInit() {}
+  constructor(
+    private authService: AuthService,
+    private dialogRef: MatDialogRef<RolesModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { user: User; roles: any[] }
+  ) {}
 
   updateRoles() {
     this.updateSelectedRoles.emit(this.roles);
-    this.bsModalRef.hide();
   }
 
   modalUserIsAdmin() {

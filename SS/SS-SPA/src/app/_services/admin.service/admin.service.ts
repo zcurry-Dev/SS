@@ -21,4 +21,10 @@ export class AdminService {
       roles
     );
   }
+
+  getAvailibleRoles() {
+    console.log('print 1st?');
+
+    return this.http.get(this.baseUrl + 'admin/getRoles');
+  }
 }

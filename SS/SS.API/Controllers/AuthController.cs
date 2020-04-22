@@ -42,6 +42,19 @@ namespace SS.API.Controllers
             userToCreate.UserStatusId = 1;
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            result = await _userManager.AddToRoleAsync(userToCreate, "User");
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
             var userToReturn = _mapper.Map<UserforDetailDto>(userToCreate);
 
             if (result.Succeeded)

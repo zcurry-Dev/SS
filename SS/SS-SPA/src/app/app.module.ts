@@ -15,6 +15,7 @@ import { NgModule } from '@angular/core';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { RouterModule } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
+import { AppMaterialModule } from './app.material.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './routes';
@@ -73,6 +74,7 @@ export function tokenGetter() {
     HasRoleDirective,
   ],
   imports: [
+    AppMaterialModule,
     BrowserAnimationsModule,
     BrowserModule,
     BsDatepickerModule.forRoot(),

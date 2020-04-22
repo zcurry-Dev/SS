@@ -1,43 +1,20 @@
-<div class="modal-header">
-  <h4 class="modal-title pull-left">Edit Roles for {{ user.userName }}</h4>
-  <button
-    type="button"
-    class="close pull-right"
-    aria-label="Close"
-    (click)="bsModalRef.hide()"
-  >
-    <span aria-hidden="true">&times;</span>
-  </button>
+<h1 mat-dialog-title>Edit Roles for user: {{ user.userName }}</h1>
+<div mat-dialog-content>
+  <div *ngFor="let role of roles">
+    <mat-checkbox
+      value="{{ role.name }}"
+      [checked]="role.checked"
+      (change)="role.checked = !role.checked"
+      [disabled]="
+        role.name === 'Admin' && modalUserIsAdmin() && modalUserIsCurrentUser()
+      "
+      >{{ role.name }}</mat-checkbox
+    >
+  </div>
 </div>
-<div class="modal-body">
-  <form #rolesForm="ngForm" id="rolesForm">
-    <div class="form-check" *ngFor="let role of roles">
-      <input
-        type="checkbox"
-        class="type form-check-input"
-        value="{{ role.name }}"
-        [checked]="role.checked"
-        (change)="role.checked = !role.checked"
-        [disabled]="
-          role.name === 'Admin' &&
-          modalUserIsAdmin() &&
-          modalUserIsCurrentUser()
-        "
-      />
-      <label>{{ role.name }}</label>
-    </div>
-  </form>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">
-    Cancel
-  </button>
-  <button
-    type="button"
-    class="btn btn-success"
-    (click)="updateRoles()"
-    form="rolesForm"
-  >
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button cdkFocusInitial [mat-dialog-close]="data.roles">
     Submit
   </button>
-</div>
+</mat-dialog-actions>

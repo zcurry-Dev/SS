@@ -16,8 +16,10 @@ namespace SS.API.Controllers.Admin
     {
         private readonly DataContext _context;
         private readonly UserManager<Ssuser> _userManager;
-        public AdminController(DataContext context, UserManager<Ssuser> userManager)
+        private readonly RoleManager<Ssrole> _roleManager;
+        public AdminController(DataContext context, UserManager<Ssuser> userManager, RoleManager<Ssrole> roleManager)
         {
+            _roleManager = roleManager;
             _userManager = userManager;
             _context = context;
         }
@@ -68,6 +70,14 @@ namespace SS.API.Controllers.Admin
             }
 
             return Ok(await _userManager.GetRolesAsync(user));
+        }
+
+        [HttpGet("getRoles")]
+        public async Task<IActionResult> GetRoles()
+        {
+            var roles = await _roleManager.Roles.Select(x => new { x.Id, x.Name }).ToListAsync();
+
+            return Ok(roles);
         }
 
         [Authorize(Policy = "ModeratePhotoRole")]
