@@ -66,20 +66,20 @@ export class UserManagementComponent implements OnInit {
     this.adminService.getAvailibleRoles().subscribe((data: any[]) => {
       const availableRoles = data;
       if (availableRoles) {
-        for (let i = 0; i < availableRoles.length; i++) {
+        for (const ar of availableRoles) {
           let isMatch = false;
-          for (let j = 0; j < userRoles.length; j++) {
-            if (availableRoles[i].name === userRoles[j]) {
+          for (const ur of userRoles) {
+            if (ar.name === ur) {
               isMatch = true;
-              availableRoles[i].checked = true;
-              roles.push(availableRoles[i]);
+              ar.checked = true;
+              roles.push(ar);
               break;
             }
           }
 
           if (!isMatch) {
-            availableRoles[i].checked = false;
-            roles.push(availableRoles[i]);
+            ar.checked = false;
+            roles.push(ar);
           }
         }
       }
