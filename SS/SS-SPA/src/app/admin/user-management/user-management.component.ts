@@ -23,13 +23,7 @@ export class UserManagementComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   users: User[];
   bsModalRef: BsModalRef;
-  displayedColumns: string[] = [
-    // 'sort',
-    'id',
-    'userName',
-    'roles',
-    'editRoles',
-  ];
+  displayedColumns: string[] = ['id', 'userName', 'roles', 'editRoles'];
   dataSource = new MatTableDataSource(this.users);
 
   constructor(
@@ -40,6 +34,11 @@ export class UserManagementComponent implements OnInit {
 
   ngOnInit() {
     this.getUsersWithRoles();
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getUsersWithRoles() {
