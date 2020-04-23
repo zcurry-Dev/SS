@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Identity;
 using SS.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using SS.API.Business.Interfaces;
+using SS.API.Business.Repos;
 
 namespace SS.API
 {
@@ -132,6 +134,8 @@ namespace SS.API
 
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAdminDataRepository, AdminDataRepository>();
+            services.AddScoped<IAdminRepository, AdminRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

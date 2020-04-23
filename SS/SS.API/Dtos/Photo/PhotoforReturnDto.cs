@@ -1,6 +1,6 @@
 using System;
 
-namespace SS.API.Dtos
+namespace SS.API.Dtos.Photo
 {
     public class PhotoforReturnDto
     {

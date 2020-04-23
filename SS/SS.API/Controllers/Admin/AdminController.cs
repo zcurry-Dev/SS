@@ -1,11 +1,19 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SS.API.Business.Interfaces;
 using SS.API.Data;
+using SS.API.Data.Interfaces;
+using SS.API.Data.Repos;
 using SS.API.Dtos;
+using SS.API.Dtos.User;
+using SS.API.Helpers;
+using SS.API.Helpers.Pagination.PagedParams;
 using SS.API.Models;
 
 namespace SS.API.Controllers.Admin
@@ -16,37 +24,38 @@ namespace SS.API.Controllers.Admin
     {
         private readonly DataContext _context;
         private readonly UserManager<Ssuser> _userManager;
-        private readonly RoleManager<Ssrole> _roleManager;
-        public AdminController(DataContext context, UserManager<Ssuser> userManager, RoleManager<Ssrole> roleManager)
+        private readonly IMapper _mapper;
+        private readonly IAdminRepository _admin;
+
+        public AdminController(
+            DataContext context,
+            UserManager<Ssuser> userManager,
+            IMapper mapper,
+            IAdminRepository admin
+            )
         {
-            _roleManager = roleManager;
+            _mapper = mapper;
+            _admin = admin;
             _userManager = userManager;
             _context = context;
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("usersWithRoles")]
-        public async Task<IActionResult> GetUsersWithRoles()
+        public async Task<IActionResult> GetUsersWithRoles([FromQuery] AdminUsersParams adminUsersParams)
         {
-            var userList = await _context.Users
-                .OrderBy(x => x.UserName)
-                .Select(user => new
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Roles = (from userRole in user.SsuserRole
-                             join role in _context.Roles
-                             on userRole.RoleId
-                             equals role.Id
-                             select role.Name).ToList()
-                }).ToListAsync();
+            var users = await _admin.GetUsersWithRoles(adminUsersParams);
+            var usersToReturn = _mapper.Map<IEnumerable<UsersForAdminReturnDto>>(users);
+            Response.AddPagination(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages);
 
-            return Ok(userList);
+            return Ok(usersToReturn);
         }
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("editRoles/{userName}")]
-        public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
+        public async Task<IActionResult> EditRoles(string userName,
+         RoleEditDto roleEditDto)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
@@ -72,10 +81,11 @@ namespace SS.API.Controllers.Admin
             return Ok(await _userManager.GetRolesAsync(user));
         }
 
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("getRoles")]
         public async Task<IActionResult> GetRoles()
         {
-            var roles = await _roleManager.Roles.Select(x => new { x.Id, x.Name }).ToListAsync();
+            var roles = await _admin.GetRoles();
 
             return Ok(roles);
         }

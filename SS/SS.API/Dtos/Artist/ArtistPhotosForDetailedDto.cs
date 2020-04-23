@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SS.API.Dtos
+namespace SS.API.Dtos.Artist
 {
     public class ArtistPhotosForDetailedDto
     {

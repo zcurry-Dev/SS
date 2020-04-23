@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Models;
 
-namespace SS.API.Dtos
+namespace SS.API.Dtos.Artist
 {
     public class ArtistForDetailedDto
     {

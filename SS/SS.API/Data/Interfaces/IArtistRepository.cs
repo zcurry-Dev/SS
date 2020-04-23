@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using SS.API.Dtos;
+using SS.API.Dtos.Photo;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
 using SS.API.Models;

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SS.API.Models;
 
-namespace SS.API.Dtos
+namespace SS.API.Dtos.Artist
 {
     public class ArtistForListDto
     {

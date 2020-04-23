@@ -2,15 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Data;
 using SS.API.Data.Interfaces;
-using SS.API.Dtos;
+using SS.API.Dtos.Artist;
 using SS.API.Helpers;
 using SS.API.Helpers.Pagination.PagedParams;
 
-namespace SS.API.Controllers
+namespace SS.API.Controllers.Artists
 {
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
@@ -26,7 +24,7 @@ namespace SS.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetArtists([FromQuery]ArtistParams artistParams)
+        public async Task<IActionResult> GetArtists([FromQuery] ArtistParams artistParams)
         {
             var artists = await _repo.GetArtists(artistParams);
             var artistsToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artists);

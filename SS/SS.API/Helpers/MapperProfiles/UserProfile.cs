@@ -1,5 +1,6 @@
 using AutoMapper;
-using SS.API.Dtos;
+using SS.API.Business.Models;
+using SS.API.Dtos.User;
 using SS.API.Models;
 
 namespace SS.API.Helpers.MapperProfiles
@@ -11,12 +12,15 @@ namespace SS.API.Helpers.MapperProfiles
             CreateMap<Ssuser, UserforDetailDto>();
             CreateMap<UserForRegisterDto, Ssuser>()
                 .ForMember(dest => dest.DisplayName, opt =>
-                        opt.MapFrom(src => src.FirstName))
+                    opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.CreatedDate, opt =>
-                        opt.MapFrom(src => src.Created));
+                    opt.MapFrom(src => src.Created));
             CreateMap<Ssuser, UserforDetailDto>()
                 .ForMember(dest => dest.Created, opt =>
-                        opt.MapFrom(src => src.CreatedDate));
+                    opt.MapFrom(src => src.CreatedDate));
+            CreateMap<UsersWithRoles, UsersForAdminReturnDto>()
+                .ForMember(dest => dest.UserId, opt =>
+                    opt.MapFrom(src => src.Id));
         }
     }
 }

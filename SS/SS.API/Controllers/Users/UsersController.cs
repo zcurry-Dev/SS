@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using SS.API.Data;
 using SS.API.Data.Interfaces;
 using SS.API.Dtos;
+using SS.API.Dtos.User;
 
 namespace SS.API.Controllers.Users
 {

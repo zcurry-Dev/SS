@@ -1,4 +1,4 @@
-namespace SS.API.Dtos
+namespace SS.API.Dtos.Artist
 {
     public class ArtistForUpdateDto
     {

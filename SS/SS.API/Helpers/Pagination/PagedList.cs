@@ -25,9 +25,19 @@ namespace SS.API.Helpers.Pagination
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source,
             int pageNumber, int pageSize)
         {
-            var count = await source.CountAsync();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-            return new PagedList<T>(items, count, pageNumber, pageSize);
+            try
+            {
+                var count = await source.CountAsync();
+                var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+                List<T> items = new List<T>();
+                int count = 0;
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            }
         }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using SS.API.Data;
 using SS.API.Data.Interfaces;
 using SS.API.Dtos;
+using SS.API.Dtos.User;
 using SS.API.Models;
 
 namespace SS.API.Controllers
@@ -110,8 +111,8 @@ namespace SS.API.Controllers
         private async Task<string> GenerateJwtToken(Ssuser user)
         {
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.DisplayName)
+                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString ()),
+                new Claim (ClaimTypes.Name, user.DisplayName)
             };
 
             var roles = await _userManager.GetRolesAsync(user);
