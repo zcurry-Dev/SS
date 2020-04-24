@@ -12,6 +12,7 @@ import { AdminService } from '../_services/admin.service/admin.service';
 export class AdminUsersResolver implements Resolve<User[]> {
   pn = 1;
   ps = 10;
+  search: string;
 
   constructor(
     private adminService: AdminService,
@@ -21,14 +22,15 @@ export class AdminUsersResolver implements Resolve<User[]> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
-    return this.adminService.getUsersWithRoles(this.pn, this.ps).pipe(
-      // return this.artistService.getArtists(this.pn, this.ps).pipe(
-      catchError((error) => {
-        console.log(error);
-        this.alertify.error('Problem retrieving data');
-        this.router.navigate(['/home']);
-        return of(null);
-      })
-    );
+    return this.adminService
+      .getUsersWithRoles(this.pn, this.ps, this.search)
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          this.alertify.error('Problem retrieving data');
+          this.router.navigate(['/home']);
+          return of(null);
+        })
+      );
   }
 }

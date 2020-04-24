@@ -14,7 +14,11 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  getUsersWithRoles(page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
+  getUsersWithRoles(
+    page?,
+    itemsPerPage?,
+    search?
+  ): Observable<PaginatedResult<User[]>> {
     console.log('page: ', page, ' - itemsPerPage: ', itemsPerPage);
 
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
@@ -25,6 +29,10 @@ export class AdminService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pn', page);
       params = params.append('ps', itemsPerPage);
+    }
+
+    if (search) {
+      params = params.append('search', search);
     }
 
     return this.http
@@ -44,12 +52,6 @@ export class AdminService {
         })
       );
   }
-
-  // getUsersWithRoles2() {
-  //   return this.http.get(this.baseUrl + 'admin/usersWithRoles', {
-  //     observe: 'response',
-  //   });
-  // }
 
   updateUserRoles(user: User, roles: {}) {
     return this.http.post(

@@ -11,10 +11,10 @@ import {
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { map } from 'rxjs/operators';
-// import { CustomPaginator } from 'src/app/_customs/customPaginator';
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-management',
@@ -30,6 +30,9 @@ export class UserManagementComponent implements OnInit {
   pageEvent: PageEvent;
   length: number;
   pageSize: number;
+  search: string;
+
+  searchTextChanged = new Subject<string>();
 
   constructor(
     private adminService: AdminService,
@@ -45,6 +48,14 @@ export class UserManagementComponent implements OnInit {
       this.pageSize = this.pagination.itemsPerPage;
       this.setUpDataSource();
     });
+
+    this.searchTextChanged
+      .pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((res) => {
+        this.search = res.trim().toLowerCase();
+        this.pagination.currentPage = 1;
+        this.loadUsers();
+      });
   }
 
   pageChanged(event?: PageEvent) {
@@ -65,12 +76,17 @@ export class UserManagementComponent implements OnInit {
 
   loadUsers() {
     this.adminService
-      .getUsersWithRoles(this.pagination.currentPage, this.pageSize)
+      .getUsersWithRoles(
+        this.pagination.currentPage,
+        this.pageSize,
+        this.search
+      )
       .subscribe(
         (res: PaginatedResult<User[]>) => {
           this.users = res.result;
           this.pagination = res.pagination;
           this.setUpDataSource();
+          this.length = this.pagination.totalItems;
         },
         (error) => {
           // this.alertify.error(error);
@@ -78,17 +94,14 @@ export class UserManagementComponent implements OnInit {
         }
       );
   }
-  //
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-    console.log('filteredData', this.dataSource.filteredData);
+  applyFilter($event) {
+    this.searchTextChanged.next($event);
   }
 
   setUpDataSource() {
     this.dataSource.data = this.users;
     this.dataSource.sort = this.sort;
-    // this.dataSource.paginator = this.paginator;
   }
 
   getRolesArray(user, roles) {
