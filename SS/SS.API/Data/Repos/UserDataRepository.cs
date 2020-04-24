@@ -7,12 +7,12 @@ using SS.API.Models;
 
 namespace SS.API.Data.Repos
 {
-    public class UserRepository : IUserRepository
+    public class UserDataRepository : IUserDataRepository
     {
         private readonly DataContext _context;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public UserRepository(DataContext context, IConfiguration config, IMapper mapper)
+        public UserDataRepository(DataContext context, IConfiguration config, IMapper mapper)
         {
             _context = context;
             _config = config;

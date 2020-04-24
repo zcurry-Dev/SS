@@ -132,8 +132,8 @@ namespace SS.API
             services.AddSingleton(mapper);
             //
 
-            services.AddScoped<IArtistRepository, ArtistRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
+            services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IAdminDataRepository, AdminDataRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
         }

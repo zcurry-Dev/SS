@@ -16,9 +16,9 @@ namespace SS.API.Controllers.Users
 
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _repo;
+        private readonly IUserDataRepository _repo;
         private readonly IMapper _mapper;
-        public UsersController(IUserRepository repo, IMapper mapper)
+        public UsersController(IUserDataRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;

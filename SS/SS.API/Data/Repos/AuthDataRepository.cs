@@ -6,10 +6,10 @@ using SS.API.Models;
 
 namespace SS.API.Data.Repos
 {
-    public class AuthRepository : IAuthRepository
+    public class AuthDataRepository : IAuthDataRepository
     {
         private readonly DataContext _context;
-        public AuthRepository(DataContext context)
+        public AuthDataRepository(DataContext context)
         {
             _context = context;
         }

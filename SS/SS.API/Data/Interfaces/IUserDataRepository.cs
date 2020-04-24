@@ -8,7 +8,7 @@ using SS.API.Models;
 
 namespace SS.API.Data.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserDataRepository
     {
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;

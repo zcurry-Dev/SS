@@ -18,11 +18,11 @@ namespace SS.API.Controllers
     [ApiController]
     public class ArtistPhotosController : ControllerBase
     {
-        private readonly IArtistRepository _repo;
+        private readonly IArtistDataRepository _repo;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public ArtistPhotosController(IArtistRepository repo, IMapper mapper, IConfiguration config)
+        public ArtistPhotosController(IArtistDataRepository repo, IMapper mapper, IConfiguration config)
         {
             _repo = repo;
             _mapper = mapper;

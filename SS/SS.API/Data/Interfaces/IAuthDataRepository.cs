@@ -3,7 +3,7 @@ using SS.API.Models;
 
 namespace SS.API.Data.Interfaces
 {
-    public interface IAuthRepository
+    public interface IAuthDataRepository
     {
         Task<Ssuser> Register(Ssuser user, string password);
         Task<Ssuser> Login(string userName, string password);

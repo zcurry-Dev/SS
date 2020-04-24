@@ -15,9 +15,9 @@ namespace SS.API.Controllers.Artists
     [ApiController]
     public class ArtistsController : ControllerBase
     {
-        private readonly IArtistRepository _repo;
+        private readonly IArtistDataRepository _repo;
         private readonly IMapper _mapper;
-        public ArtistsController(IArtistRepository repo, IMapper mapper)
+        public ArtistsController(IArtistDataRepository repo, IMapper mapper)
         {
             _mapper = mapper;
             _repo = repo;

@@ -17,12 +17,12 @@ using SS.API.Models;
 
 namespace SS.API.Data.Repos
 {
-    public class ArtistRepository : IArtistRepository
+    public class ArtistDataRepository : IArtistDataRepository
     {
         private readonly DataContext _context;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public ArtistRepository(DataContext context, IConfiguration config, IMapper mapper)
+        public ArtistDataRepository(DataContext context, IConfiguration config, IMapper mapper)
         {
             _context = context;
             _config = config;

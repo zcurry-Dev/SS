@@ -10,7 +10,7 @@ using SS.API.Models;
 
 namespace SS.API.Data.Interfaces
 {
-    public interface IArtistRepository
+    public interface IArtistDataRepository
     {
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
