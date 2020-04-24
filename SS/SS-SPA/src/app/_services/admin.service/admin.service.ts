@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from 'src/app/_models/user';
+import { Observable } from 'rxjs';
+import { PaginatedResult } from 'src/app/_models/pagination';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +14,42 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  getUsersWithRoles() {
-    return this.http.get(this.baseUrl + 'admin/usersWithRoles');
+  getUsersWithRoles(page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
+    console.log('page: ', page, ' - itemsPerPage: ', itemsPerPage);
+
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
+      User[]
+    >();
+    let params = new HttpParams();
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pn', page);
+      params = params.append('ps', itemsPerPage);
+    }
+
+    return this.http
+      .get<User[]>(this.baseUrl + 'admin/usersWithRoles', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
   }
+
+  // getUsersWithRoles2() {
+  //   return this.http.get(this.baseUrl + 'admin/usersWithRoles', {
+  //     observe: 'response',
+  //   });
+  // }
 
   updateUserRoles(user: User, roles: {}) {
     return this.http.post(

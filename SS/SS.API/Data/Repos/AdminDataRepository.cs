@@ -23,8 +23,6 @@ namespace SS.API.Data.Repos
 
         public Task<PagedList<UsersWithRoles>> GetUsersWithRoles(AdminUsersParams adminUsersParams)
         {
-            // var users = _context.Users.AsQueryable();
-
             var users = _context.Ssuser
                 .Select(user => new UsersWithRoles
                 {
@@ -50,7 +48,13 @@ namespace SS.API.Data.Repos
                 }
             }
 
+            if (!string.IsNullOrEmpty(adminUsersParams.Search))
+            {
+                users = users.Where(s => s.UserName.Contains(adminUsersParams.Search));
+            }
+
             var p = PagedList<UsersWithRoles>.CreateAsync(users, adminUsersParams.PN, adminUsersParams.PS);
+
 
             return p;
         }

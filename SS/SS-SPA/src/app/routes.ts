@@ -11,6 +11,7 @@ import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component'
 import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
 
 export const AppRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,6 +41,7 @@ export const AppRoutes: Routes = [
       {
         path: 'admin',
         component: AdminPanelComponent,
+        resolve: { users: AdminUsersResolver },
         data: { roles: ['Admin', 'Moderator'] },
       },
     ],

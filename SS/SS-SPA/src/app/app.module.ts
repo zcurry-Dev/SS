@@ -26,6 +26,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
+import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
 
 import { AdminService } from './_services/admin.service/admin.service';
 import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.interceptor';
@@ -112,6 +113,7 @@ export function tokenGetter() {
     ArtistEditResolver,
     PreventUnsavedChanges,
     ImageService,
+    AdminUsersResolver,
   ],
   entryComponents: [RolesModalComponent],
   bootstrap: [AppComponent],

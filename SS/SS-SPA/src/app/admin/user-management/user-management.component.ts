@@ -5,13 +5,16 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import {
   MatDialog,
   MatDialogRef,
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { map } from 'rxjs/operators';
+// import { CustomPaginator } from 'src/app/_customs/customPaginator';
+import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-management',
@@ -20,43 +23,72 @@ import { map } from 'rxjs/operators';
 })
 export class UserManagementComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   users: User[];
-  bsModalRef: BsModalRef;
-  displayedColumns: string[] = ['id', 'userName', 'roles', 'editRoles'];
+  displayedColumns: string[] = ['userId', 'userName', 'roles', 'editRoles'];
   dataSource = new MatTableDataSource(this.users);
+  pagination: Pagination;
+  pageEvent: PageEvent;
+  length: number;
+  pageSize: number;
 
   constructor(
     private adminService: AdminService,
-    private modalService: BsModalService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.getUsersWithRoles();
+    this.route.data.subscribe((data) => {
+      this.users = data['users'].result;
+      this.pagination = data['users'].pagination;
+      this.length = this.pagination.totalItems;
+      this.pageSize = this.pagination.itemsPerPage;
+      this.setUpDataSource();
+    });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+  pageChanged(event?: PageEvent) {
+    const ps = event.pageSize;
+    const ipp = this.pagination.itemsPerPage;
+    const cp = this.pagination.currentPage;
+
+    if (ps !== ipp) {
+      this.pageSize = ps;
+      const currentResults = cp * ipp - ipp;
+      this.pagination.currentPage = Math.floor(currentResults / ps) + 1;
+    } else {
+      this.pagination.currentPage = event.pageIndex + 1;
+    }
+
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.adminService
+      .getUsersWithRoles(this.pagination.currentPage, this.pageSize)
+      .subscribe(
+        (res: PaginatedResult<User[]>) => {
+          this.users = res.result;
+          this.pagination = res.pagination;
+          this.setUpDataSource();
+        },
+        (error) => {
+          // this.alertify.error(error);
+          console.log(error);
+        }
+      );
+  }
+  //
+
+  applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  getUsersWithRoles() {
-    this.adminService.getUsersWithRoles().subscribe(
-      (users: User[]) => {
-        this.users = users;
-        this.setUpDataSource();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    console.log('filteredData', this.dataSource.filteredData);
   }
 
   setUpDataSource() {
-    this.dataSource = new MatTableDataSource(this.users);
+    this.dataSource.data = this.users;
     this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    // this.dataSource.paginator = this.paginator;
   }
 
   getRolesArray(user, roles) {
