@@ -1,12 +1,12 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using SS.API.Models;
 
 namespace SS.API.Data.Interfaces
 {
     public interface IAuthDataRepository
     {
-        Task<Ssuser> Register(Ssuser user, string password);
-        Task<Ssuser> Login(string userName, string password);
-        Task<bool> UserExists(string username);
+        Task<SignInResult> CheckPasswordSignInAsync(Ssuser user, string password);
     }
 }

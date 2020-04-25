@@ -5,12 +5,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SS.API.Business.Interfaces;
 using SS.API.Data;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Repos;
-using SS.API.Dtos;
+using SS.API.Dtos.Role;
 using SS.API.Dtos.User;
 using SS.API.Helpers;
 using SS.API.Helpers.Pagination.PagedParams;
@@ -54,8 +51,7 @@ namespace SS.API.Controllers.Admin
 
         [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("editRoles/{userName}")]
-        public async Task<IActionResult> EditRoles(string userName,
-         RoleEditDto roleEditDto)
+        public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
         {
             var user = await _userManager.FindByNameAsync(userName);
 
@@ -94,7 +90,7 @@ namespace SS.API.Controllers.Admin
         [HttpGet("photosForModeration")]
         public IActionResult GetPhotosForModeration()
         {
-            return Ok("Admins or moderators can see thas");
+            return Ok("Admins or moderators can see this");
         }
     }
 }

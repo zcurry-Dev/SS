@@ -1,5 +1,9 @@
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SS.API.Data.Interfaces;
@@ -12,11 +16,17 @@ namespace SS.API.Data.Repos
         private readonly DataContext _context;
         private readonly IConfiguration _config;
         private readonly IMapper _mapper;
-        public UserDataRepository(DataContext context, IConfiguration config, IMapper mapper)
+        private readonly UserManager<Ssuser> _userManager;
+        public UserDataRepository(
+            IConfiguration config,
+            DataContext context,
+            IMapper mapper,
+            UserManager<Ssuser> userManager)
         {
-            _context = context;
             _config = config;
+            _context = context;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
         public void Add<T>(T entity) where T : class
@@ -37,8 +47,40 @@ namespace SS.API.Data.Repos
         public async Task<Ssuser> GetUser(int userId)
         {
             var user = await _context.Ssuser.FirstOrDefaultAsync(u => u.Id == userId);
-
             return user;
+        }
+
+        public async Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp)
+        {
+            var user = await _userManager.GetUserAsync(cp);
+            user.LastActive = DateTime.Now;
+
+            return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<IdentityResult> CreateUser(Ssuser user, string password)
+        {
+
+            var result = await _userManager.CreateAsync(user, password);
+            return result;
+        }
+
+        public async Task<IdentityResult> AddRoleUserRole(Ssuser user)
+        {
+            var result = await _userManager.AddToRoleAsync(user, "User");
+            return result;
+        }
+
+        public async Task<Ssuser> GetUserByUserName(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            return user;
+        }
+
+        public async Task<IList<string>> GetRolesForUser(Ssuser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles;
         }
     }
 }

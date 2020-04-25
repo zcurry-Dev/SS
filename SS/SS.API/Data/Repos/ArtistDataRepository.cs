@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols;
 using SS.API.Data.Interfaces;
-using SS.API.Dtos;
 using SS.API.Dtos.Photo;
-using SS.API.Helpers;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
 using SS.API.Models;

@@ -2,7 +2,7 @@ using System;
 
 namespace SS.API.Dtos.User
 {
-    public class UserforDetailDto
+    public class UserForDetailDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

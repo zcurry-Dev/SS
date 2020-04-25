@@ -1,5 +1,4 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
 
 namespace SS.API.Dtos.Artist
 {

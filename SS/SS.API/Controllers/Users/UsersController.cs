@@ -28,7 +28,7 @@ namespace SS.API.Controllers.Users
         public async Task<IActionResult> GetUser(int userId)
         {
             var user = await _repo.GetUser(userId);
-            var userToReturn = _mapper.Map<UserforDetailDto>(user);
+            var userToReturn = _mapper.Map<UserForDetailDto>(user);
 
             return Ok(userToReturn);
         }

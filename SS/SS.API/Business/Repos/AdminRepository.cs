@@ -1,16 +1,11 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SS.API.Business.Interfaces;
 using SS.API.Data.Interfaces;
-using SS.API.Dtos;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
-using SS.API.Models;
 using SS.API.Business.Models;
+using SS.API.Business.Interfaces;
 
 namespace SS.API.Business.Repos
 {
