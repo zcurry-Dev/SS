@@ -17,7 +17,7 @@ dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=
 
 
 //Refresh // Force
-dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -f
+dotnet ef dbcontext scaffold "Server=.;Database=SceneSwarm01;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Data/Models -f
 
 
 

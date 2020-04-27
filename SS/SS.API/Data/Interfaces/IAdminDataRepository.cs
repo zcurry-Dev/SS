@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SS.API.Business.Dtos.User;
-using SS.API.Models;
+using SS.API.Data.Models;
 
 namespace SS.API.Data.Interfaces
 {

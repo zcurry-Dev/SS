@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Data;
 using Microsoft.AspNetCore.Authorization;
 using SS.API.Business.Dtos.User;
+using SS.API.Data.Models;
 
 namespace SS.API.Controllers
 {

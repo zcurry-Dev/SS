@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace SS.API.Models
+namespace SS.API.Data.Models
 {
     public partial class Ssrole : IdentityRole<int>
     {

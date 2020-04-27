@@ -17,11 +17,11 @@ using SS.API.Helpers.MapperProfiles;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Repos;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using SS.API.Business.Interfaces;
 using SS.API.Business.Repos;
+using SS.API.Data.Models;
 
 namespace SS.API
 {

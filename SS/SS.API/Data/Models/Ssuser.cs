@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
 using Microsoft.AspNetCore.Identity;
 
-namespace SS.API.Models
+namespace SS.API.Data.Models
 {
     public partial class Ssuser : IdentityUser<int>
     {

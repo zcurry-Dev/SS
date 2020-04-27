@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using SS.API.Business.Dtos.Photo;
 using SS.API.Data;
 using SS.API.Data.Interfaces;
-using SS.API.Models;
 
 namespace SS.API.Controllers
 {

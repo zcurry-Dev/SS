@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SS.API.Data.Interfaces;
-using SS.API.Models;
+using SS.API.Data.Models;
 
 namespace SS.API.Data.Repos
 {

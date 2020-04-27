@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SS.API.Models
+namespace SS.API.Data.Models
 {
     public partial class VenueTypeXref
     {

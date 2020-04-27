@@ -1,7 +1,7 @@
 using AutoMapper;
 using SS.API.Business.Dtos.Artist;
 using SS.API.Business.Dtos.Photo;
-using SS.API.Models;
+using SS.API.Data.Models;
 
 namespace SS.API.Helpers.MapperProfiles
 {
