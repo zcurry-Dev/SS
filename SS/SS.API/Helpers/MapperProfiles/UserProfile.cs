@@ -10,34 +10,26 @@ namespace SS.API.Helpers.MapperProfiles
         public UserProfile()
         {
             //Data to Business
-            CreateMap<Ssuser, User>()
+            CreateMap<Ssuser, UserDto>()
                 .ForMember(dest => dest.UserId, opt =>
                     opt.MapFrom(src => src.Id));
 
             //Business to Data
-            CreateMap<User, Ssuser>()
+            CreateMap<UserDto, Ssuser>()
                 .ForMember(dest => dest.Id, opt =>
                     opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.UserId, opt =>
                     opt.MapFrom(src => src.UserId));
 
             //Business to Dto
-            CreateMap<User, UserForDetailDto>()
+            CreateMap<UserDto, UserForDetailDto>()
                 .ForMember(dest => dest.Created, opt =>
                     opt.MapFrom(src => src.CreatedDate));
 
-            //To Clean
-            CreateMap<UserForRegisterDto, Ssuser>()
-                .ForMember(dest => dest.DisplayName, opt =>
-                    opt.MapFrom(src => src.FirstName))
-                .ForMember(dest => dest.CreatedDate, opt =>
-                    opt.MapFrom(src => src.Created));
+            //Data to Dto            
             CreateMap<Ssuser, UserForDetailDto>()
                 .ForMember(dest => dest.Created, opt =>
                     opt.MapFrom(src => src.CreatedDate));
-            CreateMap<UsersWithRoles, UsersForAdminReturnDto>()
-                .ForMember(dest => dest.UserId, opt =>
-                    opt.MapFrom(src => src.Id));
         }
     }
 }

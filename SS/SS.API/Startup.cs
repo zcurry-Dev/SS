@@ -127,6 +127,7 @@ namespace SS.API
                 mc.AddProfile(new ArtistProfile());
                 mc.AddProfile(new ArtistPhotoProfile());
                 mc.AddProfile(new UserProfile());
+                mc.AddProfile(new RoleProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
@@ -137,7 +138,8 @@ namespace SS.API
             services.AddScoped<IAdminDataRepository, AdminDataRepository>();
             services.AddScoped<IAuthDataRepository, AuthDataRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>(); 
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

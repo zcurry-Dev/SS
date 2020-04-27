@@ -8,10 +8,10 @@ namespace SS.API.Business.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<SignInResult> CheckPasswordSignInAsync(User user, string password);
-        Task<string> GenerateJwtToken(User user);
-        Task<User> GetUser(string userName);
+        Task<SignInResult> CheckPasswordSignInAsync(UserDto user, string password);
+        Task<string> GenerateJwtToken(UserDto user);
+        Task<UserDto> GetUser(string userName);
         Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto);
-        UserForDetailDto MapUserToUserForDetailDto(User user);
+        UserForDetailDto MapUserToUserForDetailDto(UserDto user);
     }
 }

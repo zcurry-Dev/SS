@@ -25,10 +25,7 @@ namespace SS.API.Controllers.Auth
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _auth;
-        public AuthController(IAuthRepository auth)
-        {
-            _auth = auth;
-        }
+        public AuthController(IAuthRepository auth) { _auth = auth; }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)

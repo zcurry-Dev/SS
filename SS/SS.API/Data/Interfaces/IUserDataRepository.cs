@@ -12,11 +12,12 @@ namespace SS.API.Data.Interfaces
         void Add<T>(T entity) where T : class;
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
-        Task<Ssuser> GetUser(int userId);
+        Task<Ssuser> GetUserById(string userId);
+        Task<Ssuser> GetUserByUserName(string userName);
         Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp);
         Task<IdentityResult> CreateUser(Ssuser user, string password);
-        Task<IdentityResult> AddRoleUserRole(Ssuser user);
-        Task<Ssuser> GetUserByUserName(string userName);
+        Task<IdentityResult> AddUserRole(Ssuser user);
         Task<IList<string>> GetRolesForUser(Ssuser user);
+        Task<IList<string>> GetRolesForUserByUserName(string userName);
     }
 }

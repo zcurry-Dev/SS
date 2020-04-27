@@ -1,87 +1,50 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Business.Interfaces;
-using SS.API.Data;
 using SS.API.Dtos.Role;
-using SS.API.Dtos.User;
 using SS.API.Helpers;
 using SS.API.Helpers.Pagination.PagedParams;
-using SS.API.Models;
 
 namespace SS.API.Controllers.Admin
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(Policy = "RequireAdminRole")]
     public class AdminController : ControllerBase
     {
-        private readonly DataContext _context;
-        private readonly UserManager<Ssuser> _userManager;
-        private readonly IMapper _mapper;
         private readonly IAdminRepository _admin;
 
-        public AdminController(
-            DataContext context,
-            UserManager<Ssuser> userManager,
-            IMapper mapper,
-            IAdminRepository admin
-            )
-        {
-            _mapper = mapper;
-            _admin = admin;
-            _userManager = userManager;
-            _context = context;
-        }
+        public AdminController(IAdminRepository admin) { _admin = admin; }
 
-        [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUsersWithRoles([FromQuery] AdminUsersParams adminUsersParams)
         {
-            var users = await _admin.GetUsersWithRoles(adminUsersParams);
-            var usersToReturn = _mapper.Map<IEnumerable<UsersForAdminReturnDto>>(users);
+            var users = await _admin.GetAllUsersWithRoles(adminUsersParams);
+            var usersToReturn = _admin.MapToUsersForAdminReturnDto(users);
             Response.AddPagination(users.CurrentPage, users.PageSize,
                 users.TotalCount, users.TotalPages);
 
             return Ok(usersToReturn);
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("editRoles/{userName}")]
         public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-
-            var userRoles = await _userManager.GetRolesAsync(user);
-
-            var selectedRoles = roleEditDto.RoleNames;
-
-            selectedRoles = selectedRoles ?? new string[] { };
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
+            var result = await _admin.UpdateRolesForUser(userName, roleEditDto);
 
             if (!result.Succeeded)
             {
-                return BadRequest("Failed to add to roles");
+                return BadRequest(result.Errors);
             }
 
-            result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
-
-            if (!result.Succeeded)
-            {
-                return BadRequest("Failed to remove the roles");
-            }
-
-            return Ok(await _userManager.GetRolesAsync(user));
+            return Ok(await _admin.GetRolesForUser(userName));
         }
 
-        [Authorize(Policy = "RequireAdminRole")]
         [HttpGet("getRoles")]
         public async Task<IActionResult> GetRoles()
         {
-            var roles = await _admin.GetRoles();
+            var roles = await _admin.GetAllAvailibleRoles();
 
             return Ok(roles);
         }

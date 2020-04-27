@@ -1,34 +1,23 @@
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Data;
-using SS.API.Data.Interfaces;
-using SS.API.Dtos;
-using SS.API.Dtos.User;
+using SS.API.Business.Interfaces;
 
 namespace SS.API.Controllers.Users
 {
     [Route("api/[controller]")]
     [ApiController]
-
     public class UsersController : ControllerBase
     {
-        private readonly IUserDataRepository _repo;
-        private readonly IMapper _mapper;
-        public UsersController(IUserDataRepository repo, IMapper mapper)
+        private readonly IUserRepository _user;
+        public UsersController(IUserRepository user)
         {
-            _mapper = mapper;
-            _repo = repo;
+            _user = user;
         }
 
         [HttpGet("{userId}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int userId)
         {
-            var user = await _repo.GetUser(userId);
-            var userToReturn = _mapper.Map<UserForDetailDto>(user);
+            var userToReturn = await _user.GetUser(userId);
 
             return Ok(userToReturn);
         }

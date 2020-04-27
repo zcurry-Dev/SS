@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SS.API.Business.Interfaces;
 using SS.API.Data.Interfaces;
 using SS.API.Dtos.Artist;
 using SS.API.Helpers;
@@ -13,12 +14,14 @@ namespace SS.API.Controllers.Artists
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistsController : ControllerBase
+    public class ArtistController : ControllerBase
     {
         private readonly IArtistDataRepository _repo;
         private readonly IMapper _mapper;
-        public ArtistsController(IArtistDataRepository repo, IMapper mapper)
+        private readonly IArtistRepository _artist;
+        public ArtistController(IArtistDataRepository repo, IMapper mapper, IArtistRepository artist)
         {
+            _artist = artist;
             _mapper = mapper;
             _repo = repo;
         }
@@ -35,20 +38,19 @@ namespace SS.API.Controllers.Artists
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetArtist(int id)
+        public async Task<IActionResult> GetArtist(int artistId)
         {
-            var artist = await _repo.GetArtist(id);
-            var artistToReturn = _mapper.Map<ArtistForDetailedDto>(artist);
+            var artistToReturn = await _artist.GetArtist(artistId);
 
             return Ok(artistToReturn);
         }
 
         [HttpGet]
         [Route("GetArtistPhoto/{id}")]
-        public async Task<IActionResult> GetArtistPhoto(int id)
+        public async Task<IActionResult> GetArtistPhoto(int artistId)
         {
-            var artistPhoto = await _repo.GetArtistPhoto(id);
-            var file = await _repo.GetPhotoFile(id);
+            var artistPhoto = await _repo.GetArtistPhoto(artistId);
+            var file = await _repo.GetPhotoFile(artistId);
 
             return File(file, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
         }

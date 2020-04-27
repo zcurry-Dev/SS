@@ -44,9 +44,9 @@ namespace SS.API.Data.Repos
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Ssuser> GetUser(int userId)
+        public async Task<Ssuser> GetUserById(string userId)
         {
-            var user = await _context.Ssuser.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _userManager.FindByIdAsync(userId);
             return user;
         }
 
@@ -65,7 +65,7 @@ namespace SS.API.Data.Repos
             return result;
         }
 
-        public async Task<IdentityResult> AddRoleUserRole(Ssuser user)
+        public async Task<IdentityResult> AddUserRole(Ssuser user)
         {
             var result = await _userManager.AddToRoleAsync(user, "User");
             return result;
@@ -79,6 +79,13 @@ namespace SS.API.Data.Repos
 
         public async Task<IList<string>> GetRolesForUser(Ssuser user)
         {
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles;
+        }
+
+        public async Task<IList<string>> GetRolesForUserByUserName(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
             var roles = await _userManager.GetRolesAsync(user);
             return roles;
         }

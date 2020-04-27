@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 
-namespace SS.API.Data.Models
+namespace SS.API.Business.Models
 {
-    public class UsersWithRoles
+    public class UsersWithRolesDto
     {
         public int Id { get; set; }
         public string UserName { get; set; }

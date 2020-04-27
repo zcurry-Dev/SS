@@ -36,14 +36,14 @@ namespace SS.API.Business.Repos
             _user = user;
         }
 
-        public async Task<SignInResult> CheckPasswordSignInAsync(User user, string password)
+        public async Task<SignInResult> CheckPasswordSignInAsync(UserDto user, string password)
         {
             var ssuser = _mapper.Map<Ssuser>(user);
             var result = await _auth.CheckPasswordSignInAsync(ssuser, password);
             return result;
         }
 
-        public async Task<string> GenerateJwtToken(User user)
+        public async Task<string> GenerateJwtToken(UserDto user)
         {
             var claims = new List<Claim> {
                 new Claim (ClaimTypes.NameIdentifier, user.UserId.ToString()),
@@ -76,10 +76,10 @@ namespace SS.API.Business.Repos
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<User> GetUser(string userName)
+        public async Task<UserDto> GetUser(string userName)
         {
             var user = await _user.GetUserByUserName(userName);
-            var userToReturn = _mapper.Map<User>(user);
+            var userToReturn = _mapper.Map<UserDto>(user);
             return userToReturn;
         }
 
@@ -94,12 +94,12 @@ namespace SS.API.Business.Repos
                 return result;
             }
 
-            result = await _user.AddRoleUserRole(user);
+            result = await _user.AddUserRole(user);
 
             return result;
         }
 
-        public UserForDetailDto MapUserToUserForDetailDto(User user)
+        public UserForDetailDto MapUserToUserForDetailDto(UserDto user)
         {
             var appUser = _mapper.Map<UserForDetailDto>(user);
             return appUser;
