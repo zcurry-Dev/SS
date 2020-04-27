@@ -1,4 +1,4 @@
-namespace SS.API.Dtos.User
+namespace SS.API.Business.Dtos.User
 {
     public class UserForLoginDto
     {

@@ -1,4 +1,4 @@
-namespace SS.API.Business.Models
+namespace SS.API.Business.Dtos.Role
 {
     public class RoleDto
     {

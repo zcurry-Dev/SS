@@ -1,6 +1,6 @@
 using System;
 
-namespace SS.API.Business.Models
+namespace SS.API.Business.Dtos.User
 {
     public class UserDto
     {

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SS.API.Dtos.Artist;
+using SS.API.Business.Dtos.Artist;
 
 namespace SS.API.Business.Interfaces
 {

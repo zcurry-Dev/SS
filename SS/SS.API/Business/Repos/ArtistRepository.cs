@@ -2,9 +2,8 @@ using System.Threading.Tasks;
 using SS.API.Data.Interfaces;
 using SS.API.Business.Interfaces;
 using AutoMapper;
-using SS.API.Dtos.User;
-using SS.API.Dtos.Artist;
-using SS.API.Business.Models;
+using SS.API.Business.Dtos.Artist;
+using SS.API.Business.Dtos.Photo;
 
 namespace SS.API.Business.Repos
 {

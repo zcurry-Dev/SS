@@ -6,10 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using SS.API.Business.Dtos.Photo;
 using SS.API.Data;
 using SS.API.Data.Interfaces;
-using SS.API.Dtos;
-using SS.API.Dtos.Photo;
 using SS.API.Models;
 
 namespace SS.API.Controllers

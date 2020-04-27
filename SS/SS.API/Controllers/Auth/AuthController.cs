@@ -1,21 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+using SS.API.Business.Dtos.User;
 using SS.API.Business.Interfaces;
-using SS.API.Data;
-using SS.API.Data.Interfaces;
-using SS.API.Dtos;
-using SS.API.Dtos.User;
-using SS.API.Models;
 
 namespace SS.API.Controllers.Auth
 {

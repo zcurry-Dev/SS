@@ -4,12 +4,11 @@ using System.Threading.Tasks;
 using SS.API.Data.Interfaces;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
-using SS.API.Business.Models;
 using SS.API.Business.Interfaces;
-using SS.API.Dtos.Role;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
-using SS.API.Dtos.User;
+using SS.API.Business.Dtos.User;
+using SS.API.Business.Dtos.Role;
 
 namespace SS.API.Business.Repos
 {

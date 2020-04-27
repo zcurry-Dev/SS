@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SS.API.Business.Dtos.Role;
 using SS.API.Business.Interfaces;
-using SS.API.Dtos.Role;
 using SS.API.Helpers;
 using SS.API.Helpers.Pagination.PagedParams;
 

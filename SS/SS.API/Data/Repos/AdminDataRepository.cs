@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SS.API.Data.Interfaces;
-using SS.API.Business.Models;
 using SS.API.Models;
+using SS.API.Business.Dtos.User;
 
 namespace SS.API.Data.Repos
 {

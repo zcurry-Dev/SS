@@ -1,8 +1,6 @@
-using System.Linq;
 using AutoMapper;
-using SS.API.Dtos;
-using SS.API.Dtos.Artist;
-using SS.API.Dtos.Photo;
+using SS.API.Business.Dtos.Artist;
+using SS.API.Business.Dtos.Photo;
 using SS.API.Models;
 
 namespace SS.API.Helpers.MapperProfiles

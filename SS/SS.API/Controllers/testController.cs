@@ -1,17 +1,12 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using SS.API.Data.Interfaces;
-using SS.API.Business.Models;
-using SS.API.Helpers.Pagination;
-using SS.API.Helpers.Pagination.PagedParams;
 using SS.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Data;
 using Microsoft.AspNetCore.Authorization;
+using SS.API.Business.Dtos.User;
 
 namespace SS.API.Controllers
 {
@@ -36,19 +31,7 @@ namespace SS.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            // var u = _context.Ssuser.Include(u => u.SsuserRole);
-
-            // var users = _context.Ssuser
-            //     .Select(user => new UsersWithRoles
-            //     {
-            //         Id = user.Id,
-            //         UserName = user.UserName,
-            //         Roles = (from userRole in user.SsuserRole
-            //                  join role in _context.Roles
-            //                  on userRole.RoleId
-            //                  equals role.Id
-            //                  select role.Name).ToList()
-            //     }).AsQueryable();
+            var a = await _userManager.FindByIdAsync("1");
 
             var users2 = _context.Ssuser
                 .Select(x => new UsersWithRolesDto
@@ -74,7 +57,5 @@ namespace SS.API.Controllers
 
             return Ok("works");
         }
-
-
     }
 }

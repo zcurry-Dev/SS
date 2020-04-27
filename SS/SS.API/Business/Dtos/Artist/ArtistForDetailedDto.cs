@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
-using SS.API.Models;
 
-namespace SS.API.Dtos.Artist
+namespace SS.API.Business.Dtos.Artist
 {
     public class ArtistForDetailedDto
     {

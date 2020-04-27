@@ -1,4 +1,4 @@
-namespace SS.API.Dtos.Role
+namespace SS.API.Business.Dtos.Role
 {
     public class RoleEditDto
     {

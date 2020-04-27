@@ -1,11 +1,10 @@
 using System;
 
-namespace SS.API.Dtos.Artist
+namespace SS.API.Business.Dtos.Photo
 {
-    public class ArtistPhotosForDetailedDto
+    public class PhotoforReturnDto
     {
         public int Id { get; set; }
-        public int ArtistId { get; set; }
         public string PhotoDescription { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsMain { get; set; }

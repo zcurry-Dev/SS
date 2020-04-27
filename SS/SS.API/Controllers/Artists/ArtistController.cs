@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SS.API.Business.Dtos.Artist;
 using SS.API.Business.Interfaces;
 using SS.API.Data.Interfaces;
-using SS.API.Dtos.Artist;
 using SS.API.Helpers;
 using SS.API.Helpers.Pagination.PagedParams;
 

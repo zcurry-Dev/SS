@@ -1,11 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SS.API.Data.Interfaces;
-using SS.API.Business.Models;
 using SS.API.Business.Interfaces;
 using SS.API.Models;
 using AutoMapper;
-using SS.API.Dtos.User;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Text;
@@ -13,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
+using SS.API.Business.Dtos.User;
 
 namespace SS.API.Business.Repos
 {

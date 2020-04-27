@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Http;
 
-namespace SS.API.Dtos.Photo
+namespace SS.API.Business.Dtos.Photo
 {
     public class PhotoForCreationDto
     {
