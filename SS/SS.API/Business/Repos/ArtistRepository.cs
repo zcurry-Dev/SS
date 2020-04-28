@@ -66,7 +66,7 @@ namespace SS.API.Business.Repos
         {
             var artistPhoto = await _artist.GetArtistPhotoByPhotoId(artistId);
             var photo = _mapper.Map<ArtistPhotoDto>(artistPhoto);
-            var file = await _artist.GetPhotoFile(artistId);
+            var file = await _artist.GetArtistPhotoFile(artistId);
             photo.File = file;
 
             return photo;
@@ -89,11 +89,10 @@ namespace SS.API.Business.Repos
             return photoToReturn;
         }
 
-
         public async Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)
         {
-            var photo = await _artist.UploadPhoto(artistId, photoForCreationDto);
-            var result = await _artist.SaveAll();
+            var artistPhoto = _mapper.Map<ArtistPhoto>(photoForCreationDto);
+            var result = await _artist.UploadArtistPhoto(artistId, artistPhoto, photoForCreationDto.File);
 
             return result;
         }
@@ -106,12 +105,10 @@ namespace SS.API.Business.Repos
             return photoToReturn;
         }
 
-
-
         public async Task<bool> SetNewMainPhoto(int artistId, int artistPhotoId)
         {
             var photoToSetMain = await _artist.GetArtistPhotoByPhotoId(artistPhotoId);
-            var currentMainPhoto = await _artist.GetMainPhotoForArtist(artistId);
+            var currentMainPhoto = await _artist.GetMainArtistPhotoByArtistId(artistId);
             currentMainPhoto.IsMain = false;
             photoToSetMain.IsMain = true;
             var result = await Save();

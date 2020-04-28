@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SS.API.Business.Dtos.Photo;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
@@ -59,7 +59,7 @@ namespace SS.API.Data.Repos
             return artistPhoto;
         }
 
-        public async Task<Byte[]> GetPhotoFile(int artistPhotoId)
+        public async Task<Byte[]> GetArtistPhotoFile(int artistPhotoId)
         {
             var rootPath = _config.GetValue<string>("UploadedFiles:Images:Artists");
             var photo = await _context.ArtistPhoto.Where(p => p.ArtistPhotoId == artistPhotoId)
@@ -69,46 +69,47 @@ namespace SS.API.Data.Repos
             return await System.IO.File.ReadAllBytesAsync(fullPath);
         }
 
-        public async Task<ArtistPhoto> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)
+        public async Task<bool> UploadArtistPhoto(int artistId, ArtistPhoto artistPhoto, IFormFile file)
         {
             var artistFromRepo = await this.GetArtistById(artistId);
             var rootPath = _config.GetValue<string>("UploadedFiles:RootPath");
-            string pathForArtist = rootPath + "images/artists/" + artistFromRepo.ArtistId + "/";
+            string pathForArtist = rootPath + "images/artists/" + artistPhoto.ArtistId + "/";
 
             if (!Directory.Exists(pathForArtist))
             {
                 Directory.CreateDirectory(pathForArtist);
             }
 
-            pathForArtist += photoForCreationDto.File.FileName;
+            pathForArtist += file.FileName;
 
             using (var stream = new FileStream(pathForArtist, FileMode.Create))
             {
-                await photoForCreationDto.File.CopyToAsync(stream);
+                await file.CopyToAsync(stream);
             }
 
-            var photo = _mapper.Map<ArtistPhoto>(photoForCreationDto);
-            photo.PhotoPath = pathForArtist;
-            photo.PhotoFileExt = Path.GetExtension(photoForCreationDto.File.FileName);
-            photo.PhotoFileContentType = photoForCreationDto.File.ContentType;
+            artistPhoto.PhotoPath = pathForArtist;
+            artistPhoto.PhotoFileExt = Path.GetExtension(file.FileName);
+            artistPhoto.PhotoFileContentType = file.ContentType;
 
             if (!artistFromRepo.ArtistPhoto.Any(a => a.IsMain))
             {
-                photo.IsMain = true;
+                artistPhoto.IsMain = true;
             }
 
             // TODO
-            if (photo.PhotoDescription == null)
+            if (artistPhoto.PhotoDescription == null)
             {
-                photo.PhotoDescription = photoForCreationDto.File.FileName;
+                artistPhoto.PhotoDescription = file.FileName;
             }
 
-            artistFromRepo.ArtistPhoto.Add(photo);
+            artistFromRepo.ArtistPhoto.Add(artistPhoto);
 
-            return photo;
+            var result = await SaveAll();
+
+            return result;
         }
 
-        public async Task<ArtistPhoto> GetMainPhotoForArtist(int artistId)
+        public async Task<ArtistPhoto> GetMainArtistPhotoByArtistId(int artistId)
         {
             var artistPhoto = await _context.ArtistPhoto
                 .Where(p => p.ArtistId == artistId)

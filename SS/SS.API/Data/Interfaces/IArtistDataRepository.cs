@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SS.API.Business.Dtos.Photo;
+using Microsoft.AspNetCore.Http;
 using SS.API.Data.Models;
 
 namespace SS.API.Data.Interfaces
@@ -14,9 +14,9 @@ namespace SS.API.Data.Interfaces
         Task<List<Artist>> GetArtists();
         Task<Artist> GetArtistById(int artistId);
         Task<ArtistPhoto> GetArtistPhotoByPhotoId(int artistPhotoId);
-        Task<Byte[]> GetPhotoFile(int artistPhotoId);
-        Task<ArtistPhoto> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto);
-        Task<ArtistPhoto> GetMainPhotoForArtist(int artistId);
+        Task<Byte[]> GetArtistPhotoFile(int artistPhotoId);
+        Task<bool> UploadArtistPhoto(int artistId, ArtistPhoto artistPhoto, IFormFile file);
+        Task<ArtistPhoto> GetMainArtistPhotoByArtistId(int artistId);
         Task<ArtistPhoto> GetMostRecentArtistPhoto(int artistId);
     }
 }

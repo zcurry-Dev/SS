@@ -13,18 +13,13 @@ namespace SS.API.Data.Repos
     public class UserDataRepository : IUserDataRepository
     {
         private readonly DataContext _context;
-        private readonly IConfiguration _config;
-        private readonly IMapper _mapper;
         private readonly UserManager<Ssuser> _userManager;
         public UserDataRepository(
-            IConfiguration config,
             DataContext context,
             IMapper mapper,
             UserManager<Ssuser> userManager)
         {
-            _config = config;
             _context = context;
-            _mapper = mapper;
             _userManager = userManager;
         }
 
