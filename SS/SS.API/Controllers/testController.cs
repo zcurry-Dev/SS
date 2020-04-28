@@ -34,9 +34,9 @@ namespace SS.API.Controllers
             var a = await _userManager.FindByIdAsync("1");
 
             var users2 = _context.Ssuser
-                .Select(x => new UsersWithRolesDto
+                .Select(x => new UserForAdminReturnDto
                 {
-                    Id = x.Id,
+                    UserId = x.Id.ToString(),
                     UserName = x.UserName,
                     Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
                 })
@@ -44,9 +44,9 @@ namespace SS.API.Controllers
                 .AsQueryable();
 
             var users = _context.Ssuser
-                .Select(user => new UsersWithRolesDto
+                .Select(user => new UserForAdminReturnDto
                 {
-                    Id = user.Id,
+                    UserId = user.Id.ToString(),
                     UserName = user.UserName,
                     Roles = (from userRole in user.SsuserRole
                              join role in _context.Roles

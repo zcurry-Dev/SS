@@ -28,7 +28,7 @@ namespace SS.API.Business.Repos
             _user = user;
         }
 
-        public async Task<PagedList<UsersWithRolesDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
+        public async Task<PagedList<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
         {
             var allUsers = await _admin.GetAllUsersWithRoles();
             var users = allUsers.AsQueryable();
@@ -41,7 +41,7 @@ namespace SS.API.Business.Repos
                         users = users.OrderByDescending(a => a.UserName);
                         break;
                     default:
-                        users = users.OrderByDescending(a => a.Id);
+                        users = users.OrderByDescending(a => a.UserId);
                         break;
                 }
             }
@@ -51,7 +51,7 @@ namespace SS.API.Business.Repos
                 users = users.Where(s => s.UserName.Contains(adminUsersParams.Search));
             }
 
-            var p = await PagedList<UsersWithRolesDto>.CreateAsync(users, adminUsersParams.PN, adminUsersParams.PS);
+            var p = await PagedList<UserForAdminReturnDto>.CreateAsync(users, adminUsersParams.PN, adminUsersParams.PS);
 
             return p;
         }
@@ -89,9 +89,9 @@ namespace SS.API.Business.Repos
             return roles;
         }
 
-        public IEnumerable<UsersForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UsersWithRolesDto> users)
+        public IEnumerable<UserForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UserForAdminReturnDto> users)
         {
-            var usersToReturn = _mapper.Map<IEnumerable<UsersForAdminReturnDto>>(users);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForAdminReturnDto>>(users);
             return usersToReturn;
         }
     }

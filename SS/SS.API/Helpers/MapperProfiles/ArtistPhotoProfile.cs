@@ -14,7 +14,7 @@ namespace SS.API.Helpers.MapperProfiles
                 .ForMember(dest => dest.Id, opt =>
                     opt.MapFrom(src => src.ArtistPhotoId));
 
-
+            //Need to Clean
             CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>()
                 .ForMember(dest => dest.Id, opt =>
                     opt.MapFrom(src => src.ArtistPhotoId));

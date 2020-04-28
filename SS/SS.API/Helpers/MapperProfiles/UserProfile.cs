@@ -8,11 +8,6 @@ namespace SS.API.Helpers.MapperProfiles
     {
         public UserProfile()
         {
-            //Data to Business
-            CreateMap<Ssuser, UserDto>()
-                .ForMember(dest => dest.UserId, opt =>
-                    opt.MapFrom(src => src.Id));
-
             //Business to Data
             CreateMap<UserDto, Ssuser>()
                 .ForMember(dest => dest.Id, opt =>
@@ -20,15 +15,18 @@ namespace SS.API.Helpers.MapperProfiles
                 .ForMember(dest => dest.UserId, opt =>
                     opt.MapFrom(src => src.UserId));
 
-            //Business to Dto
+            //Dto to Dto
             CreateMap<UserDto, UserForDetailDto>()
                 .ForMember(dest => dest.Created, opt =>
                     opt.MapFrom(src => src.CreatedDate));
 
-            //Data to Dto            
+            //Data to Business            
             CreateMap<Ssuser, UserForDetailDto>()
                 .ForMember(dest => dest.Created, opt =>
                     opt.MapFrom(src => src.CreatedDate));
+            CreateMap<Ssuser, UserDto>()
+                .ForMember(dest => dest.UserId, opt =>
+                    opt.MapFrom(src => src.Id));
         }
     }
 }

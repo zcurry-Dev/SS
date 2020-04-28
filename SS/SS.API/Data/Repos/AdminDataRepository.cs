@@ -24,12 +24,12 @@ namespace SS.API.Data.Repos
             _userManager = userManager;
         }
 
-        public async Task<List<UsersWithRolesDto>> GetAllUsersWithRoles()
+        public async Task<List<UserForAdminReturnDto>> GetAllUsersWithRoles()
         {
             var users = await _context.Ssuser
-                .Select(x => new UsersWithRolesDto
+                .Select(x => new UserForAdminReturnDto
                 {
-                    Id = x.Id,
+                    UserId = x.Id.ToString(),
                     UserName = x.UserName,
                     Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
                 }).ToListAsync();

@@ -10,10 +10,10 @@ namespace SS.API.Business.Interfaces
 {
     public interface IAdminRepository
     {
-        Task<PagedList<UsersWithRolesDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams);
+        Task<PagedList<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams);
         Task<List<RoleDto>> GetAllAvailibleRoles();
         Task<IdentityResult> UpdateRolesForUser(string userName, RoleEditDto roleEditDto);
         Task<IList<string>> GetRolesForUser(string userName);
-        IEnumerable<UsersForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UsersWithRolesDto> users);
+        IEnumerable<UserForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UserForAdminReturnDto> users);
     }
 }
