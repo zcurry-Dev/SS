@@ -1,16 +1,16 @@
+using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using SS.API.Data.Interfaces;
-using SS.API.Business.Interfaces;
-using AutoMapper;
-using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.IdentityModel.Tokens.Jwt;
-using System;
-using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using SS.API.Business.Dtos.User;
+using SS.API.Business.Interfaces;
+using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
 namespace SS.API.Business.Repos

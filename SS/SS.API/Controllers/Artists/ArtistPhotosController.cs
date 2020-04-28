@@ -1,14 +1,8 @@
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using SS.API.Business.Dtos.Photo;
-using SS.API.Data;
-using SS.API.Data.Interfaces;
+using SS.API.Business.Interfaces;
 
 namespace SS.API.Controllers
 {
@@ -16,22 +10,17 @@ namespace SS.API.Controllers
     [ApiController]
     public class ArtistPhotosController : ControllerBase
     {
-        private readonly IArtistDataRepository _repo;
-        private readonly IMapper _mapper;
-        private readonly IConfiguration _config;
+        private readonly IArtistRepository _artist;
 
-        public ArtistPhotosController(IArtistDataRepository repo, IMapper mapper, IConfiguration config)
+        public ArtistPhotosController(IArtistRepository artist)
         {
-            _repo = repo;
-            _mapper = mapper;
-            _config = config;
+            _artist = artist;
         }
 
         [HttpGet("{id}", Name = "GetArtistPhoto")]
-        public async Task<IActionResult> GetArtistPhoto(int id)
+        public async Task<IActionResult> GetArtistPhoto(int artistPhotoId)
         {
-            var photoFromRepo = await _repo.GetArtistPhoto(id);
-            var photo = _mapper.Map<PhotoforReturnDto>(photoFromRepo);
+            var photo = await _artist.GetArtistPhotoByPhotoId(artistPhotoId);
 
             return Ok(photo);
         }
@@ -40,15 +29,14 @@ namespace SS.API.Controllers
         public async Task<IActionResult> AddPhotoForArtist(int artistId,
             [FromForm]PhotoForCreationDto photoForCreationDto)
         {
-            var photo = await _repo.UploadPhoto(artistId, photoForCreationDto);
+            var result = await _artist.UploadPhoto(artistId, photoForCreationDto);
 
-            if (await _repo.SaveAll())
+            if (result)
             {
-                // return Ok();
-                var photoToReturn = _mapper.Map<PhotoforReturnDto>(photo);
+                var photoToReturn = _artist.GetMostRecentArtistPhoto(artistId);
                 return CreatedAtRoute(
                     "GetArtistPhoto",
-                    new { artistId = artistId, id = photo.ArtistPhotoId },
+                    new { artistId = artistId, id = photoToReturn.Id },
                     photoToReturn);
             }
 
@@ -58,24 +46,21 @@ namespace SS.API.Controllers
         [HttpPost("{photoId}/setMain")]
         public async Task<IActionResult> SetMainPhoto(int artistId, int photoId)
         {
-            var artist = await _repo.GetArtist(artistId);
-            if (!artist.ArtistPhoto.Any(p => p.ArtistPhotoId == photoId))
+            var artist = await _artist.GetArtistById(artistId);
+            if (!artist.Photos.Any(p => p.Id == photoId))
             {
                 return Unauthorized();
             }
 
-            var photoFromRepo = await _repo.GetArtistPhoto(photoId);
-
+            var photoFromRepo = await _artist.GetArtistPhotoByPhotoId(photoId);
             if (photoFromRepo.IsMain)
             {
                 return BadRequest("This is already the main photo");
             }
 
-            var currentMainPhoto = await _repo.GetMainPhotoForArtist(artistId);
-            currentMainPhoto.IsMain = false;
-            photoFromRepo.IsMain = true;
+            var result = await _artist.SetNewMainPhoto(artistId, photoId);
 
-            if (await _repo.SaveAll())
+            if (result)
             {
                 return NoContent();
             }
@@ -86,19 +71,17 @@ namespace SS.API.Controllers
         [HttpDelete("{photoId}")]
         public async Task<IActionResult> DeletePhoto(int artistId, int photoId)
         {
-            var artist = await _repo.GetArtist(artistId);
-            if (!artist.ArtistPhoto.Any(p => p.ArtistPhotoId == photoId))
+            var artist = await _artist.GetArtistById(artistId);
+            if (!artist.Photos.Any(p => p.Id == photoId))
             {
                 return Unauthorized();
             }
 
-            var photoFromRepo = await _repo.GetArtistPhoto(photoId);
-
+            var photoFromRepo = await _artist.GetArtistPhotoByPhotoId(photoId);
             if (photoFromRepo.IsMain)
             {
                 return BadRequest("You cannot delete your main photo");
             }
-
 
             //
             // DELETE FILE FROM SYSTEM
@@ -107,9 +90,9 @@ namespace SS.API.Controllers
 
             // if file deleted "OK"
             // if (result.Result == "ok") {} then 
-            _repo.Delete(photoFromRepo);
 
-            if (await _repo.SaveAll())
+            var result = await _artist.DeletePhoto(photoId);
+            if (result)
             {
                 return Ok();
             }

@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SS.API.Data.Interfaces;
 using SS.API.Business.Dtos.User;
+using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
 namespace SS.API.Data.Repos

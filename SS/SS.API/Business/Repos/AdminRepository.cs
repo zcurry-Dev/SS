@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using SS.API.Business.Dtos.Role;
+using SS.API.Business.Dtos.User;
+using SS.API.Business.Interfaces;
 using SS.API.Data.Interfaces;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
-using SS.API.Business.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using AutoMapper;
-using SS.API.Business.Dtos.User;
-using SS.API.Business.Dtos.Role;
 
 namespace SS.API.Business.Repos
 {

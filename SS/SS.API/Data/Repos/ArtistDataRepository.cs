@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,8 +9,6 @@ using Microsoft.Extensions.Configuration;
 using SS.API.Business.Dtos.Photo;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
-using SS.API.Helpers.Pagination;
-using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Data.Repos
 {
@@ -34,38 +33,30 @@ namespace SS.API.Data.Repos
             _context.Remove(entity);
         }
 
-        public async Task<Artist> GetArtist(int artistId)
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<Artist> GetArtistById(int artistId)
         {
             var artist = await _context.Artist.FirstOrDefaultAsync(a => a.ArtistId == artistId);
 
             return artist;
         }
 
-        public async Task<PagedList<Artist>> GetArtists(ArtistParams artistParams)
+        public async Task<List<Artist>> GetArtists()
         {
-            var artists = _context.Artist.OrderByDescending(a => a.CareerBeginDate).AsQueryable();
+            var artists = await _context.Artist.ToListAsync();
 
-            if (!string.IsNullOrEmpty(artistParams.OrderBy))
-            {
-                switch (artistParams.OrderBy)
-                {
-                    case "created":
-                        artists = artists.OrderByDescending(a => a.CreatedDate);
-                        break;
-                    default:
-                        artists = artists.OrderByDescending(a => a.CareerBeginDate);
-                        break;
-                }
-            }
-
-            return await PagedList<Artist>.CreateAsync(artists,
-                artistParams.PN, artistParams.PS);
+            return artists;
         }
 
-        public async Task<ArtistPhoto> GetArtistPhoto(int artistPhotoId)
+        public async Task<ArtistPhoto> GetArtistPhotoByPhotoId(int artistPhotoId)
         {
-            return await _context.ArtistPhoto
-                .FirstOrDefaultAsync(p => p.ArtistPhotoId == artistPhotoId);
+            var artistPhoto = await _context.ArtistPhoto.FirstOrDefaultAsync(p => p.ArtistPhotoId == artistPhotoId);
+
+            return artistPhoto;
         }
 
         public async Task<Byte[]> GetPhotoFile(int artistPhotoId)
@@ -78,14 +69,9 @@ namespace SS.API.Data.Repos
             return await System.IO.File.ReadAllBytesAsync(fullPath);
         }
 
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public async Task<ArtistPhoto> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)
         {
-            var artistFromRepo = await this.GetArtist(artistId);
+            var artistFromRepo = await this.GetArtistById(artistId);
             var rootPath = _config.GetValue<string>("UploadedFiles:RootPath");
             string pathForArtist = rootPath + "images/artists/" + artistFromRepo.ArtistId + "/";
 
@@ -124,8 +110,21 @@ namespace SS.API.Data.Repos
 
         public async Task<ArtistPhoto> GetMainPhotoForArtist(int artistId)
         {
-            return await _context.ArtistPhoto.Where(p => p.ArtistId == artistId)
+            var artistPhoto = await _context.ArtistPhoto
+                .Where(p => p.ArtistId == artistId)
                 .FirstOrDefaultAsync(p => p.IsMain);
+
+            return artistPhoto;
+        }
+
+        public async Task<ArtistPhoto> GetMostRecentArtistPhoto(int artistId)
+        {
+            var artistPhoto = await _context.ArtistPhoto
+                .Where(p => p.ArtistId == artistId)
+                .OrderByDescending(p => p.ArtistPhotoId)
+                .FirstOrDefaultAsync(); // want to verify this is returning proper photo
+
+            return artistPhoto;
         }
     }
 }

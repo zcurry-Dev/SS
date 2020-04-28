@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using SS.API.Data.Interfaces;
-using SS.API.Business.Interfaces;
 using AutoMapper;
 using SS.API.Business.Dtos.User;
+using SS.API.Business.Interfaces;
+using SS.API.Data.Interfaces;
 
 namespace SS.API.Business.Repos
 {

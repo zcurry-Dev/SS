@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Business.Dtos.Artist;
 using SS.API.Business.Interfaces;
-using SS.API.Data.Interfaces;
 using SS.API.Helpers;
 using SS.API.Helpers.Pagination.PagedParams;
 
@@ -16,21 +13,17 @@ namespace SS.API.Controllers.Artists
     [ApiController]
     public class ArtistController : ControllerBase
     {
-        private readonly IArtistDataRepository _repo;
-        private readonly IMapper _mapper;
         private readonly IArtistRepository _artist;
-        public ArtistController(IArtistDataRepository repo, IMapper mapper, IArtistRepository artist)
+        public ArtistController(IArtistRepository artist)
         {
             _artist = artist;
-            _mapper = mapper;
-            _repo = repo;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetArtists([FromQuery] ArtistParams artistParams)
         {
-            var artists = await _repo.GetArtists(artistParams);
-            var artistsToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artists);
+            var artists = await _artist.GetArtists(artistParams);
+            var artistsToReturn = _artist.MapArtistsToDto(artists);
             Response.AddPagination(artists.CurrentPage, artists.PageSize,
                 artists.TotalCount, artists.TotalPages);
 
@@ -40,7 +33,7 @@ namespace SS.API.Controllers.Artists
         [HttpGet("{id}")]
         public async Task<IActionResult> GetArtist(int artistId)
         {
-            var artistToReturn = await _artist.GetArtist(artistId);
+            var artistToReturn = await _artist.GetArtistById(artistId);
 
             return Ok(artistToReturn);
         }
@@ -49,30 +42,22 @@ namespace SS.API.Controllers.Artists
         [Route("GetArtistPhoto/{id}")]
         public async Task<IActionResult> GetArtistPhoto(int artistId)
         {
-            var artistPhoto = await _repo.GetArtistPhoto(artistId);
-            var file = await _repo.GetPhotoFile(artistId);
+            var artistPhoto = await _artist.GetArtistPhotoByArtistId(artistId);
 
-            return File(file, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
+            return File(artistPhoto.File, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateArtist(int id, ArtistForUpdateDto artistForUpdateDto)
+        public async Task<IActionResult> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
         {
-            // if updating logged in user logic, swap artist and user
-            // if (id != int.Parse(Artist.FindFirst(ClaimTypes.NameIdentifier).Vale)) {
-            //     return Unauthorized();
-            // }
+            var result = await _artist.UpdateArtist(artistId, artistForUpdateDto);
 
-            var artistFromRepo = await _repo.GetArtist(id);
-
-            _mapper.Map(artistForUpdateDto, artistFromRepo);
-
-            if (await _repo.SaveAll())
+            if (result)
             {
                 return NoContent();
             }
 
-            throw new Exception($"Updating user {id} failed on save");
+            throw new Exception($"Updating user {artistId} failed on save");
         }
     }
 }

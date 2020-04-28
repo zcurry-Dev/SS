@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
