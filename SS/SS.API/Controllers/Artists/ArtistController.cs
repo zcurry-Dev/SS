@@ -8,7 +8,7 @@ using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Controllers.Artists
 {
-    [ServiceFilter(typeof(LogUserActivity))]
+    // [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class ArtistController : ControllerBase
@@ -19,7 +19,7 @@ namespace SS.API.Controllers.Artists
             _artist = artist;
         }
 
-        [HttpGet]
+        [HttpGet("aa")]
         public async Task<IActionResult> GetArtists([FromQuery] ArtistParams artistParams)
         {
             var artists = await _artist.GetArtists(artistParams);

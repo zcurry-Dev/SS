@@ -31,28 +31,35 @@ namespace SS.API.Business.Repos
 
         public async Task<PagedList<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
         {
-            var allUsers = await _admin.GetAllUsersWithRoles();
-            var users = allUsers.AsQueryable();
+            var allUsers = await _admin.GetAllUsers();
+
+            var usersWithRoles = allUsers
+               .Select(x => new UserForAdminReturnDto
+               {
+                   UserId = x.Id.ToString(),
+                   UserName = x.UserName,
+                   Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
+               }).AsQueryable();
 
             if (!string.IsNullOrEmpty(adminUsersParams.OrderBy))
             {
                 switch (adminUsersParams.OrderBy)
                 {
                     case "UserName":
-                        users = users.OrderByDescending(a => a.UserName);
+                        usersWithRoles = usersWithRoles.OrderByDescending(a => a.UserName);
                         break;
                     default:
-                        users = users.OrderByDescending(a => a.UserId);
+                        usersWithRoles = usersWithRoles.OrderByDescending(a => a.UserId);
                         break;
                 }
             }
 
             if (!string.IsNullOrEmpty(adminUsersParams.Search))
             {
-                users = users.Where(s => s.UserName.Contains(adminUsersParams.Search));
+                usersWithRoles = usersWithRoles.Where(s => s.UserName.Contains(adminUsersParams.Search));
             }
 
-            var p = await PagedList<UserForAdminReturnDto>.CreateAsync(users, adminUsersParams.PN, adminUsersParams.PS);
+            var p = await PagedList<UserForAdminReturnDto>.CreateAsync(usersWithRoles, adminUsersParams.PN, adminUsersParams.PS);
 
             return p;
         }
@@ -92,7 +99,7 @@ namespace SS.API.Business.Repos
 
         public IEnumerable<UserForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UserForAdminReturnDto> users)
         {
-            var usersToReturn = _mapper.Map<IEnumerable<UserForAdminReturnDto>>(users);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForAdminReturnDto>>(users); // This doesn't seem right
             return usersToReturn;
         }
     }

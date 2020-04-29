@@ -16,11 +16,6 @@ namespace SS.API.Helpers.MapperProfiles
                 .ForMember(dest => dest.UserId, opt =>
                     opt.MapFrom(src => src.UserId));
 
-            //Dto to Dto
-            CreateMap<UserBModel, UserForDetailDto>()
-                .ForMember(dest => dest.Created, opt =>
-                    opt.MapFrom(src => src.CreatedDate));
-
             //Data to Business            
             CreateMap<Ssuser, UserForDetailDto>()
                 .ForMember(dest => dest.Created, opt =>
@@ -28,6 +23,19 @@ namespace SS.API.Helpers.MapperProfiles
             CreateMap<Ssuser, UserBModel>()
                 .ForMember(dest => dest.UserId, opt =>
                     opt.MapFrom(src => src.Id));
+
+            //Business to Dto
+            CreateMap<UserBModel, UserForDetailDto>()
+                .ForMember(dest => dest.Created, opt =>
+                    opt.MapFrom(src => src.CreatedDate));
+
+            //Dto to Data
+            CreateMap<UserForRegisterDto, Ssuser>()
+                .ForMember(dest => dest.DisplayName, opt =>
+                    opt.MapFrom(src => src.FirstName));
+            CreateMap<UserForDetailDto, Ssuser>()
+                .ForMember(dest => dest.DisplayName, opt =>
+                    opt.MapFrom(src => src.FirstName));
         }
     }
 }

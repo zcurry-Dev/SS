@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SS.API.Business.Dtos.User;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
@@ -24,15 +23,9 @@ namespace SS.API.Data.Repos
             _userManager = userManager;
         }
 
-        public async Task<List<UserForAdminReturnDto>> GetAllUsersWithRoles()
+        public async Task<List<Ssuser>> GetAllUsers()
         {
-            var users = await _context.Ssuser
-                .Select(x => new UserForAdminReturnDto
-                {
-                    UserId = x.Id.ToString(),
-                    UserName = x.UserName,
-                    Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
-                }).ToListAsync();
+            var users = await _context.Ssuser.ToListAsync();
 
             return users;
         }

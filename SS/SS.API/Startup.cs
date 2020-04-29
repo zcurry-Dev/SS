@@ -125,11 +125,12 @@ namespace SS.API
             services.AddSingleton(mapper);
             //
 
-            services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
-            services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IAdminDataRepository, AdminDataRepository>();
+            services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
             services.AddScoped<IAuthDataRepository, AuthDataRepository>();
+            services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
+            services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
         }

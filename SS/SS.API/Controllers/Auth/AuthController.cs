@@ -21,14 +21,13 @@ namespace SS.API.Controllers.Auth
 
             if (result.Succeeded)
             {
-                var user = await _auth.GetUser(userForRegisterDto.UserName);
-                var userToReturn = _auth.MapUserToUserForDetailDto(user);
+                var userToReturn = await _auth.GetUserForDetailToReturn(userForRegisterDto.UserName);
                 return CreatedAtRoute(
                     "GetUser",
                     new
                     {
                         controller = "Users",
-                        userId = user.UserId
+                        userId = userToReturn.Id
                     },
                     userToReturn);
             }
@@ -39,8 +38,7 @@ namespace SS.API.Controllers.Auth
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var user = await _auth.GetUser(userForLoginDto.UserName);
-            var appUser = _auth.MapUserToUserForDetailDto(user);
+            var user = await _auth.GetUserForDetailToReturn(userForLoginDto.UserName);
 
             //
             //for testing ONLY
@@ -49,7 +47,7 @@ namespace SS.API.Controllers.Auth
                 return Ok(new
                 {
                     token = _auth.GenerateJwtToken(user).Result,
-                    appUser
+                    user
                 });
             }
             //
@@ -61,7 +59,7 @@ namespace SS.API.Controllers.Auth
                 return Ok(new
                 {
                     token = _auth.GenerateJwtToken(user).Result,
-                    appUser
+                    user
                 });
             }
 

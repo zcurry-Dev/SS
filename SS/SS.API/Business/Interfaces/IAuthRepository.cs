@@ -7,10 +7,9 @@ namespace SS.API.Business.Interfaces
 {
     public interface IAuthRepository
     {
-        Task<SignInResult> CheckPasswordSignInAsync(UserBModel user, string password);
-        Task<string> GenerateJwtToken(UserBModel user);
-        Task<UserBModel> GetUser(string userName);
+        Task<SignInResult> CheckPasswordSignInAsync(UserForDetailDto user, string password);
+        Task<string> GenerateJwtToken(UserForDetailDto user);
         Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto);
-        UserForDetailDto MapUserToUserForDetailDto(UserBModel user);
+        Task<UserForDetailDto> GetUserForDetailToReturn(string userName);
     }
 }

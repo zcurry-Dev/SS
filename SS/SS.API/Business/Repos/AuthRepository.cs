@@ -36,17 +36,17 @@ namespace SS.API.Business.Repos
             _user = user;
         }
 
-        public async Task<SignInResult> CheckPasswordSignInAsync(UserBModel user, string password)
+        public async Task<SignInResult> CheckPasswordSignInAsync(UserForDetailDto user, string password)
         {
-            var ssuser = _mapper.Map<Ssuser>(user);
-            var result = await _auth.CheckPasswordSignInAsync(ssuser, password);
+            var ssUser = await _user.GetUserByUserName(user.UserName);
+            var result = await _auth.CheckPasswordSignInAsync(ssUser, password);
             return result;
         }
 
-        public async Task<string> GenerateJwtToken(UserBModel user)
+        public async Task<string> GenerateJwtToken(UserForDetailDto user)
         {
             var claims = new List<Claim> {
-                new Claim (ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim (ClaimTypes.Name, user.DisplayName)
             };
 
@@ -76,17 +76,11 @@ namespace SS.API.Business.Repos
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<UserBModel> GetUser(string userName)
-        {
-            var user = await _user.GetUserByUserName(userName);
-            var userToReturn = _mapper.Map<UserBModel>(user);
-            return userToReturn;
-        }
-
         public async Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto)
         {
             var user = _mapper.Map<Ssuser>(userForRegisterDto);
             user.UserStatusId = 1;
+
             var result = await _user.CreateUser(user, userForRegisterDto.Password);
 
             if (!result.Succeeded)
@@ -99,10 +93,11 @@ namespace SS.API.Business.Repos
             return result;
         }
 
-        public UserForDetailDto MapUserToUserForDetailDto(UserBModel user)
+        public async Task<UserForDetailDto> GetUserForDetailToReturn(string userName)
         {
-            var appUser = _mapper.Map<UserForDetailDto>(user);
-            return appUser;
+            var user = await _user.GetUserByUserName(userName);
+            var userToReturn = _mapper.Map<UserForDetailDto>(user);
+            return userToReturn;
         }
     }
 }

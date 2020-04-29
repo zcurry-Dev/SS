@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
@@ -54,7 +53,6 @@ namespace SS.API.Data.Repos
 
         public async Task<IdentityResult> CreateUser(Ssuser user, string password)
         {
-
             var result = await _userManager.CreateAsync(user, password);
             return result;
         }
