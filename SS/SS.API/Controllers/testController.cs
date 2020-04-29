@@ -36,7 +36,7 @@ namespace SS.API.Controllers
             var users2 = _context.Ssuser
                 .Select(x => new UserForAdminReturnDto
                 {
-                    UserId = x.Id.ToString(),
+                    UserId = x.Id,
                     UserName = x.UserName,
                     Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
                 })
@@ -46,7 +46,7 @@ namespace SS.API.Controllers
             var users = _context.Ssuser
                 .Select(user => new UserForAdminReturnDto
                 {
-                    UserId = user.Id.ToString(),
+                    UserId = user.Id,
                     UserName = user.UserName,
                     Roles = (from userRole in user.SsuserRole
                              join role in _context.Roles

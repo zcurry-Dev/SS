@@ -20,12 +20,11 @@ namespace SS.API.Controllers.Admin
         [HttpGet("usersWithRoles")]
         public async Task<IActionResult> GetUsersWithRoles([FromQuery] AdminUsersParams adminUsersParams)
         {
-            var users = await _admin.GetAllUsersWithRoles(adminUsersParams);
-            var usersToReturn = _admin.MapToUsersForAdminReturnDto(users);
-            Response.AddPagination(users.CurrentPage, users.PageSize,
-                users.TotalCount, users.TotalPages);
+            var userList = await _admin.GetAllUsersWithRoles(adminUsersParams);
+            Response.AddPagination(userList.CurrentPage, userList.PageSize,
+                userList.TotalCount, userList.TotalPages);
 
-            return Ok(usersToReturn);
+            return Ok(userList.Users);
         }
 
         [HttpPost("editRoles/{userName}")]

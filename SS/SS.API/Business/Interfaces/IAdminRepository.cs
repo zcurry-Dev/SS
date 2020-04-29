@@ -4,17 +4,15 @@ using Microsoft.AspNetCore.Identity;
 using SS.API.Business.Dtos.Role;
 using SS.API.Business.Dtos.User;
 using SS.API.Business.Models;
-using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Business.Interfaces
 {
     public interface IAdminRepository
     {
-        Task<PagedList<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams);
+        Task<UserListForAdminReturnDto> GetAllUsersWithRoles(AdminUsersParams adminUsersParams);
         Task<List<RoleBModel>> GetAllAvailibleRoles();
         Task<IdentityResult> UpdateRolesForUser(string userName, RoleEditDto roleEditDto);
         Task<IList<string>> GetRolesForUser(string userName);
-        IEnumerable<UserForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UserForAdminReturnDto> users);
     }
 }

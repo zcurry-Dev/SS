@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using SS.API.Business.Dtos.User;
 using SS.API.Business.Models;
@@ -36,6 +37,14 @@ namespace SS.API.Helpers.MapperProfiles
             CreateMap<UserForDetailDto, Ssuser>()
                 .ForMember(dest => dest.DisplayName, opt =>
                     opt.MapFrom(src => src.FirstName));
+
+            //Data to Dto            
+            CreateMap<Ssuser, UserForAdminReturnDto>()
+                .ForMember(dest => dest.UserId, opt =>
+                    opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Roles, opt =>
+                    opt.MapFrom(src => src.SsuserRole
+                    .Select(r => r.Role.ToString())));
         }
     }
 }

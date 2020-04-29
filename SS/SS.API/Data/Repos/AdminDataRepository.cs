@@ -23,9 +23,9 @@ namespace SS.API.Data.Repos
             _userManager = userManager;
         }
 
-        public async Task<List<Ssuser>> GetAllUsers()
+        public IQueryable<Ssuser> GetAllUsers()
         {
-            var users = await _context.Ssuser.ToListAsync();
+            var users = _userManager.Users;
 
             return users;
         }

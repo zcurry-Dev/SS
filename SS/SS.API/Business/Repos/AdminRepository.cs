@@ -8,6 +8,7 @@ using SS.API.Business.Dtos.User;
 using SS.API.Business.Interfaces;
 using SS.API.Business.Models;
 using SS.API.Data.Interfaces;
+using SS.API.Data.Models;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
 
@@ -29,17 +30,9 @@ namespace SS.API.Business.Repos
             _user = user;
         }
 
-        public async Task<PagedList<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
+        public async Task<UserListForAdminReturnDto> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
         {
-            var allUsers = await _admin.GetAllUsers();
-
-            var usersWithRoles = allUsers
-               .Select(x => new UserForAdminReturnDto
-               {
-                   UserId = x.Id.ToString(),
-                   UserName = x.UserName,
-                   Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
-               }).AsQueryable();
+            var usersWithRoles = _admin.GetAllUsers();
 
             if (!string.IsNullOrEmpty(adminUsersParams.OrderBy))
             {
@@ -59,9 +52,19 @@ namespace SS.API.Business.Repos
                 usersWithRoles = usersWithRoles.Where(s => s.UserName.Contains(adminUsersParams.Search));
             }
 
-            var p = await PagedList<UserForAdminReturnDto>.CreateAsync(usersWithRoles, adminUsersParams.PN, adminUsersParams.PS);
+            var ssUsersList = await PagedList<Ssuser>.CreateAsync(usersWithRoles, adminUsersParams.PN, adminUsersParams.PS);
+            var usersToReturn = _mapper.Map<IEnumerable<UserForAdminReturnDto>>(ssUsersList);
 
-            return p;
+            var userListForAdminReturnDto = new UserListForAdminReturnDto()
+            {
+                Users = usersToReturn,
+                CurrentPage = ssUsersList.CurrentPage,
+                TotalPages = ssUsersList.TotalPages,
+                PageSize = ssUsersList.PageSize,
+                TotalCount = ssUsersList.TotalCount,
+            };
+
+            return userListForAdminReturnDto;
         }
 
         public async Task<List<RoleBModel>> GetAllAvailibleRoles()
@@ -95,12 +98,6 @@ namespace SS.API.Business.Repos
         {
             var roles = await _user.GetRolesForUserByUserName(userName);
             return roles;
-        }
-
-        public IEnumerable<UserForAdminReturnDto> MapToUsersForAdminReturnDto(PagedList<UserForAdminReturnDto> users)
-        {
-            var usersToReturn = _mapper.Map<IEnumerable<UserForAdminReturnDto>>(users); // This doesn't seem right
-            return usersToReturn;
         }
     }
 }
