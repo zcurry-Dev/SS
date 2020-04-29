@@ -1,8 +1,8 @@
 using System;
 
-namespace SS.API.Business.Dtos.Photo
+namespace SS.API.Business.Models
 {
-    public class ArtistPhotoDto
+    public class ArtistPhotoBModel
     {
         public int ArtistPhotoId { get; set; }
         public int ArtistId { get; set; }

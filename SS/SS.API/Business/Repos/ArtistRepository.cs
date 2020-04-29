@@ -5,6 +5,7 @@ using AutoMapper;
 using SS.API.Business.Dtos.Artist;
 using SS.API.Business.Dtos.Photo;
 using SS.API.Business.Interfaces;
+using SS.API.Business.Models;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 using SS.API.Helpers.Pagination;
@@ -23,10 +24,10 @@ namespace SS.API.Business.Repos
             _artist = artist;
         }
 
-        public async Task<PagedList<ArtistDto>> GetArtists(ArtistParams artistParams)
+        public async Task<PagedList<ArtistBModel>> GetArtists(ArtistParams artistParams)
         {
             var listArtists = await _artist.GetArtists();
-            var listDto = _mapper.Map<List<ArtistDto>>(listArtists); //need to look into this
+            var listDto = _mapper.Map<List<ArtistBModel>>(listArtists); //need to look into this
             var artists = listDto.OrderByDescending(a => a.CareerBeginDate).AsQueryable();
 
             if (!string.IsNullOrEmpty(artistParams.OrderBy))
@@ -42,11 +43,11 @@ namespace SS.API.Business.Repos
                 }
             }
 
-            return await PagedList<ArtistDto>.CreateAsync(artists,
+            return await PagedList<ArtistBModel>.CreateAsync(artists,
                 artistParams.PN, artistParams.PS);
         }
 
-        public IEnumerable<ArtistForListDto> MapArtistsToDto(PagedList<ArtistDto> artists)
+        public IEnumerable<ArtistForListDto> MapArtistsToDto(PagedList<ArtistBModel> artists)
         {
             var artistsToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artists);
 
@@ -62,10 +63,10 @@ namespace SS.API.Business.Repos
             return artistToReturn;
         }
 
-        public async Task<ArtistPhotoDto> GetArtistPhotoByArtistId(int artistId)
+        public async Task<ArtistPhotoBModel> GetArtistPhotoByArtistId(int artistId)
         {
             var artistPhoto = await _artist.GetArtistPhotoByPhotoId(artistId);
-            var photo = _mapper.Map<ArtistPhotoDto>(artistPhoto);
+            var photo = _mapper.Map<ArtistPhotoBModel>(artistPhoto);
             var file = await _artist.GetArtistPhotoFile(artistId);
             photo.File = file;
 

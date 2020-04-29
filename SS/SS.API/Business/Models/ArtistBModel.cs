@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using SS.API.Business.Dtos.Photo;
 
-namespace SS.API.Business.Dtos.Artist
+namespace SS.API.Business.Models
 {
-    public class ArtistDto
+    public class ArtistBModel
     {
         public int ArtistId { get; set; }
         public string ArtistName { get; set; }
@@ -18,6 +18,6 @@ namespace SS.API.Business.Dtos.Artist
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public virtual ICollection<ArtistPhotoDto> ArtistPhotos { get; set; }
+        public virtual ICollection<ArtistPhotoBModel> ArtistPhotos { get; set; }
     }
 }

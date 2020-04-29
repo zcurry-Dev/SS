@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SS.API.Business.Dtos.User;
 using SS.API.Business.Interfaces;
+using SS.API.Business.Models;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
@@ -35,14 +36,14 @@ namespace SS.API.Business.Repos
             _user = user;
         }
 
-        public async Task<SignInResult> CheckPasswordSignInAsync(UserDto user, string password)
+        public async Task<SignInResult> CheckPasswordSignInAsync(UserBModel user, string password)
         {
             var ssuser = _mapper.Map<Ssuser>(user);
             var result = await _auth.CheckPasswordSignInAsync(ssuser, password);
             return result;
         }
 
-        public async Task<string> GenerateJwtToken(UserDto user)
+        public async Task<string> GenerateJwtToken(UserBModel user)
         {
             var claims = new List<Claim> {
                 new Claim (ClaimTypes.NameIdentifier, user.UserId.ToString()),
@@ -75,10 +76,10 @@ namespace SS.API.Business.Repos
             return tokenHandler.WriteToken(token);
         }
 
-        public async Task<UserDto> GetUser(string userName)
+        public async Task<UserBModel> GetUser(string userName)
         {
             var user = await _user.GetUserByUserName(userName);
-            var userToReturn = _mapper.Map<UserDto>(user);
+            var userToReturn = _mapper.Map<UserBModel>(user);
             return userToReturn;
         }
 
@@ -98,7 +99,7 @@ namespace SS.API.Business.Repos
             return result;
         }
 
-        public UserForDetailDto MapUserToUserForDetailDto(UserDto user)
+        public UserForDetailDto MapUserToUserForDetailDto(UserBModel user)
         {
             var appUser = _mapper.Map<UserForDetailDto>(user);
             return appUser;

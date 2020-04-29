@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using SS.API.Business.Dtos.Role;
 using SS.API.Business.Dtos.User;
 using SS.API.Business.Interfaces;
+using SS.API.Business.Models;
 using SS.API.Data.Interfaces;
 using SS.API.Helpers.Pagination;
 using SS.API.Helpers.Pagination.PagedParams;
@@ -56,10 +57,10 @@ namespace SS.API.Business.Repos
             return p;
         }
 
-        public async Task<List<RoleDto>> GetAllAvailibleRoles()
+        public async Task<List<RoleBModel>> GetAllAvailibleRoles()
         {
             var roles = await _admin.GetAllAvailibleRoles();
-            var rolesToReturn = roles.Select(r => _mapper.Map<RoleDto>(r)).ToList();
+            var rolesToReturn = roles.Select(r => _mapper.Map<RoleBModel>(r)).ToList();
 
             return rolesToReturn;
         }

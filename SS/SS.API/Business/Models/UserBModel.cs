@@ -1,8 +1,8 @@
 using System;
 
-namespace SS.API.Business.Dtos.User
+namespace SS.API.Business.Models
 {
-    public class UserDto
+    public class UserBModel
     {
         public int UserId { get; set; }
         public string UserName { get; set; }

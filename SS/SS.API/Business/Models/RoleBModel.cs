@@ -1,6 +1,6 @@
-namespace SS.API.Business.Dtos.Role
+namespace SS.API.Business.Models
 {
-    public class RoleDto
+    public class RoleBModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
