@@ -37,7 +37,9 @@ namespace SS.API.Controllers.Admin
                 return BadRequest(result.Errors);
             }
 
-            return Ok(await _admin.GetRolesForUser(userName));
+            var roles = await _admin.GetRolesForUser(userName);
+
+            return Ok(roles);
         }
 
         [HttpGet("getRoles")]

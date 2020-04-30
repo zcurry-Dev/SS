@@ -9,10 +9,10 @@ namespace SS.API.Helpers.MapperProfiles
     {
         public RoleProfile()
         {
-            //Data to Business
-            CreateMap<Ssrole, RoleBModel>()
-                .ForMember(dest => dest.Id, opt =>
-                    opt.MapFrom(src => src.RoleId)); // or is it src.Id?
+            // Data to Dto
+            CreateMap<Ssrole, RolesToReturnDto>()
+               .ForMember(dest => dest.Id, opt =>
+                   opt.MapFrom(src => src.Id));
         }
     }
 }

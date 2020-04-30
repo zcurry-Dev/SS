@@ -67,10 +67,10 @@ namespace SS.API.Business.Repos
             return userListForAdminReturnDto;
         }
 
-        public async Task<List<RoleBModel>> GetAllAvailibleRoles()
+        public async Task<List<RolesToReturnDto>> GetAllAvailibleRoles()
         {
             var roles = await _admin.GetAllAvailibleRoles();
-            var rolesToReturn = roles.Select(r => _mapper.Map<RoleBModel>(r)).ToList();
+            var rolesToReturn = roles.Select(r => _mapper.Map<RolesToReturnDto>(r)).ToList();
 
             return rolesToReturn;
         }

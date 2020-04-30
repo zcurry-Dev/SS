@@ -9,21 +9,21 @@ namespace SS.API.Helpers.MapperProfiles
     {
         public ArtistPhotoProfile()
         {
-            //Data to Dto
+            // Data to Dto
             CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>()
                 .ForMember(dest => dest.Id, opt =>
                     opt.MapFrom(src => src.ArtistPhotoId));
 
-            //Need to Clean
-            CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>()
-                .ForMember(dest => dest.Id, opt =>
-                    opt.MapFrom(src => src.ArtistPhotoId));
-            CreateMap<ArtistPhoto, PhotoforReturnDto>()
-                .ForMember(dest => dest.Id, opt =>
-                    opt.MapFrom(src => src.ArtistPhotoId));
-            CreateMap<PhotoForCreationDto, ArtistPhoto>()
-                .ForMember(dest => dest.PhotoFileName, opt =>
-                    opt.MapFrom(src => src.File.FileName));
+            // // Need to Clean
+            // CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>()
+            //     .ForMember(dest => dest.Id, opt =>
+            //         opt.MapFrom(src => src.ArtistPhotoId));
+            // CreateMap<ArtistPhoto, PhotoforReturnDto>()
+            //     .ForMember(dest => dest.Id, opt =>
+            //         opt.MapFrom(src => src.ArtistPhotoId));
+            // CreateMap<PhotoForCreationDto, ArtistPhoto>()
+            //     .ForMember(dest => dest.PhotoFileName, opt =>
+            //         opt.MapFrom(src => src.File.FileName));
         }
     }
 }
