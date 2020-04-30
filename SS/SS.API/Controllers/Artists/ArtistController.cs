@@ -8,7 +8,7 @@ using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Controllers.Artists
 {
-    // [ServiceFilter(typeof(LogUserActivity))]
+    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class ArtistController : ControllerBase
@@ -19,18 +19,17 @@ namespace SS.API.Controllers.Artists
             _artist = artist;
         }
 
-        [HttpGet("aa")]
+        [HttpGet]
         public async Task<IActionResult> GetArtists([FromQuery] ArtistParams artistParams)
         {
-            var artists = await _artist.GetArtists(artistParams);
-            var artistsToReturn = _artist.MapArtistsToDto(artists);
-            Response.AddPagination(artists.CurrentPage, artists.PageSize,
-                artists.TotalCount, artists.TotalPages);
+            var artistList = await _artist.GetArtists(artistParams);
+            Response.AddPagination(artistList.CurrentPage, artistList.PageSize,
+                artistList.TotalCount, artistList.TotalPages);
 
-            return Ok(artistsToReturn);
+            return Ok(artistList.Artists);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{artistId}")]
         public async Task<IActionResult> GetArtist(int artistId)
         {
             var artistToReturn = await _artist.GetArtistById(artistId);
@@ -40,24 +39,24 @@ namespace SS.API.Controllers.Artists
 
         [HttpGet]
         [Route("GetArtistPhoto/{id}")]
-        public async Task<IActionResult> GetArtistPhoto(int artistId)
+        public async Task<IActionResult> GetArtistPhoto(int id)
         {
-            var artistPhoto = await _artist.GetArtistPhotoByArtistId(artistId);
+            var artistPhoto = await _artist.GetArtistPhotoByPhotoId(id);
 
             return File(artistPhoto.File, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
+        public async Task<IActionResult> UpdateArtist(int id, ArtistForUpdateDto artistForUpdateDto)
         {
-            var result = await _artist.UpdateArtist(artistId, artistForUpdateDto);
+            var result = await _artist.UpdateArtist(id, artistForUpdateDto);
 
             if (result)
             {
                 return NoContent();
             }
 
-            throw new Exception($"Updating user {artistId} failed on save");
+            throw new Exception($"Updating artist {id} failed on save");
         }
     }
 }

@@ -24,11 +24,9 @@ namespace SS.API.Business.Repos
             _artist = artist;
         }
 
-        public async Task<PagedList<ArtistBModel>> GetArtists(ArtistParams artistParams)
+        public async Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams)
         {
-            var listArtists = await _artist.GetArtists();
-            var listDto = _mapper.Map<List<ArtistBModel>>(listArtists); //need to look into this
-            var artists = listDto.OrderByDescending(a => a.CareerBeginDate).AsQueryable();
+            var artists = _artist.GetArtists().OrderByDescending(a => a.CareerBeginDate);
 
             if (!string.IsNullOrEmpty(artistParams.OrderBy))
             {
@@ -43,8 +41,19 @@ namespace SS.API.Business.Repos
                 }
             }
 
-            return await PagedList<ArtistBModel>.CreateAsync(artists,
-                artistParams.PN, artistParams.PS);
+            var artistsList = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
+            var usersToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artistsList);
+
+            var artistListForReturnDto = new ArtistListForReturnDto()
+            {
+                Artists = usersToReturn,
+                CurrentPage = artistsList.CurrentPage,
+                TotalPages = artistsList.TotalPages,
+                PageSize = artistsList.PageSize,
+                TotalCount = artistsList.TotalCount
+            };
+
+            return artistListForReturnDto;
         }
 
         public IEnumerable<ArtistForListDto> MapArtistsToDto(PagedList<ArtistBModel> artists)
@@ -54,7 +63,6 @@ namespace SS.API.Business.Repos
             return artistsToReturn;
         }
 
-
         public async Task<ArtistForDetailedDto> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
@@ -63,11 +71,11 @@ namespace SS.API.Business.Repos
             return artistToReturn;
         }
 
-        public async Task<ArtistPhotoBModel> GetArtistPhotoByArtistId(int artistId)
+        public async Task<PhotoFileForReturnDto> GetArtistPhotoByPhotoId(int photoId)
         {
-            var artistPhoto = await _artist.GetArtistPhotoByPhotoId(artistId);
-            var photo = _mapper.Map<ArtistPhotoBModel>(artistPhoto);
-            var file = await _artist.GetArtistPhotoFile(artistId);
+            var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);
+            var photo = _mapper.Map<PhotoFileForReturnDto>(artistPhoto);
+            var file = await _artist.GetPhotoByteArray(photoId, artistPhoto.ArtistId, artistPhoto.PhotoFileName);
             photo.File = file;
 
             return photo;
@@ -80,14 +88,6 @@ namespace SS.API.Business.Repos
             var result = await _artist.SaveAll();
 
             return result;
-        }
-
-        public async Task<PhotoforReturnDto> GetArtistPhotoByPhotoId(int artistPhotoId)
-        {
-            var photo = await _artist.GetArtistPhotoByPhotoId(artistPhotoId);
-            var photoToReturn = _mapper.Map<PhotoforReturnDto>(photo);
-
-            return photoToReturn;
         }
 
         public async Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)

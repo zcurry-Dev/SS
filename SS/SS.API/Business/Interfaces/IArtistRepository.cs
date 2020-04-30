@@ -11,11 +11,10 @@ namespace SS.API.Business.Interfaces
     public interface IArtistRepository
     {
         Task<ArtistForDetailedDto> GetArtistById(int artistId);
-        Task<PagedList<ArtistBModel>> GetArtists(ArtistParams artistParams);
+        Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams);
         IEnumerable<ArtistForListDto> MapArtistsToDto(PagedList<ArtistBModel> artists);
-        Task<ArtistPhotoBModel> GetArtistPhotoByArtistId(int artistId);
         Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto);
-        Task<PhotoforReturnDto> GetArtistPhotoByPhotoId(int artistPhotoId);
+        Task<PhotoFileForReturnDto> GetArtistPhotoByPhotoId(int photoId);
         Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto);
         Task<PhotoforReturnDto> GetMostRecentArtistPhoto(int artistId);
         Task<bool> SetNewMainPhoto(int artistId, int artistPhotoId);

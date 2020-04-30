@@ -3,22 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using SS.API.Business.Dtos.Artist;
 using SS.API.Business.Interfaces;
 
-namespace SS.API.Controllers.Users
+namespace SS.API.Controllers.User
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly IUserRepository _user;
-        public UsersController(IUserRepository user)
+        public UserController(IUserRepository user)
         {
             _user = user;
         }
 
-        [HttpGet("{userId}", Name = "GetUser")]
-        public async Task<IActionResult> GetUser(int userId)
+        [HttpGet("{id}", Name = "GetUser")]
+        public async Task<IActionResult> GetUser(int id)
         {
-            var userToReturn = await _user.GetUser(userId);
+            var userToReturn = await _user.GetUser(id);
 
             return Ok(userToReturn);
         }

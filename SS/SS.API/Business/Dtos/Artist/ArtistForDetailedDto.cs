@@ -15,7 +15,6 @@ namespace SS.API.Business.Dtos.Artist
         public bool Verified { get; set; }
         public string CurrentCity { get; set; }
         public string HomeCity { get; set; }
-        public int PhotoId { get; set; }
-        public ICollection<ArtistPhotosForDetailedDto> Photos { get; set; }
+        public int MainPhotoId { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace SS.API.Data.Repos
             _config = config;
             _mapper = mapper;
         }
+
         public void Add<T>(T entity) where T : class
         {
             _context.Add(entity);
@@ -38,18 +39,18 @@ namespace SS.API.Data.Repos
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public IQueryable<Artist> GetArtists()
+        {
+            var artists = _context.Artist.AsQueryable();
+
+            return artists;
+        }
+
         public async Task<Artist> GetArtistById(int artistId)
         {
             var artist = await _context.Artist.FirstOrDefaultAsync(a => a.ArtistId == artistId);
 
             return artist;
-        }
-
-        public async Task<List<Artist>> GetArtists()
-        {
-            var artists = await _context.Artist.ToListAsync();
-
-            return artists;
         }
 
         public async Task<ArtistPhoto> GetArtistPhotoByPhotoId(int artistPhotoId)
@@ -59,12 +60,10 @@ namespace SS.API.Data.Repos
             return artistPhoto;
         }
 
-        public async Task<Byte[]> GetArtistPhotoFile(int artistPhotoId)
+        public async Task<Byte[]> GetPhotoByteArray(int photoId, int artistId, string fileName)
         {
             var rootPath = _config.GetValue<string>("UploadedFiles:Images:Artists");
-            var photo = await _context.ArtistPhoto.Where(p => p.ArtistPhotoId == artistPhotoId)
-                .FirstOrDefaultAsync();
-            var fullPath = rootPath + photo.ArtistId + "/" + photo.PhotoFileName;
+            var fullPath = rootPath + artistId + "/" + fileName;
 
             return await System.IO.File.ReadAllBytesAsync(fullPath);
         }

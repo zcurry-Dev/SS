@@ -4,7 +4,7 @@ namespace SS.API.Business.Models
 {
     public class ArtistPhotoBModel
     {
-        public int ArtistPhotoId { get; set; }
+        public int Id { get; set; }
         public int ArtistId { get; set; }
         public string PhotoPath { get; set; }
         public string PhotoDescription { get; set; }
@@ -13,6 +13,5 @@ namespace SS.API.Business.Models
         public string PhotoFileName { get; set; }
         public DateTime DateAdded { get; set; }
         public bool IsMain { get; set; }
-        public byte[] File { get; set; }
     }
 }
