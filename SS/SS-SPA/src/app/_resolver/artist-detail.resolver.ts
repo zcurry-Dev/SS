@@ -16,9 +16,9 @@ export class ArtistDetailResolver implements Resolve<Artist> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<Artist> {
     return this.artistService.getArtist(route.params['id']).pipe(
-      catchError(error => {
+      catchError((error) => {
         this.alertify.error('Problem retrieving data');
-        this.router.navigate(['/artists']);
+        this.router.navigate(['/artist']);
         return of(null);
       })
     );

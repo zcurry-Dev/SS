@@ -11,7 +11,7 @@ export interface Artist {
   verified: boolean;
   currentCity: string;
   homeCity: string;
-  photoId: number;
+  mainPhotoId: number;
   mainPhotoURL: SafeUrl;
 
   careerBeginDate: Date;

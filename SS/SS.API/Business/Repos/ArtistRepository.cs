@@ -63,14 +63,6 @@ namespace SS.API.Business.Repos
             return artistToReturn;
         }
 
-        public async Task<ArtistForDetailedDto> GetArtistById2(int artistId)
-        {
-            var artist = await _artist.GetArtistById(artistId);
-            var artistToReturn = _mapper.Map<ArtistForDetailedDto>(artist);
-
-            return artistToReturn;
-        }
-
         public async Task<PhotoFileForReturnDto> GetArtistPhotoFileByPhotoId(int photoId)
         {
             var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);

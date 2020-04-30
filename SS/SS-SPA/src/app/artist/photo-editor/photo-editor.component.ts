@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Artist } from 'src/app/_models/artist';
 import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
 import { SafeUrl } from '@angular/platform-browser';
+import { PhotoIds } from 'src/app/_models/photoIds';
 
 @Component({
   selector: 'app-photo-editor',
@@ -22,6 +23,7 @@ export class PhotoEditorComponent implements OnInit {
   response: string;
   baseUrl = environment.apiUrl;
   currentMain: ArtistPhoto;
+  test: PhotoIds;
 
   constructor(
     private artistService: ArtistService,
@@ -32,7 +34,7 @@ export class PhotoEditorComponent implements OnInit {
   ngOnInit() {
     this.photos = this.artist.photos;
     for (const photo of this.photos) {
-      this.artistService.getArtistPhoto(photo.id).subscribe((image) => {
+      this.artistService.getPhotoFile(photo.id).subscribe((image) => {
         photo.photoURL = this.imageService.sanitizeImage(image);
       });
     }
@@ -68,7 +70,7 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   setPhotoURL(res) {
-    this.artistService.getArtistPhoto(res.id).subscribe((image) => {
+    this.artistService.getPhotoFile(res.id).subscribe((image) => {
       res.photoURL = this.imageService.sanitizeImage(image);
 
       // would prefer to move back into initializeUploader
@@ -93,7 +95,12 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   setMainPhoto(photo: ArtistPhoto) {
-    this.artistService.setMainPhoto(this.artist.id, photo.id).subscribe(
+    const photoIds: PhotoIds = {
+      artistId: this.artist.id,
+      photoId: photo.id,
+    };
+
+    this.artistService.setMainPhoto(photoIds).subscribe(
       () => {
         this.currentMain = this.photos.filter((p) => p.isMain === true)[0];
         this.currentMain.isMain = false;
@@ -108,7 +115,12 @@ export class PhotoEditorComponent implements OnInit {
 
   deletePhoto(photoId: number) {
     this.alertify.confirm('Are you sure you want to delete this photo?', () => {
-      this.artistService.deletePhoto(this.artist.id, photoId).subscribe(
+      const photoIds: PhotoIds = {
+        artistId: this.artist.id,
+        photoId,
+      };
+
+      this.artistService.deletePhoto(photoIds).subscribe(
         () => {
           this.photos.splice(
             this.photos.findIndex((p) => p.id === photoId),

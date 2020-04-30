@@ -28,7 +28,7 @@ export class NavComponent implements OnInit {
         this.alterify.error(error);
       },
       () => {
-        this.router.navigate(['/artists']);
+        this.router.navigate(['/artist']);
       }
     );
   }

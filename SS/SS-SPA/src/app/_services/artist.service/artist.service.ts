@@ -4,16 +4,15 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Artist } from '../../_models/artist';
 import { ImageService } from '../image.service/images.service';
-import { SafeHtml, SafeUrl } from '@angular/platform-browser';
-import { error } from 'protractor';
 import { PaginatedResult } from 'src/app/_models/pagination';
 import { map } from 'rxjs/operators';
+import { PhotoIds } from 'src/app/_models/photoIds';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArtistService {
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl + 'artist/';
 
   constructor(private http: HttpClient, private imageService: ImageService) {}
 
@@ -29,7 +28,7 @@ export class ArtistService {
     }
 
     return this.http
-      .get<Artist[]>(this.baseUrl + 'artists', { observe: 'response', params })
+      .get<Artist[]>(this.baseUrl, { observe: 'response', params })
       .pipe(
         map((response) => {
           paginatedResult.result = response.body;
@@ -43,29 +42,36 @@ export class ArtistService {
       );
   }
 
-  getArtist(id): Observable<Artist> {
-    return this.http.get<Artist>(this.baseUrl + 'artist/' + id);
+  getArtist(id: number): Observable<Artist> {
+    return this.http.get<Artist>(this.baseUrl + id);
   }
 
-  updateArtist(id: number, artist: Artist) {
-    return this.http.put(this.baseUrl + 'artist/' + id, artist);
-  }
-
-  getArtistPhoto(photoId: number): Observable<Blob> {
-    const path = this.baseUrl + 'artist/getArtistPhoto/' + photoId;
+  getPhotoFile(photoId: number): Observable<Blob> {
+    const path = this.baseUrl + 'getPhotoFile/' + photoId;
     return this.imageService.getImage(path);
   }
 
-  setMainPhoto(artistId: number, photoId: number) {
-    return this.http.post(
-      this.baseUrl + 'artist/' + artistId + '/photos/' + photoId + '/setMain',
-      {}
-    );
+  updateArtist(id: number, artist: Artist) {
+    // check to see if this passes only name currently
+    return this.http.put(this.baseUrl + id, artist);
   }
 
-  deletePhoto(artistId: number, photoId: number) {
-    return this.http.delete(
-      this.baseUrl + 'artist/' + artistId + '/photos/' + photoId
-    );
+  getArtistPhoto(photoId: number) {
+    return this.http.get(this.baseUrl + photoId);
+  }
+
+  // AddPhotoForArtist -- not implemented I don't believe
+  addPhotoForArtist(photoId: number, photoForCreationDto: PhotoIds) {
+    // want to pass photoForCreationDto in body and not PhotoIds
+    return this.http.post(this.baseUrl + photoId, photoForCreationDto);
+  }
+
+  setMainPhoto(photoIds: PhotoIds) {
+    return this.http.post(this.baseUrl + 'setMain', photoIds);
+  }
+
+  deletePhoto(photoIds: PhotoIds) {
+    const url = this.baseUrl + 'deletePhoto';
+    return this.http.request('delete', url, { body: photoIds });
   }
 }

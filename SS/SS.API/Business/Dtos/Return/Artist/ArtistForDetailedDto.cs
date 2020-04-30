@@ -17,5 +17,6 @@ namespace SS.API.Business.Dtos.Return
         public string HomeCity { get; set; }
         public int MainPhotoId { get; set; }
         public List<int> PhotoIds { get; set; }
+        public IEnumerable<PhotoforReturnDto> Photos { get; set; }
     }
 }

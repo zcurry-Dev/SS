@@ -48,8 +48,10 @@ export class ArtistDetailComponent implements OnInit {
 
   getImages() {
     const images = [];
+
+    console.log(this.artist);
     for (const photo of this.artist.photos) {
-      this.artistService.getArtistPhoto(photo.id).subscribe((image) => {
+      this.artistService.getPhotoFile(photo.id).subscribe((image) => {
         photo.photoURL = this.imageService.sanitizeSecurityContextURL(image);
         images.push({
           small: photo.photoURL,
@@ -64,7 +66,7 @@ export class ArtistDetailComponent implements OnInit {
 
   getMainImage() {
     this.artistService
-      .getArtistPhoto(this.artist.photoId)
+      .getPhotoFile(this.artist.mainPhotoId)
       .subscribe((image) => {
         this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
       });

@@ -20,7 +20,7 @@ export class AuthGuard implements CanActivate {
       if (match) {
         return true;
       } else {
-        this.router.navigate(['artists']);
+        this.router.navigate(['artist']);
         this.alertify.error('You are not authorized to access this area');
       }
     }

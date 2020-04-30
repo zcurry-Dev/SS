@@ -9,7 +9,7 @@ namespace SS.API.Business.Dtos.Return
         public bool Solo { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
-        public string PhotoId { get; set; }
+        public string MainPhotoId { get; set; }
         public string CurrentCity { get; set; }
         public string HomeCity { get; set; }
     }
