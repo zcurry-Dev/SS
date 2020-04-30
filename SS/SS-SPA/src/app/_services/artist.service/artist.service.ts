@@ -44,28 +44,28 @@ export class ArtistService {
   }
 
   getArtist(id): Observable<Artist> {
-    return this.http.get<Artist>(this.baseUrl + 'artists/' + id);
+    return this.http.get<Artist>(this.baseUrl + 'artist/' + id);
   }
 
   updateArtist(id: number, artist: Artist) {
-    return this.http.put(this.baseUrl + 'artists/' + id, artist);
+    return this.http.put(this.baseUrl + 'artist/' + id, artist);
   }
 
   getArtistPhoto(photoId: number): Observable<Blob> {
-    const path = this.baseUrl + 'artists/getArtistPhoto/' + photoId;
+    const path = this.baseUrl + 'artist/getArtistPhoto/' + photoId;
     return this.imageService.getImage(path);
   }
 
   setMainPhoto(artistId: number, photoId: number) {
     return this.http.post(
-      this.baseUrl + 'artists/' + artistId + '/photos/' + photoId + '/setMain',
+      this.baseUrl + 'artist/' + artistId + '/photos/' + photoId + '/setMain',
       {}
     );
   }
 
   deletePhoto(artistId: number, photoId: number) {
     return this.http.delete(
-      this.baseUrl + 'artists/' + artistId + '/photos/' + photoId
+      this.baseUrl + 'artist/' + artistId + '/photos/' + photoId
     );
   }
 }

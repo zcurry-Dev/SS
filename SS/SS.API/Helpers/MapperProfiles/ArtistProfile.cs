@@ -1,6 +1,7 @@
 using System.Linq;
 using AutoMapper;
-using SS.API.Business.Dtos.Artist;
+using SS.API.Business.Dtos.Accept;
+using SS.API.Business.Dtos.Return;
 using SS.API.Data.Models;
 
 namespace SS.API.Helpers.MapperProfiles
@@ -20,7 +21,9 @@ namespace SS.API.Helpers.MapperProfiles
                .ForMember(dest => dest.YearsActive, opt =>
                   opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()))
                .ForMember(dest => dest.StatusId, opt =>
-                  opt.MapFrom(src => src.ArtistStatusId));
+                  opt.MapFrom(src => src.ArtistStatusId))
+               .ForMember(dest => dest.PhotoIds, opt =>
+                  opt.MapFrom(src => src.ArtistPhoto.Select(p => p.ArtistPhotoId)));
             CreateMap<Artist, ArtistForListDto>()
                .ForMember(dest => dest.Id, opt =>
                   opt.MapFrom(src => src.ArtistId))
@@ -33,10 +36,10 @@ namespace SS.API.Helpers.MapperProfiles
                .ForMember(dest => dest.CurrentCity, opt =>
                   opt.MapFrom(src => src.CurrentCity));
 
-            // Data to Dto
-            CreateMap<ArtistForUpdateDto, Artist>()
-               .ForMember(dest => dest.ArtistName, opt =>
-                  opt.MapFrom(src => src.Name));
+            // // Data to Dto
+            // CreateMap<ArtistForUpdateDto, Artist>()
+            //    .ForMember(dest => dest.ArtistName, opt =>
+            //       opt.MapFrom(src => src.Name));
         }
     }
 }

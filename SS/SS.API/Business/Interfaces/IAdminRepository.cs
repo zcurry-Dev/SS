@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Business.Dtos.Role;
-using SS.API.Business.Dtos.User;
+using SS.API.Business.Dtos.Accept;
+using SS.API.Business.Dtos.Return;
 using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Business.Interfaces

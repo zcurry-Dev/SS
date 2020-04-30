@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
-using SS.API.Business.Dtos.User;
+using SS.API.Business.Dtos.Return;
 using SS.API.Business.Interfaces;
 using SS.API.Data.Interfaces;
 

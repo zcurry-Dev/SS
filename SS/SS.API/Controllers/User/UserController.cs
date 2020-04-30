@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Business.Dtos.Artist;
+using SS.API.Business.Dtos.Accept;
 using SS.API.Business.Interfaces;
 
 namespace SS.API.Controllers.User

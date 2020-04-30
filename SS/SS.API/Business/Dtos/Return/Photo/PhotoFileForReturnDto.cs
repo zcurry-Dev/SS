@@ -1,4 +1,4 @@
-namespace SS.API.Business.Dtos.Photo
+namespace SS.API.Business.Dtos.Return
 {
     public class PhotoFileForReturnDto
     {

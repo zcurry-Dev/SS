@@ -1,4 +1,4 @@
-namespace SS.API.Business.Dtos.Artist
+namespace SS.API.Business.Dtos.Accept
 {
     public class UserForUpdateDto
     {

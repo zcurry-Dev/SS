@@ -1,4 +1,4 @@
-namespace SS.API.Business.Dtos.Role
+namespace SS.API.Business.Dtos.Return
 {
     public class RolesToReturnDto
     {

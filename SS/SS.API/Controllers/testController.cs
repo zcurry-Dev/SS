@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Business.Dtos.User;
+using SS.API.Business.Dtos.Return;
 using SS.API.Data;
 using SS.API.Data.Models;
 

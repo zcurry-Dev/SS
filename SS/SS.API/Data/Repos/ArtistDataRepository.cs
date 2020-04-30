@@ -72,7 +72,7 @@ namespace SS.API.Data.Repos
         {
             var artistFromRepo = await this.GetArtistById(artistId);
             var rootPath = _config.GetValue<string>("UploadedFiles:RootPath");
-            string pathForArtist = rootPath + "images/artists/" + artistPhoto.ArtistId + "/";
+            string pathForArtist = rootPath + "images/artist/" + artistPhoto.ArtistId + "/";
 
             if (!Directory.Exists(pathForArtist))
             {

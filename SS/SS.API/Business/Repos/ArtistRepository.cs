@@ -2,10 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using SS.API.Business.Dtos.Artist;
-using SS.API.Business.Dtos.Photo;
+using SS.API.Business.Dtos.Accept;
+using SS.API.Business.Dtos.Return;
 using SS.API.Business.Interfaces;
-using SS.API.Business.Models;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 using SS.API.Helpers.Pagination;
@@ -56,13 +55,6 @@ namespace SS.API.Business.Repos
             return artistListForReturnDto;
         }
 
-        public IEnumerable<ArtistForListDto> MapArtistsToDto(PagedList<ArtistBModel> artists)
-        {
-            var artistsToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artists);
-
-            return artistsToReturn;
-        }
-
         public async Task<ArtistForDetailedDto> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
@@ -71,7 +63,15 @@ namespace SS.API.Business.Repos
             return artistToReturn;
         }
 
-        public async Task<PhotoFileForReturnDto> GetArtistPhotoByPhotoId(int photoId)
+        public async Task<ArtistForDetailedDto> GetArtistById2(int artistId)
+        {
+            var artist = await _artist.GetArtistById(artistId);
+            var artistToReturn = _mapper.Map<ArtistForDetailedDto>(artist);
+
+            return artistToReturn;
+        }
+
+        public async Task<PhotoFileForReturnDto> GetArtistPhotoFileByPhotoId(int photoId)
         {
             var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);
             var photo = _mapper.Map<PhotoFileForReturnDto>(artistPhoto);
@@ -98,6 +98,14 @@ namespace SS.API.Business.Repos
             return result;
         }
 
+        public async Task<PhotoforReturnDto> GetArtistPhotoByPhotoId(int photoId)
+        {
+            var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);
+            var photoToReturn = _mapper.Map<PhotoforReturnDto>(artistPhoto);
+
+            return photoToReturn;
+        }
+
         public async Task<PhotoforReturnDto> GetMostRecentArtistPhoto(int artistId)
         {
             var artistPhoto = await _artist.GetMostRecentArtistPhoto(artistId);
@@ -106,10 +114,10 @@ namespace SS.API.Business.Repos
             return photoToReturn;
         }
 
-        public async Task<bool> SetNewMainPhoto(int artistId, int artistPhotoId)
+        public async Task<bool> SetNewMainPhoto(PhotoIds photoIds)
         {
-            var photoToSetMain = await _artist.GetArtistPhotoByPhotoId(artistPhotoId);
-            var currentMainPhoto = await _artist.GetMainArtistPhotoByArtistId(artistId);
+            var photoToSetMain = await _artist.GetArtistPhotoByPhotoId(photoIds.PhotoId);
+            var currentMainPhoto = await _artist.GetMainArtistPhotoByArtistId(photoIds.ArtistId);
             currentMainPhoto.IsMain = false;
             photoToSetMain.IsMain = true;
             var result = await Save();

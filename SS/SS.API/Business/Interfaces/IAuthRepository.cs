@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Business.Dtos.User;
-using SS.API.Business.Models;
+using SS.API.Business.Dtos.Accept;
+using SS.API.Business.Dtos.Return;
 
 namespace SS.API.Business.Interfaces
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace SS.API.Business.Dtos.User
+namespace SS.API.Business.Dtos.Return
 {
     public class UserForAdminReturnDto
     {

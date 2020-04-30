@@ -21,18 +21,18 @@ export const AppRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: 'artists',
+        path: 'artist',
         component: ArtistListComponent,
         resolve: { artists: ArtistListResolver },
       },
       {
-        path: 'artists/edit/:id',
+        path: 'artist/edit/:id',
         component: ArtistEditComponent,
         resolve: { artist: ArtistEditResolver },
         canDeactivate: [PreventUnsavedChanges],
       },
       {
-        path: 'artists/:id',
+        path: 'artist/:id',
         component: ArtistDetailComponent,
         resolve: { artist: ArtistDetailResolver },
       },

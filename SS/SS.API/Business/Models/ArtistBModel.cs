@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using SS.API.Business.Dtos.Photo;
 
 namespace SS.API.Business.Models
 {

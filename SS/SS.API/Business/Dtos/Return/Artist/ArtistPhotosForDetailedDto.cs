@@ -1,6 +1,6 @@
 using System;
 
-namespace SS.API.Business.Dtos.Artist
+namespace SS.API.Business.Dtos.Return
 {
     public class ArtistPhotosForDetailedDto
     {

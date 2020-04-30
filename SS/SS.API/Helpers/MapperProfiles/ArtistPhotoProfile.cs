@@ -1,6 +1,6 @@
 using AutoMapper;
-using SS.API.Business.Dtos.Artist;
-using SS.API.Business.Dtos.Photo;
+using SS.API.Business.Dtos.Accept;
+using SS.API.Business.Dtos.Return;
 using SS.API.Data.Models;
 
 namespace SS.API.Helpers.MapperProfiles
@@ -11,9 +11,18 @@ namespace SS.API.Helpers.MapperProfiles
         {
             // Data to Dto
             CreateMap<ArtistPhoto, PhotoFileForReturnDto>();
+            CreateMap<ArtistPhoto, PhotoforReturnDto>()
+                .ForMember(dest => dest.Id, opt =>
+                    opt.MapFrom(src => src.ArtistPhotoId))
+                .ForMember(dest => dest.FileName, opt =>
+                    opt.MapFrom(src => src.PhotoFileName));
 
-
-
+            // Dto to Data            
+            CreateMap<PhotoForCreationDto, ArtistPhoto>()
+                .ForMember(dest => dest.PhotoFileName, opt =>
+                    opt.MapFrom(src => src.File.FileName))
+                .ForMember(dest => dest.PhotoDescription, opt =>
+                    opt.MapFrom(src => src.Description));
 
             // // Data to Dto -- check??
             // CreateMap<ArtistPhoto, ArtistPhotosForDetailedDto>()

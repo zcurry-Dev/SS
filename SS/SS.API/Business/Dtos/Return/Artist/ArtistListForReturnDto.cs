@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
-namespace SS.API.Business.Dtos.User
+namespace SS.API.Business.Dtos.Return
 {
-    public class UserListForAdminReturnDto
+    public class ArtistListForReturnDto
     {
-        public IEnumerable<UserForAdminReturnDto> Users { get; set; }
+        public IEnumerable<ArtistForListDto> Artists { get; set; }
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; }

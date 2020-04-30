@@ -1,6 +1,5 @@
 using AutoMapper;
-using SS.API.Business.Dtos.Role;
-using SS.API.Business.Models;
+using SS.API.Business.Dtos.Return;
 using SS.API.Data.Models;
 
 namespace SS.API.Helpers.MapperProfiles

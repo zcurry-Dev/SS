@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SS.API.Business.Dtos.User;
+using SS.API.Business.Dtos.Return;
 
 namespace SS.API.Business.Interfaces
 {

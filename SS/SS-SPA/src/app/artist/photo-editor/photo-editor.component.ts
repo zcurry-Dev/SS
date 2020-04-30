@@ -46,7 +46,7 @@ export class PhotoEditorComponent implements OnInit {
 
   initializeUploader() {
     this.uploader = new FileUploader({
-      url: this.baseUrl + 'artists/' + this.artist.id + '/photos',
+      url: this.baseUrl + 'artist/' + this.artist.id + '/photos',
       authToken: 'Bearer ' + localStorage.getItem('token'),
       isHTML5: true,
       allowedFileType: ['image'],

@@ -1,6 +1,7 @@
 using System.Linq;
 using AutoMapper;
-using SS.API.Business.Dtos.User;
+using SS.API.Business.Dtos.Accept;
+using SS.API.Business.Dtos.Return;
 using SS.API.Business.Models;
 using SS.API.Data.Models;
 
