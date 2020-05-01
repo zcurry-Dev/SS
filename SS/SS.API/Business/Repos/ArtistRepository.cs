@@ -25,7 +25,7 @@ namespace SS.API.Business.Repos
 
         public async Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams)
         {
-            var artists = _artist.GetArtists().OrderByDescending(a => a.CareerBeginDate);
+            var artists = _artist.GetArtists().OrderByDescending(a => a.CareerBeginDate).AsQueryable();
 
             if (!string.IsNullOrEmpty(artistParams.OrderBy))
             {
@@ -38,6 +38,11 @@ namespace SS.API.Business.Repos
                         artists = artists.OrderByDescending(a => a.CareerBeginDate);
                         break;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(artistParams.Search))
+            {
+                artists = artists.Where(s => s.ArtistName.Contains(artistParams.Search));
             }
 
             var artistsList = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);

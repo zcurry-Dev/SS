@@ -48,8 +48,6 @@ export class ArtistDetailComponent implements OnInit {
 
   getImages() {
     const images = [];
-
-    console.log(this.artist);
     for (const photo of this.artist.photos) {
       this.artistService.getPhotoFile(photo.id).subscribe((image) => {
         photo.photoURL = this.imageService.sanitizeSecurityContextURL(image);

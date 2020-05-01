@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AdminService {
-  baseUrl = environment.apiUrl;
+  baseUrl = environment.apiUrl + 'admin/';
 
   constructor(private http: HttpClient) {}
 
@@ -36,7 +36,7 @@ export class AdminService {
     }
 
     return this.http
-      .get<User[]>(this.baseUrl + 'admin/usersWithRoles', {
+      .get<User[]>(this.baseUrl + 'usersWithRoles', {
         observe: 'response',
         params,
       })
@@ -54,13 +54,10 @@ export class AdminService {
   }
 
   updateUserRoles(user: User, roles: {}) {
-    return this.http.post(
-      this.baseUrl + 'admin/editRoles/' + user.userName,
-      roles
-    );
+    return this.http.post(this.baseUrl + 'editRoles/' + user.userName, roles);
   }
 
   getAvailibleRoles() {
-    return this.http.get(this.baseUrl + 'admin/getRoles');
+    return this.http.get(this.baseUrl + 'getRoles');
   }
 }

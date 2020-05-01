@@ -16,7 +16,11 @@ export class ArtistService {
 
   constructor(private http: HttpClient, private imageService: ImageService) {}
 
-  getArtists(page?, itemsPerPage?): Observable<PaginatedResult<Artist[]>> {
+  getArtists(
+    page?,
+    itemsPerPage?,
+    search?
+  ): Observable<PaginatedResult<Artist[]>> {
     const paginatedResult: PaginatedResult<Artist[]> = new PaginatedResult<
       Artist[]
     >();
@@ -25,6 +29,10 @@ export class ArtistService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pn', page);
       params = params.append('ps', itemsPerPage);
+    }
+
+    if (search) {
+      params = params.append('search', search);
     }
 
     return this.http

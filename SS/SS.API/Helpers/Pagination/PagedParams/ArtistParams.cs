@@ -11,5 +11,6 @@ namespace SS.API.Helpers.Pagination.PagedParams
             set { ps = (value > MaxPageSize) ? MaxPageSize : value; }
         }
         public string OrderBy { get; set; }
+        public string Search { get; set; }
     }
 }

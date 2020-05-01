@@ -26,8 +26,8 @@ namespace SS.API.Controllers.Auth
                     "GetUser",
                     new
                     {
-                        controller = "Users",
-                        userId = userToReturn.Id
+                        controller = "User",
+                        id = userToReturn.Id
                     },
                     userToReturn);
             }
