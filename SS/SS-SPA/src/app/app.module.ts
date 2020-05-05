@@ -50,6 +50,7 @@ import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { VenuesComponent } from './venues/venues.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
+import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -59,6 +60,7 @@ export function tokenGetter() {
   declarations: [
     AdminPanelComponent,
     AppComponent,
+    ArtistAddComponent,
     ArtistCardComponent,
     ArtistDetailComponent,
     ArtistEditComponent,

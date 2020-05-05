@@ -1,0 +1,53 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <!-- <form [formGroup]="registerForm" (ngSubmit)="register()"> -->
+      <form [formGroup]="artistForm">
+        <h2 class="text-center text-primary">Add Artist</h2>
+        <hr />
+
+        <div class="form-group">
+          <mat-form-field>
+            <mat-label>Artist Name</mat-label>
+            <input matInput />
+          </mat-form-field>
+          <!-- <input
+            [ngClass]="{
+              'is-invalid':
+                artistForm.get('artistName').errors &&
+                artistForm.get('artistName').touched
+            }"
+            class="form-control"
+            placeholder="Artist Name"
+            formControlName="artistName"
+          /> -->
+          <!-- <div
+            class="invalid-feedback"
+            *ngIf="
+              artistForm.get('artistName').touched &&
+              artistForm.get('artistName').hasError('required')
+            "
+          >
+            Artist Name is required
+          </div> -->
+        </div>
+        <div class="form-group text-center">
+          <button
+            class="btn btn-success m-1"
+            [disabled]="!artistForm.valid"
+            type="submit"
+          >
+            Add
+          </button>
+          <button
+            class="cancel-button m-1"
+            mat-raised-button
+            (click)="cancel()"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

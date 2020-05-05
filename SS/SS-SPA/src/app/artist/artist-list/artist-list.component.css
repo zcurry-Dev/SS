@@ -17,3 +17,7 @@ table {
   height: 100px;
   margin: auto;
 }
+
+.add-button {
+  float: right;
+}
