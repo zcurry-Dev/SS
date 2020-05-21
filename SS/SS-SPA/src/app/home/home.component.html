@@ -1,24 +1,32 @@
-<div class="container mt-5">
-  <div *ngIf="!registerMode" style="text-align: center">
-    <h1>Find Your Scene!</h1>
-    <p class="lead">
-      Come on in to view what's going on nearby... All you need to do is sign
-      up!
-    </p>
-    <div class="text-center">
-      <button class="btn btn-primary btn-lg mr-2" (click)="registerToggle()">
-        Register
-      </button>
-      <button class="btn btn-info btn-lg">Learn more</button>
-    </div>
-  </div>
+<div *ngIf="loggedIn()">
+  <app-profile></app-profile>
+</div>
+<div *ngIf="!loggedIn()">
+  <div>
+    <div>
+      <div *ngIf="!registerMode" style="text-align: center;">
+        <h1>Find Your Scene!</h1>
+        <p>
+          Come on in to view what's going on nearby... All you need to do is
+          sign up!
+        </p>
+        <div class="buttonSpace">
+          <button mat-raised-button color="accent" (click)="registerToggle()">
+            Register
+          </button>
+        </div>
+        <hr />
+        <app-login></app-login>
+      </div>
 
-  <div *ngIf="registerMode" class="container">
-    <div class="row justify-content-center">
-      <div class="col-4">
-        <app-register
-          (cancelRegister)="cancelRegisterMode($event)"
-        ></app-register>
+      <div *ngIf="registerMode">
+        <div>
+          <div>
+            <app-register
+              (cancelRegister)="cancelRegisterMode($event)"
+            ></app-register>
+          </div>
+        </div>
       </div>
     </div>
   </div>

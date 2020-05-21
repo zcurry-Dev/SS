@@ -2,9 +2,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Business.Dtos.Accept;
 using SS.API.Business.Interfaces;
+using SS.API.Helpers;
 
 namespace SS.API.Controllers.User
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

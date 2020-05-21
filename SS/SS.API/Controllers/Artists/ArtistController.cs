@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Business.Dtos.Accept;
 using SS.API.Business.Interfaces;
@@ -8,9 +9,9 @@ using SS.API.Helpers.Pagination.PagedParams;
 
 namespace SS.API.Controllers.Artists
 {
-    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class ArtistController : ControllerBase
     {
         private readonly IArtistRepository _artist;
@@ -46,6 +47,7 @@ namespace SS.API.Controllers.Artists
             return File(artistPhoto.File, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
         }
 
+        [ServiceFilter(typeof(LogUserActivity))]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateArtist(int id, ArtistForUpdateDto artistForUpdateDto)
         {
@@ -69,7 +71,7 @@ namespace SS.API.Controllers.Artists
 
         [HttpPost("AddArtistPhoto/{id}")]
         public async Task<IActionResult> AddPhotoForArtist(int id,
-            [FromForm]PhotoForCreationDto photoForCreationDto)
+            [FromForm] PhotoForCreationDto photoForCreationDto)
         {
             var result = await _artist.UploadPhoto(id, photoForCreationDto);
 

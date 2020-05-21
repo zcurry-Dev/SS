@@ -21,21 +21,25 @@ export class HasRoleDirective implements OnInit {
   ) {}
 
   ngOnInit() {
-    const userRoles = this.authService.decodedToken.role as Array<string>;
-
-    // if no roles clear the viewContainerRef
-    if (!userRoles) {
+    if (!this.authService.decodedToken.role) {
       this.viewContainerRef.clear();
-    }
+    } else {
+      const userRoles = this.authService.decodedToken.role as Array<string>;
 
-    // if user has role need to render the element
-    if (this.authService.roleMatch(this.appHasRole)) {
-      if (!this.isVisible) {
-        this.isVisible = true;
-        this.viewContainerRef.createEmbeddedView(this.templateRef);
-      } else {
-        this.isVisible = false;
+      // if no roles clear the viewContainerRef
+      if (!userRoles) {
         this.viewContainerRef.clear();
+      }
+
+      // if user has role need to render the element
+      if (this.authService.roleMatch(this.appHasRole)) {
+        if (!this.isVisible) {
+          this.isVisible = true;
+          this.viewContainerRef.createEmbeddedView(this.templateRef);
+        } else {
+          this.isVisible = false;
+          this.viewContainerRef.clear();
+        }
       }
     }
   }

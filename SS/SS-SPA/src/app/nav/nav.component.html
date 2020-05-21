@@ -1,72 +1,107 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" [routerLink]="['/home']">Scene Swarm</a>
-
-    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/artist']">Artists</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/venues']">Venues</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/beers']">Beers</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/addArtist']">Add Artist</a>
-      </li>
-      <li
-        *appHasRole="['Admin', 'Moderator']"
-        class="nav-item"
-        routerLinkActive="active"
+<ng-container>
+  <mat-toolbar color="primary" class="ss-header">
+    <a mat-button color="accent" [routerLink]="['/home']">
+      <span class="SS">Scene Swarm</span>
+    </a>
+    <span fxFlex></span>
+    <div fxShow="true" fxShow.lt-md="false">
+      <div
+        class="wantPointer"
+        [matMenuTriggerFor]="userMenu"
+        *ngIf="loggedIn()"
       >
-        <a class="nav-link" [routerLink]="['/admin']">Admin</a>
-      </li>
-    </ul>
-
-    <div *ngIf="loggedIn()" class="dropdown" dropdown>
-      <a class="dropdown-toggle text-light" dropdownToggle>
-        Welcome {{ authService.decodedToken.unique_name | titlecase }}
-      </a>
-
-      <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item"> <i class="fa fa-user"></i>Profile </a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" (click)="logout()">
-          <i class="fa fa-sign-out"></i>Logout
-        </a>
+        {{ authService.decodedToken.unique_name | titlecase }}
       </div>
+      <mat-menu #userMenu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          *appHasRole="['Admin', 'Moderator']"
+          [routerLink]="['/admin']"
+        >
+          Admin
+        </button>
+        <button mat-menu-item><i class="fa fa-user"></i>Profile</button>
+        <button mat-menu-item (click)="logout()">
+          <i class="fa fa-sign-out"></i>Logout
+        </button>
+      </mat-menu>
     </div>
 
-    <form
-      *ngIf="!loggedIn()"
-      #loginForm="ngForm"
-      class="form-inline my-2 my-lg-0"
-      (ngSubmit)="login()"
+    <span fxFlex></span>
+    <div fxShow="true" fxHide.gt-sm="true">
+      <div *ngIf="loggedIn()">
+        {{ authService.decodedToken.unique_name | titlecase }}
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+      <div *ngIf="!loggedIn()">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </div>
+    </div>
+    <!-- The following menu items will be hidden on both SM and XS screen sizes -->
+    <div fxShow="true" fxHide.lt-md="true">
+      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/artist']">
+        Artists
+      </a>
+      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/venues']">
+        Venues
+      </a>
+      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/beers']">
+        Beers
+      </a>
+      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/addArtist']">
+        Add Artist
+      </a>
+    </div>
+  </mat-toolbar>
+
+  <mat-sidenav-container fxFlexFill>
+    <mat-sidenav
+      color="primary"
+      #sidenav
+      fxLayout="column"
+      mode="over"
+      opened="false"
+      fxHide.gt-sm="true"
+      position="end"
+      (click)="sidenav.toggle()"
     >
-      <input
-        class="form-control mr-sm-2"
-        type="text"
-        name="userName"
-        placeholder="UserName"
-        required
-        [(ngModel)]="model.username"
-      />
-      <input
-        class="form-control mr-sm-2"
-        type="password"
-        name="password"
-        placeholder="Password"
-        required
-        [(ngModel)]="model.password"
-      />
-      <button
-        [disabled]="!loginForm.valid"
-        class="btn btn-success my-2 my-sm-0"
-        type="submit"
-      >
-        Login
-      </button>
-    </form>
-  </div>
-</nav>
+      <div fxLayout="column">
+        <mat-nav-list>
+          <a mat-list-item [routerLink]="['/artist']">Artists</a>
+          <a mat-list-item [routerLink]="['/venues']">Venues</a>
+          <a mat-list-item [routerLink]="['/beers']">Beers</a>
+          <a mat-list-item [routerLink]="['/addArtist']">Add Artist</a>
+        </mat-nav-list>
+
+        <mat-nav-list *ngIf="loggedIn()">
+          <mat-list-item
+            *appHasRole="['Admin', 'Moderator']"
+            routerLinkActive="active"
+            [routerLink]="['/admin']"
+          >
+            Admin
+          </mat-list-item>
+          <mat-list-item><i class="fa fa-user"></i>Profile </mat-list-item>
+          <mat-list-item (click)="logout()">
+            <i class="fa fa-sign-out"></i>Logout
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content fxFlexFill>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <mat-toolbar color="accent" class="ss-footer">
+    <mat-toolbar-row class="fText">
+      This site is under development. Feel free to click around. Data is reset
+      and does not persist for too long. Database is cleared every so often.
+      -Zach
+    </mat-toolbar-row>
+  </mat-toolbar>
+</ng-container>

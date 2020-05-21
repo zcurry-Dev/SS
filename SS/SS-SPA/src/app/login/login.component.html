@@ -1,0 +1,69 @@
+<mat-card>
+  <mat-card-title>Login</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-form-field>
+        <input
+          type="text"
+          matInput
+          placeholder="Username"
+          formControlName="username"
+          required
+        />
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          type="password"
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          required
+        />
+      </mat-form-field>
+
+      <div class="alignRight">
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!loginForm.valid"
+          type="submit"
+        >
+          Login
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<!-- 
+<form
+      *ngIf="!loggedIn()"
+      #loginForm="ngForm"
+      class="form-inline my-2 my-lg-0"
+      (ngSubmit)="login()"
+    >
+      <input
+        class="form-control mr-sm-2"
+        type="text"
+        name="userName"
+        placeholder="UserName"
+        required
+        [(ngModel)]="model.username"
+      />
+      <input
+        class="form-control mr-sm-2"
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+        [(ngModel)]="model.password"
+      />
+      <button
+        [disabled]="!loginForm.valid"
+        class="btn btn-success my-2 my-sm-0"
+        type="submit"
+      >
+        Login
+      </button>
+    </form> -->

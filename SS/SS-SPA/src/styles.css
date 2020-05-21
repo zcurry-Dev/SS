@@ -1,13 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import '../node_modules/bootswatch/dist/darkly/bootstrap.min.css';
+/* @import '@angular/material/prebuilt-themes/deeppurple-amber.css'; */
+/* @import '../node_modules/bootstrap/dist/css/bootstrap.min.css'; */
+/* @import '../node_modules/bootswatch/dist/darkly/bootstrap.min.css'; */
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 @import '../node_modules/alertifyjs/build/css/alertify.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
-/* @import '@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 
-.tab-panel {
+/* .tab-panel {
   border: 1px solid #ddd;
   padding: 10px;
   border-radius: 4px;
@@ -22,20 +22,20 @@
 .artist-tabset > .nav-tabs > li:hover > a {
   border: 0;
   background: none !important;
-  /* color: #333333; */
+  ///* color: #333333;
   color: #00e1ff;
 }
 
 .artist-tabset > .nav-tabs > li.open > a > i,
 .artist-tabset > .nav-tabs > li:hover > a > i {
-  /* color: #a6a6a6; */
+  ///* color: #a6a6a6; 
   color: #7ceefd;
 }
 
 .artist-tabset > .nav-tabs > li.open .dropdown-menu,
 .artist-tabset > .nav-tabs > li:hover .dropdown-menu {
   margin-top: 0px;
-}
+} 
 
 .artist-tabset > .nav-tabs > li.active {
   border-bottom: 4px solid #e95420;
@@ -44,7 +44,7 @@
 
 .artist-tabset > .nav-tabs > li.active > a {
   border: 0 !important;
-  /* color: #333333; */
+  ///* color: #333333; 
   color: #00e1ff;
 }
 
@@ -64,6 +64,33 @@
 .ngx-gallery {
   display: inline-block;
   margin-bottom: 20px;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+} */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 html,

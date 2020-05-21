@@ -1,4 +1,18 @@
-.dropdown-toggle,
-.dropdown-item {
+.SS {
+  font-size: 50px;
+  /* min-height: 1000px; */
+  margin: auto;
+  padding: auto;
+}
+
+.fText {
+  font-size: 12px;
+}
+
+mat-toolbar-row {
+  white-space: inherit;
+}
+
+.wantPointer {
   cursor: pointer;
 }

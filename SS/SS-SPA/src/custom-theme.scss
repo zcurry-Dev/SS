@@ -1,6 +1,72 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
+
+$ss-primary: (
+  50: #e9e0f0,
+  100: #c7b3da,
+  200: #a280c2,
+  300: #7d4da9,
+  400: #612696,
+  500: #450084,
+  600: #3e007c,
+  700: #360071,
+  800: #2e0067,
+  900: #1f0054,
+  A100: #a686ff,
+  A200: #8153ff,
+  A400: #5b20ff,
+  A700: #4807ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$ss-secondary: (
+  50: #f5f3ed,
+  100: #e6e1d1,
+  200: #d6ceb2,
+  300: #c6ba93,
+  400: #b9ab7c,
+  500: #ad9c65,
+  600: #a6945d,
+  700: #9c8a53,
+  800: #938049,
+  900: #836e37,
+  A100: #fff2d2,
+  A200: #ffe49f,
+  A400: #ffd56c,
+  A700: #ffce52,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
@@ -12,17 +78,16 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$SS-SPA-primary: mat-palette($mat-indigo);
-$SS-SPA-accent: mat-palette($mat-pink, A200, A100, A400);
+$ss-app-primary: mat-palette($ss-primary);
+$ss-app-accent: mat-palette($ss-secondary);
 
 // The warn palette is optional (defaults to red).
-$SS-SPA-warn: mat-palette($mat-red);
+$ss-app-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$SS-SPA-theme: mat-light-theme($SS-SPA-primary, $SS-SPA-accent, $SS-SPA-warn);
+$ss-app-theme: mat-dark-theme($ss-app-primary, $ss-app-accent, $ss-app-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($SS-SPA-theme);
-
+@include angular-material-theme($ss-app-theme);

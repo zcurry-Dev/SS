@@ -16,6 +16,7 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { RouterModule } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
 import { AppMaterialModule } from './app.material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './routes';
@@ -51,6 +52,8 @@ import { UserManagementComponent } from './admin/user-management/user-management
 import { VenuesComponent } from './venues/venues.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
 import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -75,6 +78,8 @@ export function tokenGetter() {
     UserManagementComponent,
     VenuesComponent,
     HasRoleDirective,
+    LoginComponent,
+    ProfileComponent,
   ],
   imports: [
     AppMaterialModule,
@@ -102,6 +107,7 @@ export function tokenGetter() {
     RouterModule.forRoot(AppRoutes),
     TabsModule.forRoot(),
     TimeagoModule.forRoot(),
+    FlexLayoutModule,
   ],
   providers: [
     AdminService,

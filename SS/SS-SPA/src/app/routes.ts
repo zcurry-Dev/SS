@@ -13,19 +13,23 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
 import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const AppRoutes: Routes = [
   { path: '', component: HomeComponent },
+  {
+    path: 'artist',
+    component: ArtistListComponent,
+    resolve: { artists: ArtistListResolver },
+  },
+  { path: 'venues', component: VenuesComponent },
+  { path: 'beers', component: BeersComponent },
+  { path: 'addArtist', component: ArtistAddComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      {
-        path: 'artist',
-        component: ArtistListComponent,
-        resolve: { artists: ArtistListResolver },
-      },
       {
         path: 'artist/edit/:id',
         component: ArtistEditComponent,
@@ -37,9 +41,6 @@ export const AppRoutes: Routes = [
         component: ArtistDetailComponent,
         resolve: { artist: ArtistDetailResolver },
       },
-      { path: 'venues', component: VenuesComponent },
-      { path: 'beers', component: BeersComponent },
-      { path: 'addArtist', component: ArtistAddComponent },
       {
         path: 'admin',
         component: AdminPanelComponent,
