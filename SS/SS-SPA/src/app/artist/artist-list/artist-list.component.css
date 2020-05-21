@@ -1,13 +1,10 @@
-.aaa {
-  width: 80%;
-  margin: auto;
-  margin-top: 50px;
+.artistList {
   font-size: 48px;
 }
 
 table {
   width: 100%;
-  text-align: left;
+  /* text-align: left; */
 }
 
 .mat-row:nth-child(even) {

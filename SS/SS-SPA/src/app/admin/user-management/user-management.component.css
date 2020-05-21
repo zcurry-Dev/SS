@@ -3,12 +3,19 @@ table {
 }
 
 .mat-row:nth-child(even) {
-  background-color: ghostwhite;
+  background-color: darkgrey;
 }
 
 .mat-form-field {
   font-size: 14px;
   width: 100%;
-  color: black;
-  background-color: ghostwhite;
+}
+
+.artistImg {
+  height: 50px;
+  margin: auto;
+}
+
+.add-button {
+  float: right;
 }

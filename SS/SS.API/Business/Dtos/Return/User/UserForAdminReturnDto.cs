@@ -4,7 +4,7 @@ namespace SS.API.Business.Dtos.Return
 {
     public class UserForAdminReturnDto
     {
-        public int UserId { get; set; }
+        public int Id { get; set; }
         public string UserName { get; set; }
         public List<string> Roles { get; set; }
     }

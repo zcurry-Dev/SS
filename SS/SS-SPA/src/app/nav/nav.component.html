@@ -52,9 +52,6 @@
       <a mat-button routerLinkActive="mat-accent" [routerLink]="['/beers']">
         Beers
       </a>
-      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/addArtist']">
-        Add Artist
-      </a>
     </div>
   </mat-toolbar>
 
@@ -74,7 +71,6 @@
           <a mat-list-item [routerLink]="['/artist']">Artists</a>
           <a mat-list-item [routerLink]="['/venues']">Venues</a>
           <a mat-list-item [routerLink]="['/beers']">Beers</a>
-          <a mat-list-item [routerLink]="['/addArtist']">Add Artist</a>
         </mat-nav-list>
 
         <mat-nav-list *ngIf="loggedIn()">
@@ -93,7 +89,9 @@
       </div>
     </mat-sidenav>
     <mat-sidenav-content fxFlexFill>
-      <router-outlet></router-outlet>
+      <div class="allPageWidth">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 

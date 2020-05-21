@@ -24,7 +24,6 @@ export const AppRoutes: Routes = [
   },
   { path: 'venues', component: VenuesComponent },
   { path: 'beers', component: BeersComponent },
-  { path: 'addArtist', component: ArtistAddComponent },
   {
     path: '',
     runGuardsAndResolvers: 'always',

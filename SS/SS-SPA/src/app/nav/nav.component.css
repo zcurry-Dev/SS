@@ -1,6 +1,5 @@
 .SS {
   font-size: 50px;
-  /* min-height: 1000px; */
   margin: auto;
   padding: auto;
 }
@@ -15,4 +14,10 @@ mat-toolbar-row {
 
 .wantPointer {
   cursor: pointer;
+}
+
+.allPageWidth {
+  width: 80%;
+  margin: auto;
+  margin-top: 50px;
 }

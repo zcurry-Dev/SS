@@ -41,7 +41,7 @@ namespace SS.API.Helpers.MapperProfiles
 
             // Data to Dto
             CreateMap<Ssuser, UserForAdminReturnDto>()
-                .ForMember(dest => dest.UserId, opt =>
+                .ForMember(dest => dest.Id, opt =>
                     opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Roles, opt =>
                     opt.MapFrom(src => src.SsuserRole
