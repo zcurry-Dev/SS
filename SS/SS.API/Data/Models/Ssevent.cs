@@ -10,6 +10,7 @@ namespace SS.API.Data.Models
         public DateTime EventDate { get; set; }
         public DateTime? EventTime { get; set; }
         public int? EventVenueId { get; set; }
+        public bool Fundraiser { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 

@@ -79,8 +79,11 @@ DROP TABLE refHR.EmploymentStatus
 -- DROP CONSTANT TABLES
 DROP TABLE const.DaysOfWeek
 DROP TABLE const.ZipCode
+DROP TABLE const.WorldCity
 DROP TABLE const.City
+DROP TABLE const.WorldRegion
 DROP TABLE const.USState
+DROP TABLE const.Country
 
 -- DROP SCHEMAS
 DROP SCHEMA const

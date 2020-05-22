@@ -63,10 +63,12 @@ export class ArtistDetailComponent implements OnInit {
   }
 
   getMainImage() {
-    this.artistService
-      .getPhotoFile(this.artist.mainPhotoId)
-      .subscribe((image) => {
-        this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
-      });
+    if (this.artist.mainPhotoId > 0) {
+      this.artistService
+        .getPhotoFile(this.artist.mainPhotoId)
+        .subscribe((image) => {
+          this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
+        });
+    }
   }
 }

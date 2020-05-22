@@ -6,7 +6,7 @@ export interface Artist {
   name: string;
   statusId: number;
   yearsActive: number;
-  solo: boolean;
+  artistGroup: boolean;
   userId?: number;
   verified: boolean;
   currentCity: string;

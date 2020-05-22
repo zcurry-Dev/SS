@@ -1,6 +1,3 @@
---
-USE SceneSwarm01
-
 CREATE TABLE refHR.EmploymentStatus(
 	EmploymentStatusID INT NOT NULL
 		CONSTRAINT PK_EmploymentStatus

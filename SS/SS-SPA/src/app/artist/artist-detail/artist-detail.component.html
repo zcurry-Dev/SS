@@ -9,13 +9,12 @@
     <div class="col-sm-4">
       <div class="card">
         <img
-          class="card-img-top img-thumbnail"
           [src]="artist.mainPhotoURL || '../../../assets/fallbackUser.png'"
           alt="{{ artist.name }}"
         />
         <div class="card-body">
           <strong>Solo/Status:</strong>
-          <p>{{ artist.solo }}, {{ artist.statusId }}</p>
+          <p>{{ artist.artistGroup }}, {{ artist.statusId }}</p>
         </div>
         <div class="card-body">
           <strong>Years Active:</strong>

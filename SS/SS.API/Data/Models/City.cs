@@ -8,7 +8,7 @@ namespace SS.API.Data.Models
         public City()
         {
             ArtistCurrentCityNavigation = new HashSet<Artist>();
-            ArtistHomeCityNavigation = new HashSet<Artist>();
+            ArtistUshomeCityNavigation = new HashSet<Artist>();
             InverseClosestMajorCity = new HashSet<City>();
             Ssaddress = new HashSet<Ssaddress>();
             ZipCode = new HashSet<ZipCode>();
@@ -23,7 +23,7 @@ namespace SS.API.Data.Models
         public virtual City ClosestMajorCity { get; set; }
         public virtual Usstate State { get; set; }
         public virtual ICollection<Artist> ArtistCurrentCityNavigation { get; set; }
-        public virtual ICollection<Artist> ArtistHomeCityNavigation { get; set; }
+        public virtual ICollection<Artist> ArtistUshomeCityNavigation { get; set; }
         public virtual ICollection<City> InverseClosestMajorCity { get; set; }
         public virtual ICollection<Ssaddress> Ssaddress { get; set; }
         public virtual ICollection<ZipCode> ZipCode { get; set; }

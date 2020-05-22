@@ -1,6 +1,3 @@
---
-USE SceneSwarm01
-
 CREATE TABLE ref.EventType(
 	EventTypeID INT NOT NULL
 		CONSTRAINT PK_EventType
@@ -32,7 +29,7 @@ CREATE TABLE dbo.SSEvent(
 		CONSTRAINT FK_Event_EventVenueID
 		REFERENCES dbo.Venue(VenueID)
 	,Fundraiser BIT NOT NULL
-		CONSTRAINT DF_VenueTypeXRef_MainType
+		CONSTRAINT DF_SSEvent_Fundraiser
 		DEFAULT 0
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Event_CreatedBy

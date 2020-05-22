@@ -113,9 +113,13 @@ export class ArtistListComponent implements OnInit {
 
   getMainArtistImage() {
     for (const artist of this.artists) {
-      this.artistService.getPhotoFile(artist.mainPhotoId).subscribe((image) => {
-        artist.mainPhotoURL = this.imageService.sanitizeImage(image);
-      });
+      if (artist.mainPhotoId > 0) {
+        this.artistService
+          .getPhotoFile(artist.mainPhotoId)
+          .subscribe((image) => {
+            artist.mainPhotoURL = this.imageService.sanitizeImage(image);
+          });
+      }
     }
   }
 }

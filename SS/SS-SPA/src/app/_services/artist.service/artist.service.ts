@@ -55,6 +55,8 @@ export class ArtistService {
   }
 
   getPhotoFile(photoId: number): Observable<Blob> {
+    console.log(photoId);
+
     const path = this.baseUrl + 'getPhotoFile/' + photoId;
     return this.imageService.getImage(path);
   }

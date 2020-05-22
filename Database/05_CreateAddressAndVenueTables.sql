@@ -1,6 +1,3 @@
---
-USE SceneSwarm01
-
 CREATE TABLE dbo.SSAddress(
 	AddressID INT NOT NULL
 		CONSTRAINT PK_AddressID
@@ -41,6 +38,7 @@ VALUES
 ('Concert Venue', 1, GETDATE())
 ,('Bar', 1, GETDATE())
 ,('House Show', 1, GETDATE())
+,('Restaurant', 1, GETDATE())
 
 CREATE TABLE dbo.Venue(
 	VenueID INT NOT NULL

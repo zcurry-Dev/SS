@@ -1,6 +1,3 @@
---
-USE SceneSwarm01
-
 CREATE TABLE ref.BeerFamily(
 	BeerFamilyID INT NOT NULL
 		CONSTRAINT PK_BeerFamily

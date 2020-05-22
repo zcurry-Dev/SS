@@ -37,6 +37,7 @@ namespace SS.API.Data
         public virtual DbSet<CiderType> CiderType { get; set; }
         public virtual DbSet<Cidery> Cidery { get; set; }
         public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<DatabaseDiagnostics> DatabaseDiagnostics { get; set; }
         public virtual DbSet<DaysOfWeek> DaysOfWeek { get; set; }
         public virtual DbSet<Distillery> Distillery { get; set; }
@@ -75,6 +76,8 @@ namespace SS.API.Data
         public virtual DbSet<WineType> WineType { get; set; }
         public virtual DbSet<WineTypeSpecific> WineTypeSpecific { get; set; }
         public virtual DbSet<Winery> Winery { get; set; }
+        public virtual DbSet<WorldCity> WorldCity { get; set; }
+        public virtual DbSet<WorldRegion> WorldRegion { get; set; }
         public virtual DbSet<ZipCode> ZipCode { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -115,6 +118,8 @@ namespace SS.API.Data
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
+                entity.Property(e => e.UshomeCity).HasColumnName("USHomeCity");
+
                 entity.HasOne(d => d.ArtistStatus)
                     .WithMany(p => p.Artist)
                     .HasForeignKey(d => d.ArtistStatusId)
@@ -131,15 +136,26 @@ namespace SS.API.Data
                     .HasForeignKey(d => d.CurrentCity)
                     .HasConstraintName("FK_Artist_CurrentCity");
 
-                entity.HasOne(d => d.HomeCityNavigation)
-                    .WithMany(p => p.ArtistHomeCityNavigation)
-                    .HasForeignKey(d => d.HomeCity)
-                    .HasConstraintName("FK_Artist_HomeCity");
+                entity.HasOne(d => d.HomeCountryNavigation)
+                    .WithMany(p => p.Artist)
+                    .HasForeignKey(d => d.HomeCountry)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Artist_HomeCountry");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ArtistUser)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_Artist_UserID");
+
+                entity.HasOne(d => d.UshomeCityNavigation)
+                    .WithMany(p => p.ArtistUshomeCityNavigation)
+                    .HasForeignKey(d => d.UshomeCity)
+                    .HasConstraintName("FK_Artist_USHomeCity");
+
+                entity.HasOne(d => d.WorldHomeCityNavigation)
+                    .WithMany(p => p.Artist)
+                    .HasForeignKey(d => d.WorldHomeCity)
+                    .HasConstraintName("FK_Artist_WorldHomeCity");
             });
 
             modelBuilder.Entity<ArtistGroupMember>(entity =>
@@ -574,6 +590,34 @@ namespace SS.API.Data
                     .HasConstraintName("FK_City_StateID");
             });
 
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.ToTable("Country", "const");
+
+                entity.Property(e => e.CountryId).HasColumnName("CountryID");
+
+                entity.Property(e => e.CountryAbbreviation2)
+                    .IsRequired()
+                    .HasMaxLength(2);
+
+                entity.Property(e => e.CountryAbbreviation3)
+                    .IsRequired()
+                    .HasMaxLength(3);
+
+                entity.Property(e => e.CountryName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.CountryNameShorter)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.Iso3166)
+                    .IsRequired()
+                    .HasColumnName("ISO3166")
+                    .HasMaxLength(3);
+            });
+
             modelBuilder.Entity<DatabaseDiagnostics>(entity =>
             {
                 entity.Property(e => e.DatabaseDiagnosticsId).HasColumnName("DatabaseDiagnosticsID");
@@ -741,6 +785,7 @@ namespace SS.API.Data
                     .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.EventType1)
+                    .IsRequired()
                     .HasColumnName("EventType")
                     .HasMaxLength(255);
 
@@ -1498,6 +1543,55 @@ namespace SS.API.Data
                     .HasForeignKey(d => d.VenueId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Winery_VenueID");
+            });
+
+            modelBuilder.Entity<WorldCity>(entity =>
+            {
+                entity.ToTable("WorldCity", "const");
+
+                entity.Property(e => e.WorldCityId).HasColumnName("WorldCityID");
+
+                entity.Property(e => e.CityName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.ClosestMajorCityId).HasColumnName("ClosestMajorCityID");
+
+                entity.Property(e => e.WorldRegionId).HasColumnName("WorldRegionID");
+
+                entity.HasOne(d => d.ClosestMajorCity)
+                    .WithMany(p => p.InverseClosestMajorCity)
+                    .HasForeignKey(d => d.ClosestMajorCityId)
+                    .HasConstraintName("FK_WorldRegion_ClosestMajorCityID");
+
+                entity.HasOne(d => d.WorldRegion)
+                    .WithMany(p => p.WorldCity)
+                    .HasForeignKey(d => d.WorldRegionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WorldCity_WorldRegion");
+            });
+
+            modelBuilder.Entity<WorldRegion>(entity =>
+            {
+                entity.ToTable("WorldRegion", "const");
+
+                entity.Property(e => e.WorldRegionId).HasColumnName("WorldRegionID");
+
+                entity.Property(e => e.WorldRegionAbbreviation).HasMaxLength(10);
+
+                entity.Property(e => e.WorldRegionName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.WorldRegionType)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.WorldRegionCountryNavigation)
+                    .WithMany(p => p.WorldRegion)
+                    .HasForeignKey(d => d.WorldRegionCountry)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WorldRegion_WorldRegionCountry");
             });
 
             modelBuilder.Entity<ZipCode>(entity =>

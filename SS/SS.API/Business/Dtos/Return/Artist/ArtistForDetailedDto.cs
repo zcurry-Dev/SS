@@ -10,7 +10,7 @@ namespace SS.API.Business.Dtos.Return
         public int? StatusId { get; set; }
         public DateTime CareerBeginDate { get; set; }
         public int YearsActive { get; set; }
-        public bool Solo { get; set; }
+        public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
         public string CurrentCity { get; set; }

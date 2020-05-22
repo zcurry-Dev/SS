@@ -1,6 +1,3 @@
---
-USE SceneSwarm01
-
 CREATE TABLE ref.MeadType(
 	MeadTypeID INT NOT NULL
 		CONSTRAINT PK_MeadType

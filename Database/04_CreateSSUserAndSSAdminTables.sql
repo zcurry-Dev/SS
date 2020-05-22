@@ -1,4 +1,3 @@
-
 CREATE TABLE ident.[SSRole] (
     [RoleID] int NOT NULL IDENTITY
     ,[Name] nvarchar(256) NULL
