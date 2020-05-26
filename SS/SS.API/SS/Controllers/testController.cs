@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SS.API.Business.Dtos.Return;
+using SS.API.Business.Interfaces;
 using SS.API.Data;
+using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
 namespace SS.API.Controllers
@@ -15,46 +18,19 @@ namespace SS.API.Controllers
     [AllowAnonymous]
     public class testController : ControllerBase
     {
-        private readonly DataContext _context;
-        private readonly RoleManager<Ssrole> _roleManager;
-        private readonly UserManager<Ssuser> _userManager;
-        public testController(
-            DataContext context,
-            RoleManager<Ssrole> roleManager,
-            UserManager<Ssuser> userManager)
+        private readonly IUserRepository _user;
+        public testController(IUserRepository user)
         {
-            _context = context;
-            _roleManager = roleManager;
-            _userManager = userManager;
+            _user = user;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var a = await _userManager.FindByIdAsync("1");
+            int id = 1;
+            var userToReturn = await _user.GetUserById(id);
 
-            var users2 = _context.Ssuser
-                .Select(x => new UserForAdminReturnDto
-                {
-                    Id = x.Id,
-                    UserName = x.UserName,
-                    Roles = x.SsuserRole.Select(r => r.Role.Name).ToList()
-                })
-                .ToList()
-                .AsQueryable();
-
-            var users = _context.Ssuser
-                .Select(user => new UserForAdminReturnDto
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    Roles = (from userRole in user.SsuserRole
-                             join role in _context.Roles
-                             on userRole.RoleId
-                             equals role.Id
-                             select role.Name).ToList()
-                }).ToList();
-
+            // return Ok(userToReturn);
             return Ok("works");
         }
     }

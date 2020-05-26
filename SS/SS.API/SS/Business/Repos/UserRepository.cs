@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using SS.API.Business.Dtos.Return;
@@ -17,9 +18,15 @@ namespace SS.API.Business.Repos
             _user = user;
         }
 
-        public async Task<UserForDetailDto> GetUser(int userId)
+        public async Task<UserForDetailDto> GetUserById(int userId)
         {
             var ssUser = await _user.GetUserById(userId.ToString());
+
+            if (ssUser == null)
+            {
+                throw new NullReferenceException();
+            }
+
             var userToReturn = _mapper.Map<UserForDetailDto>(ssUser);
 
             return userToReturn;

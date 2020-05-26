@@ -5,6 +5,6 @@ namespace SS.API.Business.Interfaces
 {
     public interface IUserRepository
     {
-        Task<UserForDetailDto> GetUser(int userId);
+        Task<UserForDetailDto> GetUserById(int userId);
     }
 }

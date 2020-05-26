@@ -20,7 +20,7 @@ namespace SS.API.Controllers.User
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var userToReturn = await _user.GetUser(id);
+            var userToReturn = await _user.GetUserById(id);
 
             return Ok(userToReturn);
         }
@@ -32,7 +32,7 @@ namespace SS.API.Controllers.User
             // if (id != int.Parse(Artist.FindFirst(ClaimTypes.NameIdentifier).Vale)) {
             //     return Unauthorized();
             // }
-            var userToReturn = await _user.GetUser(userId);
+            var userToReturn = await _user.GetUserById(userId);
 
             return Ok();
         }
