@@ -6,10 +6,21 @@ import {
   FormControl,
   Validators,
   FormBuilder,
+  FormGroupDirective,
+  NgForm,
 } from '@angular/forms';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+export class CrossFieldErrorMatcher implements ErrorStateMatcher {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
+    return control.touched && form.invalid;
+  }
+}
 
 @Component({
   selector: 'app-register',
@@ -18,9 +29,24 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
+
+  matcher = new CrossFieldErrorMatcher();
+
   user: User;
-  registerForm: FormGroup;
-  bsConfig: Partial<BsDatepickerConfig>;
+  registerForm = this.fb.group(
+    {
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      userName: new FormControl('', [Validators.required]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+      ]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    },
+    { validator: this.passwordMatchValidor }
+  );
 
   constructor(
     private authService: AuthService,
@@ -29,14 +55,10 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.bsConfig = {
-      containerClass: 'theme-default',
-    };
-    this.createRegisterForm();
-  }
+  ngOnInit() {}
 
   register() {
+    console.log(this.registerForm);
     if (this.registerForm.valid) {
       this.user = Object.assign({}, this.registerForm.value);
       this.authService.register(this.user).subscribe(
@@ -57,32 +79,11 @@ export class RegisterComponent implements OnInit {
 
   cancel() {
     this.cancelRegister.emit(false);
-    console.log('cancelled');
   }
 
   passwordMatchValidor(g: FormGroup) {
-    return g.get('password').value === g.get('confirmPassword').value
+    return g.controls.password.value === g.controls.confirmPassword.value
       ? null
       : { mismatch: true };
-  }
-
-  createRegisterForm() {
-    this.registerForm = this.fb.group(
-      {
-        firstName: new FormControl('', Validators.required),
-        lastName: new FormControl('', Validators.required),
-        email: new FormControl('', Validators.required),
-        // dateOfBirth: new FormControl(),
-        // dateOfBirth: new FormControl(null, Validators.required),
-        userName: new FormControl('', Validators.required),
-        password: new FormControl('', [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(8),
-        ]),
-        confirmPassword: new FormControl('', Validators.required),
-      },
-      { validator: this.passwordMatchValidor }
-    );
   }
 }

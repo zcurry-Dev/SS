@@ -6,7 +6,7 @@ import { ArtistEditComponent } from '../artist/artist-edit/artist-edit.component
 export class PreventUnsavedChanges
   implements CanDeactivate<ArtistEditComponent> {
   canDeactivate(component: ArtistEditComponent) {
-    if (component.editForm.dirty) {
+    if (component.editArtistForm.dirty) {
       return confirm(
         'Are you sure you want to continue? Any unsaved changes will be lost'
       );

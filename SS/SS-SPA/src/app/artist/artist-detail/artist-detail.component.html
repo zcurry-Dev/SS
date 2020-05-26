@@ -1,55 +1,47 @@
-<div class="container mt-4">
-  <div class="row">
-    <h1>
-      {{ artist.name }}
-      <strong>Verified: {{ artist.verified }}</strong>
-    </h1>
+<div fxLayout="row" fxLayoutAlign="space-between start">
+  <h1>
+    {{ artist.name }}
+    <i *ngIf="artist.verified" class="fa fa-check colorCheckMark"></i>
+  </h1>
+  <button
+    class="add-button"
+    mat-raised-button
+    [routerLink]="['/artist/edit', artist.id]"
+  >
+    Edit Artist
+  </button>
+</div>
+
+<div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="32px">
+  <div
+    fxFlex="0 1 calc(33.3% - 32px)"
+    fxFlex.lt-md="0 1 calc(50% - 32px)"
+    fxFlex.lt-sm="100%"
+  >
+    <app-artist-card [artist]="artist" [edit]="false"> </app-artist-card>
   </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <div class="card">
-        <img
-          [src]="artist.mainPhotoURL || '../../../assets/fallbackUser.png'"
-          alt="{{ artist.name }}"
-        />
-        <div class="card-body">
-          <strong>Solo/Status:</strong>
-          <p>{{ artist.artistGroup }}, {{ artist.statusId }}</p>
-        </div>
-        <div class="card-body">
-          <strong>Years Active:</strong>
-          <p>{{ artist.yearsActive }}</p>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="btn-group d-flex">
-          <button class="btn btn-primary w-100">Follow/UnFollow</button>
-          <button class="btn btn-success w-100">Message</button>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-8">
-      <div class="tab-panel">
-        <tabset class="artist-tabset">
-          <tab heading="About {{ artist.name }}">
-            <h4>Current City</h4>
-            <p>{{ artist.currentCity }}</p>
-            <h4>Home City</h4>
-            <p>{{ artist.yearsActive }}</p>
-          </tab>
-          <tab heading="Work/Albums and more">
-            <h4>Albums and more to go here</h4>
-            <p>{{ artist.name }}</p>
-          </tab>
-          <tab heading="Photos">
-            <ngx-gallery
-              [options]="galleryOptions"
-              [images]="galleryImages"
-              class="ngx-gallery"
-            ></ngx-gallery>
-          </tab>
-        </tabset>
-      </div>
-    </div>
+
+  <div
+    fxFlex
+    fxFlex="0 1 calc(33.3% - 32px)"
+    fxFlex.lt-md="0 1 calc(50% - 32px)"
+    fxFlex.lt-sm="100%"
+  >
+    <mat-tab-group>
+      <mat-tab label="About {{ artist.name }}">
+        Current City
+        <p>{{ artist.currentCity || 'no data' }}</p>
+        Home City
+        <p>{{ artist.homeCity || 'no data' }}</p>
+        Years Active - calculates based on artist begin date
+        <p>{{ artist.yearsActive }}</p>
+      </mat-tab>
+      <mat-tab label="Work/Albums and more">
+        Albums and more to go here
+      </mat-tab>
+      <mat-tab label="Photos">
+        no photos yet
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

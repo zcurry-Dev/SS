@@ -20,6 +20,7 @@ namespace SS.API.Controllers.Artists
             _artist = artist;
         }
 
+        // [ServiceFilter(typeof(LogUserActivity))]
         [HttpGet]
         public async Task<IActionResult> GetArtists([FromQuery] ArtistParams artistParams)
         {
@@ -47,7 +48,6 @@ namespace SS.API.Controllers.Artists
             return File(artistPhoto.File, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
         }
 
-        [ServiceFilter(typeof(LogUserActivity))]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateArtist(int id, ArtistForUpdateDto artistForUpdateDto)
         {

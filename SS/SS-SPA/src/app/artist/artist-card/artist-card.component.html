@@ -1,36 +1,52 @@
-<div class="card">
-  <div class="card-img-wrapper">
-    <img
-      [src]="artist.mainPhotoURL || '../../../assets/fallbackUser.png'"
-      alt="{{ artist.name }}"
-      class="card-img-top"
-    />
-    <ul class="list-inline member-icons animate text-center">
-      <li class="list-inline-item">
-        <button class="btn btn-primary" [routerLink]="['/artist/', artist.id]">
-          <i class="fa fa-user"></i>
-        </button>
-      </li>
-      <li class="list-inline-item">
-        <button
-          class="btn btn-primary"
-          [routerLink]="['/artist/edit', artist.id]"
-        >
-          <i class="fa fa-heart"></i>
-        </button>
-      </li>
-      <li class="list-inline-item">
-        <button class="btn btn-primary"><i class="fa fa-envelope"></i></button>
-      </li>
-    </ul>
-  </div>
-  <div class="card-body p-1">
-    <h6 class="card-title text-center mb-1">
-      <i class="fa fa-user"></i>
-      {{ artist.name }},{{ artist.yearsActive }}
-    </h6>
-    <p class="card-text text-muted text-center">
-      Verified: {{ artist.verified }}
+<mat-card>
+  <img
+    mat-card-image
+    [src]="artist.mainPhotoURL || 'assets/fallbackUser.png'"
+    alt="{{ artist.name }}"
+  />
+  <mat-card-content>
+    <p>
+      super brief description, possibly stored in db
     </p>
-  </div>
-</div>
+  </mat-card-content>
+  <mat-card-content>
+    <p>
+      <strong>Group:</strong>
+      {{ artist.artistGroup }}
+    </p>
+  </mat-card-content>
+  <mat-card-content>
+    <p>
+      <strong>Status:</strong>
+      {{ artist.statusId }}
+    </p>
+  </mat-card-content>
+  <mat-card-content>
+    <p>
+      <strong>Years Active:</strong>
+      {{ artist.yearsActive }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions *ngIf="!edit">
+    <button
+      mat-raised-button
+      color="primary"
+      *ngIf="!followArtist"
+      (click)="follow()"
+    >
+      FOLLOW
+    </button>
+    <button mat-raised-button color="accent">SHARE</button>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="edit">
+    <button
+      mat-raised-button
+      [disabled]="!editArtistForm.dirty"
+      form="editArtistForm"
+      class="btn btn-success btn-block"
+      color="primary"
+    >
+      Save Changes
+    </button>
+  </mat-card-actions>
+</mat-card>

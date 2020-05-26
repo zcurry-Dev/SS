@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
 import { AuthService } from 'src/app/_services/auth.service/auth.service';
 import { ImageService } from 'src/app/_services/image.service/images.service';
+import { Country } from 'src/app/_models/countries';
 
 @Component({
   selector: 'app-artist-edit',
@@ -13,11 +14,21 @@ import { ImageService } from 'src/app/_services/image.service/images.service';
   styleUrls: ['./artist-edit.component.css'],
 })
 export class ArtistEditComponent implements OnInit {
-  @ViewChild('editForm', { static: true }) editForm: NgForm;
+  @ViewChild('editArtistForm', { static: true }) editArtistForm: NgForm;
+  selectedValue: string;
+
   artist: Artist;
+  usArtist = [
+    { value: 'true', viewValue: 'yes' },
+    { value: 'false', viewValue: 'no' },
+  ];
+  // usArtist2 = this.usArtist.value;
+
+  countries: Country[];
+
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any) {
-    if (this.editForm.dirty) {
+    if (this.editArtistForm.dirty) {
       $event.returnValue = true;
     }
   }
@@ -35,11 +46,10 @@ export class ArtistEditComponent implements OnInit {
   }
 
   updateArtist() {
-    // this.artistService.updateArtist(this.authService.decodedToken.nameid, this.artist);
     this.artistService.updateArtist(this.artist.id, this.artist).subscribe(
       (next) => {
         this.alertify.success('Artist updated successfully');
-        this.editForm.reset(this.artist);
+        this.editArtistForm.reset(this.artist);
       },
       (error) => {
         this.alertify.error(error);
@@ -52,11 +62,13 @@ export class ArtistEditComponent implements OnInit {
       this.artist = data['artist'];
     });
 
-    this.artistService
-      .getPhotoFile(this.artist.mainPhotoId)
-      .subscribe((image) => {
-        this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
-      });
+    if (this.artist.mainPhotoId > 0) {
+      this.artistService
+        .getPhotoFile(this.artist.mainPhotoId)
+        .subscribe((image) => {
+          this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
+        });
+    }
   }
 
   updateMainPhoto(photoUrl) {

@@ -1,22 +1,25 @@
-.SS {
-  font-size: 50px;
+mat-toolbar-row {
+  white-space: inherit;
+}
+
+.ss-header {
+  width: 80%;
   margin: auto;
-  padding: auto;
+}
+
+.SS-text {
+  font-size: 50px;
 }
 
 .fText {
   font-size: 12px;
 }
 
-mat-toolbar-row {
-  white-space: inherit;
-}
-
 .wantPointer {
   cursor: pointer;
 }
 
-.allPageWidth {
+.allPagesWidth {
   width: 80%;
   margin: auto;
   margin-top: 50px;

@@ -13,6 +13,7 @@ export interface Artist {
   homeCity: string;
   mainPhotoId: number;
   mainPhotoURL: SafeUrl;
+  usArtist: boolean;
 
   careerBeginDate: Date;
   createdBy: number;

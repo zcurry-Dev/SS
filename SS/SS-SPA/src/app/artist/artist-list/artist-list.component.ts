@@ -51,6 +51,8 @@ export class ArtistListComponent implements OnInit {
   getData() {
     this.route.data.subscribe(async (data) => {
       this.artists = data['artists'].result;
+      console.log('artists', this.artists);
+
       this.pagination = data['artists'].pagination;
       this.length = this.pagination.totalItems;
       this.pageSize = this.pagination.itemsPerPage;

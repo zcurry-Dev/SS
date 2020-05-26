@@ -27,11 +27,10 @@ namespace SS.API.Helpers.MapperProfiles
                .ForMember(dest => dest.Photos, opt =>
                   opt.MapFrom(src => src.ArtistPhoto))
                .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.UshomeCityNavigation.CityName))
-               .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.WorldHomeCity.HasValue
-                     ? src.WorldHomeCityNavigation.CityName
-                     : src.UshomeCityNavigation.CityName));
+                  opt.MapFrom(src => src.UshomeCity.HasValue
+                     ? src.UshomeCityNavigation.CityName + ", " + src.UshomeCityNavigation.State.StateAbbreviation
+                     : src.WorldHomeCityNavigation.CityName + ", " + src.WorldHomeCityNavigation.WorldRegion.WorldRegionAbbreviation));
+
             CreateMap<Artist, ArtistForListDto>()
                .ForMember(dest => dest.Id, opt =>
                   opt.MapFrom(src => src.ArtistId))
@@ -44,14 +43,14 @@ namespace SS.API.Helpers.MapperProfiles
                .ForMember(dest => dest.CurrentCity, opt =>
                   opt.MapFrom(src => src.CurrentCity))
                .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.WorldHomeCity.HasValue
-                     ? src.WorldHomeCityNavigation.CityName
-                     : src.UshomeCityNavigation.CityName));
+                  opt.MapFrom(src => src.UshomeCity.HasValue
+                     ? src.UshomeCityNavigation.CityName + ", " + src.UshomeCityNavigation.State.StateAbbreviation
+                     : src.WorldHomeCityNavigation.CityName + ", " + src.WorldHomeCityNavigation.WorldRegion.WorldRegionAbbreviation));
 
-            // // Data to Dto
-            // CreateMap<ArtistForUpdateDto, Artist>()
-            //    .ForMember(dest => dest.ArtistName, opt =>
-            //       opt.MapFrom(src => src.Name)); 
+            // Dto to Data
+            CreateMap<ArtistForUpdateDto, Artist>()
+               .ForMember(dest => dest.ArtistName, opt =>
+                  opt.MapFrom(src => src.Name));
         }
     }
 }
