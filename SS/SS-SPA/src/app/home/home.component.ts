@@ -1,5 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { AuthService } from '../_services/auth.service/auth.service';
 
@@ -15,20 +14,9 @@ export class HomeComponent implements OnInit {
   registerMode = false;
   loginMode = true;
 
-  constructor(
-    private http: HttpClient,
-    private _formBuilder: FormBuilder,
-    private authService: AuthService
-  ) {}
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
-  ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required],
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required],
-    });
-  }
+  ngOnInit() {}
 
   registerToggle() {
     this.registerMode = true;

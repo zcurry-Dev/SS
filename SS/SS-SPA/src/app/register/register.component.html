@@ -89,11 +89,16 @@
         </mat-error>
       </mat-form-field>
 
-      <div class="form-group alignRight">
-        <button mat-button [disabled]="!registerForm.valid" type="submit">
+      <div class="alignRight">
+        <button
+          mat-raised-button
+          [disabled]="!registerForm.valid"
+          type="submit"
+          color="primary"
+        >
           Register
         </button>
-        <button mat-button (click)="cancel()" type="button">
+        <button mat-raised-button (click)="cancel()" type="button">
           Cancel
         </button>
       </div>
