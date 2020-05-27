@@ -1,21 +1,21 @@
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using SS.API.Business.Dtos.Accept;
 using SS.API.Business.Dtos.Return;
-using SS.API.Business.Interfaces;
 using SS.API.Business.Repos;
 using SS.API.Data.Interfaces;
 using SS.API.Data.Models;
 
-namespace SS.Tests
+namespace SS.Tests.BusinessLayer
 {
     [TestClass]
     public class UserTest
     {
+
+        private readonly UserRepository _userRepository;
         private readonly Mock<IUserDataRepository> _userDataRepository;
         private readonly Mock<IMapper> _autoMapper;
 
@@ -23,40 +23,113 @@ namespace SS.Tests
         {
             _userDataRepository = new Mock<IUserDataRepository>();
             _autoMapper = new Mock<IMapper>();
+            _userRepository = new UserRepository(_userDataRepository.Object, _autoMapper.Object);
         }
 
+        #region userRepository.GetUserById
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
-        public async Task NullReferenceExceptionThrownIfUserDoesNotExist()
+        public async Task GetUserById_ReturnTypeOf_UserForDetailDto()
         {
             //Arrange
-            int userId = 0;
-            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(() => null);
-
-            var userRepository = new UserRepository(_userDataRepository.Object, _autoMapper.Object);
-
-            //Act
-            var user = await userRepository.GetUserById(userId);
-
-            //Assert
-            Assert.IsInstanceOfType(user, typeof(UserForDetailDto));
-        }
-
-        [TestMethod]
-        public async Task ReturnTypeOfUserForDetailDto()
-        {
-            //Arrange                 
-            int userId = 0;
             _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
             _autoMapper.Setup(x => x.Map<UserForDetailDto>(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
 
-            var userRepository = new UserRepository(_userDataRepository.Object, _autoMapper.Object);
-
             //Act
-            var user = await userRepository.GetUserById(userId);
+            var result = await _userRepository.GetUserById(It.IsAny<int>());
 
             //Assert
-            Assert.IsInstanceOfType(user, typeof(UserForDetailDto));
+            Assert.IsInstanceOfType(result, typeof(UserForDetailDto));
         }
+
+        [TestMethod]
+        public async Task GetUserById_IfUserDoesNotExist_NullReferenceExceptionThrown()
+        {
+            //Arrange
+            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(() => null);
+
+            //Assert
+            await Assert.ThrowsExceptionAsync<NullReferenceException>(async () =>
+            {
+                await _userRepository.GetUserById(It.IsAny<int>());
+            });
+        }
+
+        [TestMethod]
+        public async Task GetUserById_IfMappingDoesNotExist_NullReferenceExceptionThrown()
+        {
+            //Arrange
+            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
+            _autoMapper.Setup(x => x.Map<UserForDetailDto>(It.IsAny<Ssuser>())).Returns(() => null);
+
+            //Assert
+            await Assert.ThrowsExceptionAsync<NullReferenceException>(async () =>
+            {
+                await _userRepository.GetUserById(It.IsAny<int>());
+            });
+        }
+
+        [TestMethod]
+        public async Task GetUserById_ExecuteMethodsOnlyOnce()
+        {
+            //Arrange
+            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
+            _autoMapper.Setup(x => x.Map<UserForDetailDto>(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
+
+            //Act
+            var result = await _userRepository.GetUserById(It.IsAny<int>());
+
+            //Assert
+            _userDataRepository.Verify(u => u.GetUserById(It.IsAny<string>()), Times.Once());
+            _autoMapper.Verify(m => m.Map<UserForDetailDto>(It.IsAny<Ssuser>()), Times.Once());
+        }
+        #endregion userRepository.GetUserById
+
+        #region userRepository.RegisterUser
+        [TestMethod]
+        public async Task RegisterUser_IfMappingDoesNotExist_NullReferenceExceptionThrown()
+        {
+            //Arrange
+            _autoMapper.Setup(x => x.Map<Ssuser>(It.IsAny<UserForRegisterDto>())).Returns(() => null);
+
+            //Assert
+            await Assert.ThrowsExceptionAsync<NullReferenceException>(async () =>
+            {
+                await _userRepository.RegisterUser(It.IsAny<UserForRegisterDto>());
+            });
+        }
+
+        // public async Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto)
+        // {
+        //     var user = _mapper.Map<Ssuser>(userForRegisterDto);
+        //     user.UserStatusId = 1;
+
+        //     var result = await _user.CreateUser(user, userForRegisterDto.Password);
+
+        //     if (!result.Succeeded)
+        //     {
+        //         return result;
+        //     }
+
+        //     result = await _user.AddUserRole(user);
+
+        //     return result;
+        // }
+
+        #endregion
+        // Assert.AreEqual
+        // Assert.AreNotEqual
+        // Assert.AreNotSame
+        // Assert.AreSame
+        // Assert.Equals
+        // Assert.Fail
+        // Assert.Inconclusive
+        // Assert.IsFalse
+        // Assert.IsInstanceOfType
+        // Assert.IsNotInstanceOfType
+        // Assert.IsNotNull
+        // Assert.IsNull
+        // Assert.IsTrue
+        // Assert.ReplaceNullChars
+        // Assert.ThrowsException
     }
 }

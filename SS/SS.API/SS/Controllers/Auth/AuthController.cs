@@ -12,16 +12,21 @@ namespace SS.API.Controllers.Auth
     public class AuthController : ControllerBase
     {
         private readonly IAuthRepository _auth;
-        public AuthController(IAuthRepository auth) { _auth = auth; }
+        private readonly IUserRepository _user;
+        public AuthController(IAuthRepository auth, IUserRepository user)
+        {
+            _auth = auth;
+            _user = user;
+        }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
-            var result = await _auth.RegisterUser(userForRegisterDto);
+            var result = await _user.RegisterUser(userForRegisterDto);
 
             if (result.Succeeded)
             {
-                var userToReturn = await _auth.GetUserForDetailToReturn(userForRegisterDto.UserName);
+                var userToReturn = await _user.GetUserForDetailToReturn(userForRegisterDto.UserName);
                 return CreatedAtRoute(
                     "GetUser",
                     new
@@ -38,10 +43,10 @@ namespace SS.API.Controllers.Auth
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
-            var user = await _auth.GetUserForDetailToReturn(userForLoginDto.UserName);
+            var user = await _user.GetUserForDetailToReturn(userForLoginDto.UserName);
 
             //
-            //for testing ONLY
+            //for testing for now
             if (user.UserName == "z")
             {
                 return Ok(new
