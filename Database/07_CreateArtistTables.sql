@@ -47,18 +47,18 @@ CREATE TABLE dbo.Artist(
 	,Verified BIT NOT NULL
 		CONSTRAINT DF_Artist_Verified
 		DEFAULT 0
-	,HomeCountry INT NOT NULL
-		CONSTRAINT FK_Artist_HomeCountry
+	,HomeCountryID INT NOT NULL
+		CONSTRAINT FK_Artist_HomeCountryID
 		REFERENCES const.Country(CountryID)
-	,USHomeCity INT NULL
-		CONSTRAINT FK_Artist_USHomeCity
-		REFERENCES const.City(CityID)
-	,WorldHomeCity INT NULL
-		CONSTRAINT FK_Artist_WorldHomeCity
-		REFERENCES const.WorldCity(WorldCityID)
-	,CurrentCity INT NULL
-		CONSTRAINT FK_Artist_CurrentCity
-		REFERENCES const.City(CityID)
+	,USHomeCityID INT NULL
+		CONSTRAINT FK_Artist_USHomeCityID
+		REFERENCES loc.City(CityID)
+	,WorldHomeCityID INT NULL
+		CONSTRAINT FK_Artist_WorldHomeCityID
+		REFERENCES loc.WorldCity(WorldCityID)
+	,CurrentCityID INT NULL
+		CONSTRAINT FK_Artist_CurrentCityID
+		REFERENCES loc.City(CityID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Artist_CreatedBy
 		REFERENCES ident.SSUser(UserID)

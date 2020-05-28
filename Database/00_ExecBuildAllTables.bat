@@ -1,5 +1,6 @@
 sqlcmd -d SceneSwarm01 -i 01_CreateSchemas.sql
 sqlcmd -d SceneSwarm01 -i 02_CreateConstantTables.sql
+sqlcmd -d SceneSwarm01 -i 02b_CreateLocationTables.sql
 sqlcmd -d SceneSwarm01 -i 03_CreateEmployeeTables.sql
 sqlcmd -d SceneSwarm01 -i 04_CreateSSUserAndSSAdminTables.sql
 sqlcmd -d SceneSwarm01 -i 05_CreateAddressAndVenueTables.sql

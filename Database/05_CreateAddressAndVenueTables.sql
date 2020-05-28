@@ -6,10 +6,10 @@ CREATE TABLE dbo.SSAddress(
 	,StreetAddress2 NVARCHAR(255)
 	,CityID INT NOT NULL
 		CONSTRAINT FK_Address_CityID
-		REFERENCES const.City(CityID)
+		REFERENCES loc.City(CityID)
 	,ZipCodeID INT NOT NULL
 		CONSTRAINT FK_Address_ZipCodeID
-		REFERENCES const.ZipCode(ZipCodeID)
+		REFERENCES loc.ZipCode(ZipCodeID)
 	,CreatedDate DATETIME NOT NULL
 		CONSTRAINT DF_Address_CreatedDate
 		DEFAULT GETDATE()

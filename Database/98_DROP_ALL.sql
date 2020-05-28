@@ -76,17 +76,21 @@ DROP TABLE hr.Employee
 DROP TABLE refHR.EmployeeTitle
 DROP TABLE refHR.EmploymentStatus
 
+-- DROP LOCATION TABLES
+DROP TABLE loc.ZipCode
+DROP TABLE loc.WorldCity
+DROP TABLE loc.City
+DROP TABLE loc.WorldRegion
+
 -- DROP CONSTANT TABLES
 DROP TABLE const.DaysOfWeek
-DROP TABLE const.ZipCode
-DROP TABLE const.WorldCity
-DROP TABLE const.City
-DROP TABLE const.WorldRegion
 DROP TABLE const.USState
 DROP TABLE const.Country
 
 -- DROP SCHEMAS
 DROP SCHEMA const
+GO
+DROP SCHEMA loc
 GO
 DROP SCHEMA hr
 GO
