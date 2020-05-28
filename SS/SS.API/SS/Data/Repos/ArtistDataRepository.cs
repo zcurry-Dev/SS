@@ -53,6 +53,9 @@ namespace SS.API.Data.Repos
             return artist;
         }
 
+        //
+        // Photo methods
+        //
         public async Task<ArtistPhoto> GetArtistPhotoByPhotoId(int artistPhotoId)
         {
             var artistPhoto = await _context.ArtistPhoto.FirstOrDefaultAsync(p => p.ArtistPhotoId == artistPhotoId);
@@ -126,5 +129,6 @@ namespace SS.API.Data.Repos
 
             return artistPhoto;
         }
+        //
     }
 }

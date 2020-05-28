@@ -16,7 +16,7 @@ namespace SS.API.Data.Interfaces
         Task<Ssuser> GetUserByUserName(string userName);
         Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp);
         Task<IdentityResult> CreateUser(Ssuser user, string password);
-        Task<IdentityResult> AddUserRole(Ssuser user);
+        Task<IdentityResult> AddUserRoleOnRegister(Ssuser user);
         Task<IList<string>> GetRolesForUser(Ssuser user);
         Task<IList<string>> GetRolesForUserByUserName(string userName);
     }

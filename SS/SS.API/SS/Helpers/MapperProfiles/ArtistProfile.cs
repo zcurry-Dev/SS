@@ -30,7 +30,6 @@ namespace SS.API.Helpers.MapperProfiles
                   opt.MapFrom(src => src.UshomeCity.HasValue
                      ? src.UshomeCityNavigation.CityName + ", " + src.UshomeCityNavigation.State.StateAbbreviation
                      : src.WorldHomeCityNavigation.CityName + ", " + src.WorldHomeCityNavigation.WorldRegion.WorldRegionAbbreviation));
-
             CreateMap<Artist, ArtistForListDto>()
                .ForMember(dest => dest.Id, opt =>
                   opt.MapFrom(src => src.ArtistId))
@@ -49,6 +48,9 @@ namespace SS.API.Helpers.MapperProfiles
 
             // Dto to Data
             CreateMap<ArtistForUpdateDto, Artist>()
+               .ForMember(dest => dest.ArtistName, opt =>
+                  opt.MapFrom(src => src.Name));
+            CreateMap<ArtistToCreate, Artist>()
                .ForMember(dest => dest.ArtistName, opt =>
                   opt.MapFrom(src => src.Name));
         }

@@ -15,6 +15,23 @@ namespace SS.API.Controllers.Artists
     public class ArtistController : ControllerBase
     {
         private readonly IArtistRepository _artist;
+
+        [HttpPost("create")]
+        public async Task<IActionResult> CreateArtist(ArtistToCreate artistToCreate)
+        {
+            var artistForDetailedDto = await _artist.CreateArtist(artistToCreate);
+
+            if (artistForDetailedDto.Id != 0)
+            {
+                var artistToReturn = await _artist.GetArtistById(artistForDetailedDto.Id);
+                return CreatedAtRoute(
+                    artistToReturn.Id,
+                    artistToReturn);
+            }
+
+            return BadRequest("Could not add artist");
+        }
+
         public ArtistController(IArtistRepository artist)
         {
             _artist = artist;

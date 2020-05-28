@@ -58,7 +58,7 @@ namespace SS.API.Business.Repos
                 return result;
             }
 
-            result = await _user.AddUserRole(user);
+            result = await _user.AddUserRoleOnRegister(user);
 
             return result;
         }

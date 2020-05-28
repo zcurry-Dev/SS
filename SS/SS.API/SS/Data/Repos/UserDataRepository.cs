@@ -57,7 +57,7 @@ namespace SS.API.Data.Repos
             return result;
         }
 
-        public async Task<IdentityResult> AddUserRole(Ssuser user)
+        public async Task<IdentityResult> AddUserRoleOnRegister(Ssuser user)
         {
             var result = await _userManager.AddToRoleAsync(user, "User");
             return result;

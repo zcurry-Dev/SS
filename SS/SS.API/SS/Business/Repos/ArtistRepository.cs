@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +24,36 @@ namespace SS.API.Business.Repos
             _artist = artist;
         }
 
+        public async Task<ArtistForDetailedDto> CreateArtist(ArtistToCreate artistToCreate)
+        {
+            var artist = _mapper.Map<Artist>(artistToCreate);
+
+            if (artist == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            _artist.Add(artist);
+            var result = await _artist.SaveAll();
+
+            if (!result)
+            {
+                throw new NullReferenceException();
+            }
+
+            var artistForDetailedDto = _mapper.Map<ArtistForDetailedDto>(artist);
+
+            if (artistForDetailedDto == null)
+            {
+                throw new NullReferenceException();
+            }
+
+            return artistForDetailedDto;
+        }
+
         public async Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams)
         {
-            var artists = _artist.GetArtists().OrderByDescending(a => a.CareerBeginDate).AsQueryable();
+            var artists = _artist.GetArtists().OrderBy(a => a.ArtistName).AsQueryable();
 
             if (!string.IsNullOrEmpty(artistParams.OrderBy))
             {
@@ -68,6 +96,27 @@ namespace SS.API.Business.Repos
             return artistToReturn;
         }
 
+        public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
+        {
+            var artist = await _artist.GetArtistById(artistId);
+            _mapper.Map(artistForUpdateDto, artist); //what does this do specifically
+            var result = await _artist.SaveAll();
+
+            return result;
+        }
+
+
+        //
+        // Photo methods
+        //
+        public async Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)
+        {
+            var artistPhoto = _mapper.Map<ArtistPhoto>(photoForCreationDto);
+            var result = await _artist.UploadArtistPhoto(artistId, artistPhoto, photoForCreationDto.File);
+
+            return result;
+        }
+
         public async Task<PhotoFileForReturnDto> GetArtistPhotoFileByPhotoId(int photoId)
         {
             var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);
@@ -76,23 +125,6 @@ namespace SS.API.Business.Repos
             photo.File = file;
 
             return photo;
-        }
-
-        public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
-        {
-            var artist = await _artist.GetArtistById(artistId);
-            _mapper.Map(artistForUpdateDto, artist);
-            var result = await _artist.SaveAll();
-
-            return result;
-        }
-
-        public async Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)
-        {
-            var artistPhoto = _mapper.Map<ArtistPhoto>(photoForCreationDto);
-            var result = await _artist.UploadArtistPhoto(artistId, artistPhoto, photoForCreationDto.File);
-
-            return result;
         }
 
         public async Task<PhotoforReturnDto> GetArtistPhotoByPhotoId(int photoId)
@@ -129,8 +161,11 @@ namespace SS.API.Business.Repos
 
             return result;
         }
-
         //
+        //
+        //
+
+        // Private methods
         private async Task<bool> Save()
         {
             var result = await _artist.SaveAll();
@@ -145,5 +180,6 @@ namespace SS.API.Business.Repos
 
             return result;
         }
+        //
     }
 }
