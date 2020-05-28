@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SS.API.Data.Models
+namespace SS.Data.Models
 {
     public partial class Employee
     {

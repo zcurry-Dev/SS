@@ -8,12 +8,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SS.API.Business.Dtos.Return;
-using SS.API.Business.Interfaces;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Models;
+using SS.Business.Dtos.Return;
+using SS.Business.Interfaces;
+using SS.Data.Interfaces;
+using SS.Data.Models;
 
-namespace SS.API.Business.Repos
+namespace SS.Business.Repos
 {
     public class AuthRepository : IAuthRepository
     {

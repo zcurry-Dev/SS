@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SS.API.Data.Models
+namespace SS.Data.Models
 {
     public partial class Artist
     {
@@ -18,20 +18,20 @@ namespace SS.API.Data.Models
         public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
-        public int HomeCountry { get; set; }
-        public int? UshomeCity { get; set; }
-        public int? WorldHomeCity { get; set; }
-        public int? CurrentCity { get; set; }
+        public int HomeCountryId { get; set; }
+        public int? UshomeCityId { get; set; }
+        public int? WorldHomeCityId { get; set; }
+        public int? CurrentCityId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public virtual ArtistStatus ArtistStatus { get; set; }
         public virtual Ssuser CreatedByNavigation { get; set; }
-        public virtual City CurrentCityNavigation { get; set; }
-        public virtual Country HomeCountryNavigation { get; set; }
+        public virtual City CurrentCity { get; set; }
+        public virtual Country HomeCountry { get; set; }
         public virtual Ssuser User { get; set; }
-        public virtual City UshomeCityNavigation { get; set; }
-        public virtual WorldCity WorldHomeCityNavigation { get; set; }
+        public virtual City UshomeCity { get; set; }
+        public virtual WorldCity WorldHomeCity { get; set; }
         public virtual ICollection<ArtistPhoto> ArtistPhoto { get; set; }
         public virtual ICollection<ArtistTypeXref> ArtistTypeXref { get; set; }
     }

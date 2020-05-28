@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace SS.API.Business.Models
+namespace SS.Business.Models
 {
     public class ArtistBModel
     {

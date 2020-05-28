@@ -5,13 +5,13 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Business.Dtos.Return;
-using SS.API.Business.Interfaces;
-using SS.API.Data;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Models;
+using SS.Business.Dtos.Return;
+using SS.Business.Interfaces;
+using SS.Data;
+using SS.Data.Interfaces;
+using SS.Data.Models;
 
-namespace SS.API.Controllers
+namespace SS.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

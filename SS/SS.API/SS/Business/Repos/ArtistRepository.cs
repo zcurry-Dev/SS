@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using SS.API.Business.Dtos.Accept;
-using SS.API.Business.Dtos.Return;
-using SS.API.Business.Interfaces;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Models;
-using SS.API.Helpers.Pagination;
-using SS.API.Helpers.Pagination.PagedParams;
+using SS.Business.Dtos.Accept;
+using SS.Business.Dtos.Return;
+using SS.Business.Interfaces;
+using SS.Data.Interfaces;
+using SS.Data.Models;
+using SS.Helpers.Pagination;
+using SS.Helpers.Pagination.PagedParams;
 
-namespace SS.API.Business.Repos
+namespace SS.Business.Repos
 {
     public class ArtistRepository : IArtistRepository
     {

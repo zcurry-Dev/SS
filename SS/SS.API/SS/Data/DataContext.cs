@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SS.API.Data.Models;
+using SS.Data.Models;
 
-namespace SS.API.Data
+namespace SS.Data
 {
     public partial class DataContext : IdentityDbContext<Ssuser, Ssrole, int,
         SsuserClaim, SsuserRole, SsuserLogin, SsroleClaim, SsuserToken>
@@ -116,9 +116,15 @@ namespace SS.API.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
+                entity.Property(e => e.CurrentCityId).HasColumnName("CurrentCityID");
+
+                entity.Property(e => e.HomeCountryId).HasColumnName("HomeCountryID");
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.Property(e => e.UshomeCity).HasColumnName("USHomeCity");
+                entity.Property(e => e.UshomeCityId).HasColumnName("USHomeCityID");
+
+                entity.Property(e => e.WorldHomeCityId).HasColumnName("WorldHomeCityID");
 
                 entity.HasOne(d => d.ArtistStatus)
                     .WithMany(p => p.Artist)
@@ -131,31 +137,31 @@ namespace SS.API.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Artist_CreatedBy");
 
-                entity.HasOne(d => d.CurrentCityNavigation)
-                    .WithMany(p => p.ArtistCurrentCityNavigation)
-                    .HasForeignKey(d => d.CurrentCity)
-                    .HasConstraintName("FK_Artist_CurrentCity");
+                entity.HasOne(d => d.CurrentCity)
+                    .WithMany(p => p.ArtistCurrentCity)
+                    .HasForeignKey(d => d.CurrentCityId)
+                    .HasConstraintName("FK_Artist_CurrentCityID");
 
-                entity.HasOne(d => d.HomeCountryNavigation)
+                entity.HasOne(d => d.HomeCountry)
                     .WithMany(p => p.Artist)
-                    .HasForeignKey(d => d.HomeCountry)
+                    .HasForeignKey(d => d.HomeCountryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Artist_HomeCountry");
+                    .HasConstraintName("FK_Artist_HomeCountryID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ArtistUser)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_Artist_UserID");
 
-                entity.HasOne(d => d.UshomeCityNavigation)
-                    .WithMany(p => p.ArtistUshomeCityNavigation)
-                    .HasForeignKey(d => d.UshomeCity)
-                    .HasConstraintName("FK_Artist_USHomeCity");
+                entity.HasOne(d => d.UshomeCity)
+                    .WithMany(p => p.ArtistUshomeCity)
+                    .HasForeignKey(d => d.UshomeCityId)
+                    .HasConstraintName("FK_Artist_USHomeCityID");
 
-                entity.HasOne(d => d.WorldHomeCityNavigation)
+                entity.HasOne(d => d.WorldHomeCity)
                     .WithMany(p => p.Artist)
-                    .HasForeignKey(d => d.WorldHomeCity)
-                    .HasConstraintName("FK_Artist_WorldHomeCity");
+                    .HasForeignKey(d => d.WorldHomeCityId)
+                    .HasConstraintName("FK_Artist_WorldHomeCityID");
             });
 
             modelBuilder.Entity<ArtistGroupMember>(entity =>
@@ -566,7 +572,7 @@ namespace SS.API.Data
 
             modelBuilder.Entity<City>(entity =>
             {
-                entity.ToTable("City", "const");
+                entity.ToTable("City", "loc");
 
                 entity.Property(e => e.CityId).HasColumnName("CityID");
 
@@ -1547,7 +1553,7 @@ namespace SS.API.Data
 
             modelBuilder.Entity<WorldCity>(entity =>
             {
-                entity.ToTable("WorldCity", "const");
+                entity.ToTable("WorldCity", "loc");
 
                 entity.Property(e => e.WorldCityId).HasColumnName("WorldCityID");
 
@@ -1573,7 +1579,7 @@ namespace SS.API.Data
 
             modelBuilder.Entity<WorldRegion>(entity =>
             {
-                entity.ToTable("WorldRegion", "const");
+                entity.ToTable("WorldRegion", "loc");
 
                 entity.Property(e => e.WorldRegionId).HasColumnName("WorldRegionID");
 
@@ -1596,7 +1602,7 @@ namespace SS.API.Data
 
             modelBuilder.Entity<ZipCode>(entity =>
             {
-                entity.ToTable("ZipCode", "const");
+                entity.ToTable("ZipCode", "loc");
 
                 entity.Property(e => e.ZipCodeId).HasColumnName("ZipCodeID");
 

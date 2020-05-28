@@ -3,10 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Models;
+using SS.Data.Interfaces;
+using SS.Data.Models;
 
-namespace SS.API.Data.Repos
+namespace SS.Data.Repos
 {
     public class AdminDataRepository : IAdminDataRepository
     {

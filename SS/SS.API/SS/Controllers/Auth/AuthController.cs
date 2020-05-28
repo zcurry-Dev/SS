@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Business.Dtos.Accept;
-using SS.API.Business.Interfaces;
+using SS.Business.Dtos.Accept;
+using SS.Business.Interfaces;
 
-namespace SS.API.Controllers.Auth
+namespace SS.Controllers.Auth
 {
     [Route("api/[controller]")]
     [ApiController]

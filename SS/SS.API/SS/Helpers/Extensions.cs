@@ -2,9 +2,9 @@ using System;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SS.API.Helpers.Pagination;
+using SS.Helpers.Pagination;
 
-namespace SS.API.Helpers
+namespace SS.Helpers
 {
     public static class Extensions
     {

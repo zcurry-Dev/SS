@@ -1,4 +1,4 @@
-namespace SS.API.Business.Models
+namespace SS.Business.Models
 {
     public class RoleBModel
     {

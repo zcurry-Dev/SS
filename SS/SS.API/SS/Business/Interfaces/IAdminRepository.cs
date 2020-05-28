@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Business.Dtos.Accept;
-using SS.API.Business.Dtos.Return;
-using SS.API.Helpers.Pagination.PagedParams;
+using SS.Business.Dtos.Accept;
+using SS.Business.Dtos.Return;
+using SS.Helpers.Pagination.PagedParams;
 
-namespace SS.API.Business.Interfaces
+namespace SS.Business.Interfaces
 {
     public interface IAdminRepository
     {

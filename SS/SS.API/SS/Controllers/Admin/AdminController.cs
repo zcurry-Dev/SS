@@ -1,12 +1,12 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Business.Dtos.Accept;
-using SS.API.Business.Interfaces;
-using SS.API.Helpers;
-using SS.API.Helpers.Pagination.PagedParams;
+using SS.Business.Dtos.Accept;
+using SS.Business.Interfaces;
+using SS.Helpers;
+using SS.Helpers.Pagination.PagedParams;
 
-namespace SS.API.Controllers.Admin
+namespace SS.Controllers.Admin
 {
     [ApiController]
     [Route("api/[controller]")]

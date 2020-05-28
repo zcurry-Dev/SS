@@ -1,4 +1,4 @@
-namespace SS.API.Helpers.Pagination.PagedParams
+namespace SS.Helpers.Pagination.PagedParams
 {
     public class AdminUsersParams
     {

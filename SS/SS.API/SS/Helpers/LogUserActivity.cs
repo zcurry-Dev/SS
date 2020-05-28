@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SS.API.Data.Interfaces;
+using SS.Data.Interfaces;
 
-namespace SS.API.Helpers
+namespace SS.Helpers
 {
     public class LogUserActivity : IAsyncActionFilter
     {

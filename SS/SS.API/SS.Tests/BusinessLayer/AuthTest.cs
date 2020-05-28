@@ -2,7 +2,7 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using SS.API.Data.Interfaces;
+using SS.Data.Interfaces;
 
 namespace SS.Tests.BusinessLayer
 {

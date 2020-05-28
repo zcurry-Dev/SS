@@ -1,10 +1,10 @@
 using System.Linq;
 using AutoMapper;
-using SS.API.Business.Dtos.Accept;
-using SS.API.Business.Dtos.Return;
-using SS.API.Data.Models;
+using SS.Business.Dtos.Accept;
+using SS.Business.Dtos.Return;
+using SS.Data.Models;
 
-namespace SS.API.Helpers.MapperProfiles
+namespace SS.Helpers.MapperProfiles
 {
     public class ArtistProfile : Profile
     {
@@ -27,9 +27,9 @@ namespace SS.API.Helpers.MapperProfiles
                .ForMember(dest => dest.Photos, opt =>
                   opt.MapFrom(src => src.ArtistPhoto))
                .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.UshomeCity.HasValue
-                     ? src.UshomeCityNavigation.CityName + ", " + src.UshomeCityNavigation.State.StateAbbreviation
-                     : src.WorldHomeCityNavigation.CityName + ", " + src.WorldHomeCityNavigation.WorldRegion.WorldRegionAbbreviation));
+                  opt.MapFrom(src => src.UshomeCityId.HasValue
+                     ? src.UshomeCity.CityName + ", " + src.UshomeCity.State.StateAbbreviation
+                     : src.WorldHomeCity.CityName + ", " + src.WorldHomeCity.WorldRegion.WorldRegionAbbreviation));
             CreateMap<Artist, ArtistForListDto>()
                .ForMember(dest => dest.Id, opt =>
                   opt.MapFrom(src => src.ArtistId))
@@ -42,9 +42,9 @@ namespace SS.API.Helpers.MapperProfiles
                .ForMember(dest => dest.CurrentCity, opt =>
                   opt.MapFrom(src => src.CurrentCity))
                .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.UshomeCity.HasValue
-                     ? src.UshomeCityNavigation.CityName + ", " + src.UshomeCityNavigation.State.StateAbbreviation
-                     : src.WorldHomeCityNavigation.CityName + ", " + src.WorldHomeCityNavigation.WorldRegion.WorldRegionAbbreviation));
+                  opt.MapFrom(src => src.UshomeCityId.HasValue
+                     ? src.UshomeCity.CityName + ", " + src.UshomeCity.State.StateAbbreviation
+                     : src.WorldHomeCity.CityName + ", " + src.WorldHomeCity.WorldRegion.WorldRegionAbbreviation));
 
             // Dto to Data
             CreateMap<ArtistForUpdateDto, Artist>()

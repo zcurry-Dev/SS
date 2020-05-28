@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SS.API.Data.Models
+namespace SS.Data.Models
 {
     public partial class City
     {
         public City()
         {
-            ArtistCurrentCityNavigation = new HashSet<Artist>();
-            ArtistUshomeCityNavigation = new HashSet<Artist>();
+            ArtistCurrentCity = new HashSet<Artist>();
+            ArtistUshomeCity = new HashSet<Artist>();
             InverseClosestMajorCity = new HashSet<City>();
             Ssaddress = new HashSet<Ssaddress>();
             ZipCode = new HashSet<ZipCode>();
@@ -22,8 +22,8 @@ namespace SS.API.Data.Models
 
         public virtual City ClosestMajorCity { get; set; }
         public virtual Usstate State { get; set; }
-        public virtual ICollection<Artist> ArtistCurrentCityNavigation { get; set; }
-        public virtual ICollection<Artist> ArtistUshomeCityNavigation { get; set; }
+        public virtual ICollection<Artist> ArtistCurrentCity { get; set; }
+        public virtual ICollection<Artist> ArtistUshomeCity { get; set; }
         public virtual ICollection<City> InverseClosestMajorCity { get; set; }
         public virtual ICollection<Ssaddress> Ssaddress { get; set; }
         public virtual ICollection<ZipCode> ZipCode { get; set; }

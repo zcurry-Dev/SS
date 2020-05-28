@@ -1,8 +1,8 @@
 using AutoMapper;
-using SS.API.Business.Dtos.Return;
-using SS.API.Data.Models;
+using SS.Business.Dtos.Return;
+using SS.Data.Models;
 
-namespace SS.API.Helpers.MapperProfiles
+namespace SS.Helpers.MapperProfiles
 {
     public class RoleProfile : Profile
     {

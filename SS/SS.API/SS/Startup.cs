@@ -14,14 +14,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using SS.API.Business.Interfaces;
-using SS.API.Business.Repos;
-using SS.API.Data;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Models;
-using SS.API.Data.Repos;
-using SS.API.Helpers;
-using SS.API.Helpers.MapperProfiles;
+using SS.Business.Interfaces;
+using SS.Business.Repos;
+using SS.Data;
+using SS.Data.Interfaces;
+using SS.Data.Models;
+using SS.Data.Repos;
+using SS.Helpers;
+using SS.Helpers.MapperProfiles;
 
 namespace SS.API
 {

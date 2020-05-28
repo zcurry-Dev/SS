@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SS.API.Business.Dtos.Accept;
-using SS.API.Business.Interfaces;
-using SS.API.Helpers;
+using SS.Business.Dtos.Accept;
+using SS.Business.Interfaces;
+using SS.Helpers;
 
-namespace SS.API.Controllers.User
+namespace SS.Controllers.User
 {
     [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]

@@ -1,4 +1,4 @@
-namespace SS.API.Helpers.Pagination
+namespace SS.Helpers.Pagination
 {
     public class PaginationHeader
     {

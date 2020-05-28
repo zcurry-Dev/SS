@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Data.Models;
+using SS.Data.Models;
 
-namespace SS.API.Data.Interfaces
+namespace SS.Data.Interfaces
 {
     public interface IAuthDataRepository
     {

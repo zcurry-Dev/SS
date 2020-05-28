@@ -15,7 +15,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/SS.API/bin/Debug/netcoreapp3.1/SS.API.dll",
+			"program": "${workspaceFolder}/SS.API/bin/Debug/netcoreapp3.1/SS.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}/SS.API",
 			"stopAtEntry": false,

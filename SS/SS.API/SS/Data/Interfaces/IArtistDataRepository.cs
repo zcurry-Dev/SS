@@ -2,9 +2,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using SS.API.Data.Models;
+using SS.Data.Models;
 
-namespace SS.API.Data.Interfaces
+namespace SS.Data.Interfaces
 {
     public interface IArtistDataRepository
     {

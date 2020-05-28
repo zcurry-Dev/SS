@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.API.Business.Dtos.Return;
+using SS.Business.Dtos.Return;
 
-namespace SS.API.Business.Interfaces
+namespace SS.Business.Interfaces
 {
     public interface IAuthRepository
     {

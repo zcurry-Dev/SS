@@ -7,10 +7,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SS.API.Data.Interfaces;
-using SS.API.Data.Models;
+using SS.Data.Interfaces;
+using SS.Data.Models;
 
-namespace SS.API.Data.Repos
+namespace SS.Data.Repos
 {
     public class ArtistDataRepository : IArtistDataRepository
     {
