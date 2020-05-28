@@ -7,7 +7,7 @@ using SS.Business.Interfaces;
 using SS.Helpers;
 using SS.Helpers.Pagination.PagedParams;
 
-namespace SS.Controllers.Artists
+namespace SS.Controllers.Artist
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -78,6 +78,9 @@ namespace SS.Controllers.Artists
             throw new Exception($"Updating artist {id} failed on save");
         }
 
+        //
+        // Photo Methods
+        //
         [HttpGet("GetArtistPhoto/{id}", Name = "GetArtistPhoto")]
         public async Task<IActionResult> GetArtistPhoto(int id)
         {

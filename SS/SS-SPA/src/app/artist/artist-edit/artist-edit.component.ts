@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
 import { NgForm } from '@angular/forms';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
-import { AuthService } from 'src/app/_services/auth.service/auth.service';
 import { ImageService } from 'src/app/_services/image.service/images.service';
 import { Country } from 'src/app/_models/countries';
 
@@ -37,7 +36,6 @@ export class ArtistEditComponent implements OnInit {
     private route: ActivatedRoute,
     private alertify: AlertifyService,
     private artistService: ArtistService,
-    private authService: AuthService,
     private imageService: ImageService
   ) {}
 

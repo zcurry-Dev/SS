@@ -54,11 +54,8 @@ export class ArtistService {
     return this.http.get<Artist>(this.baseUrl + id);
   }
 
-  getPhotoFile(photoId: number): Observable<Blob> {
-    console.log(photoId);
-
-    const path = this.baseUrl + 'getPhotoFile/' + photoId;
-    return this.imageService.getImage(path);
+  addArtist(artist: {}) {
+    return this.http.post(this.baseUrl + 'create', artist);
   }
 
   updateArtist(id: number, artist: Artist) {
@@ -66,8 +63,18 @@ export class ArtistService {
     return this.http.put(this.baseUrl + id, artist);
   }
 
+  //
+  // Photo methods
+  //
   getArtistPhoto(photoId: number) {
     return this.http.get(this.baseUrl + photoId);
+  }
+
+  getPhotoFile(photoId: number): Observable<Blob> {
+    console.log(photoId);
+
+    const path = this.baseUrl + 'getPhotoFile/' + photoId;
+    return this.imageService.getImage(path);
   }
 
   // AddPhotoForArtist -- not implemented I don't believe
@@ -84,4 +91,5 @@ export class ArtistService {
     const url = this.baseUrl + 'deletePhoto';
     return this.http.request('delete', url, { body: photoIds });
   }
+  //
 }

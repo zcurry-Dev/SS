@@ -51,8 +51,6 @@ export class ArtistListComponent implements OnInit {
   getData() {
     this.route.data.subscribe(async (data) => {
       this.artists = data['artists'].result;
-      console.log('artists', this.artists);
-
       this.pagination = data['artists'].pagination;
       this.length = this.pagination.totalItems;
       this.pageSize = this.pagination.itemsPerPage;
@@ -123,5 +121,25 @@ export class ArtistListComponent implements OnInit {
           });
       }
     }
+  }
+
+  addArtist() {
+    this.artistService
+      .addArtist({
+        name: 'testNewArtist',
+      })
+      .subscribe(
+        () => {
+          this.alertify.success('Added Artist successful');
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+        // () => {
+        //   this.authService.login(this.user).subscribe(() => {
+        //     this.router.navigate(['/artist']);
+        //   });
+        // }
+      );
   }
 }
