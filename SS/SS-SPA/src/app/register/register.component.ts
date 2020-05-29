@@ -29,9 +29,7 @@ export class CrossFieldErrorMatcher implements ErrorStateMatcher {
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-
   matcher = new CrossFieldErrorMatcher();
-
   user: User;
   registerForm = this.fb.group(
     {

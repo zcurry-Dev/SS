@@ -10,6 +10,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ImageService } from 'src/app/_services/image.service/images.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ArtistAddComponent } from '../artist-add/artist-add.component';
 
 @Component({
   selector: 'app-artist-list',
@@ -40,7 +42,8 @@ export class ArtistListComponent implements OnInit {
     private artistService: ArtistService,
     private imageService: ImageService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -123,23 +126,9 @@ export class ArtistListComponent implements OnInit {
     }
   }
 
-  addArtist() {
-    this.artistService
-      .addArtist({
-        name: 'testNewArtist',
-      })
-      .subscribe(
-        () => {
-          this.alertify.success('Added Artist successful');
-        },
-        (error) => {
-          this.alertify.error(error);
-        }
-        // () => {
-        //   this.authService.login(this.user).subscribe(() => {
-        //     this.router.navigate(['/artist']);
-        //   });
-        // }
-      );
+  openAddArtistDialog() {
+    const dialogRef = this.dialog.open(ArtistAddComponent, {
+      width: '250px',
+    });
   }
 }
