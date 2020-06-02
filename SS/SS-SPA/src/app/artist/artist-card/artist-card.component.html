@@ -38,15 +38,4 @@
     </button>
     <button mat-raised-button color="accent">SHARE</button>
   </mat-card-actions>
-  <mat-card-actions *ngIf="edit">
-    <button
-      mat-raised-button
-      [disabled]="!editArtistForm.dirty"
-      form="editArtistForm"
-      class="btn btn-success btn-block"
-      color="primary"
-    >
-      Save Changes
-    </button>
-  </mat-card-actions>
 </mat-card>

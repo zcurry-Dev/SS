@@ -56,16 +56,7 @@ namespace SS.Controllers.Artist
             return Ok(artistToReturn);
         }
 
-        [HttpGet]
-        [Route("GetPhotoFile/{id}")]
-        public async Task<IActionResult> GetPhotoFile(int id)
-        {
-            var artistPhoto = await _artist.GetArtistPhotoFileByPhotoId(id);
-
-            return File(artistPhoto.File, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
-        }
-
-        [HttpPut("{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateArtist(int id, ArtistForUpdateDto artistForUpdateDto)
         {
             var result = await _artist.UpdateArtist(id, artistForUpdateDto);
@@ -78,89 +69,99 @@ namespace SS.Controllers.Artist
             throw new Exception($"Updating artist {id} failed on save");
         }
 
-        //
-        // Photo Methods
-        //
-        [HttpGet("GetArtistPhoto/{id}", Name = "GetArtistPhoto")]
-        public async Task<IActionResult> GetArtistPhoto(int id)
-        {
-            var photo = await _artist.GetArtistPhotoByPhotoId(id);
+        // //
+        // // Photo Methods
+        // //
+        // [HttpGet]
+        // [Route("GetPhotoFile/{id}")]
+        // public async Task<IActionResult> GetPhotoFile(int id)
+        // {
+        //     var artistPhoto = await _artist.GetArtistPhotoFileByPhotoId(id);
 
-            return Ok(photo);
-        }
+        //     return File(artistPhoto.File, artistPhoto.PhotoFileContentType, artistPhoto.PhotoFileName);
+        // }
 
-        [HttpPost("AddArtistPhoto/{id}")]
-        public async Task<IActionResult> AddPhotoForArtist(int id,
-            [FromForm] PhotoForCreationDto photoForCreationDto)
-        {
-            var result = await _artist.UploadPhoto(id, photoForCreationDto);
+        // [HttpGet("GetArtistPhoto/{id}", Name = "GetArtistPhoto")]
+        // public async Task<IActionResult> GetArtistPhoto(int id)
+        // {
+        //     var photo = await _artist.GetArtistPhotoByPhotoId(id);
 
-            if (result)
-            {
-                var photoToReturn = await _artist.GetMostRecentArtistPhoto(id);
-                return CreatedAtRoute(
-                    "GetArtistPhoto",
-                    new { id = photoToReturn.Id },
-                    photoToReturn);
-            }
+        //     return Ok(photo);
+        // }
 
-            return BadRequest("Could not add the photo");
-        }
+        // [HttpPost("AddArtistPhoto/{id}")]
+        // public async Task<IActionResult> AddPhotoForArtist(int id,
+        //     [FromForm] PhotoForCreationDto photoForCreationDto)
+        // {
+        //     var result = await _artist.UploadPhoto(id, photoForCreationDto);
 
-        [HttpPost("SetMain")]
-        public async Task<IActionResult> SetMainPhoto(PhotoIds photoIds)
-        {
-            var artist = await _artist.GetArtistById(photoIds.ArtistId);
+        //     if (result)
+        //     {
+        //         var photoToReturn = await _artist.GetMostRecentArtistPhoto(id);
+        //         return CreatedAtRoute(
+        //             "GetArtistPhoto",
+        //             new { id = photoToReturn.Id },
+        //             photoToReturn);
+        //     }
 
-            if (!artist.PhotoIds.Contains(photoIds.PhotoId))
-            {
-                return Unauthorized();
-            }
+        //     return BadRequest("Could not add the photo");
+        // }
 
-            if (artist.MainPhotoId == photoIds.PhotoId)
-            {
-                return BadRequest("This is already the main photo");
-            }
+        // [HttpPost("SetMain")]
+        // public async Task<IActionResult> SetMainPhoto(PhotoIds photoIds)
+        // {
+        //     var artist = await _artist.GetArtistById(photoIds.ArtistId);
 
-            var result = await _artist.SetNewMainPhoto(photoIds);
-            if (result)
-            {
-                return NoContent();
-            }
+        //     if (!artist.PhotoIds.Contains(photoIds.PhotoId))
+        //     {
+        //         return Unauthorized();
+        //     }
 
-            return BadRequest("Could not set photo to main");
-        }
+        //     if (artist.MainPhotoId == photoIds.PhotoId)
+        //     {
+        //         return BadRequest("This is already the main photo");
+        //     }
 
-        [HttpDelete("DeletePhoto")]
-        public async Task<IActionResult> DeletePhoto(PhotoIds photoIds)
-        {
-            var artist = await _artist.GetArtistById(photoIds.ArtistId);
+        //     var result = await _artist.SetNewMainPhoto(photoIds);
+        //     if (result)
+        //     {
+        //         return NoContent();
+        //     }
 
-            if (!artist.PhotoIds.Contains(photoIds.PhotoId))
-            {
-                return Unauthorized();
-            }
+        //     return BadRequest("Could not set photo to main");
+        // }
 
-            if (artist.MainPhotoId == photoIds.PhotoId)
-            {
-                return BadRequest("You cannot delete your main photo");
-            }
+        // [HttpDelete("DeletePhoto")]
+        // public async Task<IActionResult> DeletePhoto(PhotoIds photoIds)
+        // {
+        //     var artist = await _artist.GetArtistById(photoIds.ArtistId);
 
-            //
-            // DELETE FILE FROM SYSTEM
-            //
-            //
+        //     if (!artist.PhotoIds.Contains(photoIds.PhotoId))
+        //     {
+        //         return Unauthorized();
+        //     }
 
-            // if file deleted "OK"
-            // if (result.Result == "ok") {} then 
+        //     if (artist.MainPhotoId == photoIds.PhotoId)
+        //     {
+        //         return BadRequest("You cannot delete your main photo");
+        //     }
 
-            var result = await _artist.DeletePhoto(photoIds.PhotoId);
-            if (result)
-            {
-                return Ok();
-            }
+        //     //
+        //     // DELETE FILE FROM SYSTEM
+        //     //
+        //     //
 
-            return BadRequest("Failed to delete the photo");
-        }
+        //     // if file deleted "OK"
+        //     // if (result.Result == "ok") {} then 
+
+        //     var result = await _artist.DeletePhoto(photoIds.PhotoId);
+        //     if (result)
+        //     {
+        //         return Ok();
+        //     }
+
+        //     return BadRequest("Failed to delete the photo");
+        // }
+        // //
     }
 }

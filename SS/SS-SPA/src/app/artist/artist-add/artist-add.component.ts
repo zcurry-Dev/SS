@@ -17,9 +17,6 @@ import { ArtistService } from 'src/app/_services/artist.service/artist.service';
   styleUrls: ['./artist-add.component.css'],
 })
 export class ArtistAddComponent implements OnInit {
-  @Output() cancelRegister = new EventEmitter();
-  artistForm: FormGroup;
-
   addArtistForm = this.fb.group({
     name: new FormControl('', [Validators.required]),
   });

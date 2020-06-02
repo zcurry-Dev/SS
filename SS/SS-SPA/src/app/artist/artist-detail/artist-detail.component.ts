@@ -30,9 +30,10 @@ export class ArtistDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data) => {
       this.artist = data['artist'];
+      console.log('this.artist', this.artist);
     });
 
-    this.getMainImage();
+    // this.getMainImage();
 
     // this.galleryOptions = [
     //   {
@@ -63,15 +64,15 @@ export class ArtistDetailComponent implements OnInit {
   //   return images;
   // }
 
-  getMainImage() {
-    if (this.artist.mainPhotoId > 0) {
-      this.artistService
-        .getPhotoFile(this.artist.mainPhotoId)
-        .subscribe((image) => {
-          this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
-        });
-    }
-  }
+  // getMainImage() {
+  //   if (this.artist.mainPhotoId > 0) {
+  //     this.artistService
+  //       .getPhotoFile(this.artist.mainPhotoId)
+  //       .subscribe((image) => {
+  //         this.artist.mainPhotoURL = this.imageService.sanitizeImage(image);
+  //       });
+  //   }
+  // }
 
   follow() {
     this.followArtist = true;

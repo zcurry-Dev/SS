@@ -15,7 +15,5 @@ namespace SS.Business.Dtos.Accept
         public int? UshomeCityId { get; set; }
         public int? WorldHomeCityId { get; set; }
         public int? CurrentCityId { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
     }
 }

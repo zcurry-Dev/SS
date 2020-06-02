@@ -3,10 +3,10 @@
     {{ artist.name }}
     <i *ngIf="artist.verified" class="fa fa-check colorCheckMark"></i>
   </h1>
-  <div *ngIf="editArtistForm.dirty" class="alert alert-info">
+  <!-- <div *ngIf="editArtistForm.dirty" class="alert alert-info">
     <strong>Information:</strong> You have made changes. Any unsaved changes
     will be lost!
-  </div>
+  </div> -->
   <button
     class="add-button"
     mat-raised-button
@@ -22,12 +22,7 @@
     fxFlex.lt-md="0 1 calc(50% - 32px)"
     fxFlex.lt-sm="100%"
   >
-    <app-artist-card
-      [artist]="artist"
-      [edit]="true"
-      [editArtistForm]="editArtistForm"
-    >
-    </app-artist-card>
+    <app-artist-card [artist]="artist" [edit]="true"> </app-artist-card>
   </div>
 
   <div
@@ -38,44 +33,7 @@
   >
     <mat-tab-group>
       <mat-tab label="About {{ artist.name }}">
-        <form
-          #editArtistForm="ngForm"
-          id="editArtistForm"
-          (ngSubmit)="updateArtist()"
-        >
-          <div>
-            <mat-form-field>
-              <mat-label>Artist Name</mat-label>
-              <input
-                matInput
-                placeholder="Artist Name"
-                [(ngModel)]="artist.name"
-                name="name"
-              />
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field>
-              <mat-label>United States Artist</mat-label>
-              <mat-select [(ngModel)]="artist.usArtist" name="usArtist3">
-                <mat-option *ngFor="let us of usArtist" [value]="us.value">
-                  {{ us.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div *ngIf="usArtist">
-            hi
-            <!-- <mat-form-field>
-              <mat-label>United States Artist</mat-label>
-              <mat-select [(ngModel)]="artist.usArtist" name="usArtist">
-                <mat-option *ngFor="let us of usArtist" [value]="us.value">
-                  {{ us.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field> -->
-          </div>
-        </form>
+        <app-edit-about [artist]="artist"> </app-edit-about>
       </mat-tab>
 
       <mat-tab label="Work/Albums and more">

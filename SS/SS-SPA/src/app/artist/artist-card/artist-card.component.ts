@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
 import { ArtistService } from 'src/app/_services/artist.service/artist.service';
 import { ImageService } from 'src/app/_services/image.service/images.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-artist-card',
@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 export class ArtistCardComponent implements OnInit {
   @Input() artist: Artist;
   @Input() edit: boolean;
-  @Input() editArtistForm: NgForm;
+  // @Input() editArtistForm: FormGroup;
   followArtist = false;
   editMode = true;
 

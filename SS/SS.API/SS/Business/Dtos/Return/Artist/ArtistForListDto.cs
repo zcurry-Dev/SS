@@ -12,6 +12,5 @@ namespace SS.Business.Dtos.Return
         public string MainPhotoId { get; set; }
         public string CurrentCity { get; set; }
         public string HomeCity { get; set; }
-
     }
 }

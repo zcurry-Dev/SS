@@ -9,8 +9,12 @@ export interface Artist {
   artistGroup: boolean;
   userId?: number;
   verified: boolean;
-  currentCity: string;
+  homeCountryId: number;
+  homeCityId: string;
   homeCity: string;
+  currentCountryId: number;
+  currentCityId: number;
+  currentCity: string;
   mainPhotoId: number;
   mainPhotoURL: SafeUrl;
   usArtist: boolean;

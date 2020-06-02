@@ -8,6 +8,7 @@ using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
 using SS.Data.Interfaces;
 using SS.Data.Models;
+using SS.Helpers;
 using SS.Helpers.Pagination;
 using SS.Helpers.Pagination.PagedParams;
 
@@ -41,7 +42,8 @@ namespace SS.Business.Repos
                 throw new NullReferenceException();
             }
 
-            var artistForDetailedDto = _mapper.Map<ArtistForDetailedDto>(artist);
+            // var artistForDetailedDto = _mapper.Map<ArtistForDetailedDto>(artist);
+            var artistForDetailedDto = MapToDetailedDto(artist);
 
             if (artistForDetailedDto == null)
             {
@@ -73,17 +75,9 @@ namespace SS.Business.Repos
                 artists = artists.Where(s => s.ArtistName.Contains(artistParams.Search));
             }
 
-            var artistsList = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
-            var usersToReturn = _mapper.Map<IEnumerable<ArtistForListDto>>(artistsList);
-
-            var artistListForReturnDto = new ArtistListForReturnDto()
-            {
-                Artists = usersToReturn,
-                CurrentPage = artistsList.CurrentPage,
-                TotalPages = artistsList.TotalPages,
-                PageSize = artistsList.PageSize,
-                TotalCount = artistsList.TotalCount
-            };
+            var plArtists = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
+            var artistsToReturn = MapToArtistForListDto(plArtists);
+            var artistListForReturnDto = MapToListForReturnDto(artistsToReturn, plArtists);
 
             return artistListForReturnDto;
         }
@@ -91,7 +85,7 @@ namespace SS.Business.Repos
         public async Task<ArtistForDetailedDto> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
-            var artistToReturn = _mapper.Map<ArtistForDetailedDto>(artist);
+            var artistToReturn = MapToDetailedDto(artist);
 
             return artistToReturn;
         }
@@ -99,87 +93,117 @@ namespace SS.Business.Repos
         public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
         {
             var artist = await _artist.GetArtistById(artistId);
-            _mapper.Map(artistForUpdateDto, artist); //what does this do specifically
+            MapToArtist(artistForUpdateDto, artist);
+
             var result = await _artist.SaveAll();
 
             return result;
         }
 
 
-        //
-        // Photo methods
-        //
-        public async Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto)
+        private IEnumerable<ArtistForListDto> MapToArtistForListDto(PagedList<Artist> artistList)
         {
-            var artistPhoto = _mapper.Map<ArtistPhoto>(photoForCreationDto);
-            var result = await _artist.UploadArtistPhoto(artistId, artistPhoto, photoForCreationDto.File);
+            var artistForListDto = artistList.Select(a => new ArtistForListDto
+            {
+                Id = a.ArtistId,
+                Name = a.ArtistName,
+                ArtistStatusId = a.ArtistStatusId,
+                YearsActive = a.CareerBeginDate.CalculateArtistYearsActive(),
+                ArtistGroup = a.ArtistGroup,
+                UserId = a.UserId,
+                Verified = a.Verified,
+                // CurrentCity = a.CurrentCity.CityName,
+                HomeCity = GetHomeCity(a)
+            });
 
-            return result;
+            return artistForListDto;
         }
 
-        public async Task<PhotoFileForReturnDto> GetArtistPhotoFileByPhotoId(int photoId)
+        private string GetHomeCity(Artist a)
         {
-            var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);
-            var photo = _mapper.Map<PhotoFileForReturnDto>(artistPhoto);
-            var file = await _artist.GetPhotoByteArray(photoId, artistPhoto.ArtistId, artistPhoto.PhotoFileName);
-            photo.File = file;
+            if (a.UshomeCityId.HasValue)
+            {
+                return a.UshomeCity.CityName + ", " + a.UshomeCity.State.StateAbbreviation;
+            }
+            if (a.WorldHomeCityId.HasValue)
+            {
+                return a.WorldHomeCity.CityName + ", " + a.WorldHomeCity.WorldRegion.WorldRegionAbbreviation;
+            }
 
-            return photo;
+            return "";
         }
 
-        public async Task<PhotoforReturnDto> GetArtistPhotoByPhotoId(int photoId)
-        {
-            var artistPhoto = await _artist.GetArtistPhotoByPhotoId(photoId);
-            var photoToReturn = _mapper.Map<PhotoforReturnDto>(artistPhoto);
+        // private string GetCurrentCity(Artist a)
+        // {
+        //     if (a.CurrentCountryId == 1)
+        //     {
+        //         return a.UshomeCity.CityName + ", " + a.UshomeCity.State.StateAbbreviation;
+        //     }
+        //     if (a.WorldHomeCityId.HasValue)
+        //     {
+        //         return a.WorldHomeCity.CityName + ", " + a.WorldHomeCity.WorldRegion.WorldRegionAbbreviation;
+        //     }
 
-            return photoToReturn;
+        //     return "";
+        // }
+
+        private ArtistListForReturnDto MapToListForReturnDto(
+            IEnumerable<ArtistForListDto> artistsToReturn, PagedList<Artist> plArtists)
+        {
+            var artistListForReturnDto = new ArtistListForReturnDto()
+            {
+                Artists = artistsToReturn,
+                CurrentPage = plArtists.CurrentPage,
+                TotalPages = plArtists.TotalPages,
+                PageSize = plArtists.PageSize,
+                TotalCount = plArtists.TotalCount
+            };
+
+            return artistListForReturnDto;
         }
 
-        public async Task<PhotoforReturnDto> GetMostRecentArtistPhoto(int artistId)
+        private ArtistForDetailedDto MapToDetailedDto(Artist a)
         {
-            var artistPhoto = await _artist.GetMostRecentArtistPhoto(artistId);
-            var photoToReturn = _mapper.Map<PhotoforReturnDto>(artistPhoto);
+            var artistForUpdateDto = new ArtistForDetailedDto()
+            {
+                Id = a.ArtistId,
+                Name = a.ArtistName,
+                StatusId = a.ArtistStatusId,
+                CareerBeginDate = a.CareerBeginDate,
+                YearsActive = a.CareerBeginDate.CalculateArtistYearsActive(),
+                ArtistGroup = a.ArtistGroup,
+                UserId = a.UserId,
+                Verified = a.Verified,
+                HomeCountryId = a.HomeCountryId,
+                HomeCityId = a.UshomeCityId.HasValue
+                     ? a.UshomeCityId
+                     : a.WorldHomeCityId,
+                HomeCity = GetHomeCity(a),
+                // CurrentCountryId = artist.CurrentCountryId,
+                CurrentCityId = a.CurrentCityId,
+                // CurrentCity = artist.CurrentCity.CityName,
+                CreatedDate = a.CreatedDate
+            };
 
-            return photoToReturn;
+            return artistForUpdateDto;
         }
 
-        public async Task<bool> SetNewMainPhoto(PhotoIds photoIds)
+        private void MapToArtist(ArtistForUpdateDto artistForUpdateDto, Artist artist)
         {
-            var photoToSetMain = await _artist.GetArtistPhotoByPhotoId(photoIds.PhotoId);
-            var currentMainPhoto = await _artist.GetMainArtistPhotoByArtistId(photoIds.ArtistId);
-            currentMainPhoto.IsMain = false;
-            photoToSetMain.IsMain = true;
-            var result = await Save();
+            artist.ArtistName = artistForUpdateDto.Name;
+            artist.CareerBeginDate = artistForUpdateDto.CareerBeginDate;
+            artist.ArtistGroup = artistForUpdateDto.Group;
+            artist.UserId = artistForUpdateDto.UserId;
+            artist.Verified = artistForUpdateDto.Verified;
+            artist.HomeCountryId = artistForUpdateDto.HomeCountryId;
+            artist.UshomeCityId = artistForUpdateDto.UshomeCityId;
+            artist.WorldHomeCityId = artistForUpdateDto.WorldHomeCityId;
+            artist.CurrentCityId = artistForUpdateDto.CurrentCityId;
 
-            return result;
+            if (artistForUpdateDto.StatusId != null)
+            {
+                artist.ArtistStatusId = artistForUpdateDto.StatusId;
+            }
         }
-
-        public async Task<bool> DeletePhoto(int artistPhotoId)
-        {
-            var photo = await _artist.GetArtistPhotoByPhotoId(artistPhotoId);
-            var result = await Delete(photo);
-
-            return result;
-        }
-        //
-        //
-        //
-
-        // Private methods
-        private async Task<bool> Save()
-        {
-            var result = await _artist.SaveAll();
-
-            return result;
-        }
-
-        private async Task<bool> Delete(ArtistPhoto artistPhoto)
-        {
-            _artist.Delete(artistPhoto);
-            var result = await _artist.SaveAll();
-
-            return result;
-        }
-        //
     }
 }

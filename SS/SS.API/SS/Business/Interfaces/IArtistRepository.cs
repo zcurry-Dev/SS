@@ -11,16 +11,5 @@ namespace SS.Business.Interfaces
         Task<ArtistForDetailedDto> GetArtistById(int artistId);
         Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams);
         Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto);
-
-        //
-        // Photo methods
-        //
-        Task<PhotoFileForReturnDto> GetArtistPhotoFileByPhotoId(int photoId);
-        Task<bool> UploadPhoto(int artistId, PhotoForCreationDto photoForCreationDto);
-        Task<PhotoforReturnDto> GetMostRecentArtistPhoto(int artistId);
-        Task<bool> SetNewMainPhoto(PhotoIds photoIds);
-        Task<bool> DeletePhoto(int artistPhotoId);
-        Task<PhotoforReturnDto> GetArtistPhotoByPhotoId(int photoId);
-        //
     }
 }

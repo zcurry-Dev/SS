@@ -60,7 +60,7 @@ export class ArtistService {
 
   updateArtist(id: number, artist: Artist) {
     // check to see if this passes only name currently
-    return this.http.put(this.baseUrl + id, artist);
+    return this.http.patch(this.baseUrl + id, artist);
   }
 
   //
