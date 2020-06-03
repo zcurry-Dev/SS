@@ -1,15 +1,25 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+} from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
-import { ArtistService } from 'src/app/_services/artist.service/artist.service';
+import { ArtistApiService } from 'src/app/_services/artist.service/artist.api.service';
 import {
   FormControl,
   Validators,
   FormBuilder,
   FormGroup,
   NgForm,
+  ReactiveFormsModule,
 } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-about',
@@ -18,22 +28,36 @@ import {
 })
 export class EditAboutComponent implements OnInit {
   @Input() artist: Artist;
-  editArtistAboutForm = this.fb.group({
-    name: new FormControl('', [Validators.required]),
-  });
+  editArtistAboutForm: FormGroup;
+  name = new FormControl('', Validators.required);
+
+  // editArtistAboutForm = FormGroup;
+  // editArtistAboutForm = this.fb.group({
+  //   name: new FormControl(this.artist.name, [Validators.required]),
+  // });
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any) {
+    if (this.editArtistAboutForm.dirty) {
+      $event.returnValue = true;
+    }
+  }
 
   constructor(
-    private route: ActivatedRoute,
     private alertify: AlertifyService,
-    private artistService: ArtistService,
+    private artistService: ArtistApiService,
     private router: Router,
     private fb: FormBuilder
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.editArtistAboutForm = this.fb.group({
+      name: this.name,
+    });
+  }
 
   updateArtist() {
-    this.artistService.updateArtist(this.artist.id, this.artist).subscribe(
+    this.artistService.Save(this.artist).subscribe(
       (next) => {
         this.alertify.success('Artist updated successfully');
         this.editArtistAboutForm.reset(this.artist);

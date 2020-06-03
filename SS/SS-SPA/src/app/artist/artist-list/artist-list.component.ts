@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ArtistService } from '../../_services/artist.service/artist.service';
+import { ArtistApiService } from '../../_services/artist.service/artist.api.service';
 import { AlertifyService } from '../../_services/alertify.service/alertify.service';
 import { Artist } from '../../_models/artist';
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -39,7 +39,7 @@ export class ArtistListComponent implements OnInit {
   fallbackImg = '../../../assets/fallbackUser.png';
 
   constructor(
-    private artistService: ArtistService,
+    private artistService: ArtistApiService,
     private imageService: ImageService,
     private alertify: AlertifyService,
     private route: ActivatedRoute,
@@ -57,7 +57,7 @@ export class ArtistListComponent implements OnInit {
       this.pagination = data['artists'].pagination;
       this.length = this.pagination.totalItems;
       this.pageSize = this.pagination.itemsPerPage;
-      await this.getMainArtistImage();
+      // await this.getMainArtistImage();
       this.setUpDataSource();
     });
   }
@@ -90,7 +90,7 @@ export class ArtistListComponent implements OnInit {
 
   loadArtists() {
     this.artistService
-      .getArtists(this.pagination.currentPage, this.pageSize, this.search)
+      .List(this.pagination.currentPage, this.pageSize, this.search)
       .subscribe(
         (res: PaginatedResult<Artist[]>) => {
           this.artists = res.result;
@@ -109,22 +109,22 @@ export class ArtistListComponent implements OnInit {
   }
 
   setUpDataSource() {
-    this.getMainArtistImage();
+    // this.getMainArtistImage();
     this.dataSource.data = this.artists;
     this.dataSource.sort = this.sort;
   }
 
-  getMainArtistImage() {
-    for (const artist of this.artists) {
-      if (artist.mainPhotoId > 0) {
-        this.artistService
-          .getPhotoFile(artist.mainPhotoId)
-          .subscribe((image) => {
-            artist.mainPhotoURL = this.imageService.sanitizeImage(image);
-          });
-      }
-    }
-  }
+  // getMainArtistImage() {
+  //   for (const artist of this.artists) {
+  //     if (artist.mainPhotoId > 0) {
+  //       this.artistService
+  //         .getPhotoFile(artist.mainPhotoId)
+  //         .subscribe((image) => {
+  //           artist.mainPhotoURL = this.imageService.sanitizeImage(image);
+  //         });
+  //     }
+  //   }
+  // }
 
   openAddArtistDialog() {
     const dialogRef = this.dialog.open(ArtistAddComponent, {

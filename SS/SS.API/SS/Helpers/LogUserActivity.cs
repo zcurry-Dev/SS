@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SS.Data.Interfaces;
@@ -15,8 +16,10 @@ namespace SS.Helpers
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var resultContext = await next();
-
-            await _user.UpdateLastActiveForUser(resultContext.HttpContext.User);
+            if (resultContext.HttpContext.User.Identities.FirstOrDefault().IsAuthenticated)
+            {
+                await _user.UpdateLastActiveForUser(resultContext.HttpContext.User);
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
-import { ArtistService } from 'src/app/_services/artist.service/artist.service';
+import { ArtistApiService } from 'src/app/_services/artist.service/artist.api.service';
 import { ImageService } from 'src/app/_services/image.service/images.service';
 import { NgForm, FormGroup } from '@angular/forms';
 
@@ -17,7 +17,7 @@ export class ArtistCardComponent implements OnInit {
   editMode = true;
 
   constructor(
-    private artistService: ArtistService,
+    private artistService: ArtistApiService,
     private imageService: ImageService
   ) {}
 

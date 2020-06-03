@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { environment } from 'src/environments/environment';
+import { environment as env } from 'src/environments/environment';
 import { User } from 'src/app/_models/user';
+
+const API_URL = env.apiUrl + '/auth/';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
 
   constructor(private http: HttpClient) {}
 
   login(model: any) {
-    return this.http.post(this.baseUrl + 'login', model).pipe(
+    console.log(API_URL + 'login', model);
+
+    return this.http.post(API_URL + 'login', model).pipe(
       map((response: any) => {
         const user = response;
         if (user) {
@@ -28,7 +31,7 @@ export class AuthService {
   }
 
   register(user: User) {
-    return this.http.post(this.baseUrl + 'register', user);
+    return this.http.post(API_URL + 'register', user);
   }
 
   loggedIn() {

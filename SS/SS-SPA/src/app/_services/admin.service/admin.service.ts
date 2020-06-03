@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import { environment as env } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from 'src/app/_models/user';
 import { Observable } from 'rxjs';
 import { PaginatedResult } from 'src/app/_models/pagination';
 import { map } from 'rxjs/operators';
 
+const API_URL = env.apiUrl + 'admin/';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AdminService {
-  baseUrl = environment.apiUrl + 'admin/';
-
   constructor(private http: HttpClient) {}
 
   getUsersWithRoles(
@@ -36,7 +36,7 @@ export class AdminService {
     }
 
     return this.http
-      .get<User[]>(this.baseUrl + 'usersWithRoles', {
+      .get<User[]>(API_URL + 'usersWithRoles', {
         observe: 'response',
         params,
       })
@@ -54,10 +54,10 @@ export class AdminService {
   }
 
   updateUserRoles(user: User, roles: {}) {
-    return this.http.post(this.baseUrl + 'editRoles/' + user.userName, roles);
+    return this.http.post(API_URL + 'editRoles/' + user.userName, roles);
   }
 
   getAvailibleRoles() {
-    return this.http.get(this.baseUrl + 'getRoles');
+    return this.http.get(API_URL + 'getRoles');
   }
 }

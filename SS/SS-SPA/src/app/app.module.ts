@@ -32,7 +32,7 @@ import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
 import { AdminService } from './_services/admin.service/admin.service';
 import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.interceptor';
 import { AlertifyService } from './_services/alertify.service/alertify.service';
-import { ArtistService } from './_services/artist.service/artist.service';
+import { ArtistApiService } from './_services/artist.service/artist.api.service';
 import { AuthService } from './_services/auth.service/auth.service';
 import { ImageService } from './_services/image.service/images.service';
 
@@ -44,7 +44,6 @@ import { ArtistListComponent } from './artist/artist-list/artist-list.component'
 import { BeersComponent } from './beers/beers.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
-import { PhotoEditorComponent } from './artist/photo-editor/photo-editor.component';
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RegisterComponent } from './register/register.component';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
@@ -72,7 +71,6 @@ export function tokenGetter() {
     BeersComponent,
     HomeComponent,
     NavComponent,
-    PhotoEditorComponent,
     PhotoManagementComponent,
     RegisterComponent,
     RolesModalComponent,
@@ -117,7 +115,7 @@ export function tokenGetter() {
     ErrorInterceptorProvider,
     AlertifyService,
     AuthGuard,
-    ArtistService,
+    ArtistApiService,
     ArtistDetailResolver,
     ArtistListResolver,
     ArtistEditResolver,

@@ -1,5 +1,4 @@
-<!-- <mat-tab label="About {{ artist.name }}"> -->
-<form
+<!-- <form
   #editArtistAboutForm="ngForm"
   id="editArtistAboutForm"
   (ngSubmit)="updateArtist()"
@@ -14,12 +13,6 @@
         name="name"
       />
     </mat-form-field>
-    <!-- <mat-form-field>
-      <mat-label>Artist Name</mat-label>
-      <input matInput placeholder="Name" required value="{{ artist.name }}" />
-      
-        value="{{ artist.name }}"
-    </mat-form-field> -->
   </div>
   <button
     mat-raised-button
@@ -30,5 +23,29 @@
   >
     Save Changes
   </button>
+</form> -->
+
+<form [formGroup]="editArtistAboutForm" (ngSubmit)="updateArtist()">
+  <div>
+    <mat-form-field>
+      <mat-label>Artist Name</mat-label>
+      <input matInput type="text" formControlName="name" />
+    </mat-form-field>
+  </div>
+  <button
+    mat-raised-button
+    [disabled]="!editArtistAboutForm.valid"
+    color="primary"
+  >
+    Save Changes
+  </button>
 </form>
-<!-- </mat-tab> -->
+
+<br />
+<br />
+<br />
+<br />
+<div *ngIf="editArtistAboutForm.dirty">
+  <strong>Information:</strong> You have made changes. Any unsaved changes will
+  be lost!
+</div>
