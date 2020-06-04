@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Artist } from 'src/app/_models/artist';
+import { Artist, initArtist } from 'src/app/_models/artist';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -15,33 +15,21 @@ export class ArtistEditComponent implements OnInit {
   constructor(private route: ActivatedRoute, private _artist: ArtistService) {}
 
   ngOnInit() {
-    // this.getArtist();
+    this.getArtist();
     this.watchArtist();
   }
 
   watchArtist() {
-    this._artist.artist$
-      .pipe(distinctUntilChanged())
-      .subscribe((artist) => (this.artist = artist));
-  }
-
-  private getArtist() {
-    this.route.data.subscribe((data) => {
-      this.artist = data['artist'];
+    this._artist.artist$.pipe(distinctUntilChanged()).subscribe((artist) => {
+      this.artist = artist;
     });
   }
 
-  // private update() {
-  //   console.log('UserService Updating');
-  //   this._userService.List().subscribe((userList) => {
-  //     console.log(userList);
-  //     this._admin.update({userList});
-  //     this._admin.update({user: null});
-  //   });
-
-  //   this._userService.GetAllLoanGroups().subscribe((allLoanGroups) => {
-  //     console.log(allLoanGroups);
-  //     this._admin.update({allLoanGroups});
-  //   });
-  // }
+  getArtist() {
+    this.route.data
+      .subscribe((data) => {
+        this._artist.update({ artist: data['artist'] });
+      })
+      .unsubscribe();
+  }
 }

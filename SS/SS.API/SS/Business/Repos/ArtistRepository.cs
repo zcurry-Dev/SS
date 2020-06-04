@@ -55,7 +55,7 @@ namespace SS.Business.Repos
 
         public async Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams)
         {
-            var artists = _artist.GetArtists().OrderBy(a => a.ArtistName).AsQueryable();
+            var artists = _artist.GetArtists().AsQueryable();
 
             if (!string.IsNullOrEmpty(artistParams.OrderBy))
             {

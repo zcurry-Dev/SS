@@ -17,15 +17,12 @@ export class ArtistApiService {
 
   Get(id: number): Observable<Artist> {
     const url = `${env.apiUrl}/${env.artistGet}`;
-    console.log(`${url}/${id}`);
-
-    return this.http.get<Artist>(`${url}/${id}`);
-    // .pipe(
-    //   catchError((error) => {
-    //     console.log(error);
-    //     return EMPTY;
-    //   })
-    // );
+    return this.http.get<Artist>(`${url}/${id}`).pipe(
+      catchError((error) => {
+        console.log(error);
+        return EMPTY;
+      })
+    );
   }
 
   List(page?, itemsPerPage?, search?): Observable<PaginatedResult<Artist[]>> {

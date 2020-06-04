@@ -9,13 +9,13 @@ import { catchError } from 'rxjs/operators';
 @Injectable()
 export class ArtistDetailResolver implements Resolve<Artist> {
   constructor(
-    private _artist: ArtistApiService,
+    private _artistApi: ArtistApiService,
     private router: Router,
     private alertify: AlertifyService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<Artist> {
-    return this._artist.Get(route.params['id']).pipe(
+    return this._artistApi.Get(route.params['id']).pipe(
       catchError((error) => {
         this.alertify.error('Problem retrieving data');
         this.router.navigate(['/artist']);

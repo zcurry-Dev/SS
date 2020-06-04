@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ArtistApiService } from '../../_services/artist.service/artist.api.service';
 import { AlertifyService } from '../../_services/alertify.service/alertify.service';
 import { Artist } from '../../_models/artist';
-import { Pagination } from 'src/app/_models/pagination';
+import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
@@ -11,6 +11,8 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistAddComponent } from '../artist-add/artist-add.component';
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/_services/auth.service/auth.service';
 
 @Component({
   selector: 'app-artist-list',
@@ -41,25 +43,56 @@ export class ArtistListComponent implements OnInit {
     private _artistAPI: ArtistApiService,
     private alertify: AlertifyService,
     public dialog: MatDialog,
-    private _artist: ArtistService
+    private _artist: ArtistService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
+    this.getArtists();
     this.watchArtistList();
     this.watchFilter();
   }
 
-  watchArtistList() {
+  sortData(eee) {
+    console.log(eee);
+  }
+
+  getArtists() {
+    console.log('getArtists fired');
     this._artistAPI
       .List(this.pagination?.currentPage, this.pageSize, this.search)
-      .subscribe((artistList) => {
-        console.log(artistList);
+      .subscribe((artistList: PaginatedResult<Artist[]>) => {
         this._artist.update({ artistList });
-        this.populateDataSource();
       });
   }
 
+  watchArtistList() {
+    console.log('watchArtistList fired');
+
+    this._artist.artistList$
+      .pipe(
+        distinctUntilChanged(),
+        tap((artists) => console.log('Found artists', artists?.result))
+      )
+      .subscribe(
+        (artists) => {
+          if (artists) {
+            this.artists = artists.result;
+            this.pagination = artists.pagination;
+            this.setUpDataSource();
+            this.length = this.pagination.totalItems;
+            this.pageSize = this.pagination.itemsPerPage;
+          }
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+      );
+  }
+
   applyFilter($event) {
+    console.log('hi');
+
     this.searchTextChanged.next($event);
   }
 
@@ -69,7 +102,7 @@ export class ArtistListComponent implements OnInit {
       .subscribe((res) => {
         this.search = res.trim().toLowerCase();
         this.pagination.currentPage = 1;
-        this.watchArtistList();
+        this.getArtists();
       });
   }
 
@@ -86,7 +119,7 @@ export class ArtistListComponent implements OnInit {
       this.pagination.currentPage = event.pageIndex + 1;
     }
 
-    this.watchArtistList();
+    this.getArtists();
   }
 
   openAddArtistDialog() {
@@ -95,30 +128,20 @@ export class ArtistListComponent implements OnInit {
     });
   }
 
-  populateDataSource() {
-    this._artist.artistList$
-      .pipe(
-        distinctUntilChanged(),
-        tap((artists) => console.log('Found artists', artists?.result))
-      )
-      .subscribe(
-        (artists) => {
-          this.artists = artists?.result;
-          this.pagination = artists?.pagination;
-          this.setUpDataSource();
-          this.length = this.pagination?.totalItems;
-          this.pageSize = this.pagination?.itemsPerPage;
-        },
-        (error) => {
-          this.alertify.error(error);
-        }
-      )
-      .unsubscribe();
-  }
-
   setUpDataSource() {
-    this.dataSource = new MatTableDataSource<Artist>(this.artists);
     this.dataSource.data = this.artists;
     this.dataSource.sort = this.sort;
+    console.log(this.sort);
+  }
+
+  openArtist(row: Artist) {
+    const artistId = row.id;
+    this._artistAPI.Get(artistId).subscribe((artist) => {
+      this._artist.update({ artist });
+    });
+  }
+
+  loggedIn() {
+    return this.authService.loggedIn();
   }
 }

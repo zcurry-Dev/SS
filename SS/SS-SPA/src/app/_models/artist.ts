@@ -21,3 +21,27 @@ export interface Artist {
   createdBy: number;
   createdDate: Date;
 }
+
+export function initArtist(): Artist {
+  return {
+    id: -1,
+    name: null,
+    statusId: -1,
+    yearsActive: -1,
+    artistGroup: false,
+    userId: -1,
+    verified: false,
+    homeCountryId: -1,
+    homeCityId: null,
+    homeCity: null,
+    currentCountryId: -1,
+    currentCityId: -1,
+    currentCity: null,
+    mainPhotoId: -1,
+    mainPhotoURL: null,
+    usArtist: false,
+    careerBeginDate: new Date(),
+    createdBy: -1,
+    createdDate: new Date(),
+  };
+}
