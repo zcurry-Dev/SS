@@ -16,11 +16,21 @@ export class ArtistDetailComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data) => {
       this.artist = data['artist'];
-      console.log('this.artist', this.artist);
     });
   }
 
   follow() {
     this.followArtist = true;
   }
+
+  // ngOnInit() {
+  //   // this.getArtist();
+  //   this.watchArtist();
+  // }
+
+  // watchArtist() {
+  //   this._artist.artist$
+  //     .pipe(distinctUntilChanged())
+  //     .subscribe((artist) => (this.artist = artist));
+  // }
 }

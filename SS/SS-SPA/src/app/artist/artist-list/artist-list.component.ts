@@ -2,16 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ArtistApiService } from '../../_services/artist.service/artist.api.service';
 import { AlertifyService } from '../../_services/alertify.service/alertify.service';
 import { Artist } from '../../_models/artist';
-import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
-import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
+import { Pagination } from 'src/app/_models/pagination';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ImageService } from 'src/app/_services/image.service/images.service';
+import { Subject, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistAddComponent } from '../artist-add/artist-add.component';
+import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
 
 @Component({
   selector: 'app-artist-list',
@@ -39,36 +38,38 @@ export class ArtistListComponent implements OnInit {
   fallbackImg = '../../../assets/fallbackUser.png';
 
   constructor(
-    private artistService: ArtistApiService,
-    private imageService: ImageService,
+    private _artistAPI: ArtistApiService,
     private alertify: AlertifyService,
-    private route: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _artist: ArtistService
   ) {}
 
   ngOnInit() {
-    this.getData();
-    this.filter();
+    this.watchArtistList();
+    this.watchFilter();
   }
 
-  getData() {
-    this.route.data.subscribe(async (data) => {
-      this.artists = data['artists'].result;
-      this.pagination = data['artists'].pagination;
-      this.length = this.pagination.totalItems;
-      this.pageSize = this.pagination.itemsPerPage;
-      // await this.getMainArtistImage();
-      this.setUpDataSource();
-    });
+  watchArtistList() {
+    this._artistAPI
+      .List(this.pagination?.currentPage, this.pageSize, this.search)
+      .subscribe((artistList) => {
+        console.log(artistList);
+        this._artist.update({ artistList });
+        this.populateDataSource();
+      });
   }
 
-  filter() {
+  applyFilter($event) {
+    this.searchTextChanged.next($event);
+  }
+
+  watchFilter() {
     this.searchTextChanged
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe((res) => {
         this.search = res.trim().toLowerCase();
         this.pagination.currentPage = 1;
-        this.loadArtists();
+        this.watchArtistList();
       });
   }
 
@@ -85,50 +86,39 @@ export class ArtistListComponent implements OnInit {
       this.pagination.currentPage = event.pageIndex + 1;
     }
 
-    this.loadArtists();
+    this.watchArtistList();
   }
-
-  loadArtists() {
-    this.artistService
-      .List(this.pagination.currentPage, this.pageSize, this.search)
-      .subscribe(
-        (res: PaginatedResult<Artist[]>) => {
-          this.artists = res.result;
-          this.pagination = res.pagination;
-          this.setUpDataSource();
-          this.length = this.pagination.totalItems;
-        },
-        (error) => {
-          this.alertify.error(error);
-        }
-      );
-  }
-
-  applyFilter($event) {
-    this.searchTextChanged.next($event);
-  }
-
-  setUpDataSource() {
-    // this.getMainArtistImage();
-    this.dataSource.data = this.artists;
-    this.dataSource.sort = this.sort;
-  }
-
-  // getMainArtistImage() {
-  //   for (const artist of this.artists) {
-  //     if (artist.mainPhotoId > 0) {
-  //       this.artistService
-  //         .getPhotoFile(artist.mainPhotoId)
-  //         .subscribe((image) => {
-  //           artist.mainPhotoURL = this.imageService.sanitizeImage(image);
-  //         });
-  //     }
-  //   }
-  // }
 
   openAddArtistDialog() {
     const dialogRef = this.dialog.open(ArtistAddComponent, {
       width: '250px',
     });
+  }
+
+  populateDataSource() {
+    this._artist.artistList$
+      .pipe(
+        distinctUntilChanged(),
+        tap((artists) => console.log('Found artists', artists?.result))
+      )
+      .subscribe(
+        (artists) => {
+          this.artists = artists?.result;
+          this.pagination = artists?.pagination;
+          this.setUpDataSource();
+          this.length = this.pagination?.totalItems;
+          this.pageSize = this.pagination?.itemsPerPage;
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+      )
+      .unsubscribe();
+  }
+
+  setUpDataSource() {
+    this.dataSource = new MatTableDataSource<Artist>(this.artists);
+    this.dataSource.data = this.artists;
+    this.dataSource.sort = this.sort;
   }
 }

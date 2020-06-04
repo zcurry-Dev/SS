@@ -21,7 +21,6 @@ export class ArtistListResolver implements Resolve<Artist[]> {
   resolve(route: ActivatedRouteSnapshot): Observable<Artist[]> {
     return this.artistService.List(this.pn, this.ps, this.search).pipe(
       catchError((error) => {
-        console.log(error);
         this.alertify.error('Problem retrieving data');
         this.router.navigate(['/home']);
         return of(null);

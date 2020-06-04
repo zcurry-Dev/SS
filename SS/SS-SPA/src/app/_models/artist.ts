@@ -1,4 +1,3 @@
-import { ArtistPhoto } from './artistPhoto';
 import { SafeUrl } from '@angular/platform-browser';
 
 export interface Artist {
@@ -18,9 +17,7 @@ export interface Artist {
   mainPhotoId: number;
   mainPhotoURL: SafeUrl;
   usArtist: boolean;
-
   careerBeginDate: Date;
   createdBy: number;
   createdDate: Date;
-  photos?: ArtistPhoto[];
 }

@@ -1,85 +1,44 @@
-// // import { Injectable } from '@angular/core';
-// import { environment } from 'src/environments/environment';
-// // import { HttpClient, HttpParams } from '@angular/common/http';
-// // import { Observable, BehaviorSubject } from 'rxjs';
-// import { Artist } from '../../_models/artist';
-// import { ImageService } from '../image.service/images.service';
-// import { PaginatedResult } from 'src/app/_models/pagination';
-// import { map } from 'rxjs/operators';
-// import { PhotoIds } from 'src/app/_models/photoIds';
+import { ArtistApiService } from './artist.api.service';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, filter } from 'rxjs/operators';
+import { Artist } from 'src/app/_models/artist';
+import { PaginatedResult } from 'src/app/_models/pagination';
 
-// import { Injectable } from '@angular/core';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { catchError } from 'rxjs/operators';
-// import { Observable, Subject } from 'rxjs';
+export interface Artists {
+  artist: Artist;
+  artistList: PaginatedResult<Artist[]>;
+}
 
-// import { environment as env } from 'src/environments/environment';
-// import { of, EMPTY } from 'rxjs';
-// // import { Subject } from 'rxjs/Subject';
-// import { User } from './admin.service';
+let _state: Artists = {
+  artist: null,
+  artistList: null,
+};
 
-// const API_URL = env.apiUrl + 'artist/';
+@Injectable({
+  providedIn: 'root',
+})
+export class ArtistService {
+  private store = new BehaviorSubject<Artists>(_state);
+  private state$ = this.store.asObservable();
 
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class ArtistService {
-//   constructor(private http: HttpClient) {}
+  artist$ = this.state$.pipe(
+    map((state) => state.artist),
+    distinctUntilChanged()
+  );
+  artistList$ = this.state$.pipe(
+    map((state) => state.artistList),
+    distinctUntilChanged()
+  );
 
-//   public Get(): Observable<Artist> {
-//     const url = `${API_URL}/${env.userGetApi}`;
-//     return this.http.get<User>(url).pipe(
-//       catchError((error) => {
-//         console.log(error);
-//         return EMPTY;
-//       })
-//     );
-//   }
+  constructor(private artistApiService: ArtistApiService) {}
 
-//   getArtists(
-//     page?,
-//     itemsPerPage?,
-//     search?
-//   ): Observable<PaginatedResult<Artist[]>> {
-//     const paginatedResult: PaginatedResult<Artist[]> = new PaginatedResult<
-//       Artist[]
-//     >();
-//     let params = new HttpParams();
+  public update(state: any) {
+    // console.log('ArtistService Updating', state);
+    this.updateState({ ..._state, ...state });
+  }
 
-//     if (page != null && itemsPerPage != null) {
-//       params = params.append('pn', page);
-//       params = params.append('ps', itemsPerPage);
-//     }
-
-//     if (search) {
-//       params = params.append('search', search);
-//     }
-
-//     return this.http
-//       .get<Artist[]>(API_URL, { observe: 'response', params })
-//       .pipe(
-//         map((response) => {
-//           paginatedResult.result = response.body;
-//           if (response.headers.get('Pagination') != null) {
-//             paginatedResult.pagination = JSON.parse(
-//               response.headers.get('Pagination')
-//             );
-//           }
-//           return paginatedResult;
-//         })
-//       );
-//   }
-
-//   getArtist(id: number): Observable<Artist> {
-//     return this.http.get<Artist>(API_URL + id);
-//   }
-
-//   addArtist(artist: {}) {
-//     return this.http.post(API_URL + 'create', artist);
-//   }
-
-//   updateArtist(id: number, artist: Artist) {
-//     // check to see if this passes only name currently
-//     return this.http.patch(API_URL + id, artist);
-//   }
-// }
+  private updateState(state: Artists) {
+    this.store.next((_state = state));
+  }
+}

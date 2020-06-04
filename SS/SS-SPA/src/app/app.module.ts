@@ -54,6 +54,7 @@ import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditAboutComponent } from './artist/artist-edit/edit-about/edit-about.component';
+import { ArtistService } from './_services/artist.service/artist.subject.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -122,6 +123,7 @@ export function tokenGetter() {
     PreventUnsavedChanges,
     ImageService,
     AdminUsersResolver,
+    ArtistService,
   ],
   entryComponents: [RolesModalComponent],
   bootstrap: [AppComponent],
