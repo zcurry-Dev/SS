@@ -18,7 +18,7 @@ export class ArtistEditResolver implements Resolve<Artist> {
     return this._artist.Get(route.params['id']).pipe(
       catchError((error) => {
         this.alertify.error("Problem retrieving a specific artist's data");
-        this.router.navigate(['/artists']);
+        this.router.navigate(['/artist']);
         return of(null);
       })
     );

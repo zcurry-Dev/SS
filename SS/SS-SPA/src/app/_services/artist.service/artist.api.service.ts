@@ -61,7 +61,6 @@ export class ArtistApiService {
   }
 
   Create(artist: Artist): Observable<Artist> {
-    // return this.http.post(API_URL + 'create', artist);
     const url = `${env.apiUrl}/${env.artistCreate}`;
     return this.http.post<Artist>(url, artist).pipe(
       catchError((error) => {

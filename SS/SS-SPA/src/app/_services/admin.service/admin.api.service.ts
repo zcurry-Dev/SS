@@ -1,0 +1,63 @@
+import { Injectable } from '@angular/core';
+import { environment as env } from 'src/environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { User } from 'src/app/_models/user';
+import { Observable } from 'rxjs';
+import { PaginatedResult } from 'src/app/_models/pagination';
+import { map } from 'rxjs/operators';
+
+const API_URL = env.apiUrl + 'admin/';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class AdminService {
+  constructor(private http: HttpClient) {}
+
+  getUsersWithRoles(
+    page?,
+    itemsPerPage?,
+    search?
+  ): Observable<PaginatedResult<User[]>> {
+    console.log('page: ', page, ' - itemsPerPage: ', itemsPerPage);
+
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
+      User[]
+    >();
+    let params = new HttpParams();
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pn', page);
+      params = params.append('ps', itemsPerPage);
+    }
+
+    if (search) {
+      params = params.append('search', search);
+    }
+
+    return this.http
+      .get<User[]>(API_URL + 'usersWithRoles', {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        map((response) => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
+  }
+
+  updateUserRoles(user: User, roles: {}) {
+    return this.http.post(API_URL + 'editRoles/' + user.userName, roles);
+  }
+
+  getAvailibleRoles() {
+    return this.http.get(API_URL + 'getRoles');
+  }
+}
