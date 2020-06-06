@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-import { AuthService } from '../_services/auth.service/auth.service';
 import { AlertifyService } from '../_services/alertify.service/alertify.service';
+import { AuthService } from '../_services/auth.service/auth.subject.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
   constructor(
-    private authService: AuthService,
+    private _authService: AuthService,
     private router: Router,
     private alertify: AlertifyService
   ) {}
@@ -16,7 +16,7 @@ export class AuthGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot): boolean {
     const roles = next.firstChild.data['roles'] as Array<string>;
     if (roles) {
-      const match = this.authService.roleMatch(roles);
+      const match = this._authService.roleMatch(roles);
       if (match) {
         return true;
       } else {
@@ -25,7 +25,7 @@ export class AuthGuard implements CanActivate {
       }
     }
 
-    if (this.authService.loggedIn()) {
+    if (this._authService.loggedIn()) {
       return true;
     }
 

@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { AuthService } from '../_services/auth.service/auth.service';
 import { AlertifyService } from '../_services/alertify.service/alertify.service';
 import {
   FormGroup,
@@ -12,6 +11,9 @@ import {
 import { User } from '../_models/user';
 import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { AuthApiService } from '../_services/auth.service/auth.api.service';
+import { AuthService } from '../_services/auth.service/auth.subject.service';
+import { map } from 'rxjs/operators';
 
 export class CrossFieldErrorMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -47,7 +49,8 @@ export class RegisterComponent implements OnInit {
   );
 
   constructor(
-    private authService: AuthService,
+    private _authApiService: AuthApiService,
+    private _authService: AuthService,
     private alertify: AlertifyService,
     private fb: FormBuilder,
     private router: Router
@@ -58,7 +61,7 @@ export class RegisterComponent implements OnInit {
   register() {
     if (this.registerForm.valid) {
       this.user = Object.assign({}, this.registerForm.value);
-      this.authService.register(this.user).subscribe(
+      this._authApiService.Register(this.user).subscribe(
         () => {
           this.alertify.success('Registration successful');
         },
@@ -66,9 +69,22 @@ export class RegisterComponent implements OnInit {
           this.alertify.error(error);
         },
         () => {
-          this.authService.login(this.user).subscribe(() => {
-            this.router.navigate(['/artist']);
-          });
+          this._authApiService
+            .Login(this.user)
+            .pipe(
+              map((response: any) => {
+                if (response) {
+                  localStorage.setItem('token', response.token);
+                  const decodedToken = this._authService.decodeToken(
+                    response.token
+                  );
+                  this._authService.update({ decodedToken });
+                }
+              })
+            )
+            .subscribe(() => {
+              this.router.navigate(['/artist']);
+            });
         }
       );
     }

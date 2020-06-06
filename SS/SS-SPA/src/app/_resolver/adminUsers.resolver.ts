@@ -4,7 +4,7 @@ import { AlertifyService } from '../_services/alertify.service/alertify.service'
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../_models/user';
-import { AdminService } from '../_services/admin.service/admin.service';
+import { AdminApiService } from '../_services/admin.service/admin.api.service';
 
 @Injectable()
 export class AdminUsersResolver implements Resolve<User[]> {
@@ -13,21 +13,18 @@ export class AdminUsersResolver implements Resolve<User[]> {
   search: string;
 
   constructor(
-    private adminService: AdminService,
+    private _adminApiService: AdminApiService,
     private router: Router,
     private alertify: AlertifyService
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
-    return this.adminService
-      .getUsersWithRoles(this.pn, this.ps, this.search)
-      .pipe(
-        catchError((error) => {
-          console.log(error);
-          this.alertify.error('Problem retrieving data');
-          this.router.navigate(['/home']);
-          return of(null);
-        })
-      );
+    return this._adminApiService.ListUsers(this.pn, this.ps, this.search).pipe(
+      catchError((error) => {
+        this.alertify.error('Problem retrieving data');
+        this.router.navigate(['/home']);
+        return of(null);
+      })
+    );
   }
 }

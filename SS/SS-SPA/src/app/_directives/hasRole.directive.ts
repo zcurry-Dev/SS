@@ -5,7 +5,8 @@ import {
   TemplateRef,
   OnInit,
 } from '@angular/core';
-import { AuthService } from '../_services/auth.service/auth.service';
+import { AuthService } from '../_services/auth.service/auth.subject.service';
+import { take } from 'rxjs/operators';
 
 @Directive({
   selector: '[appHasRole]',
@@ -17,11 +18,16 @@ export class HasRoleDirective implements OnInit {
   constructor(
     private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-    private authService: AuthService
+    private _authService: AuthService
   ) {}
 
   ngOnInit() {
-    const userRoles = this.authService.decodedToken.role as Array<string>;
+    this.watch();
+  }
+
+  watch() {
+    const userRoles: Array<string> = this._authService.returnDecodedToken()
+      .role;
 
     // if no roles clear the viewContainerRef
     if (!userRoles) {
@@ -29,7 +35,7 @@ export class HasRoleDirective implements OnInit {
     }
 
     // if user has role need to render the element
-    if (this.authService.roleMatch(this.appHasRole)) {
+    if (this._authService.roleMatch(this.appHasRole)) {
       if (!this.isVisible) {
         this.isVisible = true;
         this.viewContainerRef.createEmbeddedView(this.templateRef);

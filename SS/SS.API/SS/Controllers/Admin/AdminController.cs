@@ -17,8 +17,9 @@ namespace SS.Controllers.Admin
 
         public AdminController(IAdminRepository admin) { _admin = admin; }
 
-        [HttpGet("usersWithRoles")]
-        public async Task<IActionResult> GetUsersWithRoles([FromQuery] AdminUsersParams adminUsersParams)
+        [HttpGet]
+        [Route("ListUsers")]
+        public async Task<IActionResult> ListUsers([FromQuery] AdminUsersParams adminUsersParams)
         {
             var userList = await _admin.GetAllUsersWithRoles(adminUsersParams);
             Response.AddPagination(userList.CurrentPage, userList.PageSize,
@@ -27,8 +28,9 @@ namespace SS.Controllers.Admin
             return Ok(userList.Users);
         }
 
-        [HttpPost("editRoles/{userName}")]
-        public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
+        [HttpPost]
+        [Route("SaveUsers/{userName}")]
+        public async Task<IActionResult> SaveUsers(string userName, RoleEditDto roleEditDto)
         {
             var result = await _admin.UpdateRolesForUser(userName, roleEditDto);
 

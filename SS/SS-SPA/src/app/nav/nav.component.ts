@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../_services/auth.service/auth.service';
 import { AlertifyService } from '../_services/alertify.service/alertify.service';
 import { Router } from '@angular/router';
+import { AuthApiService } from '../_services/auth.service/auth.api.service';
+import { AuthService } from '../_services/auth.service/auth.subject.service';
+import { distinctUntilChanged, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-nav',
@@ -9,38 +11,42 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css'],
 })
 export class NavComponent implements OnInit {
-  model: any = {};
+  decodedToken: any;
 
   constructor(
-    public authService: AuthService,
-    private alterify: AlertifyService,
+    private _authService: AuthService,
+    private alertify: AlertifyService,
     private router: Router
   ) {}
 
-  ngOnInit() {}
-
-  login() {
-    this.authService.login(this.model).subscribe(
-      (next) => {
-        this.alterify.success('Logged in successfully');
-      },
-      (error) => {
-        this.alterify.error(error);
-      },
-      () => {
-        this.router.navigate(['/artist']);
-      }
-    );
+  ngOnInit() {
+    this.watchLoggedIn();
   }
 
   loggedIn() {
-    return this.authService.loggedIn();
+    return this._authService.loggedIn();
   }
 
   logout() {
     localStorage.removeItem('token');
-    this.authService.decodedToken = null;
-    this.alterify.message('logged out');
+    this._authService.update({ decodedToken: null });
+    this.alertify.message('logged out');
     this.router.navigate(['/home']);
+  }
+
+  watchLoggedIn() {
+    this._authService.decodedToken$
+      .pipe(
+        distinctUntilChanged()
+        // tap((token) => console.log('Found token', token))
+      )
+      .subscribe(
+        (decodedToken) => {
+          this.decodedToken = decodedToken;
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+      );
   }
 }

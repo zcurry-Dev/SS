@@ -10,7 +10,7 @@
     <span fxFlex></span>
     <div fxShow="true" fxShow.lt-md="false" *ngIf="loggedIn()">
       <div class="wantPointer" [matMenuTriggerFor]="userMenu">
-        {{ authService.decodedToken.unique_name | titlecase }}
+        {{ decodedToken.unique_name | titlecase }}
       </div>
       <mat-menu #userMenu="matMenu" xPosition="before">
         <button
@@ -31,7 +31,7 @@
     <div>
       <div>
         <div fxHide fxShow.sm="true" *ngIf="loggedIn()">
-          {{ authService.decodedToken.unique_name | titlecase }}
+          {{ decodedToken.unique_name | titlecase }}
           <button mat-icon-button (click)="sidenav.toggle()">
             <mat-icon>menu</mat-icon>
           </button>

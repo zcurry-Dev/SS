@@ -36,8 +36,6 @@ export class ArtistAddComponent implements OnInit {
   }
 
   addArtist() {
-    console.log('test');
-
     if (this.addArtistForm.valid) {
       const artist = Object.assign({}, this.addArtistForm.value);
       this.artistService.Create(artist).subscribe(

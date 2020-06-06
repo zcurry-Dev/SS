@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { AuthService } from '../_services/auth.service/auth.service';
+import { AuthService } from '../_services/auth.service/auth.subject.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   registerMode = false;
   loginMode = true;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private _authService: AuthService) {}
 
   ngOnInit() {}
 
@@ -27,6 +27,6 @@ export class HomeComponent implements OnInit {
   }
 
   loggedIn() {
-    return this.authService.loggedIn();
+    return this._authService.loggedIn();
   }
 }

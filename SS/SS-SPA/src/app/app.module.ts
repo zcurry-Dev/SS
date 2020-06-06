@@ -29,12 +29,9 @@ import { ArtistListResolver } from './_resolver/artist-list.resolver';
 import { ArtistDetailResolver } from './_resolver/artist-detail.resolver';
 import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
 
-import { AdminService } from './_services/admin.service/admin.service';
 import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.interceptor';
 import { AlertifyService } from './_services/alertify.service/alertify.service';
 import { ArtistApiService } from './_services/artist.service/artist.api.service';
-import { AuthService } from './_services/auth.service/auth.service';
-import { ImageService } from './_services/image.service/images.service';
 
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { ArtistCardComponent } from './artist/artist-card/artist-card.component';
@@ -55,6 +52,10 @@ import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditAboutComponent } from './artist/artist-edit/edit-about/edit-about.component';
 import { ArtistService } from './_services/artist.service/artist.subject.service';
+import { AdminApiService } from './_services/admin.service/admin.api.service';
+import { AdminService } from './_services/admin.service/admin.subject.service';
+import { AuthApiService } from './_services/auth.service/auth.api.service';
+import { AuthService } from './_services/auth.service/auth.subject.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -111,19 +112,20 @@ export function tokenGetter() {
     FlexLayoutModule,
   ],
   providers: [
-    AdminService,
-    AuthService,
     ErrorInterceptorProvider,
-    AlertifyService,
     AuthGuard,
-    ArtistApiService,
+    AlertifyService,
     ArtistDetailResolver,
     ArtistListResolver,
     ArtistEditResolver,
     PreventUnsavedChanges,
-    ImageService,
     AdminUsersResolver,
+    AdminApiService,
+    ArtistApiService,
+    AuthApiService,
     ArtistService,
+    AdminService,
+    AuthService,
   ],
   entryComponents: [RolesModalComponent],
   bootstrap: [AppComponent],

@@ -1,13 +1,10 @@
 import { Artist } from '../../_models/artist';
 import { PaginatedResult } from 'src/app/_models/pagination';
-
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
-
+import { Observable, EMPTY } from 'rxjs';
 import { environment as env } from 'src/environments/environment';
-import { of, EMPTY } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

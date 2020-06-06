@@ -11,8 +11,7 @@ import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistAddComponent } from '../artist-add/artist-add.component';
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
-import { ActivatedRoute } from '@angular/router';
-import { AuthService } from 'src/app/_services/auth.service/auth.service';
+import { AuthService } from 'src/app/_services/auth.service/auth.subject.service';
 
 @Component({
   selector: 'app-artist-list',
@@ -44,7 +43,7 @@ export class ArtistListComponent implements OnInit {
     private alertify: AlertifyService,
     public dialog: MatDialog,
     private _artist: ArtistService,
-    public authService: AuthService
+    public _authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -53,12 +52,11 @@ export class ArtistListComponent implements OnInit {
     this.watchFilter();
   }
 
-  sortData(eee) {
-    console.log(eee);
+  sortData(data) {
+    console.log(data); // to debug why matsort sorts name after verified
   }
 
   getArtists() {
-    console.log('getArtists fired');
     this._artistAPI
       .List(this.pagination?.currentPage, this.pageSize, this.search)
       .subscribe((artistList: PaginatedResult<Artist[]>) => {
@@ -67,12 +65,10 @@ export class ArtistListComponent implements OnInit {
   }
 
   watchArtistList() {
-    console.log('watchArtistList fired');
-
     this._artist.artistList$
       .pipe(
-        distinctUntilChanged(),
-        tap((artists) => console.log('Found artists', artists?.result))
+        distinctUntilChanged()
+        // tap((artists) => console.log('Found artists', artists?.result))
       )
       .subscribe(
         (artists) => {
@@ -91,8 +87,6 @@ export class ArtistListComponent implements OnInit {
   }
 
   applyFilter($event) {
-    console.log('hi');
-
     this.searchTextChanged.next($event);
   }
 
@@ -131,7 +125,6 @@ export class ArtistListComponent implements OnInit {
   setUpDataSource() {
     this.dataSource.data = this.artists;
     this.dataSource.sort = this.sort;
-    console.log(this.sort);
   }
 
   openArtist(row: Artist) {
@@ -142,6 +135,6 @@ export class ArtistListComponent implements OnInit {
   }
 
   loggedIn() {
-    return this.authService.loggedIn();
+    return this._authService.loggedIn();
   }
 }

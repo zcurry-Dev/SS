@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap';
 import { User } from 'src/app/_models/user';
-import { AuthService } from 'src/app/_services/auth.service/auth.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AuthService } from 'src/app/_services/auth.service/auth.subject.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-roles-modal',
@@ -14,16 +14,19 @@ export class RolesModalComponent implements OnInit {
   user: User;
   roles: any[];
 
+  constructor(
+    private _authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: { user: User; roles: any[] }
+  ) {}
+
   ngOnInit() {
+    this.setValues();
+  }
+
+  setValues() {
     this.user = this.data.user;
     this.roles = this.data.roles;
   }
-
-  constructor(
-    private authService: AuthService,
-    private dialogRef: MatDialogRef<RolesModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { user: User; roles: any[] }
-  ) {}
 
   updateRoles() {
     this.updateSelectedRoles.emit(this.roles);
@@ -34,6 +37,9 @@ export class RolesModalComponent implements OnInit {
   }
 
   modalUserIsCurrentUser() {
-    return this.user.id === parseInt(this.authService.decodedToken.nameid, 10);
+    // this runs the amount of times the amount of roles availible
+    // would be nice to make this only check once
+    const nameId = this._authService.returnDecodedToken().nameid;
+    return this.user.id === parseInt(nameId, 10);
   }
 }

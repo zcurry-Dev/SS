@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/user';
-import { AdminService } from 'src/app/_services/admin.service/admin.service';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +14,7 @@ import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
+import { AdminApiService } from 'src/app/_services/admin.service/admin.api.service';
 
 @Component({
   selector: 'app-user-management',
@@ -35,7 +35,7 @@ export class UserManagementComponent implements OnInit {
   searchTextChanged = new Subject<string>();
 
   constructor(
-    private adminService: AdminService,
+    private _adminApiService: AdminApiService,
     private dialog: MatDialog,
     private route: ActivatedRoute
   ) {}
@@ -75,12 +75,8 @@ export class UserManagementComponent implements OnInit {
   }
 
   loadUsers() {
-    this.adminService
-      .getUsersWithRoles(
-        this.pagination.currentPage,
-        this.pageSize,
-        this.search
-      )
+    this._adminApiService
+      .ListUsers(this.pagination.currentPage, this.pageSize, this.search)
       .subscribe(
         (res: PaginatedResult<User[]>) => {
           this.users = res.result;
@@ -107,7 +103,7 @@ export class UserManagementComponent implements OnInit {
   getRolesArray(user, roles) {
     const userRoles = user.roles;
 
-    this.adminService.getAvailibleRoles().subscribe((data: any[]) => {
+    this._adminApiService.GetRoles().subscribe((data: any[]) => {
       const availableRoles = data;
       if (availableRoles) {
         for (const ar of availableRoles) {
@@ -144,13 +140,13 @@ export class UserManagementComponent implements OnInit {
     dialogRef.afterClosed().subscribe((values) => {
       if (values) {
         const rolesToUpdate = {
-          // ... spreads valuse into new array
+          // ... spreads values into new array
           roleNames: [
             ...values.filter((el) => el.checked === true).map((el) => el.name),
           ],
         };
         if (rolesToUpdate) {
-          this.adminService.updateUserRoles(user, rolesToUpdate).subscribe(
+          this._adminApiService.SaveUsers(user, rolesToUpdate).subscribe(
             () => {
               user.roles = [...rolesToUpdate.roleNames];
             },

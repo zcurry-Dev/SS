@@ -1,47 +1,53 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { environment as env } from 'src/environments/environment';
-import { User } from 'src/app/_models/user';
+import { BehaviorSubject } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
 
-const API_URL = env.apiUrl + '/auth/';
+export interface Auth {
+  decodedToken: any;
+  jwtHelper: JwtHelperService;
+}
+
+let _state: Auth = {
+  decodedToken: '',
+  jwtHelper: new JwtHelperService(),
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  jwtHelper = new JwtHelperService();
-  decodedToken: any;
+  private store = new BehaviorSubject<Auth>(_state);
+  private state$ = this.store.asObservable();
 
-  constructor(private http: HttpClient) {}
+  decodedToken$ = this.state$.pipe(
+    map((state) => state.decodedToken),
+    distinctUntilChanged()
+  );
+  jwtHelper$ = this.state$.pipe(
+    map((state) => state.jwtHelper),
+    distinctUntilChanged()
+  );
 
-  login(model: any) {
-    console.log(API_URL + 'login', model);
+  constructor() {}
 
-    return this.http.post(API_URL + 'login', model).pipe(
-      map((response: any) => {
-        const user = response;
-        if (user) {
-          localStorage.setItem('token', user.token);
-          this.decodedToken = this.jwtHelper.decodeToken(user.token);
-        }
-      })
-    );
+  public update(state: any) {
+    console.log('AuthService Updating', state);
+    this.updateState({ ..._state, ...state });
   }
 
-  register(user: User) {
-    return this.http.post(API_URL + 'register', user);
+  private updateState(state: Auth) {
+    this.store.next((_state = state));
   }
 
   loggedIn() {
     const token = localStorage.getItem('token');
-    return !this.jwtHelper.isTokenExpired(token);
+    return !this.store.value.jwtHelper.isTokenExpired(token);
   }
 
   roleMatch(allowedRoles): boolean {
     let isMatch = false;
-    const userRoles = this.decodedToken.role as Array<string>;
+    const userRoles = this.store.value.decodedToken.role as Array<string>;
 
     if (!userRoles) {
       return isMatch;
@@ -54,5 +60,13 @@ export class AuthService {
       }
     });
     return isMatch;
+  }
+
+  decodeToken(token: any) {
+    return this.store.value.jwtHelper.decodeToken(token);
+  }
+
+  returnDecodedToken() {
+    return this.store.value.decodedToken;
   }
 }

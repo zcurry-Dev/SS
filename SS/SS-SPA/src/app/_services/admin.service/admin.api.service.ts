@@ -2,25 +2,21 @@ import { Injectable } from '@angular/core';
 import { environment as env } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from 'src/app/_models/user';
-import { Observable } from 'rxjs';
+import { Observable, EMPTY } from 'rxjs';
 import { PaginatedResult } from 'src/app/_models/pagination';
-import { map } from 'rxjs/operators';
-
-const API_URL = env.apiUrl + 'admin/';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AdminService {
+export class AdminApiService {
   constructor(private http: HttpClient) {}
 
-  getUsersWithRoles(
+  ListUsers(
     page?,
     itemsPerPage?,
     search?
   ): Observable<PaginatedResult<User[]>> {
-    console.log('page: ', page, ' - itemsPerPage: ', itemsPerPage);
-
     const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
       User[]
     >();
@@ -35,11 +31,9 @@ export class AdminService {
       params = params.append('search', search);
     }
 
+    const url = `${env.apiUrl}/${env.adminListUsers}`;
     return this.http
-      .get<User[]>(API_URL + 'usersWithRoles', {
-        observe: 'response',
-        params,
-      })
+      .get<User[]>(url, { observe: 'response', params })
       .pipe(
         map((response) => {
           paginatedResult.result = response.body;
@@ -49,15 +43,31 @@ export class AdminService {
             );
           }
           return paginatedResult;
+        }),
+        catchError((error) => {
+          console.log(error);
+          return EMPTY;
         })
       );
   }
 
-  updateUserRoles(user: User, roles: {}) {
-    return this.http.post(API_URL + 'editRoles/' + user.userName, roles);
+  SaveUsers(user: User, roles: {}) {
+    const url = `${env.apiUrl}/${env.adminSaveUsers}`;
+    return this.http.post<User>(`${url}/${user.userName}`, roles).pipe(
+      catchError((error) => {
+        console.log(error);
+        return EMPTY;
+      })
+    );
   }
 
-  getAvailibleRoles() {
-    return this.http.get(API_URL + 'getRoles');
+  GetRoles() {
+    const url = `${env.apiUrl}/${env.adminGetRoles}`;
+    return this.http.get(url).pipe(
+      catchError((error) => {
+        console.log(error);
+        return EMPTY;
+      })
+    );
   }
 }

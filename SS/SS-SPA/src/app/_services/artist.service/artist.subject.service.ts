@@ -31,7 +31,7 @@ export class ArtistService {
     distinctUntilChanged()
   );
 
-  constructor(private artistApiService: ArtistApiService) {}
+  constructor() {}
 
   public update(state: any) {
     // console.log('ArtistService Updating', state);
