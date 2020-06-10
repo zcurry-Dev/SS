@@ -133,20 +133,6 @@ namespace SS.Business.Repos
             return "";
         }
 
-        // private string GetCurrentCity(Artist a)
-        // {
-        //     if (a.CurrentCountryId == 1)
-        //     {
-        //         return a.UshomeCity.CityName + ", " + a.UshomeCity.State.StateAbbreviation;
-        //     }
-        //     if (a.WorldHomeCityId.HasValue)
-        //     {
-        //         return a.WorldHomeCity.CityName + ", " + a.WorldHomeCity.WorldRegion.WorldRegionAbbreviation;
-        //     }
-
-        //     return "";
-        // }
-
         private ArtistListForReturnDto MapToListForReturnDto(
             IEnumerable<ArtistForListDto> artistsToReturn, PagedList<Artist> plArtists)
         {

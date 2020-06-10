@@ -13,4 +13,6 @@ export const environment = {
 
   authLogin: 'auth/login',
   authRegister: 'auth/register',
+
+  utilityListUsStates: 'utility/listusstates',
 };

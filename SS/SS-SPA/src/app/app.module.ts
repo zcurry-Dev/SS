@@ -56,6 +56,7 @@ import { AdminApiService } from './_services/admin.service/admin.api.service';
 import { AdminService } from './_services/admin.service/admin.subject.service';
 import { AuthApiService } from './_services/auth.service/auth.api.service';
 import { AuthService } from './_services/auth.service/auth.subject.service';
+import { UtilityApiService } from './_services/utility.service/utility.api.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -123,6 +124,7 @@ export function tokenGetter() {
     AdminApiService,
     ArtistApiService,
     AuthApiService,
+    UtilityApiService,
     ArtistService,
     AdminService,
     AuthService,

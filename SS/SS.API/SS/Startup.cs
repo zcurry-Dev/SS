@@ -129,10 +129,12 @@ namespace SS.API
             services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
             services.AddScoped<IAuthDataRepository, AuthDataRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
+            services.AddScoped<IUtilityDataRepository, UtilityDataRepository>();
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUtilityRepository, UtilityRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

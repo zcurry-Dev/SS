@@ -16,7 +16,5 @@ namespace SS.Business.Models
         public int? CurrentCity { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-
-        public virtual ICollection<ArtistPhotoBModel> ArtistPhotos { get; set; }
     }
 }

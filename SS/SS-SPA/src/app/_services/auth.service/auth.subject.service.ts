@@ -32,7 +32,7 @@ export class AuthService {
   constructor() {}
 
   public update(state: any) {
-    console.log('AuthService Updating', state);
+    // console.log('AuthService Updating', state);
     this.updateState({ ..._state, ...state });
   }
 
