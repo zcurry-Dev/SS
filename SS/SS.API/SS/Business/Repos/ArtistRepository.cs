@@ -121,13 +121,13 @@ namespace SS.Business.Repos
 
         private string GetHomeCity(Artist a)
         {
-            if (a.UshomeCityId.HasValue)
+            if (a.HomeUscityId.HasValue)
             {
-                return a.UshomeCity.CityName + ", " + a.UshomeCity.State.StateAbbreviation;
+                return a.HomeUscity.CityName + ", " + a.HomeUscity.State.StateAbbreviation;
             }
-            if (a.WorldHomeCityId.HasValue)
+            if (a.HomeWorldCityId.HasValue)
             {
-                return a.WorldHomeCity.CityName + ", " + a.WorldHomeCity.WorldRegion.WorldRegionAbbreviation;
+                return a.HomeWorldCity.CityName + ", " + a.HomeWorldCity.WorldRegion.WorldRegionAbbreviation;
             }
 
             return "";
@@ -161,15 +161,26 @@ namespace SS.Business.Repos
                 UserId = a.UserId,
                 Verified = a.Verified,
                 HomeCountryId = a.HomeCountryId,
-                HomeCityId = a.UshomeCityId.HasValue
-                     ? a.UshomeCityId
-                     : a.WorldHomeCityId,
-                HomeCity = GetHomeCity(a),
-                // CurrentCountryId = artist.CurrentCountryId,
-                CurrentCityId = a.CurrentCityId,
-                // CurrentCity = artist.CurrentCity.CityName,
+                HomeRegionId = a.HomeUscityId.HasValue
+                     ? a.HomeUscity.StateId
+                     : a.HomeWorldCity.WorldRegionId,
+                HomeCityId = a.HomeUscityId.HasValue
+                     ? a.HomeUscityId.Value
+                     : a.HomeWorldCityId.Value,
+                CurrentCountryId = a.CurrentCountryId,
                 CreatedDate = a.CreatedDate
             };
+
+            if (a.CurrentUscityId.HasValue)
+            {
+                artistForUpdateDto.CurrentRegionId = a.CurrentUscity.StateId;
+                artistForUpdateDto.CurrentCityId = a.CurrentUscityId;
+            }
+            else if (a.CurrentWorldCityId.HasValue)
+            {
+                artistForUpdateDto.CurrentRegionId = a.CurrentWorldCity.WorldRegionId;
+                artistForUpdateDto.CurrentCityId = a.CurrentWorldCityId;
+            }
 
             return artistForUpdateDto;
         }
@@ -182,9 +193,10 @@ namespace SS.Business.Repos
             artist.UserId = artistForUpdateDto.UserId;
             artist.Verified = artistForUpdateDto.Verified;
             artist.HomeCountryId = artistForUpdateDto.HomeCountryId;
-            artist.UshomeCityId = artistForUpdateDto.UshomeCityId;
-            artist.WorldHomeCityId = artistForUpdateDto.WorldHomeCityId;
-            artist.CurrentCityId = artistForUpdateDto.CurrentCityId;
+            artist.HomeUscityId = artistForUpdateDto.UshomeCityId;
+            artist.HomeWorldCityId = artistForUpdateDto.WorldHomeCityId;
+            // artist.CurrentCountryId = artistForUpdateDto.
+            // artist.CurrentCityId = artistForUpdateDto.CurrentCityId;
 
             if (artistForUpdateDto.StatusId != null)
             {

@@ -15,6 +15,7 @@ import {
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
 import { UtilityApiService } from 'src/app/_services/utility.service/utility.api.service';
 import { UsState } from 'src/app/_models/usState';
+import { UtilityService } from 'src/app/_services/utility.service/utility.subject.service';
 
 @Component({
   selector: 'app-edit-about',
@@ -23,10 +24,12 @@ import { UsState } from 'src/app/_models/usState';
 })
 export class EditAboutComponent implements OnInit {
   @Input() artist: Artist;
+  updatedArtist: Artist = new Artist();
   editArtistAboutForm = this.fb.group({
     name: new FormControl(this.artist?.name, [Validators.required]),
     usHomeCountry: new FormControl('', [Validators.required]),
-    // ushomestate: new FormControl('', [Validators.required]),
+    homeUsState: new FormControl(),
+    homeWorldRegion: new FormControl(),
   });
 
   usStates: UsState[];
@@ -47,30 +50,33 @@ export class EditAboutComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private _artist: ArtistService,
-    private _utility: UtilityApiService
+    private _utilityApi: UtilityApiService,
+    private _utility: UtilityService
   ) {}
 
   ngOnInit() {
-    this.getStates();
+    console.log(this.artist);
+
+    this.getUsStates();
     this.watchArtist();
+    this.setCountry();
     this.setFormValues();
   }
 
   updateArtist() {
     this.updateValues();
-    this.artistService.Save(this.artist).subscribe(
-      (next) => {
-        console.log(this.editArtistAboutForm);
-        console.log(this.editArtistAboutForm.controls.usHomeCountry.value);
 
-        this.alertify.success('Artist updated successfully');
-        this.editArtistAboutForm.reset(this.artist);
-        this.router.navigate(['/artist', this.artist.id]);
-      },
-      (error) => {
-        this.alertify.error(error);
-      }
-    );
+    // this.artistService.Save(this.artist).subscribe(
+    //   (next) => {
+
+    //     this.alertify.success('Artist updated successfully');
+    //     this.editArtistAboutForm.reset(this.artist);
+    //     this.router.navigate(['/artist', this.artist.id]);
+    //   },
+    //   (error) => {
+    //     this.alertify.error(error);
+    //   }
+    // );
   }
 
   setFormValues() {
@@ -78,33 +84,51 @@ export class EditAboutComponent implements OnInit {
   }
 
   updateValues() {
-    this.artist.name = this.editArtistAboutForm.value.name;
-    const countryId = this.editArtistAboutForm.value.homeCountryId;
-    if (countryId === 1) {
-      this.artist.homeCountryId = 1;
-    }
-    console.log(countryId);
-
-    // else {
-    //   this.artist.homeCountryId = 2;
+    console.log(this.artist);
+    // this.artist.name = this.editArtistAboutForm.value.name;
+    // const countryId = this.editArtistAboutForm.value.homeCountryId;
+    // if (countryId === 1) {
+    //   this.artist.homeCountryId = 1;
     // }
+    // this.artist.homeStateId = this.editArtistAboutForm.value.homeStateId;
+    console.log(this.artist);
   }
 
   watchArtist() {
     this._artist.artist$.pipe(distinctUntilChanged()).subscribe((artist) => {
       this.artist = artist;
-      console.log(this.artist);
     });
   }
 
-  getStates() {
-    this._utility.ListUsStates().subscribe((usStates) => {
+  watchUtilities() {
+    // this._utility.update;
+  }
+
+  // getArtist() {
+  //   this.route.data
+  //     .subscribe((data) => {
+  //       this._artist.update({ artist: data['artist'] });
+  //     })
+  //     .unsubscribe();
+  // }
+
+  // getStates() {
+  //   this._utilityApi.ListUsStates().subscribe((usStates) => {
+  //     this.usStates = usStates;
+  //   });
+  // }
+
+  getUsStates() {
+    this._utilityApi.ListUsStates().subscribe((usStates) => {
       this.usStates = usStates;
     });
   }
 
   setCountry() {
     if (this.artist.homeCountryId === 1) {
+      this.editArtistAboutForm.controls.usHomeCountry.patchValue('US');
+    } else {
+      this.editArtistAboutForm.controls.usHomeCountry.patchValue('Other');
     }
   }
 }

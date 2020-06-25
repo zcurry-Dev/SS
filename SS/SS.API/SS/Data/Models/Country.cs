@@ -7,7 +7,8 @@ namespace SS.Data.Models
     {
         public Country()
         {
-            Artist = new HashSet<Artist>();
+            ArtistCurrentCountry = new HashSet<Artist>();
+            ArtistHomeCountry = new HashSet<Artist>();
             WorldRegion = new HashSet<WorldRegion>();
         }
 
@@ -18,7 +19,8 @@ namespace SS.Data.Models
         public string CountryAbbreviation3 { get; set; }
         public string Iso3166 { get; set; }
 
-        public virtual ICollection<Artist> Artist { get; set; }
+        public virtual ICollection<Artist> ArtistCurrentCountry { get; set; }
+        public virtual ICollection<Artist> ArtistHomeCountry { get; set; }
         public virtual ICollection<WorldRegion> WorldRegion { get; set; }
     }
 }

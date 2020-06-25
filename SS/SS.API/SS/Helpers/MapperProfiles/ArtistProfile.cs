@@ -10,35 +10,35 @@ namespace SS.Helpers.MapperProfiles
     {
         public ArtistProfile()
         {
-            // Data to Dto
-            CreateMap<Artist, ArtistForDetailedDto>()
-               .ForMember(dest => dest.Id, opt =>
-                  opt.MapFrom(src => src.ArtistId))
-               .ForMember(dest => dest.Name, opt =>
-                  opt.MapFrom(src => src.ArtistName))
-               .ForMember(dest => dest.YearsActive, opt =>
-                  opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()))
-               .ForMember(dest => dest.StatusId, opt =>
-                  opt.MapFrom(src => src.ArtistStatusId))
-               .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.UshomeCityId.HasValue
-                     ? src.UshomeCity.CityName + ", " + src.UshomeCity.State.StateAbbreviation
-                     : src.WorldHomeCity.CityName + ", " + src.WorldHomeCity.WorldRegion.WorldRegionAbbreviation));
-            CreateMap<Artist, ArtistForListDto>()
-               .ForMember(dest => dest.Id, opt =>
-                  opt.MapFrom(src => src.ArtistId))
-               .ForMember(dest => dest.Name, opt =>
-                  opt.MapFrom(src => src.ArtistName))
-               .ForMember(dest => dest.MainPhotoId, opt =>
-                  opt.MapFrom(src => src.ArtistPhoto.FirstOrDefault(p => p.IsMain).ArtistPhotoId))
-               .ForMember(dest => dest.YearsActive, opt =>
-                  opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()))
-               .ForMember(dest => dest.CurrentCity, opt =>
-                  opt.MapFrom(src => src.CurrentCity))
-               .ForMember(dest => dest.HomeCity, opt =>
-                  opt.MapFrom(src => src.UshomeCityId.HasValue
-                     ? src.UshomeCity.CityName + ", " + src.UshomeCity.State.StateAbbreviation
-                     : src.WorldHomeCity.CityName + ", " + src.WorldHomeCity.WorldRegion.WorldRegionAbbreviation));
+            // // Data to Dto
+            // CreateMap<Artist, ArtistForDetailedDto>()
+            //    .ForMember(dest => dest.Id, opt =>
+            //       opt.MapFrom(src => src.ArtistId))
+            //    .ForMember(dest => dest.Name, opt =>
+            //       opt.MapFrom(src => src.ArtistName))
+            //    .ForMember(dest => dest.YearsActive, opt =>
+            //       opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()))
+            //    .ForMember(dest => dest.StatusId, opt =>
+            //       opt.MapFrom(src => src.ArtistStatusId));
+            // // .ForMember(dest => dest.HomeCity, opt =>
+            // //    opt.MapFrom(src => src.UshomeCityId.HasValue
+            // //       ? src.UshomeCity.CityName + ", " + src.UshomeCity.State.StateAbbreviation
+            // //       : src.WorldHomeCity.CityName + ", " + src.WorldHomeCity.WorldRegion.WorldRegionAbbreviation));
+            // CreateMap<Artist, ArtistForListDto>()
+            //    .ForMember(dest => dest.Id, opt =>
+            //       opt.MapFrom(src => src.ArtistId))
+            //    .ForMember(dest => dest.Name, opt =>
+            //       opt.MapFrom(src => src.ArtistName))
+            //    .ForMember(dest => dest.MainPhotoId, opt =>
+            //       opt.MapFrom(src => src.ArtistPhoto.FirstOrDefault(p => p.IsMain).ArtistPhotoId))
+            //    .ForMember(dest => dest.YearsActive, opt =>
+            //       opt.MapFrom(src => src.CareerBeginDate.CalculateArtistYearsActive()))
+            //    // .ForMember(dest => dest.CurrentCity, opt =>
+            //    //    opt.MapFrom(src => src.CurrentCity))
+            //    .ForMember(dest => dest.HomeCity, opt =>
+            //       opt.MapFrom(src => src.UshomeCityId.HasValue
+            //          ? src.UshomeCity.CityName + ", " + src.UshomeCity.State.StateAbbreviation
+            //          : src.WorldHomeCity.CityName + ", " + src.WorldHomeCity.WorldRegion.WorldRegionAbbreviation));
 
             // Dto to Data
             CreateMap<ArtistForUpdateDto, Artist>()

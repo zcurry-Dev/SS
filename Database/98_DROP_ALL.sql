@@ -81,11 +81,11 @@ DROP TABLE loc.ZipCode
 DROP TABLE loc.WorldCity
 DROP TABLE loc.City
 DROP TABLE loc.WorldRegion
+DROP TABLE loc.USState
+DROP TABLE loc.Country
 
 -- DROP CONSTANT TABLES
 DROP TABLE const.DaysOfWeek
-DROP TABLE const.USState
-DROP TABLE const.Country
 
 -- DROP SCHEMAS
 DROP SCHEMA const

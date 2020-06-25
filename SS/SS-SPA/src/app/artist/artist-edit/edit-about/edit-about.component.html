@@ -11,19 +11,19 @@
         aria-label="Select an option"
         formControlName="usHomeCountry"
       >
-        <mat-radio-button value="US">US</mat-radio-button>
+        <mat-radio-button #USHomeCountry value="US">US</mat-radio-button>
         <mat-radio-button value="Other">Other</mat-radio-button>
       </mat-radio-group>
     </p>
   </div>
-  <!-- <div>
+  <div *ngIf="USHomeCountry.checked">
     <mat-label>US State</mat-label>
-    <mat-select placeholder="Select State">
-      <mat-option *ngFor="let usState of usStates" [value]="usState.id">
+    <mat-select placeholder="Select State" formControlName="homeUsState">
+      <mat-option *ngFor="let usState of usStates" [value]="usState">
         {{ usState.abbreviation + ' - ' + usState.name }}
       </mat-option>
     </mat-select>
-  </div> -->
+  </div>
   <div>
     <br />
     <br />

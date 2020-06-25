@@ -12,7 +12,9 @@ namespace SS.Business.Models
         public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
-        public int? HomeCity { get; set; }
+        public int HomeCountryId { get; set; }
+        public int HomeRegionId { get; set; }
+        public int HomeCityId { get; set; }
         public int? CurrentCity { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }

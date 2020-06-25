@@ -7,6 +7,7 @@ namespace SS.Business.Interfaces
 {
     public interface IUtilityRepository
     {
+        Task<CountriesToReturnDto> GetCountries();
         Task<UsStatesToReturnDto> GetUsStates();
     }
 }

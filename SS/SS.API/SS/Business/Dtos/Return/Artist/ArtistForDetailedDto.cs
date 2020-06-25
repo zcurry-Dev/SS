@@ -13,15 +13,12 @@ namespace SS.Business.Dtos.Return
         public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
-        public int? HomeCountryId { get; set; }
-        public int? HomeCityId { get; set; }
-        public string HomeCity { get; set; }
-        public int? CurrentCountryId { get; set; }
+        public int HomeCountryId { get; set; }
+        public int HomeRegionId { get; set; }
+        public int HomeCityId { get; set; }
+        public int CurrentCountryId { get; set; }
+        public int? CurrentRegionId { get; set; }
         public int? CurrentCityId { get; set; }
-        public string CurrentCity { get; set; }
         public DateTime CreatedDate { get; set; }
-        // public int MainPhotoId { get; set; }
-        // public List<int> PhotoIds { get; set; }
-        // public IEnumerable<PhotoforReturnDto> Photos { get; set; }
     }
 }

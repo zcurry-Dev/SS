@@ -7,8 +7,8 @@ namespace SS.Data.Models
     {
         public City()
         {
-            ArtistCurrentCity = new HashSet<Artist>();
-            ArtistUshomeCity = new HashSet<Artist>();
+            ArtistCurrentUscity = new HashSet<Artist>();
+            ArtistHomeUscity = new HashSet<Artist>();
             InverseClosestMajorCity = new HashSet<City>();
             Ssaddress = new HashSet<Ssaddress>();
             ZipCode = new HashSet<ZipCode>();
@@ -22,8 +22,8 @@ namespace SS.Data.Models
 
         public virtual City ClosestMajorCity { get; set; }
         public virtual Usstate State { get; set; }
-        public virtual ICollection<Artist> ArtistCurrentCity { get; set; }
-        public virtual ICollection<Artist> ArtistUshomeCity { get; set; }
+        public virtual ICollection<Artist> ArtistCurrentUscity { get; set; }
+        public virtual ICollection<Artist> ArtistHomeUscity { get; set; }
         public virtual ICollection<City> InverseClosestMajorCity { get; set; }
         public virtual ICollection<Ssaddress> Ssaddress { get; set; }
         public virtual ICollection<ZipCode> ZipCode { get; set; }

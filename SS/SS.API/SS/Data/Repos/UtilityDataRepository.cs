@@ -23,6 +23,13 @@ namespace SS.Business.Repos
             _context = context;
         }
 
+        public async Task<IEnumerable<Country>> GetCountries()
+        {
+            var countries = await _context.Country.ToListAsync();
+
+            return countries;
+        }
+
         public async Task<IEnumerable<Usstate>> GetUsStates()
         {
             var usStates = await _context.Usstate.ToListAsync();

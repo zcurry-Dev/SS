@@ -31,7 +31,14 @@ import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
 
 import { ErrorInterceptorProvider } from './_services/_error.interceptor/error.interceptor';
 import { AlertifyService } from './_services/alertify.service/alertify.service';
+import { AdminApiService } from './_services/admin.service/admin.api.service';
 import { ArtistApiService } from './_services/artist.service/artist.api.service';
+import { AuthApiService } from './_services/auth.service/auth.api.service';
+import { UtilityApiService } from './_services/utility.service/utility.api.service';
+import { AdminService } from './_services/admin.service/admin.subject.service';
+import { ArtistService } from './_services/artist.service/artist.subject.service';
+import { AuthService } from './_services/auth.service/auth.subject.service';
+import { UtilityService } from './_services/utility.service/utility.subject.service';
 
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { ArtistCardComponent } from './artist/artist-card/artist-card.component';
@@ -51,12 +58,6 @@ import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditAboutComponent } from './artist/artist-edit/edit-about/edit-about.component';
-import { ArtistService } from './_services/artist.service/artist.subject.service';
-import { AdminApiService } from './_services/admin.service/admin.api.service';
-import { AdminService } from './_services/admin.service/admin.subject.service';
-import { AuthApiService } from './_services/auth.service/auth.api.service';
-import { AuthService } from './_services/auth.service/auth.subject.service';
-import { UtilityApiService } from './_services/utility.service/utility.api.service';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -128,6 +129,7 @@ export function tokenGetter() {
     ArtistService,
     AdminService,
     AuthService,
+    UtilityService,
   ],
   entryComponents: [RolesModalComponent],
   bootstrap: [AppComponent],

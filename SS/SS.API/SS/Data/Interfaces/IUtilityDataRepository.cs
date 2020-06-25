@@ -7,6 +7,7 @@ namespace SS.Business.Interfaces
 {
     public interface IUtilityDataRepository
     {
+        Task<IEnumerable<Country>> GetCountries();
         Task<IEnumerable<Usstate>> GetUsStates();
     }
 }

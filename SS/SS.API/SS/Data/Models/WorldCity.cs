@@ -7,7 +7,8 @@ namespace SS.Data.Models
     {
         public WorldCity()
         {
-            Artist = new HashSet<Artist>();
+            ArtistCurrentWorldCity = new HashSet<Artist>();
+            ArtistHomeWorldCity = new HashSet<Artist>();
             InverseClosestMajorCity = new HashSet<WorldCity>();
         }
 
@@ -19,7 +20,8 @@ namespace SS.Data.Models
 
         public virtual WorldCity ClosestMajorCity { get; set; }
         public virtual WorldRegion WorldRegion { get; set; }
-        public virtual ICollection<Artist> Artist { get; set; }
+        public virtual ICollection<Artist> ArtistCurrentWorldCity { get; set; }
+        public virtual ICollection<Artist> ArtistHomeWorldCity { get; set; }
         public virtual ICollection<WorldCity> InverseClosestMajorCity { get; set; }
     }
 }

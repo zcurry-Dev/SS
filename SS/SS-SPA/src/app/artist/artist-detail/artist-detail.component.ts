@@ -1,5 +1,5 @@
 import { Component, OnInit, SecurityContext, Output } from '@angular/core';
-import { Artist, initArtist } from 'src/app/_models/artist';
+import { Artist } from 'src/app/_models/artist';
 import { ActivatedRoute } from '@angular/router';
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
 import { distinctUntilChanged } from 'rxjs/operators';

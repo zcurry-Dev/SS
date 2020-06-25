@@ -116,15 +116,19 @@ namespace SS.Data
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.CurrentCityId).HasColumnName("CurrentCityID");
+                entity.Property(e => e.CurrentCountryId).HasColumnName("CurrentCountryID");
+
+                entity.Property(e => e.CurrentUscityId).HasColumnName("CurrentUSCityID");
+
+                entity.Property(e => e.CurrentWorldCityId).HasColumnName("CurrentWorldCityID");
 
                 entity.Property(e => e.HomeCountryId).HasColumnName("HomeCountryID");
 
+                entity.Property(e => e.HomeUscityId).HasColumnName("HomeUSCityID");
+
+                entity.Property(e => e.HomeWorldCityId).HasColumnName("HomeWorldCityID");
+
                 entity.Property(e => e.UserId).HasColumnName("UserID");
-
-                entity.Property(e => e.UshomeCityId).HasColumnName("USHomeCityID");
-
-                entity.Property(e => e.WorldHomeCityId).HasColumnName("WorldHomeCityID");
 
                 entity.HasOne(d => d.ArtistStatus)
                     .WithMany(p => p.Artist)
@@ -137,31 +141,42 @@ namespace SS.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Artist_CreatedBy");
 
-                entity.HasOne(d => d.CurrentCity)
-                    .WithMany(p => p.ArtistCurrentCity)
-                    .HasForeignKey(d => d.CurrentCityId)
-                    .HasConstraintName("FK_Artist_CurrentCityID");
+                entity.HasOne(d => d.CurrentCountry)
+                    .WithMany(p => p.ArtistCurrentCountry)
+                    .HasForeignKey(d => d.CurrentCountryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Artist_CurrentCountryID");
+
+                entity.HasOne(d => d.CurrentUscity)
+                    .WithMany(p => p.ArtistCurrentUscity)
+                    .HasForeignKey(d => d.CurrentUscityId)
+                    .HasConstraintName("FK_Artist_CurrentUSCityID");
+
+                entity.HasOne(d => d.CurrentWorldCity)
+                    .WithMany(p => p.ArtistCurrentWorldCity)
+                    .HasForeignKey(d => d.CurrentWorldCityId)
+                    .HasConstraintName("FK_Artist_CurrentWorldCityID");
 
                 entity.HasOne(d => d.HomeCountry)
-                    .WithMany(p => p.Artist)
+                    .WithMany(p => p.ArtistHomeCountry)
                     .HasForeignKey(d => d.HomeCountryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Artist_HomeCountryID");
+
+                entity.HasOne(d => d.HomeUscity)
+                    .WithMany(p => p.ArtistHomeUscity)
+                    .HasForeignKey(d => d.HomeUscityId)
+                    .HasConstraintName("FK_Artist_HomeUSCityID");
+
+                entity.HasOne(d => d.HomeWorldCity)
+                    .WithMany(p => p.ArtistHomeWorldCity)
+                    .HasForeignKey(d => d.HomeWorldCityId)
+                    .HasConstraintName("FK_Artist_HomeWorldCityID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ArtistUser)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK_Artist_UserID");
-
-                entity.HasOne(d => d.UshomeCity)
-                    .WithMany(p => p.ArtistUshomeCity)
-                    .HasForeignKey(d => d.UshomeCityId)
-                    .HasConstraintName("FK_Artist_USHomeCityID");
-
-                entity.HasOne(d => d.WorldHomeCity)
-                    .WithMany(p => p.Artist)
-                    .HasForeignKey(d => d.WorldHomeCityId)
-                    .HasConstraintName("FK_Artist_WorldHomeCityID");
             });
 
             modelBuilder.Entity<ArtistGroupMember>(entity =>
@@ -598,7 +613,7 @@ namespace SS.Data
 
             modelBuilder.Entity<Country>(entity =>
             {
-                entity.ToTable("Country", "const");
+                entity.ToTable("Country", "loc");
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
@@ -1322,7 +1337,7 @@ namespace SS.Data
             {
                 entity.HasKey(e => e.StateId);
 
-                entity.ToTable("USState", "const");
+                entity.ToTable("USState", "loc");
 
                 entity.Property(e => e.StateId).HasColumnName("StateID");
 

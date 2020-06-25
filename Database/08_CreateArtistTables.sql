@@ -38,6 +38,7 @@ CREATE TABLE dbo.Artist(
 		CONSTRAINT FK_Artist_ArtistStatusID
 		REFERENCES ref.ArtistStatus(ArtistStatusID)
 	,CareerBeginDate DATETIME NOT NULL
+	,CareerEndDate DATETIME NULL
 	,ArtistGroup BIT NOT NULL
 		CONSTRAINT DF_Artist_ArtistGroup
 		DEFAULT 0
@@ -49,16 +50,22 @@ CREATE TABLE dbo.Artist(
 		DEFAULT 0
 	,HomeCountryID INT NOT NULL
 		CONSTRAINT FK_Artist_HomeCountryID
-		REFERENCES const.Country(CountryID)
-	,USHomeCityID INT NULL
-		CONSTRAINT FK_Artist_USHomeCityID
+		REFERENCES loc.Country(CountryID)
+	,HomeUSCityID INT NULL
+		CONSTRAINT FK_Artist_HomeUSCityID
 		REFERENCES loc.City(CityID)
-	,WorldHomeCityID INT NULL
-		CONSTRAINT FK_Artist_WorldHomeCityID
+	,HomeWorldCityID INT NULL
+		CONSTRAINT FK_Artist_HomeWorldCityID
 		REFERENCES loc.WorldCity(WorldCityID)
-	,CurrentCityID INT NULL
-		CONSTRAINT FK_Artist_CurrentCityID
+	,CurrentCountryID INT NOT NULL
+		CONSTRAINT FK_Artist_CurrentCountryID
+		REFERENCES loc.Country(CountryID)
+	,CurrentUSCityID INT NULL
+		CONSTRAINT FK_Artist_CurrentUSCityID
 		REFERENCES loc.City(CityID)
+	,CurrentWorldCityID INT NULL
+		CONSTRAINT FK_Artist_CurrentWorldCityID
+		REFERENCES loc.WorldCity(WorldCityID)
 	,CreatedBy INT NOT NULL
 		CONSTRAINT FK_Artist_CreatedBy
 		REFERENCES ident.SSUser(UserID)
@@ -69,11 +76,11 @@ CREATE TABLE dbo.Artist(
 
 INSERT INTO dbo.Artist
 VALUES						
-('Silverstein',	1, '02-01-2000', 1, NULL, 1, 41, NULL, 2, NULL, 1, GETDATE())
-,('Beartooth',	1, '01-01-2012', 1, NULL, 1, 1,  3, NULL, NULL, 1, GETDATE())
-,('Chunk! No, Captain Chunk!',	1, '01-01-2007', 1, NULL, 1, 77, NULL, 1, NULL, 1, GETDATE())
-,('The Story So Far', 1, '01-01-2007', 1, NULL, 1, 1, 4, NULL, NULL, 1, GETDATE())
-,('John Denver', 1, '01-01-1965', 0, NULL, 1, 1, 5, NULL, NULL, 1, GETDATE())
+('Silverstein',	1, '02-01-2000',				 1, NULL, 1, 41,	NULL,	2,		1, NULL,	NULL, 1, GETDATE())
+,('Beartooth',	1, '01-01-2012',				 1, NULL, 1, 1,		3,		NULL,	1, NULL,	NULL, 1, GETDATE())
+,('Chunk! No, Captain Chunk!',	1, '01-01-2007', 1, NULL, 1, 77,	NULL,	1,		1, NULL,	NULL, 1, GETDATE())
+,('The Story So Far', 1, '01-01-2007',			 1, NULL, 1, 1,		4,		NULL,	1, NULL,	NULL, 1, GETDATE())
+,('John Denver', 1, '01-01-1965',				 0, NULL, 1, 1,		5,		NULL,	1, NULL,	NULL, 1, GETDATE())
 
 CREATE TABLE dbo.ArtistPhoto(	
 	ArtistPhotoID INT NOT NULL

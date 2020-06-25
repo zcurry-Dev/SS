@@ -19,19 +19,23 @@ namespace SS.Data.Models
         public int? UserId { get; set; }
         public bool Verified { get; set; }
         public int HomeCountryId { get; set; }
-        public int? UshomeCityId { get; set; }
-        public int? WorldHomeCityId { get; set; }
-        public int? CurrentCityId { get; set; }
+        public int? HomeUscityId { get; set; }
+        public int? HomeWorldCityId { get; set; }
+        public int CurrentCountryId { get; set; }
+        public int? CurrentUscityId { get; set; }
+        public int? CurrentWorldCityId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
 
         public virtual ArtistStatus ArtistStatus { get; set; }
         public virtual Ssuser CreatedByNavigation { get; set; }
-        public virtual City CurrentCity { get; set; }
+        public virtual Country CurrentCountry { get; set; }
+        public virtual City CurrentUscity { get; set; }
+        public virtual WorldCity CurrentWorldCity { get; set; }
         public virtual Country HomeCountry { get; set; }
+        public virtual City HomeUscity { get; set; }
+        public virtual WorldCity HomeWorldCity { get; set; }
         public virtual Ssuser User { get; set; }
-        public virtual City UshomeCity { get; set; }
-        public virtual WorldCity WorldHomeCity { get; set; }
         public virtual ICollection<ArtistPhoto> ArtistPhoto { get; set; }
         public virtual ICollection<ArtistTypeXref> ArtistTypeXref { get; set; }
     }

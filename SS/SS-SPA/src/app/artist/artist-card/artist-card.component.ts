@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Artist, initArtist } from 'src/app/_models/artist';
+import { Artist } from 'src/app/_models/artist';
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 
@@ -23,7 +23,8 @@ export class ArtistCardComponent implements OnInit {
   watchArtist() {
     this._artist.artist$
       .pipe(distinctUntilChanged())
-      .subscribe((artist) => (this.artist = artist || initArtist()));
+      // .subscribe((artist) => (this.artist = artist || initArtist()));
+      .subscribe((artist) => (this.artist = artist));
   }
 
   follow() {

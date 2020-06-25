@@ -15,6 +15,14 @@ namespace SS.Controllers.Admin
         public UtilityController(IUtilityRepository utility) { _utility = utility; }
 
         [HttpGet]
+        [Route("ListCountries")]
+        public async Task<IActionResult> ListCountries()
+        {
+            var countries = await _utility.GetCountries();
+            return Ok(countries.Countries);
+        }
+
+        [HttpGet]
         [Route("ListUSStates")]
         public async Task<IActionResult> ListUSStates()
         {
