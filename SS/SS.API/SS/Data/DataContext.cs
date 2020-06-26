@@ -112,6 +112,8 @@ namespace SS.Data
 
                 entity.Property(e => e.CareerBeginDate).HasColumnType("datetime");
 
+                entity.Property(e => e.CareerEndDate).HasColumnType("datetime");
+
                 entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");

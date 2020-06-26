@@ -1,6 +1,6 @@
 export interface Country {
   id: number;
-  name: number;
+  name: string;
   nameShorter: number;
   abbreviation2: string;
   abbreviation3: string;

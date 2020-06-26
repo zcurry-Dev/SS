@@ -15,6 +15,7 @@ namespace SS.Data.Models
         public string ArtistName { get; set; }
         public int? ArtistStatusId { get; set; }
         public DateTime CareerBeginDate { get; set; }
+        public DateTime? CareerEndDate { get; set; }
         public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }

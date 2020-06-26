@@ -1,14 +1,12 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
+using SS.Business.Mappings;
 using SS.Data.Interfaces;
 using SS.Data.Models;
-using SS.Helpers;
 using SS.Helpers.Pagination;
 using SS.Helpers.Pagination.PagedParams;
 
@@ -16,18 +14,18 @@ namespace SS.Business.Repos
 {
     public class ArtistRepository : IArtistRepository
     {
+        private readonly ArtistMapping _map;
         private readonly IArtistDataRepository _artist;
-        private readonly IMapper _mapper;
 
-        public ArtistRepository(IArtistDataRepository artist, IMapper mapper)
+        public ArtistRepository(IArtistDataRepository artist)
         {
-            _mapper = mapper;
+            _map = new ArtistMapping();
             _artist = artist;
         }
 
         public async Task<ArtistForDetailedDto> CreateArtist(ArtistToCreate artistToCreate)
         {
-            var artist = _mapper.Map<Artist>(artistToCreate);
+            var artist = _map.MapToArtist(artistToCreate);
 
             if (artist == null)
             {
@@ -42,8 +40,7 @@ namespace SS.Business.Repos
                 throw new NullReferenceException();
             }
 
-            // var artistForDetailedDto = _mapper.Map<ArtistForDetailedDto>(artist);
-            var artistForDetailedDto = MapToDetailedDto(artist);
+            var artistForDetailedDto = _map.MapToDetailedDto(artist);
 
             if (artistForDetailedDto == null)
             {
@@ -76,8 +73,8 @@ namespace SS.Business.Repos
             }
 
             var plArtists = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
-            var artistsToReturn = MapToArtistForListDto(plArtists);
-            var artistListForReturnDto = MapToListForReturnDto(artistsToReturn, plArtists);
+            var artistsToReturn = _map.MapToArtistForListDto(plArtists);
+            var artistListForReturnDto = _map.MapToListForReturnDto(artistsToReturn, plArtists);
 
             return artistListForReturnDto;
         }
@@ -85,7 +82,7 @@ namespace SS.Business.Repos
         public async Task<ArtistForDetailedDto> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
-            var artistToReturn = MapToDetailedDto(artist);
+            var artistToReturn = _map.MapToDetailedDto(artist);
 
             return artistToReturn;
         }
@@ -93,115 +90,11 @@ namespace SS.Business.Repos
         public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
         {
             var artist = await _artist.GetArtistById(artistId);
-            MapToArtist(artistForUpdateDto, artist);
+            _map.MapToArtist(artistForUpdateDto, artist);
 
             var result = await _artist.SaveAll();
 
             return result;
-        }
-
-
-        private IEnumerable<ArtistForListDto> MapToArtistForListDto(PagedList<Artist> artistList)
-        {
-            var artistForListDto = artistList.Select(a => new ArtistForListDto
-            {
-                Id = a.ArtistId,
-                Name = a.ArtistName,
-                ArtistStatusId = a.ArtistStatusId,
-                YearsActive = a.CareerBeginDate.CalculateArtistYearsActive(),
-                ArtistGroup = a.ArtistGroup,
-                UserId = a.UserId,
-                Verified = a.Verified,
-                // CurrentCity = a.CurrentCity.CityName,
-                HomeCity = GetHomeCity(a)
-            });
-
-            return artistForListDto;
-        }
-
-        private string GetHomeCity(Artist a)
-        {
-            if (a.HomeUscityId.HasValue)
-            {
-                return a.HomeUscity.CityName + ", " + a.HomeUscity.State.StateAbbreviation;
-            }
-            if (a.HomeWorldCityId.HasValue)
-            {
-                return a.HomeWorldCity.CityName + ", " + a.HomeWorldCity.WorldRegion.WorldRegionAbbreviation;
-            }
-
-            return "";
-        }
-
-        private ArtistListForReturnDto MapToListForReturnDto(
-            IEnumerable<ArtistForListDto> artistsToReturn, PagedList<Artist> plArtists)
-        {
-            var artistListForReturnDto = new ArtistListForReturnDto()
-            {
-                Artists = artistsToReturn,
-                CurrentPage = plArtists.CurrentPage,
-                TotalPages = plArtists.TotalPages,
-                PageSize = plArtists.PageSize,
-                TotalCount = plArtists.TotalCount
-            };
-
-            return artistListForReturnDto;
-        }
-
-        private ArtistForDetailedDto MapToDetailedDto(Artist a)
-        {
-            var artistForUpdateDto = new ArtistForDetailedDto()
-            {
-                Id = a.ArtistId,
-                Name = a.ArtistName,
-                StatusId = a.ArtistStatusId,
-                CareerBeginDate = a.CareerBeginDate,
-                YearsActive = a.CareerBeginDate.CalculateArtistYearsActive(),
-                ArtistGroup = a.ArtistGroup,
-                UserId = a.UserId,
-                Verified = a.Verified,
-                HomeCountryId = a.HomeCountryId,
-                HomeRegionId = a.HomeUscityId.HasValue
-                     ? a.HomeUscity.StateId
-                     : a.HomeWorldCity.WorldRegionId,
-                HomeCityId = a.HomeUscityId.HasValue
-                     ? a.HomeUscityId.Value
-                     : a.HomeWorldCityId.Value,
-                CurrentCountryId = a.CurrentCountryId,
-                CreatedDate = a.CreatedDate
-            };
-
-            if (a.CurrentUscityId.HasValue)
-            {
-                artistForUpdateDto.CurrentRegionId = a.CurrentUscity.StateId;
-                artistForUpdateDto.CurrentCityId = a.CurrentUscityId;
-            }
-            else if (a.CurrentWorldCityId.HasValue)
-            {
-                artistForUpdateDto.CurrentRegionId = a.CurrentWorldCity.WorldRegionId;
-                artistForUpdateDto.CurrentCityId = a.CurrentWorldCityId;
-            }
-
-            return artistForUpdateDto;
-        }
-
-        private void MapToArtist(ArtistForUpdateDto artistForUpdateDto, Artist artist)
-        {
-            artist.ArtistName = artistForUpdateDto.Name;
-            artist.CareerBeginDate = artistForUpdateDto.CareerBeginDate;
-            artist.ArtistGroup = artistForUpdateDto.Group;
-            artist.UserId = artistForUpdateDto.UserId;
-            artist.Verified = artistForUpdateDto.Verified;
-            artist.HomeCountryId = artistForUpdateDto.HomeCountryId;
-            artist.HomeUscityId = artistForUpdateDto.UshomeCityId;
-            artist.HomeWorldCityId = artistForUpdateDto.WorldHomeCityId;
-            // artist.CurrentCountryId = artistForUpdateDto.
-            // artist.CurrentCityId = artistForUpdateDto.CurrentCityId;
-
-            if (artistForUpdateDto.StatusId != null)
-            {
-                artist.ArtistStatusId = artistForUpdateDto.StatusId;
-            }
         }
     }
 }

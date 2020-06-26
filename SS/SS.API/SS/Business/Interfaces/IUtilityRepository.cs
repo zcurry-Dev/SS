@@ -9,5 +9,6 @@ namespace SS.Business.Interfaces
     {
         Task<CountriesToReturnDto> GetCountries();
         Task<UsStatesToReturnDto> GetUsStates();
+        Task<UsCitiesToReturnDto> GetUsCities(int usStateId);
     }
 }

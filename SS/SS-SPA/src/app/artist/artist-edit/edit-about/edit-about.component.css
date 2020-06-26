@@ -1,0 +1,19 @@
+.myForm {
+  margin: 1em;
+}
+
+.artistNameSize {
+  font-size: 25px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.mt {
+  margin-top: 1em;
+}

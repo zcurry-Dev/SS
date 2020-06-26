@@ -9,13 +9,14 @@ namespace SS.Business.Dtos.Return
         public string Name { get; set; }
         public int? StatusId { get; set; }
         public DateTime CareerBeginDate { get; set; }
+        public DateTime? CareerEndDate { get; set; }
         public int YearsActive { get; set; }
         public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
         public int HomeCountryId { get; set; }
-        public int HomeRegionId { get; set; }
-        public int HomeCityId { get; set; }
+        public int? HomeRegionId { get; set; }
+        public int? HomeCityId { get; set; }
         public int CurrentCountryId { get; set; }
         public int? CurrentRegionId { get; set; }
         public int? CurrentCityId { get; set; }

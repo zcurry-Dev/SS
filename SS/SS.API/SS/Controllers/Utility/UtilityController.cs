@@ -1,8 +1,6 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SS.Business.Interfaces;
-using SS.Helpers.Pagination.PagedParams;
 
 namespace SS.Controllers.Admin
 {
@@ -28,6 +26,14 @@ namespace SS.Controllers.Admin
         {
             var states = await _utility.GetUsStates();
             return Ok(states.UsStates);
+        }
+
+        [HttpGet]
+        [Route("ListUSStateCities/{usStateId}")]
+        public async Task<IActionResult> ListUSStateCities(int usStateId)
+        {
+            var cities = await _utility.GetUsCities(usStateId);
+            return Ok(cities.UsCities);
         }
     }
 }

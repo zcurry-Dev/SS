@@ -1,33 +1,65 @@
-<form [formGroup]="editArtistAboutForm" (ngSubmit)="updateArtist()">
+<form
+  [formGroup]="editArtistAboutForm"
+  (ngSubmit)="updateArtist()"
+  class="myForm"
+  (keydown.enter)="($event.target.id === 'submitButton')"
+>
   <div>
-    <mat-form-field>
+    <mat-form-field class="artistNameSize">
       <mat-label>Artist Name</mat-label>
       <input matInput type="text" formControlName="name" />
     </mat-form-field>
   </div>
-  <div>
+  <div class="mt">
+    <h1>Home</h1>
     <p>
       <mat-radio-group
         aria-label="Select an option"
         formControlName="usHomeCountry"
+        (change)="usRadioChange($event)"
       >
-        <mat-radio-button #USHomeCountry value="US">US</mat-radio-button>
-        <mat-radio-button value="Other">Other</mat-radio-button>
+        <mat-radio-button #USHomeCountry [value]="true">US</mat-radio-button>
+        <mat-radio-button [value]="false">Other</mat-radio-button>
       </mat-radio-group>
     </p>
   </div>
   <div *ngIf="USHomeCountry.checked">
-    <mat-label>US State</mat-label>
-    <mat-select placeholder="Select State" formControlName="homeUsState">
-      <mat-option *ngFor="let usState of usStates" [value]="usState">
-        {{ usState.abbreviation + ' - ' + usState.name }}
-      </mat-option>
-    </mat-select>
+    <mat-form-field>
+      <mat-label>US State</mat-label>
+      <mat-select
+        #USHomeState
+        formControlName="homeUsState"
+        (selectionChange)="changeUSState()"
+      >
+        <mat-option *ngFor="let usState of usStates" [value]="usState.id">
+          {{ usState.abbreviation + ' - ' + usState.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        placeholder="City"
+        [matAutocomplete]="auto"
+        formControlName="homeUsCity"
+        (keydown.enter)="enterNewCity(); trigger.closePanel()"
+        #trigger="matAutocompleteTrigger"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="optionSelected($event.option)"
+      >
+        <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+          <span>{{ city }}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
   <div>
     <br />
     <br />
     <button
+      id="submitButton"
       mat-raised-button
       [disabled]="!editArtistAboutForm.valid"
       color="primary"

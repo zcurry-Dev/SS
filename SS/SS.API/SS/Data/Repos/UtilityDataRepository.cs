@@ -36,5 +36,12 @@ namespace SS.Business.Repos
 
             return usStates;
         }
+
+        public async Task<IEnumerable<City>> GetUSCities(int usStateId)
+        {
+            var usCities = await _context.City.Where(c => c.StateId == usStateId).ToListAsync();
+
+            return usCities;
+        }
     }
 }

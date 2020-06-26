@@ -44,5 +44,24 @@ namespace SS.Business.Mappings
 
             return usStatesToReturnDto;
         }
+
+        public UsCitiesToReturnDto MapToUsCitiesDto(IEnumerable<City> cityList)
+        {
+            var usCities = cityList.Select(c => new UsCityBModel()
+            {
+                Id = c.CityId,
+                Name = c.CityName,
+                ClosestMajorCityId = c.ClosestMajorCityId,
+                StateId = c.StateId,
+                MajorCity = c.MajorCity
+            });
+
+            var usCitiesToReturnDto = new UsCitiesToReturnDto()
+            {
+                UsCities = usCities,
+            };
+
+            return usCitiesToReturnDto;
+        }
     }
 }

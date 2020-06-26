@@ -29,5 +29,12 @@ namespace SS.Business.Repos
             var usStatesToReturnDto = _map.MapToUsStatesDto(usStates);
             return usStatesToReturnDto;
         }
+
+        public async Task<UsCitiesToReturnDto> GetUsCities(int usStateId)
+        {
+            var usCities = await _utility.GetUSCities(usStateId);
+            var usCitiesToReturnDto = _map.MapToUsCitiesDto(usCities);
+            return usCitiesToReturnDto;
+        }
     }
 }
