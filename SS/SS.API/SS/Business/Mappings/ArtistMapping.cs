@@ -3,6 +3,7 @@ using System.Linq;
 using SS.Business.Calculations;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
+using SS.Business.Models;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
 
@@ -42,45 +43,30 @@ namespace SS.Business.Mappings
             return artistListForReturnDto;
         }
 
-        public ArtistForDetailedDto MapToDetailedDto(Artist a)
+        public ArtistBModel MapToArtistBModel(Artist a)
         {
-            var artistForUpdateDto = new ArtistForDetailedDto()
+            var artistForUpdateDto = new ArtistBModel()
             {
                 Id = a.ArtistId,
                 Name = a.ArtistName,
                 StatusId = a.ArtistStatusId,
                 CareerBeginDate = a.CareerBeginDate,
                 CareerEndDate = a.CareerEndDate,
-                ArtistGroup = a.ArtistGroup,
+                Group = a.ArtistGroup,
                 UserId = a.UserId,
                 Verified = a.Verified,
-                YearsActive = ArtistCalculations.CalculateArtistYearsActive(a.CareerBeginDate, a.CareerEndDate),
                 HomeCountryId = a.HomeCountryId,
+                HomeUsStateId = a.HomeUscity?.StateId,
+                HomeUsCityId = a.HomeUscityId,
+                HomeWorldRegionId = a.HomeWorldCity?.WorldRegionId,
+                HomeWorldCityId = a.HomeWorldCityId,
                 CurrentCountryId = a.CurrentCountryId,
-                CreatedDate = a.CreatedDate
+                CurrentUscityId = a.CurrentUscityId,
+                CurrentWorldCityId = a.CurrentWorldCityId,
+                CreatedBy = a.CreatedBy,
+                CreatedDate = a.CreatedDate,
+                YearsActive = ArtistCalculations.CalculateArtistYearsActive(a.CareerBeginDate, a.CareerEndDate),
             };
-
-            if (a.HomeUscityId.HasValue)
-            {
-                artistForUpdateDto.HomeRegionId = a.HomeUscity.StateId;
-                artistForUpdateDto.HomeCityId = a.HomeUscityId;
-            }
-            else if (a.HomeWorldCityId.HasValue)
-            {
-                artistForUpdateDto.HomeRegionId = a.HomeWorldCity.WorldRegionId;
-                artistForUpdateDto.HomeCityId = a.HomeWorldCityId;
-            }
-
-            if (a.CurrentUscityId.HasValue)
-            {
-                artistForUpdateDto.CurrentRegionId = a.CurrentUscity.StateId;
-                artistForUpdateDto.CurrentCityId = a.CurrentUscityId;
-            }
-            else if (a.CurrentWorldCityId.HasValue)
-            {
-                artistForUpdateDto.CurrentRegionId = a.CurrentWorldCity.WorldRegionId;
-                artistForUpdateDto.CurrentCityId = a.CurrentWorldCityId;
-            }
 
             return artistForUpdateDto;
         }
@@ -95,8 +81,9 @@ namespace SS.Business.Mappings
             artist.HomeCountryId = a.HomeCountryId;
             artist.HomeUscityId = a.UshomeCityId;
             artist.HomeWorldCityId = a.WorldHomeCityId;
-            // artist.CurrentCountryId = artistForUpdateDto.
-            // artist.CurrentCityId = artistForUpdateDto.CurrentCityId;
+            // artist.CurrentCountryId = a.CurrentCountryId;
+            // artist.CurrentUscityId = a.CurrentUscityId;
+            // artist.CurrentWorldCityId = a.CurrentWorldCityId;
 
             if (a.StatusId != null)
             {
@@ -104,7 +91,7 @@ namespace SS.Business.Mappings
             }
         }
 
-        public Artist MapToArtist(ArtistToCreate a)
+        public Artist MapToArtist(ArtistToCreateDto a)
         {
             var artist = new Artist()
             {

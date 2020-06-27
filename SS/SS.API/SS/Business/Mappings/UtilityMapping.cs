@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
 using SS.Business.Models;
 using SS.Data.Models;
@@ -8,7 +9,7 @@ namespace SS.Business.Mappings
 {
     public class UtilityMapping
     {
-        public CountriesToReturnDto MapToCountriesDto(IEnumerable<Country> countryList)
+        public IEnumerable<CountryBModel> MapToCountriesDto(IEnumerable<Country> countryList)
         {
             var countries = countryList.Select(c => new CountryBModel()
             {
@@ -20,15 +21,10 @@ namespace SS.Business.Mappings
                 Iso3166 = c.Iso3166
             });
 
-            var countriesToReturnDto = new CountriesToReturnDto()
-            {
-                Countries = countries,
-            };
-
-            return countriesToReturnDto;
+            return countries;
         }
 
-        public UsStatesToReturnDto MapToUsStatesDto(IEnumerable<Usstate> stateList)
+        public IEnumerable<UsStateBModel> MapToUsStatesDto(IEnumerable<Usstate> stateList)
         {
             var usStates = stateList.Select(s => new UsStateBModel()
             {
@@ -37,15 +33,10 @@ namespace SS.Business.Mappings
                 Name = s.StateName
             });
 
-            var usStatesToReturnDto = new UsStatesToReturnDto()
-            {
-                UsStates = usStates,
-            };
-
-            return usStatesToReturnDto;
+            return usStates;
         }
 
-        public UsCitiesToReturnDto MapToUsCitiesDto(IEnumerable<City> cityList)
+        public IEnumerable<UsCityBModel> MapToUsCitiesDto(IEnumerable<City> cityList)
         {
             var usCities = cityList.Select(c => new UsCityBModel()
             {
@@ -54,14 +45,58 @@ namespace SS.Business.Mappings
                 ClosestMajorCityId = c.ClosestMajorCityId,
                 StateId = c.StateId,
                 MajorCity = c.MajorCity
-            });
+            }).ToList();
 
-            var usCitiesToReturnDto = new UsCitiesToReturnDto()
+            return usCities;
+        }
+
+        public City MapToCity(CityToCreateDto c)
+        {
+            var city = new City()
             {
-                UsCities = usCities,
+                CityName = c.CityName,
+                ClosestMajorCityId = c.ClosestMajorCityId,
+                StateId = c.StateId
             };
 
-            return usCitiesToReturnDto;
+            return city;
+        }
+
+        public UsCityBModel MapToUsCityBModel(City c)
+        {
+            var city = new UsCityBModel()
+            {
+                Id = c.CityId,
+                Name = c.CityName,
+                ClosestMajorCityId = c.ClosestMajorCityId,
+                StateId = c.StateId,
+                MajorCity = c.MajorCity
+            };
+
+            return city;
+        }
+
+        public ZipCode MapToZipCode(ZipCodeToCreateDto z)
+        {
+            var zipCode = new ZipCode()
+            {
+                ZipCode1 = z.ZipCode,
+                CityId = z.CityId
+            };
+
+            return zipCode;
+        }
+
+        public ZipCodeBModel MapToZipCodeBModel(ZipCode z)
+        {
+            var zipCode = new ZipCodeBModel()
+            {
+                Id = z.ZipCodeId,
+                ZipCode = z.ZipCode1,
+                CityId = z.CityId
+            };
+
+            return zipCode;
         }
     }
 }

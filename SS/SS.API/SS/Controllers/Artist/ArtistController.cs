@@ -23,16 +23,15 @@ namespace SS.Controllers.Artist
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create(ArtistToCreate artistToCreate)
+        public async Task<IActionResult> Create(ArtistToCreateDto artistToCreate)
         {
             var artistForDetailedDto = await _artist.CreateArtist(artistToCreate);
 
             if (artistForDetailedDto.Id != 0)
             {
-                var artistToReturn = await _artist.GetArtistById(artistForDetailedDto.Id);
                 return CreatedAtRoute(
-                    artistToReturn.Id,
-                    artistToReturn);
+                    artistForDetailedDto.Id,
+                    artistForDetailedDto);
             }
 
             return BadRequest("Could not add artist");

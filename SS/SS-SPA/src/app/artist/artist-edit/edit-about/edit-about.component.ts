@@ -7,10 +7,7 @@ import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
   map,
-  filter,
-  switchMap,
   distinctUntilChanged,
-  count,
   startWith,
   debounceTime,
 } from 'rxjs/operators';
@@ -18,7 +15,7 @@ import { ArtistService } from 'src/app/_services/artist.service/artist.subject.s
 import { UtilityApiService } from 'src/app/_services/utility.service/utility.api.service';
 import { UsState } from 'src/app/_models/usState';
 import { UtilityService } from 'src/app/_services/utility.service/utility.subject.service';
-import { City } from 'src/app/_models/city';
+import { UsCity } from 'src/app/_models/city';
 
 interface ArtistForm {
   name: string;
@@ -47,8 +44,10 @@ export class EditAboutComponent implements OnInit {
     homeUsCity: new FormControl({ value: '', disabled: true }),
   });
 
+  // form: ArtistForm = this.editArtistAboutForm.value;
+
   usStates: UsState[];
-  usCities: City[] = [];
+  usCities: UsCity[] = [];
   filteredCities: Observable<any[]>;
   question = 'Add "';
 
@@ -71,19 +70,17 @@ export class EditAboutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log(this.artist);
-
-    // this.getUsStates();
-    // this.getUSStateCities();
+    console.log('artist', this.artist);
     this.watchArtist();
     this.watchUtilities();
-    this.setCountry();
-    this.setFormValues();
+    this.setArtistForm();
     this.usCityFilterPipe();
   }
 
   updateArtist() {
-    this.updateValues();
+    console.log(this.artist);
+    this.setArtistValues();
+    console.log(this.artist);
 
     // this.artistService.Save(this.artist).subscribe(
     //   (next) => {
@@ -98,33 +95,28 @@ export class EditAboutComponent implements OnInit {
     // );
   }
 
-  setFormValues() {
-    this.editArtistAboutForm.patchValue(this.artist);
-  }
-
-  updateValues() {
-    console.log(this.artist);
-    this.setArtistValues();
-    console.log(this.artist);
-
-    // this.artist.name = this.editArtistAboutForm.value.name;
-    // const countryId = this.editArtistAboutForm.value.homeCountryId;
-    // this.artist.homeStateId = this.editArtistAboutForm.value.homeStateId;
-  }
-
   // there has to be a better way
   setArtistValues() {
-    const form: ArtistForm = this.editArtistAboutForm.value;
-    console.log(form);
+    const f = this.editArtistAboutForm.value;
+    console.log(f);
 
-    this.artist.name = form.name;
-    if (form.usHomeCountry) {
-      this.artist.homeCountryId = form.homeCountryId;
-      this.artist.homeRegionId = form.homeUsState;
+    this.artist.name = f.name;
+    if (f.usHomeCountry) {
+      this.setUSArtist(f);
     } else {
-      this.artist.homeCountryId = 2;
-      this.artist.homeRegionId = form.homeWorldRegion;
+      this.setNonUSArtist(f);
     }
+  }
+
+  setUSArtist(f: ArtistForm) {
+    this.artist.homeCountryId = f.homeCountryId;
+    this.artist.homeRegionId = f.homeUsState;
+    this.artist.homeCityId = f.homeUsCityId;
+  }
+
+  setNonUSArtist(f: ArtistForm) {
+    this.artist.homeCountryId = 2;
+    this.artist.homeRegionId = f.homeWorldRegion;
   }
 
   usRadioChange(bool) {
@@ -169,10 +161,17 @@ export class EditAboutComponent implements OnInit {
 
     this._utility.usCities$
       .pipe(distinctUntilChanged())
-      .subscribe((cities: City[]) => {
+      .subscribe((cities: UsCity[]) => {
         if (cities) {
           this.usCities = cities;
           this.editArtistAboutForm.controls.homeUsCity.enable();
+          if (
+            this.usCities.some((entry) => entry.id === this.artist.homeCityId)
+          ) {
+            this.editArtistAboutForm.controls.homeUsCity.patchValue(
+              this.usCities.find((x) => x.id === this.artist.homeCityId).name
+            );
+          }
         } else {
           this.usCities = [];
         }
@@ -190,23 +189,19 @@ export class EditAboutComponent implements OnInit {
 
     this._utilityApi
       .ListUSStateCities(this.artist.homeRegionId)
-      .subscribe((usCities: City[]) => {
+      .subscribe((usCities: UsCity[]) => {
         this._utility.update({ usCities });
       });
   }
 
-  setCountry() {
-    const form = this.editArtistAboutForm.controls;
+  setArtistForm() {
+    const controls = this.editArtistAboutForm.controls;
+    controls.name.patchValue(this.artist.name);
     if (this.artist.homeCountryId === 1) {
-      form.usHomeCountry.patchValue(true);
-      form.homeUsState.patchValue(this.artist.homeRegionId);
-      // if (this.usCities) {
-      //   form.homeUsCity.patchValue(
-      //     this.usCities[this.artist.homeRegionId].name
-      //   );
-      // }
+      controls.usHomeCountry.patchValue(true);
+      controls.homeUsState.patchValue(this.artist.homeRegionId);
     } else {
-      this.editArtistAboutForm.controls.usHomeCountry.patchValue(false);
+      controls.usHomeCountry.patchValue(false);
     }
   }
 
@@ -240,7 +235,7 @@ export class EditAboutComponent implements OnInit {
       const newCityName = option.value
         .substring(this.question.length)
         .split('"?')[0];
-      const newCity = {} as City;
+      const newCity = {} as UsCity;
       newCity.name = newCityName;
       this.usCities.push(newCity);
       this.editArtistAboutForm.controls.homeUsCity.setValue(newCityName);
@@ -252,7 +247,7 @@ export class EditAboutComponent implements OnInit {
     if (
       !this.usCities.map((c) => c.name).some((entry) => entry === newCityName)
     ) {
-      const newCity = {} as City;
+      const newCity = {} as UsCity;
       newCity.name = newCityName;
       this.usCities.push(newCity);
       this.editArtistAboutForm.controls.homeUsCity.setValue(newCityName);

@@ -23,6 +23,21 @@ namespace SS.Business.Repos
             _context = context;
         }
 
+        public void Add<T>(T entity) where T : class
+        {
+            _context.Add(entity);
+        }
+
+        public void Delete<T>(T entity) where T : class
+        {
+            _context.Remove(entity);
+        }
+
+        public async Task<bool> SaveAll()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<IEnumerable<Country>> GetCountries()
         {
             var countries = await _context.Country.ToListAsync();
@@ -42,6 +57,38 @@ namespace SS.Business.Repos
             var usCities = await _context.City.Where(c => c.StateId == usStateId).ToListAsync();
 
             return usCities;
+        }
+
+        public async Task<City> CreateCity(City city)
+        {
+            var cityExists = _context.City.Any(c => c.CityName == city.CityName && c.StateId == city.StateId);
+            if (!cityExists)
+            {
+                Add(city);
+                await SaveAll();
+            }
+            else
+            {
+                city.CityId = -1;
+            }
+
+            return city;
+        }
+
+        public async Task<ZipCode> CreateZipCode(ZipCode zipCode)
+        {
+            var zipCodeExists = _context.ZipCode.Any(z => z.CityId == z.CityId && z.ZipCode1 == zipCode.ZipCode1);
+            if (!zipCodeExists)
+            {
+                Add(zipCode);
+                await SaveAll();
+            }
+            else
+            {
+                zipCode.ZipCodeId = -1;
+            }
+
+            return zipCode;
         }
     }
 }

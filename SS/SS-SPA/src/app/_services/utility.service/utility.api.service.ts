@@ -6,7 +6,7 @@ import { Observable, EMPTY } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { UsState } from 'src/app/_models/usState';
 import { Country } from 'src/app/_models/country';
-import { City } from 'src/app/_models/city';
+import { UsCity } from 'src/app/_models/city';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +36,7 @@ export class UtilityApiService {
 
   ListUSStateCities(usStateId: number) {
     const url = `${env.apiUrl}/${env.utilityListUsStateCities}`;
-    return this.http.get<City[]>(`${url}/${usStateId}`).pipe(
+    return this.http.get<UsCity[]>(`${url}/${usStateId}`).pipe(
       catchError((error) => {
         console.log(error);
         return EMPTY;

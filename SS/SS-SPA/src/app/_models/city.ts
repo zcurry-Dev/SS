@@ -1,7 +1,7 @@
-export interface City {
+export interface UsCity {
   id: number;
   name: string;
   closestMajorCityId: number;
-  regionId: number;
+  stateId: number;
   majorCity: boolean;
 }

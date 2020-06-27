@@ -2,9 +2,9 @@ using System;
 
 namespace SS.Business.Dtos.Accept
 {
-    public class ArtistToCreate
+    public class ArtistToCreateDto
     {
-        public ArtistToCreate()
+        public ArtistToCreateDto()
         {
             var now = DateTime.Now;
 

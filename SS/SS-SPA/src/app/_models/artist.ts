@@ -11,8 +11,10 @@ export interface Artist {
   verified: boolean;
   homeCountry: Country;
   homeCountryId: number;
+  homeUSStateId: number;
+  homeUSCityId: number;
   homeRegionId: number;
-  homeCityId: string;
+  homeWorldCityId: number;
   homeCity: string;
   currentCountryId: number;
   currentCityId: number;

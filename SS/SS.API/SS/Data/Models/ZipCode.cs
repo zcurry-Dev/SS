@@ -11,7 +11,7 @@ namespace SS.Data.Models
         }
 
         public int ZipCodeId { get; set; }
-        public int ZipCode1 { get; set; }
+        public string ZipCode1 { get; set; }
         public int CityId { get; set; }
 
         public virtual City City { get; set; }

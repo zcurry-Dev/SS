@@ -1625,7 +1625,10 @@ namespace SS.Data
 
                 entity.Property(e => e.CityId).HasColumnName("CityID");
 
-                entity.Property(e => e.ZipCode1).HasColumnName("ZipCode");
+                entity.Property(e => e.ZipCode1)
+                    .IsRequired()
+                    .HasColumnName("ZipCode")
+                    .HasMaxLength(5);
 
                 entity.HasOne(d => d.City)
                     .WithMany(p => p.ZipCode)

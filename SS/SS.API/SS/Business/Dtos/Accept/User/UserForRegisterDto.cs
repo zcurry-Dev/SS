@@ -7,12 +7,15 @@ namespace SS.Business.Dtos.Accept
     {
         [Required]
         public string FirstName { get; set; }
+
         [Required]
         public string LastName { get; set; }
+
         [Required]
         public string Email { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
+
         [Required]
         public string UserName { get; set; }
 

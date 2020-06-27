@@ -3,13 +3,13 @@ import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Country } from 'src/app/_models/country';
 import { UsState } from 'src/app/_models/usState';
-import { City } from 'src/app/_models/city';
+import { UsCity } from 'src/app/_models/city';
 
 export interface Utilities {
   usCountry: boolean;
   countries: Country[];
   usStates: UsState[];
-  usCities: City[];
+  usCities: UsCity[];
 }
 
 let _state: Utilities = {

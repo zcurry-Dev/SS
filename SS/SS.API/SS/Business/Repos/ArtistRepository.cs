@@ -5,6 +5,7 @@ using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
 using SS.Business.Mappings;
+using SS.Business.Models;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -23,16 +24,16 @@ namespace SS.Business.Repos
             _artist = artist;
         }
 
-        public async Task<ArtistForDetailedDto> CreateArtist(ArtistToCreate artistToCreate)
+        public async Task<ArtistBModel> CreateArtist(ArtistToCreateDto artistToCreate)
         {
-            var artist = _map.MapToArtist(artistToCreate);
+            var created = _map.MapToArtist(artistToCreate);
 
-            if (artist == null)
+            if (created == null)
             {
                 throw new NullReferenceException();
             }
 
-            _artist.Add(artist);
+            _artist.Add(created);
             var result = await _artist.SaveAll();
 
             if (!result)
@@ -40,14 +41,14 @@ namespace SS.Business.Repos
                 throw new NullReferenceException();
             }
 
-            var artistForDetailedDto = _map.MapToDetailedDto(artist);
+            var artistToReturn = _map.MapToArtistBModel(created);
 
-            if (artistForDetailedDto == null)
+            if (artistToReturn == null)
             {
                 throw new NullReferenceException();
             }
 
-            return artistForDetailedDto;
+            return artistToReturn;
         }
 
         public async Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams)
@@ -79,10 +80,10 @@ namespace SS.Business.Repos
             return artistListForReturnDto;
         }
 
-        public async Task<ArtistForDetailedDto> GetArtistById(int artistId)
+        public async Task<ArtistBModel> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
-            var artistToReturn = _map.MapToDetailedDto(artist);
+            var artistToReturn = _map.MapToArtistBModel(artist);
 
             return artistToReturn;
         }
