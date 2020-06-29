@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
+using SS.Business.Mappings.Interfaces;
 using SS.Business.Models;
 using SS.Data.Models;
 
-namespace SS.Business.Mappings
+namespace SS.Business.Mappings.Repos
 {
-    public class UtilityMapping
+    public class UtilityMapping : IUtilityMapping
     {
         public IEnumerable<CountryBModel> MapToCountriesDto(IEnumerable<Country> countryList)
         {
@@ -45,7 +45,7 @@ namespace SS.Business.Mappings
                 ClosestMajorCityId = c.ClosestMajorCityId,
                 StateId = c.StateId,
                 MajorCity = c.MajorCity
-            }).ToList();
+            });
 
             return usCities;
         }

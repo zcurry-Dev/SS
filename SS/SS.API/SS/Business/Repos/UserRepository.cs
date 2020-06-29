@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
+using SS.Business.Mappings.Interfaces;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 
@@ -13,11 +13,11 @@ namespace SS.Business.Repos
     public class UserRepository : IUserRepository
     {
         private readonly IUserDataRepository _user;
-        private readonly IMapper _mapper;
+        private readonly IUserMapping _map;
 
-        public UserRepository(IUserDataRepository user, IMapper mapper)
+        public UserRepository(IUserDataRepository user, IUserMapping map)
         {
-            _mapper = mapper;
+            _map = map;
             _user = user;
         }
 
@@ -30,7 +30,7 @@ namespace SS.Business.Repos
                 throw new NullReferenceException();
             }
 
-            var userToReturn = _mapper.Map<UserForDetailDto>(ssUser);
+            var userToReturn = _map.MapToUserForDetailDto(ssUser);
 
             if (userToReturn == null)
             {
@@ -42,7 +42,7 @@ namespace SS.Business.Repos
 
         public async Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto)
         {
-            var user = _mapper.Map<Ssuser>(userForRegisterDto);
+            var user = _map.MapToSsuser(userForRegisterDto);
 
             if (user == null)
             {
@@ -66,7 +66,7 @@ namespace SS.Business.Repos
         public async Task<UserForDetailDto> GetUserForDetailToReturn(string userName)
         {
             var user = await _user.GetUserByUserName(userName);
-            var userToReturn = _mapper.Map<UserForDetailDto>(user);
+            var userToReturn = _map.MapToUserForDetailDto(user);
             return userToReturn;
         }
     }

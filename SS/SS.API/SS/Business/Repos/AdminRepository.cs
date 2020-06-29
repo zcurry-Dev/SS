@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
+using SS.Business.Mappings;
+using SS.Business.Mappings.Interfaces;
+using SS.Business.Models;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -16,16 +18,13 @@ namespace SS.Business.Repos
     public class AdminRepository : IAdminRepository
     {
         private readonly IAdminDataRepository _admin;
-        private readonly IMapper _mapper;
+        private readonly IAdminMapping _map;
         private readonly IUserDataRepository _user;
 
-        public AdminRepository(
-            IAdminDataRepository admin,
-            IUserDataRepository user,
-            IMapper mapper)
+        public AdminRepository(IAdminDataRepository admin, IAdminMapping map, IUserDataRepository user)
         {
             _admin = admin;
-            _mapper = mapper;
+            _map = map;
             _user = user;
         }
 
@@ -52,24 +51,15 @@ namespace SS.Business.Repos
             }
 
             var ssUsersList = await PagedList<Ssuser>.CreateAsync(usersWithRoles, adminUsersParams.PN, adminUsersParams.PS);
-            var usersToReturn = _mapper.Map<IEnumerable<UserForAdminReturnDto>>(ssUsersList);
-
-            var userListForAdminReturnDto = new UserListForAdminReturnDto()
-            {
-                Users = usersToReturn,
-                CurrentPage = ssUsersList.CurrentPage,
-                TotalPages = ssUsersList.TotalPages,
-                PageSize = ssUsersList.PageSize,
-                TotalCount = ssUsersList.TotalCount,
-            };
+            var userListForAdminReturnDto = _map.MapToUserListForAdminReturnDto(ssUsersList);
 
             return userListForAdminReturnDto;
         }
 
-        public async Task<List<RolesToReturnDto>> GetAllAvailibleRoles()
+        public async Task<IEnumerable<RoleBModel>> GetAllAvailibleRoles()
         {
-            var roles = await _admin.GetAllAvailibleRoles();
-            var rolesToReturn = roles.Select(r => _mapper.Map<RolesToReturnDto>(r)).ToList();
+            var ssRoles = await _admin.GetAllAvailibleRoles();
+            var rolesToReturn = _map.MapToRoleBModelList(ssRoles);
 
             return rolesToReturn;
         }

@@ -1,6 +1,5 @@
 using System.Net;
 using System.Text;
-using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -15,13 +14,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using SS.Business.Interfaces;
+using SS.Business.Mappings.Interfaces;
+using SS.Business.Mappings.Repos;
 using SS.Business.Repos;
 using SS.Data;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Data.Repos;
 using SS.Helpers;
-using SS.Helpers.MapperProfiles;
 
 namespace SS.API
 {
@@ -113,28 +113,27 @@ namespace SS.API
 
             services.AddCors();
 
-            // AutoMapper
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new ArtistProfile());
-                mc.AddProfile(new ArtistPhotoProfile());
-                mc.AddProfile(new UserProfile());
-                mc.AddProfile(new RoleProfile());
-            });
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
-            //
-
+            // Data
             services.AddScoped<IAdminDataRepository, AdminDataRepository>();
             services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
             services.AddScoped<IAuthDataRepository, AuthDataRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IUtilityDataRepository, UtilityDataRepository>();
+
+            // Business
             services.AddScoped<IAdminRepository, AdminRepository>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUtilityRepository, UtilityRepository>();
+
+            // Mappings
+            services.AddScoped<IAuthMapping, AuthMapping>();
+            services.AddScoped<IAdminMapping, AdminMapping>();
+            services.AddScoped<IArtistMapping, ArtistMapping>();
+            services.AddScoped<IUserMapping, UserMapping>();
+            services.AddScoped<IUtilityMapping, UtilityMapping>();
+            //
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

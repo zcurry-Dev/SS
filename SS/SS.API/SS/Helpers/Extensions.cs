@@ -25,22 +25,5 @@ namespace SS.Helpers
                 JsonConvert.SerializeObject(paginationHeader, camelCaseFormatter));
             response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
-
-        // public static int CalculateArtistYearsActive(this DateTime theDateTime)
-        // {
-        //     // var yearsActive = DateTime.Today.Year - theDateTime.Year;
-        //     var yearsActive = DateTime.Today.Year - theDateTime.Year + 2;
-        //     if (theDateTime.AddYears(yearsActive) > DateTime.Today) { yearsActive--; }
-
-        //     return yearsActive;
-        // }
-
-        private static int CalculateArtistYearsActive(DateTime begin, DateTime end)
-        {
-            var yearsActive = end.Year - begin.Year + 2;
-            if (begin.AddYears(yearsActive) > DateTime.Today) { yearsActive--; }
-
-            return yearsActive;
-        }
     }
 }

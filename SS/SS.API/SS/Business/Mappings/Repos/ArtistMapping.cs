@@ -3,13 +3,14 @@ using System.Linq;
 using SS.Business.Calculations;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
+using SS.Business.Mappings.Interfaces;
 using SS.Business.Models;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
 
-namespace SS.Business.Mappings
+namespace SS.Business.Mappings.Repos
 {
-    public class ArtistMapping
+    public class ArtistMapping : IArtistMapping
     {
         public IEnumerable<ArtistForListDto> MapToArtistForListDto(PagedList<Artist> artistList)
         {
@@ -28,7 +29,7 @@ namespace SS.Business.Mappings
             return artistForListDto;
         }
 
-        public ArtistListForReturnDto MapToListForReturnDto(
+        public ArtistListForReturnDto MapToArtistListForReturnDto(
             IEnumerable<ArtistForListDto> artistsToReturn, PagedList<Artist> plArtists)
         {
             var artistListForReturnDto = new ArtistListForReturnDto()
@@ -71,7 +72,7 @@ namespace SS.Business.Mappings
             return artistForUpdateDto;
         }
 
-        public void MapToArtist(ArtistForUpdateDto a, Artist artist)
+        public void MapArtist(ArtistForUpdateDto a, Artist artist)
         {
             artist.ArtistName = a.Name;
             artist.CareerBeginDate = a.CareerBeginDate;

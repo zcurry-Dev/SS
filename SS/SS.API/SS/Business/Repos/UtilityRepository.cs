@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
-using SS.Business.Mappings;
+using SS.Business.Mappings.Repos;
 using SS.Business.Models;
 
 namespace SS.Business.Repos

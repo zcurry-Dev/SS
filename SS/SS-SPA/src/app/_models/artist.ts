@@ -1,5 +1,7 @@
 import { SafeUrl } from '@angular/platform-browser';
 import { Country } from './country';
+import { UsState } from './usState';
+import { UsCity } from './city';
 
 export interface Artist {
   id: number;
@@ -11,9 +13,11 @@ export interface Artist {
   verified: boolean;
   homeCountry: Country;
   homeCountryId: number;
-  homeUSStateId: number;
-  homeUSCityId: number;
-  homeRegionId: number;
+  homeUsStateId: number;
+  homeUsState: UsState;
+  homeUsCityId: number;
+  homeUsCity: UsCity;
+  homeWorldRegionId: number;
   homeWorldCityId: number;
   homeCity: string;
   currentCountryId: number;

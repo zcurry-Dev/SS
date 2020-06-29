@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
-using SS.Business.Mappings;
+using SS.Business.Mappings.Interfaces;
+using SS.Business.Mappings.Repos;
 using SS.Business.Models;
 using SS.Data.Interfaces;
 using SS.Data.Models;
@@ -15,12 +16,12 @@ namespace SS.Business.Repos
 {
     public class ArtistRepository : IArtistRepository
     {
-        private readonly ArtistMapping _map;
         private readonly IArtistDataRepository _artist;
+        private readonly IArtistMapping _map;
 
-        public ArtistRepository(IArtistDataRepository artist)
+        public ArtistRepository(IArtistDataRepository artist, IArtistMapping map)
         {
-            _map = new ArtistMapping();
+            _map = map;
             _artist = artist;
         }
 
@@ -75,7 +76,7 @@ namespace SS.Business.Repos
 
             var plArtists = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
             var artistsToReturn = _map.MapToArtistForListDto(plArtists);
-            var artistListForReturnDto = _map.MapToListForReturnDto(artistsToReturn, plArtists);
+            var artistListForReturnDto = _map.MapToArtistListForReturnDto(artistsToReturn, plArtists);
 
             return artistListForReturnDto;
         }
@@ -91,7 +92,7 @@ namespace SS.Business.Repos
         public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
         {
             var artist = await _artist.GetArtistById(artistId);
-            _map.MapToArtist(artistForUpdateDto, artist);
+            _map.MapArtist(artistForUpdateDto, artist);
 
             var result = await _artist.SaveAll();
 

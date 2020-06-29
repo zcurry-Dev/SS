@@ -1,10 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SS.Business.Dtos.Accept;
 using SS.Business.Dtos.Return;
+using SS.Business.Mappings.Interfaces;
 using SS.Business.Repos;
 using SS.Data.Interfaces;
 using SS.Data.Models;
@@ -17,13 +17,13 @@ namespace SS.Tests.BusinessLayer
 
         private readonly UserRepository _userRepository;
         private readonly Mock<IUserDataRepository> _userDataRepository;
-        private readonly Mock<IMapper> _autoMapper;
+        private readonly Mock<IUserMapping> _map;
 
         public UserTest()
         {
             _userDataRepository = new Mock<IUserDataRepository>();
-            _autoMapper = new Mock<IMapper>();
-            _userRepository = new UserRepository(_userDataRepository.Object, _autoMapper.Object);
+            _map = new Mock<IUserMapping>();
+            _userRepository = new UserRepository(_userDataRepository.Object, _map.Object);
         }
 
         #region userRepository.GetUserById
@@ -32,7 +32,7 @@ namespace SS.Tests.BusinessLayer
         {
             //Arrange
             _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
-            _autoMapper.Setup(x => x.Map<UserForDetailDto>(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
+            _map.Setup(x => x.MapToUserForDetailDto(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
 
             //Act
             var result = await _userRepository.GetUserById(It.IsAny<int>());
@@ -59,7 +59,7 @@ namespace SS.Tests.BusinessLayer
         {
             //Arrange
             _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
-            _autoMapper.Setup(x => x.Map<UserForDetailDto>(It.IsAny<Ssuser>())).Returns(() => null);
+            _map.Setup(x => x.MapToUserForDetailDto(It.IsAny<Ssuser>())).Returns(() => null);
 
             //Assert
             await Assert.ThrowsExceptionAsync<NullReferenceException>(async () =>
@@ -73,14 +73,14 @@ namespace SS.Tests.BusinessLayer
         {
             //Arrange
             _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
-            _autoMapper.Setup(x => x.Map<UserForDetailDto>(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
+            _map.Setup(x => x.MapToUserForDetailDto(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
 
             //Act
             var result = await _userRepository.GetUserById(It.IsAny<int>());
 
             //Assert
             _userDataRepository.Verify(u => u.GetUserById(It.IsAny<string>()), Times.Once());
-            _autoMapper.Verify(m => m.Map<UserForDetailDto>(It.IsAny<Ssuser>()), Times.Once());
+            _map.Verify(m => m.MapToUserForDetailDto(It.IsAny<Ssuser>()), Times.Once());
         }
         #endregion userRepository.GetUserById
 
@@ -89,7 +89,7 @@ namespace SS.Tests.BusinessLayer
         public async Task RegisterUser_IfMappingDoesNotExist_NullReferenceExceptionThrown()
         {
             //Arrange
-            _autoMapper.Setup(x => x.Map<Ssuser>(It.IsAny<UserForRegisterDto>())).Returns(() => null);
+            _map.Setup(x => x.MapToSsuser(It.IsAny<UserForRegisterDto>())).Returns(() => null);
 
             //Assert
             await Assert.ThrowsExceptionAsync<NullReferenceException>(async () =>
@@ -97,23 +97,6 @@ namespace SS.Tests.BusinessLayer
                 await _userRepository.RegisterUser(It.IsAny<UserForRegisterDto>());
             });
         }
-
-        // public async Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto)
-        // {
-        //     var user = _mapper.Map<Ssuser>(userForRegisterDto);
-        //     user.UserStatusId = 1;
-
-        //     var result = await _user.CreateUser(user, userForRegisterDto.Password);
-
-        //     if (!result.Succeeded)
-        //     {
-        //         return result;
-        //     }
-
-        //     result = await _user.AddUserRole(user);
-
-        //     return result;
-        // }
 
         #endregion
         // Assert.AreEqual

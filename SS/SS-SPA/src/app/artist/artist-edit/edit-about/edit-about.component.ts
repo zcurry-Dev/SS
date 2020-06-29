@@ -70,7 +70,7 @@ export class EditAboutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('artist', this.artist);
+    // console.log('artist', this.artist);
     this.watchArtist();
     this.watchUtilities();
     this.setArtistForm();
@@ -110,13 +110,13 @@ export class EditAboutComponent implements OnInit {
 
   setUSArtist(f: ArtistForm) {
     this.artist.homeCountryId = f.homeCountryId;
-    this.artist.homeRegionId = f.homeUsState;
-    this.artist.homeCityId = f.homeUsCityId;
+    this.artist.homeUsStateId = f.homeUsState;
+    this.artist.homeUsCityId = f.homeUsCityId;
   }
 
   setNonUSArtist(f: ArtistForm) {
     this.artist.homeCountryId = 2;
-    this.artist.homeRegionId = f.homeWorldRegion;
+    this.artist.homeWorldRegionId = f.homeWorldRegion;
   }
 
   usRadioChange(bool) {
@@ -125,7 +125,7 @@ export class EditAboutComponent implements OnInit {
 
   changeUSState() {
     const newStateId = this.editArtistAboutForm.controls.homeUsState.value;
-    this.artist.homeRegionId = newStateId;
+    this.artist.homeUsStateId = newStateId;
 
     this._artist.update({ artist: this.artist });
 
@@ -137,7 +137,7 @@ export class EditAboutComponent implements OnInit {
       .pipe(distinctUntilChanged())
       .subscribe((artist: Artist) => {
         this.artist = artist;
-        if (this.artist.homeRegionId) {
+        if (this.artist.homeUsStateId) {
           this.editArtistAboutForm.controls.homeUsCity.enable();
           this.getUSStateCities();
         } else {
@@ -166,10 +166,10 @@ export class EditAboutComponent implements OnInit {
           this.usCities = cities;
           this.editArtistAboutForm.controls.homeUsCity.enable();
           if (
-            this.usCities.some((entry) => entry.id === this.artist.homeCityId)
+            this.usCities.some((entry) => entry.id === this.artist.homeUsCityId)
           ) {
             this.editArtistAboutForm.controls.homeUsCity.patchValue(
-              this.usCities.find((x) => x.id === this.artist.homeCityId).name
+              this.usCities.find((x) => x.id === this.artist.homeUsCityId).name
             );
           }
         } else {
@@ -185,10 +185,8 @@ export class EditAboutComponent implements OnInit {
   }
 
   getUSStateCities() {
-    console.log('test for new artist', this.artist.homeRegionId);
-
     this._utilityApi
-      .ListUSStateCities(this.artist.homeRegionId)
+      .ListUSStateCities(this.artist.homeUsStateId)
       .subscribe((usCities: UsCity[]) => {
         this._utility.update({ usCities });
       });
@@ -199,7 +197,7 @@ export class EditAboutComponent implements OnInit {
     controls.name.patchValue(this.artist.name);
     if (this.artist.homeCountryId === 1) {
       controls.usHomeCountry.patchValue(true);
-      controls.homeUsState.patchValue(this.artist.homeRegionId);
+      controls.homeUsState.patchValue(this.artist.homeUsStateId);
     } else {
       controls.usHomeCountry.patchValue(false);
     }

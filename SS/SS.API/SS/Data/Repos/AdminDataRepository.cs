@@ -30,7 +30,7 @@ namespace SS.Data.Repos
             return users;
         }
 
-        public async Task<List<Ssrole>> GetAllAvailibleRoles()
+        public async Task<IList<Ssrole>> GetAllAvailibleRoles()
         {
             var roles = await _roleManager.Roles.ToListAsync();
 

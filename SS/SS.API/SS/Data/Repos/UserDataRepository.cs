@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using SS.Data.Interfaces;
 using SS.Data.Models;
@@ -15,7 +14,6 @@ namespace SS.Data.Repos
         private readonly UserManager<Ssuser> _userManager;
         public UserDataRepository(
             DataContext context,
-            IMapper mapper,
             UserManager<Ssuser> userManager)
         {
             _context = context;

@@ -9,7 +9,7 @@ namespace SS.Data.Interfaces
     public interface IAdminDataRepository
     {
         IQueryable<Ssuser> GetAllUsers();
-        Task<List<Ssrole>> GetAllAvailibleRoles();
+        Task<IList<Ssrole>> GetAllAvailibleRoles();
         Task<IdentityResult> AddRolesToUser(Ssuser user, string[] selectedRoles, IList<string> userRoles);
         Task<IdentityResult> RemoveRolesFromUser(Ssuser user, IList<string> userRoles, string[] selectedRoles);
     }

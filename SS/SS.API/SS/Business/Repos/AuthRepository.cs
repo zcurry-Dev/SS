@@ -4,14 +4,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
+using SS.Business.Mappings.Interfaces;
 using SS.Data.Interfaces;
-using SS.Data.Models;
 
 namespace SS.Business.Repos
 {
@@ -19,19 +18,19 @@ namespace SS.Business.Repos
     {
         private readonly IAuthDataRepository _auth;
         private readonly IConfiguration _config;
-        private readonly IMapper _mapper;
+        private readonly IAuthMapping _map;
         private readonly IUserDataRepository _user;
 
         public AuthRepository(
             IAuthDataRepository auth,
             IConfiguration config,
-            IMapper mapper,
+            IAuthMapping map,
             IUserDataRepository user
             )
         {
-            _config = config;
             _auth = auth;
-            _mapper = mapper;
+            _config = config;
+            _map = map;
             _user = user;
         }
 
@@ -49,7 +48,7 @@ namespace SS.Business.Repos
                 new Claim (ClaimTypes.Name, user.DisplayName)
             };
 
-            var ssUser = _mapper.Map<Ssuser>(user);
+            var ssUser = _map.MapToSsuser(user);
             var roles = await _user.GetRolesForUser(ssUser);
 
             foreach (var role in roles)
