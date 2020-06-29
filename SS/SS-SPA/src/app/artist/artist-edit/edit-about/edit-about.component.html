@@ -40,17 +40,44 @@
       <input
         matInput
         placeholder="City"
-        [matAutocomplete]="auto"
+        [matAutocomplete]="autoCity"
         formControlName="homeUsCity"
         (keydown.enter)="enterNewCity(); trigger.closePanel()"
         #trigger="matAutocompleteTrigger"
       />
       <mat-autocomplete
-        #auto="matAutocomplete"
-        (optionSelected)="optionSelected($event.option)"
+        #autoCity="matAutocomplete"
+        (optionSelected)="citySelected($event.option)"
       >
-        <mat-option *ngFor="let city of filteredCities | async" [value]="city">
+        <mat-option
+          *ngFor="let city of filteredCities | async"
+          [value]="city"
+          (onSelectionChange)="loadZipCodesForCity($event.source.value)"
+        >
           <span>{{ city }}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <br />
+
+    <mat-form-field class="full-width">
+      <input
+        matInput
+        placeholder="ZipCode"
+        [matAutocomplete]="autoZipCode"
+        formControlName="homeUsZipCode"
+        (keydown.enter)="enterNewZipCode(); trigger2.closePanel()"
+        #trigger2="matAutocompleteTrigger"
+      />
+      <mat-autocomplete
+        #autoZipCode="matAutocomplete"
+        (optionSelected)="zipCodeSelected($event.option)"
+      >
+        <mat-option
+          *ngFor="let zipCode of filteredZipCodes | async"
+          [value]="zipCode"
+        >
+          <span>{{ zipCode }}</span>
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

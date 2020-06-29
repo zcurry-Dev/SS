@@ -37,6 +37,14 @@ namespace SS.Controllers.Admin
             return Ok(cities);
         }
 
+        [HttpGet]
+        [Route("ListZipCodes/{usCityId}")]
+        public async Task<IActionResult> ListZipCodes(int usCityId)
+        {
+            var zipCodes = await _utility.GetZipCodes(usCityId);
+            return Ok(zipCodes);
+        }
+
         //Create City
         [HttpPost("CreateCity")]
         public async Task<IActionResult> CreateCity(CityToCreateDto cityToCreateDto)

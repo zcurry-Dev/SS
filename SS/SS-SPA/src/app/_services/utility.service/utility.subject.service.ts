@@ -3,13 +3,15 @@ import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { Country } from 'src/app/_models/country';
 import { UsState } from 'src/app/_models/usState';
-import { UsCity } from 'src/app/_models/city';
+import { UsCity } from 'src/app/_models/usCity';
+import { UsZipCode } from 'src/app/_models/usZipCode';
 
 export interface Utilities {
   usCountry: boolean;
   countries: Country[];
   usStates: UsState[];
   usCities: UsCity[];
+  usZipCodes: UsZipCode[];
 }
 
 let _state: Utilities = {
@@ -17,6 +19,7 @@ let _state: Utilities = {
   countries: null,
   usStates: null,
   usCities: null,
+  usZipCodes: null,
 };
 
 @Injectable({
@@ -40,6 +43,10 @@ export class UtilityService {
   );
   usCities$ = this.state$.pipe(
     map((state) => state.usCities),
+    distinctUntilChanged()
+  );
+  usZipCodes$ = this.state$.pipe(
+    map((state) => state.usZipCodes),
     distinctUntilChanged()
   );
 

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SS.Business.Dtos.Accept;
 using SS.Business.Interfaces;
+using SS.Business.Mappings.Interfaces;
 using SS.Business.Mappings.Repos;
 using SS.Business.Models;
 
@@ -9,34 +10,41 @@ namespace SS.Business.Repos
 {
     public class UtilityRepository : IUtilityRepository
     {
-        private readonly UtilityMapping _map;
+        private readonly IUtilityMapping _map;
         private readonly IUtilityDataRepository _utility;
 
-        public UtilityRepository(IUtilityDataRepository utility)
+        public UtilityRepository(IUtilityDataRepository utility, IUtilityMapping map)
         {
-            _map = new UtilityMapping();
+            _map = map;
             _utility = utility;
         }
 
         public async Task<IEnumerable<CountryBModel>> GetCountries()
         {
             var countries = await _utility.GetCountries();
-            var countriesToReturnDto = _map.MapToCountriesDto(countries);
-            return countriesToReturnDto;
+            var countriesToReturn = _map.MapToCountryBModel(countries);
+            return countriesToReturn;
         }
 
         public async Task<IEnumerable<UsStateBModel>> GetUsStates()
         {
             var usStates = await _utility.GetUsStates();
-            var usStatesToReturnDto = _map.MapToUsStatesDto(usStates);
-            return usStatesToReturnDto;
+            var statesToReturn = _map.MapToUsStateBModel(usStates);
+            return statesToReturn;
         }
 
         public async Task<IEnumerable<UsCityBModel>> GetUsCities(int usStateId)
         {
             var usCities = await _utility.GetUSCities(usStateId);
-            var usCitiesToReturnDto = _map.MapToUsCitiesDto(usCities);
-            return usCitiesToReturnDto;
+            var citiesToReturn = _map.MapToUsCityBModel(usCities);
+            return citiesToReturn;
+        }
+
+        public async Task<IEnumerable<ZipCodeBModel>> GetZipCodes(int usCityId)
+        {
+            var zipCodes = await _utility.GetZipCodes(usCityId);
+            var zipCodesToReturn = _map.MapToZipCodeBModel(zipCodes);
+            return zipCodesToReturn;
         }
 
         public async Task<UsCityBModel> CreateCity(CityToCreateDto cityToCreateDto)

@@ -59,6 +59,7 @@ namespace SS.Business.Mappings.Repos
                 HomeCountryId = a.HomeCountryId,
                 HomeUsStateId = a.HomeUscity?.StateId,
                 HomeUsCityId = a.HomeUscityId,
+                HomeUsZipCodeId = a.HomeUscity?.ZipCode?.Where(z => z.CityId == a.HomeUscityId).FirstOrDefault()?.ZipCodeId,
                 HomeWorldRegionId = a.HomeWorldCity?.WorldRegionId,
                 HomeWorldCityId = a.HomeWorldCityId,
                 CurrentCountryId = a.CurrentCountryId,

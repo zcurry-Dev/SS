@@ -17,4 +17,5 @@ export const environment = {
   utilityListCountries: 'utility/listcountries',
   utilityListUsStates: 'utility/listusstates',
   utilityListUsStateCities: 'utility/listusstatecities',
+  utilityListZipCodes: 'utility/listzipcodes',
 };

@@ -12,6 +12,7 @@ namespace SS.Business.Interfaces
         Task<IEnumerable<CountryBModel>> GetCountries();
         Task<IEnumerable<UsStateBModel>> GetUsStates();
         Task<IEnumerable<UsCityBModel>> GetUsCities(int usStateId);
+        Task<IEnumerable<ZipCodeBModel>> GetZipCodes(int usCityId);
         Task<UsCityBModel> CreateCity(CityToCreateDto cityToCreateDto);
         Task<ZipCodeBModel> CreateZipCode(ZipCodeToCreateDto zipCodeToCreateDto);
     }

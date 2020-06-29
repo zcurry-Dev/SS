@@ -53,6 +53,13 @@ namespace SS.Business.Repos
             return usCities;
         }
 
+        public async Task<IEnumerable<ZipCode>> GetZipCodes(int usCityId)
+        {
+            var zipCodes = await _context.ZipCode.Where(z => z.CityId == usCityId).ToListAsync();
+
+            return zipCodes;
+        }
+
         public async Task<City> CreateCity(City city)
         {
             var cityExists = _context.City.Any(c => c.CityName == city.CityName && c.StateId == city.StateId);

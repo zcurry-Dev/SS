@@ -15,6 +15,7 @@ namespace SS.Business.Models
         public int HomeCountryId { get; set; }
         public int? HomeUsStateId { get; set; }
         public int? HomeUsCityId { get; set; }
+        public int? HomeUsZipCodeId { get; set; }
         public int? HomeWorldRegionId { get; set; }
         public int? HomeWorldCityId { get; set; }
         public int CurrentCountryId { get; set; }

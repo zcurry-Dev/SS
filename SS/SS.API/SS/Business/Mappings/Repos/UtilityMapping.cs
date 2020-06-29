@@ -9,7 +9,7 @@ namespace SS.Business.Mappings.Repos
 {
     public class UtilityMapping : IUtilityMapping
     {
-        public IEnumerable<CountryBModel> MapToCountriesDto(IEnumerable<Country> countryList)
+        public IEnumerable<CountryBModel> MapToCountryBModel(IEnumerable<Country> countryList)
         {
             var countries = countryList.Select(c => new CountryBModel()
             {
@@ -24,7 +24,7 @@ namespace SS.Business.Mappings.Repos
             return countries;
         }
 
-        public IEnumerable<UsStateBModel> MapToUsStatesDto(IEnumerable<Usstate> stateList)
+        public IEnumerable<UsStateBModel> MapToUsStateBModel(IEnumerable<Usstate> stateList)
         {
             var usStates = stateList.Select(s => new UsStateBModel()
             {
@@ -36,9 +36,9 @@ namespace SS.Business.Mappings.Repos
             return usStates;
         }
 
-        public IEnumerable<UsCityBModel> MapToUsCitiesDto(IEnumerable<City> cityList)
+        public IEnumerable<UsCityBModel> MapToUsCityBModel(IEnumerable<City> cityList)
         {
-            var usCities = cityList.Select(c => new UsCityBModel()
+            var cities = cityList.Select(c => new UsCityBModel()
             {
                 Id = c.CityId,
                 Name = c.CityName,
@@ -47,7 +47,19 @@ namespace SS.Business.Mappings.Repos
                 MajorCity = c.MajorCity
             });
 
-            return usCities;
+            return cities;
+        }
+
+        public IEnumerable<ZipCodeBModel> MapToZipCodeBModel(IEnumerable<ZipCode> zipCodeList)
+        {
+            var zipCodes = zipCodeList.Select(z => new ZipCodeBModel()
+            {
+                Id = z.ZipCodeId,
+                ZipCode = z.ZipCode1,
+                CityId = z.CityId
+            });
+
+            return zipCodes;
         }
 
         public City MapToCity(CityToCreateDto c)
