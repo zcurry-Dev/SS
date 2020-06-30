@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SS.Business.Dtos.Accept;
 using SS.Business.Interfaces;
+using SS.Business.Models.Artist;
 using SS.Helpers;
 using SS.Helpers.Pagination.PagedParams;
 

@@ -1,4 +1,4 @@
-namespace SS.Business.Dtos.Accept
+namespace SS.Business.Models.User
 {
     public class UserForUpdateDto
     {

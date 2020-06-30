@@ -1,6 +1,6 @@
 namespace SS.Business.Models
 {
-    public class UsCityBModel
+    public class UsCityDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

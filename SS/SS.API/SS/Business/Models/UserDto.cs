@@ -2,7 +2,7 @@ using System;
 
 namespace SS.Business.Models
 {
-    public class UserBModel
+    public class UserDto
     {
         public int UserId { get; set; }
         public string UserName { get; set; }

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Calculations;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Models;
+using SS.Business.Models.Artist;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
 
@@ -44,9 +43,9 @@ namespace SS.Business.Mappings.Repos
             return artistListForReturnDto;
         }
 
-        public ArtistBModel MapToArtistBModel(Artist a)
+        public ArtistDto MapToArtistDto(Artist a)
         {
-            var artistForUpdateDto = new ArtistBModel()
+            var artistForUpdateDto = new ArtistDto()
             {
                 Id = a.ArtistId,
                 Name = a.ArtistName,

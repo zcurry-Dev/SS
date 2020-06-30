@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SS.Business.Dtos.Accept
+namespace SS.Business.Models.Utility
 {
     public class CityToCreateDto
     {

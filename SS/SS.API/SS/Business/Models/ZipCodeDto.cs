@@ -1,6 +1,6 @@
 namespace SS.Business.Models
 {
-    public class ZipCodeBModel
+    public class ZipCodeDto
     {
         public int Id { get; set; }
         public string ZipCode { get; set; }

@@ -1,5 +1,4 @@
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
+using SS.Business.Models.User;
 using SS.Data.Models;
 
 namespace SS.Business.Mappings.Interfaces

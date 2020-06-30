@@ -1,11 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
+using SS.Business.Models.User;
 using SS.Data.Models;
-using SS.Helpers.Pagination;
 
 namespace SS.Business.Mappings.Repos
 {

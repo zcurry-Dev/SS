@@ -1,6 +1,6 @@
 using System;
 
-namespace SS.Business.Dtos.Accept
+namespace SS.Business.Models.Artist
 {
     public class ArtistForUpdateDto
     {

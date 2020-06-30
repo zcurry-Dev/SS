@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Models;
+using SS.Business.Models.User;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
 
@@ -32,9 +31,9 @@ namespace SS.Business.Mappings.Repos
             return userList;
         }
 
-        public IEnumerable<RoleBModel> MapToRoleBModelList(IList<Ssrole> ssroles)
+        public IEnumerable<RoleDto> MapToRoleDto(IList<Ssrole> ssroles)
         {
-            var roles = ssroles.Select(r => new RoleBModel()
+            var roles = ssroles.Select(r => new RoleDto()
             {
                 Id = r.Id,
                 Name = r.Name,

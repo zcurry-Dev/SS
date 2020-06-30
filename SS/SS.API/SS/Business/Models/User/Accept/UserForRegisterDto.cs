@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SS.Business.Dtos.Accept
+namespace SS.Business.Models.User
 {
     public class UserForRegisterDto
     {

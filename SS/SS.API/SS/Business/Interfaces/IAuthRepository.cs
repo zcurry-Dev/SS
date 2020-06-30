@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.Business.Dtos.Return;
+using SS.Business.Models.User;
 
 namespace SS.Business.Interfaces
 {

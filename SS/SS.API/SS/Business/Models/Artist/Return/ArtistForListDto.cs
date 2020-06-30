@@ -1,4 +1,4 @@
-namespace SS.Business.Dtos.Return
+namespace SS.Business.Models.Artist
 {
     public class ArtistForListDto
     {

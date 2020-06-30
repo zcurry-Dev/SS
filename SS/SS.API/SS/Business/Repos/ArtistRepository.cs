@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Mappings.Repos;
 using SS.Business.Models;
+using SS.Business.Models.Artist;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -25,7 +23,7 @@ namespace SS.Business.Repos
             _artist = artist;
         }
 
-        public async Task<ArtistBModel> CreateArtist(ArtistToCreateDto artistToCreate)
+        public async Task<ArtistDto> CreateArtist(ArtistToCreateDto artistToCreate)
         {
             var created = _map.MapToArtist(artistToCreate);
 
@@ -42,7 +40,7 @@ namespace SS.Business.Repos
                 throw new NullReferenceException();
             }
 
-            var artistToReturn = _map.MapToArtistBModel(created);
+            var artistToReturn = _map.MapToArtistDto(created);
 
             if (artistToReturn == null)
             {
@@ -81,10 +79,10 @@ namespace SS.Business.Repos
             return artistListForReturnDto;
         }
 
-        public async Task<ArtistBModel> GetArtistById(int artistId)
+        public async Task<ArtistDto> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
-            var artistToReturn = _map.MapToArtistBModel(artist);
+            var artistToReturn = _map.MapToArtistDto(artist);
 
             return artistToReturn;
         }

@@ -1,20 +1,19 @@
 using System.Collections.Generic;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Models;
+using SS.Business.Models.Utility;
 using SS.Data.Models;
 
 namespace SS.Business.Mappings.Interfaces
 {
     public interface IUtilityMapping
     {
-        IEnumerable<CountryBModel> MapToCountryBModel(IEnumerable<Country> countryList);
-        IEnumerable<UsStateBModel> MapToUsStateBModel(IEnumerable<Usstate> stateList);
-        IEnumerable<UsCityBModel> MapToUsCityBModel(IEnumerable<City> cityList);
-        IEnumerable<ZipCodeBModel> MapToZipCodeBModel(IEnumerable<ZipCode> zipCodeList);
+        IEnumerable<CountryDto> MapToCountryDto(IEnumerable<Country> countryList);
+        IEnumerable<UsStateDto> MapToUsStateDto(IEnumerable<Usstate> stateList);
         City MapToCity(CityToCreateDto c);
-        UsCityBModel MapToUsCityBModel(City c);
+        IEnumerable<UsCityDto> MapToUsCityDto(IEnumerable<City> cityList);
+        UsCityDto MapToUsCityDto(City c);
+        IEnumerable<ZipCodeDto> MapToZipCodeDto(IEnumerable<ZipCode> zipCodeList);
         ZipCode MapToZipCode(ZipCodeToCreateDto z);
-        ZipCodeBModel MapToZipCodeBModel(ZipCode z);
+        ZipCodeDto MapToZipCodeDto(ZipCode z);
     }
 }

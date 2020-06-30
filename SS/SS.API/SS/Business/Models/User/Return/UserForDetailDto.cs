@@ -1,6 +1,6 @@
 using System;
 
-namespace SS.Business.Dtos.Return
+namespace SS.Business.Models.User
 {
     public class UserForDetailDto
     {

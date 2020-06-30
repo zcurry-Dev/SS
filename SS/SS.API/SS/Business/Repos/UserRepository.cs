@@ -1,12 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
+using SS.Business.Models.User;
 using SS.Data.Interfaces;
-using SS.Data.Models;
 
 namespace SS.Business.Repos
 {

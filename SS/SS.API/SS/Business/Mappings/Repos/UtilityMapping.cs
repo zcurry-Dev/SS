@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
-using SS.Business.Dtos.Accept;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Models;
+using SS.Business.Models.Utility;
 using SS.Data.Models;
 
 namespace SS.Business.Mappings.Repos
 {
     public class UtilityMapping : IUtilityMapping
     {
-        public IEnumerable<CountryBModel> MapToCountryBModel(IEnumerable<Country> countryList)
+        public IEnumerable<CountryDto> MapToCountryDto(IEnumerable<Country> countryList)
         {
-            var countries = countryList.Select(c => new CountryBModel()
+            var countries = countryList.Select(c => new CountryDto()
             {
                 Id = c.CountryId,
                 Name = c.CountryName,
@@ -24,9 +24,9 @@ namespace SS.Business.Mappings.Repos
             return countries;
         }
 
-        public IEnumerable<UsStateBModel> MapToUsStateBModel(IEnumerable<Usstate> stateList)
+        public IEnumerable<UsStateDto> MapToUsStateDto(IEnumerable<Usstate> stateList)
         {
-            var usStates = stateList.Select(s => new UsStateBModel()
+            var usStates = stateList.Select(s => new UsStateDto()
             {
                 Id = s.StateId,
                 Abbreviation = s.StateAbbreviation,
@@ -36,9 +36,9 @@ namespace SS.Business.Mappings.Repos
             return usStates;
         }
 
-        public IEnumerable<UsCityBModel> MapToUsCityBModel(IEnumerable<City> cityList)
+        public IEnumerable<UsCityDto> MapToUsCityDto(IEnumerable<City> cityList)
         {
-            var cities = cityList.Select(c => new UsCityBModel()
+            var cities = cityList.Select(c => new UsCityDto()
             {
                 Id = c.CityId,
                 Name = c.CityName,
@@ -50,9 +50,9 @@ namespace SS.Business.Mappings.Repos
             return cities;
         }
 
-        public IEnumerable<ZipCodeBModel> MapToZipCodeBModel(IEnumerable<ZipCode> zipCodeList)
+        public IEnumerable<ZipCodeDto> MapToZipCodeDto(IEnumerable<ZipCode> zipCodeList)
         {
-            var zipCodes = zipCodeList.Select(z => new ZipCodeBModel()
+            var zipCodes = zipCodeList.Select(z => new ZipCodeDto()
             {
                 Id = z.ZipCodeId,
                 ZipCode = z.ZipCode1,
@@ -74,9 +74,9 @@ namespace SS.Business.Mappings.Repos
             return city;
         }
 
-        public UsCityBModel MapToUsCityBModel(City c)
+        public UsCityDto MapToUsCityDto(City c)
         {
-            var city = new UsCityBModel()
+            var city = new UsCityDto()
             {
                 Id = c.CityId,
                 Name = c.CityName,
@@ -99,9 +99,9 @@ namespace SS.Business.Mappings.Repos
             return zipCode;
         }
 
-        public ZipCodeBModel MapToZipCodeBModel(ZipCode z)
+        public ZipCodeDto MapToZipCodeDto(ZipCode z)
         {
-            var zipCode = new ZipCodeBModel()
+            var zipCode = new ZipCodeDto()
             {
                 Id = z.ZipCodeId,
                 ZipCode = z.ZipCode1,

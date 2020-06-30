@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SS.Business.Dtos.Accept;
 using SS.Business.Interfaces;
+using SS.Business.Models.Utility;
 
 namespace SS.Controllers.Admin
 {

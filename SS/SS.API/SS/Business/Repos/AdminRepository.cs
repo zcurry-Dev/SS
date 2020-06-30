@@ -2,12 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
-using SS.Business.Mappings;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Models;
+using SS.Business.Models.User;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -56,19 +54,18 @@ namespace SS.Business.Repos
             return userListForAdminReturnDto;
         }
 
-        public async Task<IEnumerable<RoleBModel>> GetAllAvailibleRoles()
+        public async Task<IEnumerable<RoleDto>> GetAllAvailibleRoles()
         {
             var ssRoles = await _admin.GetAllAvailibleRoles();
-            var rolesToReturn = _map.MapToRoleBModelList(ssRoles);
+            var rolesToReturn = _map.MapToRoleDto(ssRoles);
 
             return rolesToReturn;
         }
 
-        public async Task<IdentityResult> UpdateRolesForUser(string userName, RoleEditDto roleEditDto)
+        public async Task<IdentityResult> UpdateRolesForUser(string userName, string[] selectedRoles)
         {
             var user = await _user.GetUserByUserName(userName);
             var userRoles = await _user.GetRolesForUser(user);
-            var selectedRoles = roleEditDto.RoleNames;
             selectedRoles = selectedRoles ?? new string[] { };
 
             var result = await _admin.AddRolesToUser(user, selectedRoles, userRoles);

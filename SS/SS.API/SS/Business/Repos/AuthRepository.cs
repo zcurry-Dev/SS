@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SS.Business.Dtos.Return;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
+using SS.Business.Models.User;
 using SS.Data.Interfaces;
 
 namespace SS.Business.Repos

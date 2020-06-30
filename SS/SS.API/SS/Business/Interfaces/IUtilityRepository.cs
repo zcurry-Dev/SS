@@ -1,19 +1,17 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using SS.Business.Dtos.Accept;
-using SS.Business.Dtos.Return;
 using SS.Business.Models;
+using SS.Business.Models.Utility;
 
 namespace SS.Business.Interfaces
 {
     public interface IUtilityRepository
     {
-        Task<IEnumerable<CountryBModel>> GetCountries();
-        Task<IEnumerable<UsStateBModel>> GetUsStates();
-        Task<IEnumerable<UsCityBModel>> GetUsCities(int usStateId);
-        Task<IEnumerable<ZipCodeBModel>> GetZipCodes(int usCityId);
-        Task<UsCityBModel> CreateCity(CityToCreateDto cityToCreateDto);
-        Task<ZipCodeBModel> CreateZipCode(ZipCodeToCreateDto zipCodeToCreateDto);
+        Task<IEnumerable<CountryDto>> GetCountries();
+        Task<IEnumerable<UsStateDto>> GetUsStates();
+        Task<IEnumerable<UsCityDto>> GetUsCities(int usStateId);
+        Task<IEnumerable<ZipCodeDto>> GetZipCodes(int usCityId);
+        Task<UsCityDto> CreateCity(CityToCreateDto cityToCreateDto);
+        Task<ZipCodeDto> CreateZipCode(ZipCodeToCreateDto zipCodeToCreateDto);
     }
 }
