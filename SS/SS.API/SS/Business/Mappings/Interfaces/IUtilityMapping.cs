@@ -11,7 +11,7 @@ namespace SS.Business.Mappings.Interfaces
         City MapToCity(CityToCreateDto c);
         IEnumerable<UsCityDto> MapToUsCityDto(IEnumerable<City> cityList);
         UsCityDto MapToUsCityDto(City c);
-        IEnumerable<ZipCodeDto> MapToZipCodeDto(IEnumerable<ZipCode> zipCodeList);
+        IEnumerable<ZipCodeToReturnDto> MapToZipCodeToReturnDto(IEnumerable<ZipCode> zipCodeList);
         ZipCode MapToZipCode(ZipCodeToCreateDto z);
         ZipCodeDto MapToZipCodeDto(ZipCode z);
     }

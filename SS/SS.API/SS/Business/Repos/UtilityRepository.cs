@@ -38,10 +38,10 @@ namespace SS.Business.Repos
             return citiesToReturn;
         }
 
-        public async Task<IEnumerable<ZipCodeDto>> GetZipCodes(int usCityId)
+        public async Task<IEnumerable<ZipCodeToReturnDto>> GetZipCodes(int usCityId)
         {
             var zipCodes = await _utility.GetZipCodes(usCityId);
-            var zipCodesToReturn = _map.MapToZipCodeDto(zipCodes);
+            var zipCodesToReturn = _map.MapToZipCodeToReturnDto(zipCodes);
             return zipCodesToReturn;
         }
 

@@ -12,7 +12,7 @@ namespace SS.Business.Interfaces
     {
         Task<PagedListDto<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams);
         Task<IEnumerable<RoleDto>> GetAllAvailibleRoles();
-        Task<IdentityResult> UpdateRolesForUser(string userName, string[] selectedRoles);
+        Task<IdentityResult> UpdateRolesForUser(string userName, RoleEditDto roleEditDto);
         Task<IList<string>> GetRolesForUser(string userName);
     }
 }

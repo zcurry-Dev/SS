@@ -19,4 +19,11 @@ namespace SS.Business.Models.Utility
         [Required]
         public int CityId { get; set; }
     }
+
+    // Return
+    public class ZipCodeToReturnDto
+    {
+        public int Id { get; set; }
+        public string ZipCode { get; set; }
+    }
 }

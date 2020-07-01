@@ -53,7 +53,7 @@ export class AdminApiService {
 
   SaveUsers(user: User, roles: {}) {
     const url = `${env.apiUrl}/${env.adminSaveUsers}`;
-    return this.http.post<User>(`${url}/${user.userName}`, roles).pipe(
+    return this.http.patch<User>(`${url}/${user.userName}`, roles).pipe(
       catchError((error) => {
         console.log(error);
         return EMPTY;

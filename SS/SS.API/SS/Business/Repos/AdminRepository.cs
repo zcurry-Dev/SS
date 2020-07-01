@@ -63,10 +63,11 @@ namespace SS.Business.Repos
             return rolesToReturn;
         }
 
-        public async Task<IdentityResult> UpdateRolesForUser(string userName, string[] selectedRoles)
+        public async Task<IdentityResult> UpdateRolesForUser(string userName, RoleEditDto roleEditDto)
         {
             var user = await _user.GetUserByUserName(userName);
             var userRoles = await _user.GetRolesForUser(user);
+            var selectedRoles = roleEditDto.Names;
             selectedRoles = selectedRoles ?? new string[] { };
 
             var result = await _admin.AddRolesToUser(user, selectedRoles, userRoles);

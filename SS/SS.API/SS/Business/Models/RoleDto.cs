@@ -7,4 +7,9 @@ namespace SS.Business.Models.Role
         public string NormalizedName { get; set; }
         public string ConcurrencyStamp { get; set; } //needed? 062820
     }
+
+    public class RoleEditDto
+    {
+        public string[] Names { get; set; }
+    }
 }

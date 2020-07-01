@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SS.Business.Interfaces;
+using SS.Business.Models.Role;
 using SS.Helpers;
 using SS.Helpers.Pagination.PagedParams;
 
@@ -27,9 +29,9 @@ namespace SS.Controllers.Admin
             return Ok(users.List);
         }
 
-        [HttpPost]
+        [HttpPatch]
         [Route("SaveUsers/{userName}")]
-        public async Task<IActionResult> SaveUsers(string userName, string[] selectedRoles)
+        public async Task<IActionResult> SaveUsers(string userName, RoleEditDto selectedRoles)
         {
             var result = await _admin.UpdateRolesForUser(userName, selectedRoles);
 

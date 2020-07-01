@@ -9,7 +9,7 @@ namespace SS.Business.Interfaces
         Task<IEnumerable<CountryDto>> GetCountries();
         Task<IEnumerable<UsStateDto>> GetUsStates();
         Task<IEnumerable<UsCityDto>> GetUsCities(int usStateId);
-        Task<IEnumerable<ZipCodeDto>> GetZipCodes(int usCityId);
+        Task<IEnumerable<ZipCodeToReturnDto>> GetZipCodes(int usCityId);
         Task<UsCityDto> CreateCity(CityToCreateDto cityToCreateDto);
         Task<ZipCodeDto> CreateZipCode(ZipCodeToCreateDto zipCodeToCreateDto);
     }

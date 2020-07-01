@@ -49,13 +49,12 @@ namespace SS.Business.Mappings.Repos
             return cities;
         }
 
-        public IEnumerable<ZipCodeDto> MapToZipCodeDto(IEnumerable<ZipCode> zipCodeList)
+        public IEnumerable<ZipCodeToReturnDto> MapToZipCodeToReturnDto(IEnumerable<ZipCode> zipCodeList)
         {
-            var zipCodes = zipCodeList.Select(z => new ZipCodeDto()
+            var zipCodes = zipCodeList.Select(z => new ZipCodeToReturnDto()
             {
                 Id = z.ZipCodeId,
-                ZipCode = z.ZipCode1,
-                CityId = z.CityId
+                ZipCode = z.ZipCode1
             });
 
             return zipCodes;

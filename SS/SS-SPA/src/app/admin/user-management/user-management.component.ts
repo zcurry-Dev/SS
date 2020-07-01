@@ -141,14 +141,14 @@ export class UserManagementComponent implements OnInit {
       if (values) {
         const rolesToUpdate = {
           // ... spreads values into new array
-          roleNames: [
+          names: [
             ...values.filter((el) => el.checked === true).map((el) => el.name),
           ],
         };
         if (rolesToUpdate) {
           this._adminApiService.SaveUsers(user, rolesToUpdate).subscribe(
             () => {
-              user.roles = [...rolesToUpdate.roleNames];
+              user.roles = [...rolesToUpdate.names];
             },
             (error) => {
               console.log(error);

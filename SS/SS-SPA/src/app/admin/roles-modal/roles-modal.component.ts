@@ -28,10 +28,6 @@ export class RolesModalComponent implements OnInit {
     this.roles = this.data.roles;
   }
 
-  updateRoles() {
-    this.updateSelectedRoles.emit(this.roles);
-  }
-
   modalUserIsAdmin() {
     return this.user.roles.includes('Admin');
   }
