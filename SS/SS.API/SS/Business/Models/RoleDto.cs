@@ -1,4 +1,4 @@
-namespace SS.Business.Models
+namespace SS.Business.Models.Role
 {
     public class RoleDto
     {

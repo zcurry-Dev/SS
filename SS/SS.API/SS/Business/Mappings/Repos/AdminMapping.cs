@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
+using SS.Business.Models.PagedList;
+using SS.Business.Models.Role;
 using SS.Business.Models.User;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -10,22 +11,22 @@ namespace SS.Business.Mappings.Repos
 {
     public class AdminMapping : IAdminMapping
     {
-        public UserListForAdminReturnDto MapToUserListForAdminReturnDto(PagedList<Ssuser> list)
+        public PagedListDto<UserForAdminReturnDto> MapToUserListForAdminReturnDto(PagedList<Ssuser> plUsers)
         {
-            var users = list.Select(u => new UserForAdminReturnDto()
+            var users = plUsers.Select(u => new UserForAdminReturnDto()
             {
                 Id = u.Id,
                 UserName = u.UserName,
                 Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(), // is this right?? 062820
             });
 
-            var userList = new UserListForAdminReturnDto()
+            var userList = new PagedListDto<UserForAdminReturnDto>()
             {
-                Users = users,
-                CurrentPage = list.CurrentPage,
-                TotalPages = list.TotalPages,
-                PageSize = list.PageSize,
-                TotalCount = list.TotalCount,
+                List = users,
+                CurrentPage = plUsers.CurrentPage,
+                TotalPages = plUsers.TotalPages,
+                PageSize = plUsers.PageSize,
+                TotalCount = plUsers.TotalCount,
             };
 
             return userList;

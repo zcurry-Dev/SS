@@ -1,4 +1,6 @@
-namespace SS.Business.Models
+using System.ComponentModel.DataAnnotations;
+
+namespace SS.Business.Models.Utility
 {
     public class UsCityDto
     {
@@ -7,5 +9,16 @@ namespace SS.Business.Models
         public int? ClosestMajorCityId { get; set; }
         public int StateId { get; set; }
         public bool MajorCity { get; set; }
+    }
+
+    // Accept
+    public class CityToCreateDto
+    {
+        [Required]
+        public string CityName { get; set; }
+        public int? ClosestMajorCityId { get; set; }
+
+        [Required]
+        public int StateId { get; set; }
     }
 }

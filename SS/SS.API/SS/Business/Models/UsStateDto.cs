@@ -1,4 +1,4 @@
-namespace SS.Business.Models
+namespace SS.Business.Models.Utility
 {
     public class UsStateDto
     {

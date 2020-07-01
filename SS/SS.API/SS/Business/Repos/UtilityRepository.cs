@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
 using SS.Business.Models.Utility;
 
 namespace SS.Business.Repos

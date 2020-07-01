@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using SS.Business.Models;
 using SS.Business.Models.Utility;
 using SS.Data.Models;
 

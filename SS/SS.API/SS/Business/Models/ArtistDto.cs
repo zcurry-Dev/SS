@@ -1,6 +1,6 @@
 using System;
 
-namespace SS.Business.Models
+namespace SS.Business.Models.Artist
 {
     public class ArtistDto
     {
@@ -26,5 +26,66 @@ namespace SS.Business.Models
 
         //        
         public int? YearsActive { get; set; }
+    }
+
+    // public class ArtistResponseDto : ArtistDto
+    // {
+    //     public int Id { get; set; }
+    // }
+
+    // Accept
+    public class ArtistToCreateDto
+    {
+        public ArtistToCreateDto()
+        {
+            var now = DateTime.Now;
+
+            CareerBeginDate = now;
+            ArtistGroup = false;
+            Verified = false;
+            HomeCountryId = 1; //United States defaulted for now, will use form data
+            CurrentCountryId = 1; //United States defaulted for now, will use form data
+            CreatedBy = 1; // me for now, will use token identity instead
+            CreatedDate = now;
+        }
+
+        public string Name { get; set; }
+        public DateTime CareerBeginDate { get; set; }
+        public bool ArtistGroup { get; set; }
+        public bool Verified { get; set; }
+        public int HomeCountryId { get; set; }
+        public int CurrentCountryId { get; set; }
+        public int CreatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+    }
+
+    public class ArtistForUpdateDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? StatusId { get; set; }
+        public DateTime CareerBeginDate { get; set; }
+        public bool Group { get; set; }
+        public int? UserId { get; set; }
+        public bool Verified { get; set; }
+        public int HomeCountryId { get; set; }
+        public int? UshomeCityId { get; set; }
+        public int? WorldHomeCityId { get; set; }
+        public int? CurrentCityId { get; set; }
+    }
+
+    // Return
+    public class ArtistForListDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int? ArtistStatusId { get; set; }
+        public int YearsActive { get; set; }
+        public bool ArtistGroup { get; set; }
+        public int? UserId { get; set; }
+        public bool Verified { get; set; }
+        public string MainPhotoId { get; set; }
+        public string CurrentCity { get; set; }
+        public string HomeCity { get; set; }
     }
 }

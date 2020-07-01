@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
 using SS.Business.Models.Utility;
 using SS.Data.Models;
 

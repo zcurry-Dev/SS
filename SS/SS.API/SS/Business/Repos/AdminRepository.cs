@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
+using SS.Business.Models.PagedList;
+using SS.Business.Models.Role;
 using SS.Business.Models.User;
 using SS.Data.Interfaces;
 using SS.Data.Models;
@@ -26,7 +27,7 @@ namespace SS.Business.Repos
             _user = user;
         }
 
-        public async Task<UserListForAdminReturnDto> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
+        public async Task<PagedListDto<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
         {
             var usersWithRoles = _admin.GetAllUsers();
 
@@ -49,9 +50,9 @@ namespace SS.Business.Repos
             }
 
             var ssUsersList = await PagedList<Ssuser>.CreateAsync(usersWithRoles, adminUsersParams.PN, adminUsersParams.PS);
-            var userListForAdminReturnDto = _map.MapToUserListForAdminReturnDto(ssUsersList);
+            var usersToReturn = _map.MapToUserListForAdminReturnDto(ssUsersList);
 
-            return userListForAdminReturnDto;
+            return usersToReturn;
         }
 
         public async Task<IEnumerable<RoleDto>> GetAllAvailibleRoles()

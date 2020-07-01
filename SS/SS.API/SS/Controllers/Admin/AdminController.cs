@@ -20,11 +20,11 @@ namespace SS.Controllers.Admin
         [Route("ListUsers")]
         public async Task<IActionResult> ListUsers([FromQuery] AdminUsersParams adminUsersParams)
         {
-            var userList = await _admin.GetAllUsersWithRoles(adminUsersParams);
-            Response.AddPagination(userList.CurrentPage, userList.PageSize,
-                userList.TotalCount, userList.TotalPages);
+            var users = await _admin.GetAllUsersWithRoles(adminUsersParams);
+            Response.AddPagination(users.CurrentPage, users.PageSize,
+                users.TotalCount, users.TotalPages);
 
-            return Ok(userList.Users);
+            return Ok(users.List);
         }
 
         [HttpPost]

@@ -20,9 +20,9 @@ namespace SS.Controllers.User
         [HttpGet("{id}", Name = "GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var userToReturn = await _user.GetUserById(id);
+            var user = await _user.GetUserById(id);
 
-            return Ok(userToReturn);
+            return Ok(user);
         }
 
 

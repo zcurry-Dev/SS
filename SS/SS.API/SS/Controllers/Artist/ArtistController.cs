@@ -25,13 +25,15 @@ namespace SS.Controllers.Artist
         [HttpPost("Create")]
         public async Task<IActionResult> Create(ArtistToCreateDto artistToCreate)
         {
-            var artistForDetailedDto = await _artist.CreateArtist(artistToCreate);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (artistForDetailedDto.Id != 0)
+            var artist = await _artist.CreateArtist(artistToCreate);
+
+            if (artist.Id != 0)
             {
                 return CreatedAtRoute(
-                    artistForDetailedDto.Id,
-                    artistForDetailedDto);
+                    artist.Id,
+                    artist);
             }
 
             return BadRequest("Could not add artist");
@@ -41,20 +43,20 @@ namespace SS.Controllers.Artist
         [Route("Get/{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var artistToReturn = await _artist.GetArtistById(id);
+            var artist = await _artist.GetArtistById(id);
 
-            return Ok(artistToReturn);
+            return Ok(artist);
         }
 
         [HttpGet]
         [Route("List")]
         public async Task<IActionResult> List([FromQuery] ArtistParams artistParams)
         {
-            var artistList = await _artist.GetArtists(artistParams);
-            Response.AddPagination(artistList.CurrentPage, artistList.PageSize,
-                artistList.TotalCount, artistList.TotalPages);
+            var artists = await _artist.GetArtists(artistParams);
+            Response.AddPagination(artists.CurrentPage, artists.PageSize,
+                artists.TotalCount, artists.TotalPages);
 
-            return Ok(artistList.Artists);
+            return Ok(artists.List);
         }
 
         [HttpPatch]

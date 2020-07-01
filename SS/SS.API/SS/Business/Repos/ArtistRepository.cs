@@ -3,8 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
 using SS.Business.Models.Artist;
+using SS.Business.Models.PagedList;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -50,7 +50,7 @@ namespace SS.Business.Repos
             return artistToReturn;
         }
 
-        public async Task<ArtistListForReturnDto> GetArtists(ArtistParams artistParams)
+        public async Task<PagedListDto<ArtistForListDto>> GetArtists(ArtistParams artistParams)
         {
             var artists = _artist.GetArtists().AsQueryable();
 
@@ -73,10 +73,9 @@ namespace SS.Business.Repos
             }
 
             var plArtists = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
-            var artistsToReturn = _map.MapToArtistForListDto(plArtists);
-            var artistListForReturnDto = _map.MapToArtistListForReturnDto(artistsToReturn, plArtists);
+            var artistsToReturn = _map.MapToListForReturnDto(plArtists);
 
-            return artistListForReturnDto;
+            return artistsToReturn;
         }
 
         public async Task<ArtistDto> GetArtistById(int artistId)

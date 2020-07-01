@@ -26,15 +26,15 @@ namespace SS.Controllers.Auth
 
             if (result.Succeeded)
             {
-                var userToReturn = await _user.GetUserForDetailToReturn(userForRegisterDto.UserName);
+                var user = await _user.GetUserForDetailToReturn(userForRegisterDto.UserName);
                 return CreatedAtRoute(
                     "GetUser",
                     new
                     {
                         controller = "User",
-                        id = userToReturn.Id
+                        id = user.Id
                     },
-                    userToReturn);
+                    user);
             }
 
             return BadRequest(result.Errors);

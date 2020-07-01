@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SS.Business.Models;
 using SS.Business.Models.Utility;
 
 namespace SS.Business.Interfaces

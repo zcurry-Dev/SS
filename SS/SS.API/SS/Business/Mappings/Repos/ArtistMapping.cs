@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Calculations;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
 using SS.Business.Models.Artist;
+using SS.Business.Models.PagedList;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
 
@@ -11,9 +10,10 @@ namespace SS.Business.Mappings.Repos
 {
     public class ArtistMapping : IArtistMapping
     {
-        public IEnumerable<ArtistForListDto> MapToArtistForListDto(PagedList<Artist> artistList)
+        public PagedListDto<ArtistForListDto> MapToListForReturnDto(PagedList<Artist> plArtists)
         {
-            var artistForListDto = artistList.Select(a => new ArtistForListDto
+
+            var artists = plArtists.Select(a => new ArtistForListDto
             {
                 Id = a.ArtistId,
                 Name = a.ArtistName,
@@ -25,22 +25,16 @@ namespace SS.Business.Mappings.Repos
                 HomeCity = GetHomeCity(a)
             });
 
-            return artistForListDto;
-        }
-
-        public ArtistListForReturnDto MapToArtistListForReturnDto(
-            IEnumerable<ArtistForListDto> artistsToReturn, PagedList<Artist> plArtists)
-        {
-            var artistListForReturnDto = new ArtistListForReturnDto()
+            var artistList = new PagedListDto<ArtistForListDto>()
             {
-                Artists = artistsToReturn,
+                List = artists,
                 CurrentPage = plArtists.CurrentPage,
                 TotalPages = plArtists.TotalPages,
                 PageSize = plArtists.PageSize,
                 TotalCount = plArtists.TotalCount
             };
 
-            return artistListForReturnDto;
+            return artistList;
         }
 
         public ArtistDto MapToArtistDto(Artist a)
