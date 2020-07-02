@@ -84,21 +84,20 @@ export class EditAboutComponent implements OnInit {
   }
 
   updateArtist() {
-    console.log(this.artist);
+    // console.log(this.artist);
     this.setArtistValues();
     console.log(this.artist);
 
-    // this.artistService.Save(this.artist).subscribe(
-    //   (next) => {
-
-    //     this.alertify.success('Artist updated successfully');
-    //     this.editArtistAboutForm.reset(this.artist);
-    //     this.router.navigate(['/artist', this.artist.id]);
-    //   },
-    //   (error) => {
-    //     this.alertify.error(error);
-    //   }
-    // );
+    this.artistService.Save(this.artist).subscribe(
+      (next) => {
+        this.alertify.success('Artist updated successfully');
+        this.editArtistAboutForm.reset(this.artist);
+        this.router.navigate(['/artist', this.artist.id]);
+      },
+      (error) => {
+        this.alertify.error(error);
+      }
+    );
   }
 
   // there has to be a better way
@@ -115,14 +114,18 @@ export class EditAboutComponent implements OnInit {
   }
 
   setUSArtist(f: ArtistForm) {
-    this.artist.homeCountryId = f.homeCountryId;
-    this.artist.homeUsCity = f.homeUsCity;
-    this.artist.homeUsCityId = f.homeUsCity.id;
+    const a = this.artist;
+    a.homeCountryId = 1;
+    a.homeWorldRegionId = null;
+    a.homeWorldCityId = null;
   }
 
   setNonUSArtist(f: ArtistForm) {
-    this.artist.homeCountryId = 2;
-    this.artist.homeWorldRegionId = f.homeWorldRegion;
+    const a = this.artist;
+    a.homeCountryId = 2;
+    a.homeUsState = null;
+    a.homeUsCity = null;
+    a.homeUsZipCode = null;
   }
 
   usRadioChange(bool) {
@@ -301,15 +304,24 @@ export class EditAboutComponent implements OnInit {
         .substring(this.question.length)
         .split('"?')[0];
       this.setUsCityFormField(newCityName);
+    } else {
+      this.updateArtistUsCityId(option.value);
     }
   }
 
-  enterNewCity() {
-    const newCityName: string = this.controls.homeUsCity.value;
-    if (
-      !this.usCities.map((c) => c.name).some((entry) => entry === newCityName)
-    ) {
-      this.setUsCityFormField(newCityName);
+  citySelectOnEnterKey() {
+    const cityName: string = this.controls.homeUsCity.value;
+    if (!this.usCities.map((c) => c.name).some((entry) => entry === cityName)) {
+      this.setUsCityFormField(cityName);
+    } else {
+      this.updateArtistUsCityId(cityName);
+    }
+  }
+
+  updateArtistUsCityId(cityName) {
+    const city = this.usCities.find((c) => c.name === cityName);
+    if (city) {
+      this.artist.homeUsCityId = city.id;
     }
   }
 
@@ -318,6 +330,9 @@ export class EditAboutComponent implements OnInit {
     newCity.name = newCityName;
     this.usCities.push(newCity);
     this.controls.homeUsCity.setValue(newCityName);
+    this.controls.homeUsZipCode.setValue(null);
+    this.artist.homeUsStateId = null;
+    this.artist.homeUsZipCodeId = null;
   }
 
   loadZipCodesForCity(value: string) {
@@ -337,17 +352,28 @@ export class EditAboutComponent implements OnInit {
         .substring(this.question.length)
         .split('"?')[0];
       this.setUsZipCodeFormField(newZipCodeDigits);
+    } else {
+      this.updateArtistUsZipCodeId(option.value);
     }
   }
 
-  enterNewZipCode() {
-    const newZipCodeDigits: string = this.controls.homeUsZipCode.value;
+  zipCodeSelectOnEnterKey() {
+    const zipCodeDigits: string = this.controls.homeUsZipCode.value;
     if (
       !this.usZipCodes
         .map((z) => z.zipCode)
-        .some((entry) => entry === newZipCodeDigits)
+        .some((entry) => entry === zipCodeDigits)
     ) {
-      this.setUsZipCodeFormField(newZipCodeDigits);
+      this.setUsZipCodeFormField(zipCodeDigits);
+    } else {
+      this.updateArtistUsZipCodeId(zipCodeDigits);
+    }
+  }
+
+  updateArtistUsZipCodeId(zipCodeDigits) {
+    const zipCode = this.usZipCodes.find((z) => z.zipCode === zipCodeDigits);
+    if (zipCode) {
+      this.artist.homeUsZipCodeId = zipCode.id;
     }
   }
 
@@ -356,5 +382,6 @@ export class EditAboutComponent implements OnInit {
     newZipCode.zipCode = newZipCodeDigits;
     this.usZipCodes.push(newZipCode);
     this.controls.homeUsZipCode.setValue(newZipCodeDigits);
+    this.artist.homeUsZipCodeId = null;
   }
 }

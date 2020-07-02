@@ -42,7 +42,6 @@ namespace SS.Business.Mappings.Repos
                 Id = c.CityId,
                 Name = c.CityName,
                 ClosestMajorCityId = c.ClosestMajorCityId,
-                StateId = c.StateId,
                 MajorCity = c.MajorCity
             });
 
@@ -54,7 +53,7 @@ namespace SS.Business.Mappings.Repos
             var zipCodes = zipCodeList.Select(z => new ZipCodeToReturnDto()
             {
                 Id = z.ZipCodeId,
-                ZipCode = z.ZipCode1
+                ZipCode = z.Digits
             });
 
             return zipCodes;
@@ -79,7 +78,6 @@ namespace SS.Business.Mappings.Repos
                 Id = c.CityId,
                 Name = c.CityName,
                 ClosestMajorCityId = c.ClosestMajorCityId,
-                StateId = c.StateId,
                 MajorCity = c.MajorCity
             };
 
@@ -90,7 +88,7 @@ namespace SS.Business.Mappings.Repos
         {
             var zipCode = new ZipCode()
             {
-                ZipCode1 = z.ZipCode,
+                Digits = z.ZipCode,
                 CityId = z.CityId
             };
 
@@ -102,7 +100,7 @@ namespace SS.Business.Mappings.Repos
             var zipCode = new ZipCodeDto()
             {
                 Id = z.ZipCodeId,
-                ZipCode = z.ZipCode1,
+                ZipCode = z.Digits,
                 CityId = z.CityId
             };
 

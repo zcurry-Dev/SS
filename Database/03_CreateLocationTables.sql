@@ -353,15 +353,16 @@ CREATE TABLE loc.City(
 	,MajorCity BIT NOT NULL
 		CONSTRAINT DF_City_MajorCity
 		DEFAULT 0
+	,MainZipCode NVARCHAR(5)
 )
 
 INSERT INTO loc.City
 VALUES
-('Austin', 1, 43, 1)
-,('Buda', 1, 43, 0)
-,('Columbus', 3, 35, 0)
-,('Walnut Creek', NULL, 5, 0)
-,('Roswell', NULL, 31, 0)
+('Austin', 1, 43, 1, '78701')
+,('Buda', 1, 43, 0, '78610')
+,('Columbus', 3, 35, 0, NULL)
+,('Walnut Creek', NULL, 5, 0, NULL)
+,('Roswell', NULL, 31, 0, NULL)
 
 CREATE TABLE loc.WorldCity(
 	WorldCityID INT NOT NULL
@@ -389,7 +390,7 @@ CREATE TABLE loc.ZipCode(
 	ZipCodeID INT NOT NULL
 		CONSTRAINT PK_ZipCodeID		
 		PRIMARY KEY IDENTITY
-	,ZipCode NVARCHAR(5) NOT NULL
+	,Digits NVARCHAR(5) NOT NULL
 	,CityID INT NOT NULL
 		CONSTRAINT FK_ZipCode_CityID
 		REFERENCES loc.City(CityID)

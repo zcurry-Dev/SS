@@ -54,6 +54,9 @@ CREATE TABLE dbo.Artist(
 	,HomeUSCityID INT NULL
 		CONSTRAINT FK_Artist_HomeUSCityID
 		REFERENCES loc.City(CityID)
+	,HomeUSZipCodeID INT NULL
+		CONSTRAINT FK_Artist_HomeUSZipCodeID
+		REFERENCES loc.ZipCode(ZipCodeID)
 	,HomeWorldCityID INT NULL
 		CONSTRAINT FK_Artist_HomeWorldCityID
 		REFERENCES loc.WorldCity(WorldCityID)
@@ -76,11 +79,11 @@ CREATE TABLE dbo.Artist(
 
 INSERT INTO dbo.Artist
 VALUES						
-('Silverstein',	1, '02-01-2000',				 NULL, 1, NULL, 1, 41,		NULL,	2,		1, NULL,	NULL, 1, GETDATE())
-,('Beartooth',	1, '01-01-2012',				 NULL, 1, NULL, 1, 1,		3,		NULL,	1, NULL,	NULL, 1, GETDATE())
-,('Chunk! No, Captain Chunk!',	1, '01-01-2007', NULL, 1, NULL, 1, 77,		NULL,	1,		1, NULL,	NULL, 1, GETDATE())
-,('The Story So Far', 1, '01-01-2007',			 NULL, 1, NULL, 1, 1,		4,		NULL,	1, NULL,	NULL, 1, GETDATE())
-,('John Denver', 1, '01-01-1965',				 NULL, 0, NULL, 1, 1,		5,		NULL,	1, NULL,	NULL, 1, GETDATE())
+('Silverstein',					1, '02-01-2000',	NULL, 1, NULL, 1, 41,	NULL,	NULL,	2,		1, NULL,	NULL, 1, GETDATE())
+,('Beartooth',					1, '01-01-2012',	NULL, 1, NULL, 1, 1,	3,		NULL,	NULL,	1, NULL,	NULL, 1, GETDATE())
+,('Chunk! No, Captain Chunk!',	1, '01-01-2007',	NULL, 1, NULL, 1, 77,	NULL,	NULL,	1,		1, NULL,	NULL, 1, GETDATE())
+,('The Story So Far',			1, '01-01-2007',	NULL, 1, NULL, 1, 1,	4,		NULL,	NULL,	1, NULL,	NULL, 1, GETDATE())
+,('John Denver',				1, '01-01-1965',	NULL, 0, NULL, 1, 1,	5,		NULL,	NULL,	1, NULL,	NULL, 1, GETDATE())
 
 CREATE TABLE dbo.ArtistPhoto(	
 	ArtistPhotoID INT NOT NULL

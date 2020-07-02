@@ -62,5 +62,32 @@ namespace SS.Business.Repos
 
             return result;
         }
+
+        public async Task<int> GetNewCityId(string name, int stateId)
+        {
+            var city = new CityToCreateDto()
+            {
+                CityName = name,
+                StateId = stateId
+            };
+
+            var cityToReturn = await CreateCity(city);
+
+            return cityToReturn.Id;
+        }
+
+        public async Task<int> GetNewZipCodeId(string zipCodeDigits, int cityId)
+        {
+            var zipCode = new ZipCodeToCreateDto()
+            {
+                ZipCode = zipCodeDigits,
+                CityId = cityId
+            };
+
+            var cityToReturn = await CreateZipCode(zipCode);
+
+            return cityToReturn.Id;
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SS.Business.Interfaces;
 using SS.Business.Models.Utility;
@@ -45,7 +46,7 @@ namespace SS.Controllers.Admin
             return Ok(zipCodes);
         }
 
-        //Create City
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("CreateCity")]
         public async Task<IActionResult> CreateCity(CityToCreateDto cityToCreateDto)
         {
@@ -66,7 +67,7 @@ namespace SS.Controllers.Admin
             return BadRequest("Could not create city");
         }
 
-        //Create Zipcode
+        [Authorize(Policy = "RequireAdminRole")]
         [HttpPost("CreateZipCode")]
         public async Task<IActionResult> CreateZipcode(ZipCodeToCreateDto zipCodeToCreateDto)
         {
@@ -87,7 +88,6 @@ namespace SS.Controllers.Admin
             return BadRequest("Could not create zipCode");
         }
 
-        //Assign Zipcode to City
 
 
     }

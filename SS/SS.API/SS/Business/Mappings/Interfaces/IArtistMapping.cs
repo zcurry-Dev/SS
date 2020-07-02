@@ -7,9 +7,9 @@ namespace SS.Business.Mappings.Interfaces
 {
     public interface IArtistMapping
     {
+        void UpdateArtist(ArtistForUpdateDto a, Artist artist);
         PagedListDto<ArtistForListDto> MapToListForReturnDto(PagedList<Artist> plArtists);
-        ArtistDto MapToArtistDto(Artist a);
-        void MapArtist(ArtistForUpdateDto a, Artist artist);
+        ArtistDto MapToArtistDetailDto(Artist a);
         Artist MapToArtist(ArtistToCreateDto a);
     }
 }

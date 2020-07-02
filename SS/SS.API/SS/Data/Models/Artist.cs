@@ -21,6 +21,7 @@ namespace SS.Data.Models
         public bool Verified { get; set; }
         public int HomeCountryId { get; set; }
         public int? HomeUscityId { get; set; }
+        public int? HomeUszipCodeId { get; set; }
         public int? HomeWorldCityId { get; set; }
         public int CurrentCountryId { get; set; }
         public int? CurrentUscityId { get; set; }
@@ -35,6 +36,7 @@ namespace SS.Data.Models
         public virtual WorldCity CurrentWorldCity { get; set; }
         public virtual Country HomeCountry { get; set; }
         public virtual City HomeUscity { get; set; }
+        public virtual ZipCode HomeUszipCode { get; set; }
         public virtual WorldCity HomeWorldCity { get; set; }
         public virtual Ssuser User { get; set; }
         public virtual ICollection<ArtistPhoto> ArtistPhoto { get; set; }

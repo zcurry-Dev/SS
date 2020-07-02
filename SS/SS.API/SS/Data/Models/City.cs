@@ -19,6 +19,7 @@ namespace SS.Data.Models
         public int? ClosestMajorCityId { get; set; }
         public int StateId { get; set; }
         public bool MajorCity { get; set; }
+        public string MainZipCode { get; set; }
 
         public virtual City ClosestMajorCity { get; set; }
         public virtual Usstate State { get; set; }

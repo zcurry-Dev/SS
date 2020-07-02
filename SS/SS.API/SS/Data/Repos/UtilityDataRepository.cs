@@ -78,7 +78,7 @@ namespace SS.Business.Repos
 
         public async Task<ZipCode> CreateZipCode(ZipCode zipCode)
         {
-            var zipCodeExists = _context.ZipCode.Any(z => z.CityId == z.CityId && z.ZipCode1 == zipCode.ZipCode1);
+            var zipCodeExists = _context.ZipCode.Any(z => z.CityId == z.CityId && z.Digits == zipCode.Digits);
             if (!zipCodeExists)
             {
                 Add(zipCode);

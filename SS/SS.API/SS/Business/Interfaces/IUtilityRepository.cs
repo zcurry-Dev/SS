@@ -12,5 +12,7 @@ namespace SS.Business.Interfaces
         Task<IEnumerable<ZipCodeToReturnDto>> GetZipCodes(int usCityId);
         Task<UsCityDto> CreateCity(CityToCreateDto cityToCreateDto);
         Task<ZipCodeDto> CreateZipCode(ZipCodeToCreateDto zipCodeToCreateDto);
+        Task<int> GetNewCityId(string name, int stateId);
+        Task<int> GetNewZipCodeId(string zipCodeDigits, int cityId);
     }
 }

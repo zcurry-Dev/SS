@@ -5,6 +5,7 @@ using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Models.Artist;
 using SS.Business.Models.PagedList;
+using SS.Business.Models.Utility;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Helpers.Pagination;
@@ -16,14 +17,16 @@ namespace SS.Business.Repos
     {
         private readonly IArtistDataRepository _artist;
         private readonly IArtistMapping _map;
+        private readonly IUtilityRepository _utility;
 
-        public ArtistRepository(IArtistDataRepository artist, IArtistMapping map)
+        public ArtistRepository(IArtistDataRepository artist, IArtistMapping map, IUtilityRepository utility)
         {
-            _map = map;
             _artist = artist;
+            _map = map;
+            _utility = utility;
         }
 
-        public async Task<ArtistDto> CreateArtist(ArtistToCreateDto artistToCreate)
+        public async Task<Models.Artist.ArtistDto> CreateArtist(ArtistToCreateDto artistToCreate)
         {
             var created = _map.MapToArtist(artistToCreate);
 
@@ -40,7 +43,7 @@ namespace SS.Business.Repos
                 throw new NullReferenceException();
             }
 
-            var artistToReturn = _map.MapToArtistDto(created);
+            var artistToReturn = _map.MapToArtistDetailDto(created);
 
             if (artistToReturn == null)
             {
@@ -72,28 +75,50 @@ namespace SS.Business.Repos
                 artists = artists.Where(s => s.ArtistName.Contains(artistParams.Search));
             }
 
-            var plArtists = await PagedList<Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
+            var plArtists = await PagedList<Data.Models.Artist>.CreateAsync(artists, artistParams.PN, artistParams.PS);
             var artistsToReturn = _map.MapToListForReturnDto(plArtists);
 
             return artistsToReturn;
         }
 
-        public async Task<ArtistDto> GetArtistById(int artistId)
+        public async Task<Models.Artist.ArtistDto> GetArtistById(int artistId)
         {
             var artist = await _artist.GetArtistById(artistId);
-            var artistToReturn = _map.MapToArtistDto(artist);
+            var artistToReturn = _map.MapToArtistDetailDto(artist);
 
             return artistToReturn;
         }
 
-        public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto artistForUpdateDto)
+        public async Task<bool> UpdateArtist(int artistId, ArtistForUpdateDto a)
         {
-            var artist = await _artist.GetArtistById(artistId);
-            _map.MapArtist(artistForUpdateDto, artist);
+            var result = ArtistAttributesValid(a);
+            if (result)
+            {
+                if (a.HomeUsCityId == null && a.HomeUsCity != null)
+                {
+                    a.HomeUsCityId = await _utility.GetNewCityId(a.HomeUsCity, a.HomeUsStateId.Value);
+                }
 
-            var result = await _artist.SaveAll();
+                if (a.HomeUsZipCodeId == null && a.HomeUsZipcode != null)
+                {
+                    a.HomeUsZipCodeId = await _utility.GetNewZipCodeId(a.HomeUsZipcode, a.HomeUsCityId.Value);
+                }
+
+                var artist = await _artist.GetArtistById(artistId);
+                _map.UpdateArtist(a, artist);
+
+                result = await _artist.SaveAll();
+            }
 
             return result;
+        }
+
+        private bool ArtistAttributesValid(ArtistForUpdateDto artistForUpdateDto)
+        {
+            // check if us, then us attributes
+
+            // if other country, then world attributes
+            return true;
         }
     }
 }

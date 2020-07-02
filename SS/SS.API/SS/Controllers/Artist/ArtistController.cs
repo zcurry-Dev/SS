@@ -40,7 +40,7 @@ namespace SS.Controllers.Artist
         }
 
         [HttpGet]
-        [Route("Get/{id}")]
+        [Route("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var artist = await _artist.GetArtistById(id);

@@ -6,7 +6,7 @@ export const environment = {
   adminSaveUsers: 'admin/saveusers',
   adminGetRoles: 'admin/getroles',
 
-  artistGet: 'artist/get',
+  artistGet: 'artist',
   artistList: 'artist/list',
   artistCreate: 'artist/create',
   artistSave: 'artist/save',

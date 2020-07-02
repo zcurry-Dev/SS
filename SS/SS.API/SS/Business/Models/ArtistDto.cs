@@ -23,15 +23,12 @@ namespace SS.Business.Models.Artist
         public int? CurrentWorldCityId { get; set; }
         public int CreatedBy { get; set; }
         public DateTime CreatedDate { get; set; }
-
-        //        
-        public int? YearsActive { get; set; }
     }
 
-    // public class ArtistResponseDto : ArtistDto
-    // {
-    //     public int Id { get; set; }
-    // }
+    public class ArtistDetailDto : ArtistDto
+    {
+        public int? YearsActive { get; set; }
+    }
 
     // Accept
     public class ArtistToCreateDto
@@ -49,29 +46,20 @@ namespace SS.Business.Models.Artist
             CreatedDate = now;
         }
 
-        public string Name { get; set; }
-        public DateTime CareerBeginDate { get; set; }
-        public bool ArtistGroup { get; set; }
-        public bool Verified { get; set; }
-        public int HomeCountryId { get; set; }
-        public int CurrentCountryId { get; set; }
-        public int CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public string Name { get; }
+        public DateTime CareerBeginDate { get; }
+        public bool ArtistGroup { get; }
+        public bool Verified { get; }
+        public int HomeCountryId { get; }
+        public int CurrentCountryId { get; }
+        public int CreatedBy { get; }
+        public DateTime CreatedDate { get; }
     }
 
-    public class ArtistForUpdateDto
+    public class ArtistForUpdateDto : ArtistDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int? StatusId { get; set; }
-        public DateTime CareerBeginDate { get; set; }
-        public bool Group { get; set; }
-        public int? UserId { get; set; }
-        public bool Verified { get; set; }
-        public int HomeCountryId { get; set; }
-        public int? UshomeCityId { get; set; }
-        public int? WorldHomeCityId { get; set; }
-        public int? CurrentCityId { get; set; }
+        public string HomeUsCity { get; set; }
+        public string HomeUsZipcode { get; set; }
     }
 
     // Return

@@ -37,9 +37,9 @@ namespace SS.Business.Mappings.Repos
             return artistList;
         }
 
-        public ArtistDto MapToArtistDto(Artist a)
+        public ArtistDto MapToArtistDetailDto(Artist a)
         {
-            var artistForUpdateDto = new ArtistDto()
+            var artist = new ArtistDetailDto()
             {
                 Id = a.ArtistId,
                 Name = a.ArtistName,
@@ -63,19 +63,20 @@ namespace SS.Business.Mappings.Repos
                 YearsActive = ArtistCalculations.CalculateArtistYearsActive(a.CareerBeginDate, a.CareerEndDate),
             };
 
-            return artistForUpdateDto;
+            return artist; // are years active still availible?
         }
 
-        public void MapArtist(ArtistForUpdateDto a, Artist artist)
+        public void UpdateArtist(ArtistForUpdateDto a, Artist artist)
         {
             artist.ArtistName = a.Name;
-            artist.CareerBeginDate = a.CareerBeginDate;
+            // artist.CareerBeginDate = a.CareerBeginDate;
             artist.ArtistGroup = a.Group;
             artist.UserId = a.UserId;
             artist.Verified = a.Verified;
             artist.HomeCountryId = a.HomeCountryId;
-            artist.HomeUscityId = a.UshomeCityId;
-            artist.HomeWorldCityId = a.WorldHomeCityId;
+            artist.HomeUscityId = a.HomeUsCityId;
+            // artist.ZipCodeId = a.HomeUsZipCodeId,
+            artist.HomeWorldCityId = a.HomeWorldCityId;
             // artist.CurrentCountryId = a.CurrentCountryId;
             // artist.CurrentUscityId = a.CurrentUscityId;
             // artist.CurrentWorldCityId = a.CurrentWorldCityId;

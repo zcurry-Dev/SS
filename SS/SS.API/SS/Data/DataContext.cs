@@ -128,6 +128,8 @@ namespace SS.Data
 
                 entity.Property(e => e.HomeUscityId).HasColumnName("HomeUSCityID");
 
+                entity.Property(e => e.HomeUszipCodeId).HasColumnName("HomeUSZipCodeID");
+
                 entity.Property(e => e.HomeWorldCityId).HasColumnName("HomeWorldCityID");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -169,6 +171,11 @@ namespace SS.Data
                     .WithMany(p => p.ArtistHomeUscity)
                     .HasForeignKey(d => d.HomeUscityId)
                     .HasConstraintName("FK_Artist_HomeUSCityID");
+
+                entity.HasOne(d => d.HomeUszipCode)
+                    .WithMany(p => p.Artist)
+                    .HasForeignKey(d => d.HomeUszipCodeId)
+                    .HasConstraintName("FK_Artist_HomeUSZipCodeID");
 
                 entity.HasOne(d => d.HomeWorldCity)
                     .WithMany(p => p.ArtistHomeWorldCity)
@@ -598,6 +605,8 @@ namespace SS.Data
                     .HasMaxLength(255);
 
                 entity.Property(e => e.ClosestMajorCityId).HasColumnName("ClosestMajorCityID");
+
+                entity.Property(e => e.MainZipCode).HasMaxLength(5);
 
                 entity.Property(e => e.StateId).HasColumnName("StateID");
 
@@ -1625,9 +1634,8 @@ namespace SS.Data
 
                 entity.Property(e => e.CityId).HasColumnName("CityID");
 
-                entity.Property(e => e.ZipCode1)
+                entity.Property(e => e.Digits)
                     .IsRequired()
-                    .HasColumnName("ZipCode")
                     .HasMaxLength(5);
 
                 entity.HasOne(d => d.City)
