@@ -39,5 +39,22 @@ namespace SS.Helpers.Pagination
                 return new PagedList<T>(items, count, pageNumber, pageSize);
             }
         }
+
+        public static PagedList<T> CreateAsync(IEnumerable<T> source, int pageNumber, int pageSize)
+        {
+            try
+            {
+                var count = source.Count();
+                var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+                List<T> items = new List<T>();
+                int count = 0;
+                return new PagedList<T>(items, count, pageNumber, pageSize);
+            }
+        }
     }
 }

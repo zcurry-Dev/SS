@@ -3,9 +3,9 @@ CREATE TABLE loc.Country(
 		CONSTRAINT PK_Country
 		PRIMARY KEY IDENTITY	
 	,CountryName NVARCHAR(255) NOT NULL
-	,CountryNameShorter NVARCHAR(255) NOT NULL
-	,CountryAbbreviation2 NVARCHAR(2) NOT NULL
-	,CountryAbbreviation3 NVARCHAR(3) NOT NULL
+	,CountryNameShorter NVARCHAR(255) NULL
+	,CountryAbbreviation2 NVARCHAR(2) NULL
+	,CountryAbbreviation3 NVARCHAR(3) NULL
 	,ISO3166 NVARCHAR(3) NOT NULL
 )
 
@@ -331,7 +331,7 @@ CREATE TABLE loc.WorldRegion(
 		REFERENCES loc.Country(CountryID)
 	,WorldRegionAbbreviation NVARCHAR(10) NULL
 	,WorldRegionName NVARCHAR(255) NOT NULL
-	,WorldRegionType NVARCHAR(255) NOT NULL
+	,WorldRegionType NVARCHAR(255) NULL
 )
 
 INSERT INTO loc.WorldRegion

@@ -11,28 +11,33 @@ namespace SS.Business.Mappings.Repos
 {
     public class AdminMapping : IAdminMapping
     {
-        public PagedListDto<UserForAdminReturnDto> MapToUserListForAdminReturnDto(PagedList<Ssuser> plUsers)
+        public IEnumerable<UserForAdminReturnDto> MapToAdminReturnAsQueryable(IEnumerable<Ssuser> ssUsers)
         {
-            var users = plUsers.Select(u => new UserForAdminReturnDto()
+            var users = ssUsers.Select(u => new UserForAdminReturnDto()
             {
                 Id = u.Id,
                 UserName = u.UserName,
-                Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(), // is this right?? 062820
+                Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(), // is this right?? 062820/070620
             });
 
-            var userList = new PagedListDto<UserForAdminReturnDto>()
-            {
-                List = users,
-                CurrentPage = plUsers.CurrentPage,
-                TotalPages = plUsers.TotalPages,
-                PageSize = plUsers.PageSize,
-                TotalCount = plUsers.TotalCount,
-            };
-
-            return userList;
+            return users;
         }
 
-        public IEnumerable<RoleDto> MapToRoleDto(IList<Ssrole> ssroles)
+        public PagedListDto<UserForAdminReturnDto> MapToPagedListDto(PagedList<UserForAdminReturnDto> userList)
+        {
+            var toReturn = new PagedListDto<UserForAdminReturnDto>()
+            {
+                List = userList,
+                CurrentPage = userList.CurrentPage,
+                TotalPages = userList.TotalPages,
+                PageSize = userList.PageSize,
+                TotalCount = userList.TotalCount,
+            };
+
+            return toReturn;
+        }
+
+        public IEnumerable<RoleDto> MapToRoleDto(IEnumerable<Ssrole> ssroles)
         {
             var roles = ssroles.Select(r => new RoleDto()
             {

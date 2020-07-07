@@ -30,7 +30,7 @@ namespace SS.Tests.BusinessLayer
         public async Task GetUserById_ReturnTypeOf_UserForDetailDto()
         {
             //Arrange
-            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
+            _userDataRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(new Ssuser()));
             _map.Setup(x => x.MapToUserForDetailDto(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
 
             //Act
@@ -44,7 +44,7 @@ namespace SS.Tests.BusinessLayer
         public async Task GetUserById_IfUserDoesNotExist_NullReferenceExceptionThrown()
         {
             //Arrange
-            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(() => null);
+            _userDataRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(() => null);
 
             //Assert
             await Assert.ThrowsExceptionAsync<NullReferenceException>(async () =>
@@ -57,7 +57,7 @@ namespace SS.Tests.BusinessLayer
         public async Task GetUserById_IfMappingDoesNotExist_NullReferenceExceptionThrown()
         {
             //Arrange
-            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
+            _userDataRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(new Ssuser()));
             _map.Setup(x => x.MapToUserForDetailDto(It.IsAny<Ssuser>())).Returns(() => null);
 
             //Assert
@@ -71,14 +71,14 @@ namespace SS.Tests.BusinessLayer
         public async Task GetUserById_ExecuteMethodsOnlyOnce()
         {
             //Arrange
-            _userDataRepository.Setup(x => x.GetUserById(It.IsAny<string>())).Returns(Task.FromResult(new Ssuser()));
+            _userDataRepository.Setup(x => x.GetById(It.IsAny<int>())).Returns(Task.FromResult(new Ssuser()));
             _map.Setup(x => x.MapToUserForDetailDto(It.IsAny<Ssuser>())).Returns(new UserForDetailDto());
 
             //Act
             var result = await _userRepository.GetUserById(It.IsAny<int>());
 
             //Assert
-            _userDataRepository.Verify(u => u.GetUserById(It.IsAny<string>()), Times.Once());
+            _userDataRepository.Verify(u => u.GetById(It.IsAny<int>()), Times.Once());
             _map.Verify(m => m.MapToUserForDetailDto(It.IsAny<Ssuser>()), Times.Once());
         }
         #endregion userRepository.GetUserById

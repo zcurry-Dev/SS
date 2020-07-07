@@ -60,6 +60,8 @@ namespace SS.Business.Models.Artist
     {
         public string HomeUsCity { get; set; }
         public string HomeUsZipcode { get; set; }
+        public string HomeWorldRegion { get; set; }
+        public string HomeWorldCity { get; set; }
     }
 
     // Return
@@ -68,7 +70,7 @@ namespace SS.Business.Models.Artist
         public int Id { get; set; }
         public string Name { get; set; }
         public int? ArtistStatusId { get; set; }
-        public int YearsActive { get; set; }
+        public int? YearsActive { get; set; }
         public bool ArtistGroup { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }

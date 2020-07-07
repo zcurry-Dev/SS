@@ -10,45 +10,45 @@ namespace SS.Data.Repos
 {
     public class AdminDataRepository : IAdminDataRepository
     {
-        private readonly DataContext _context;
-        private readonly RoleManager<Ssrole> _roleManager;
-        private readonly UserManager<Ssuser> _userManager;
-        public AdminDataRepository(
-            DataContext context,
-            RoleManager<Ssrole> roleManager,
-            UserManager<Ssuser> userManager)
-        {
-            _context = context;
-            _roleManager = roleManager;
-            _userManager = userManager;
-        }
+        // private readonly DataContext _context;
+        // private readonly RoleManager<Ssrole> _roleManager;
+        // private readonly UserManager<Ssuser> _userManager;
+        // public AdminDataRepository(
+        //     DataContext context,
+        //     RoleManager<Ssrole> roleManager,
+        //     UserManager<Ssuser> userManager)
+        // {
+        //     _context = context;
+        //     _roleManager = roleManager;
+        //     _userManager = userManager;
+        // }
 
-        public IQueryable<Ssuser> GetAllUsers()
-        {
-            var users = _userManager.Users;
+        // public IEnumerable<Ssuser> GetAllUsers()
+        // {
+        //     var users = _userManager.Users;
 
-            return users;
-        }
+        //     return users;
+        // }
 
-        public async Task<IList<Ssrole>> GetAllAvailibleRoles()
-        {
-            var roles = await _roleManager.Roles.ToListAsync();
+        // public async Task<IList<Ssrole>> GetAllAvailibleRoles()
+        // {
+        //     var roles = await _roleManager.Roles.ToListAsync();
 
-            return roles;
-        }
+        //     return roles;
+        // }
 
-        public async Task<IdentityResult> AddRolesToUser(Ssuser user, string[] selectedRoles, IList<string> userRoles)
-        {
-            var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
+        // public async Task<IdentityResult> AddRolesToUser(Ssuser user, string[] selectedRoles, IList<string> userRoles)
+        // {
+        //     var result = await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles));
 
-            return result;
-        }
+        //     return result;
+        // }
 
-        public async Task<IdentityResult> RemoveRolesFromUser(Ssuser user, IList<string> userRoles, string[] selectedRoles)
-        {
-            var result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
+        // public async Task<IdentityResult> RemoveRolesFromUser(Ssuser user, IList<string> userRoles, string[] selectedRoles)
+        // {
+        //     var result = await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles));
 
-            return result;
-        }
+        //     return result;
+        // }
     }
 }

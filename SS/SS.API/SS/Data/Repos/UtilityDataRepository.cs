@@ -4,17 +4,38 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SS.Business.Interfaces;
 using SS.Data;
+using SS.Data.Interfaces;
 using SS.Data.Models;
+using SS.Data.Repos;
 
 namespace SS.Business.Repos
 {
     public class UtilityDataRepository : IUtilityDataRepository
     {
         private readonly DataContext _context;
+        private readonly IDataRepository<Country> _country;
+        private readonly IDataRepository<Usstate> _usState;
+        private readonly IDataRepository<City> _usCity;
+        private readonly IDataRepository<ZipCode> _usZipCode;
+        private readonly IDataRepository<WorldRegion> _worldRegion;
+        private readonly IDataRepository<WorldCity> _worldCity;
 
-        public UtilityDataRepository(DataContext context)
+        public UtilityDataRepository(DataContext context
+                                    , IDataRepository<Country> country
+                                    , IDataRepository<Usstate> usState
+                                    , IDataRepository<City> usCity
+                                    , IDataRepository<ZipCode> usZipCode
+                                    , IDataRepository<WorldRegion> worldRegion
+                                    , IDataRepository<WorldCity> worldCity
+                                    )
         {
             _context = context;
+            _country = country;
+            _usState = usState;
+            _usCity = usCity;
+            _usZipCode = usZipCode;
+            _worldRegion = worldRegion;
+            _worldCity = worldCity;
         }
 
         public void Add<T>(T entity) where T : class
@@ -22,9 +43,19 @@ namespace SS.Business.Repos
             _context.Add(entity);
         }
 
-        public void Delete<T>(T entity) where T : class
+        public void AddRange<T>(IEnumerable<T> entities) where T : class
+        {
+            _context.AddRange(entities);
+        }
+
+        public void Remove<T>(T entity) where T : class
         {
             _context.Remove(entity);
+        }
+
+        public void RemoveRange<T>(IEnumerable<T> entities) where T : class
+        {
+            _context.RemoveRange(entities);
         }
 
         public async Task<bool> SaveAll()
@@ -32,64 +63,84 @@ namespace SS.Business.Repos
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public bool ContextUpdated()
+        {
+            var entityToUpdate = _context.ChangeTracker.Entries()
+                        .Where(e => e.State != EntityState.Unchanged)
+                        .FirstOrDefault();
+
+            if (entityToUpdate == null)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public async Task<IEnumerable<Country>> GetCountries()
         {
-            var countries = await _context.Country.ToListAsync();
+            var countries = await _country.GetAll();
 
             return countries;
         }
 
         public async Task<IEnumerable<Usstate>> GetUsStates()
         {
-            var usStates = await _context.Usstate.ToListAsync();
+            var usStates = await _usState.GetAll();
 
             return usStates;
         }
 
         public async Task<IEnumerable<City>> GetUSCities(int usStateId)
         {
-            var usCities = await _context.City.Where(c => c.StateId == usStateId).ToListAsync();
+            var usCities = await _usCity.Find(c => c.StateId == usStateId);
 
             return usCities;
         }
 
         public async Task<IEnumerable<ZipCode>> GetZipCodes(int usCityId)
         {
-            var zipCodes = await _context.ZipCode.Where(z => z.CityId == usCityId).ToListAsync();
+            var zipCodes = await _usZipCode.Find(z => z.CityId == usCityId);
 
             return zipCodes;
         }
 
-        public async Task<City> CreateCity(City city)
+        public async Task<bool> CityExists(City city)
         {
-            var cityExists = _context.City.Any(c => c.CityName == city.CityName && c.StateId == city.StateId);
-            if (!cityExists)
+            // bad practice? 070620
+            var cityExists = (await _usCity.Find(c => c.CityName == city.CityName && c.StateId == city.StateId)).FirstOrDefault();
+
+            if (cityExists != null) // or can I just check if Ienum exists?
             {
-                Add(city);
-                await SaveAll();
-            }
-            else
-            {
-                city.CityId = -1;
+                return false;
             }
 
-            return city;
+            return true;
         }
 
-        public async Task<ZipCode> CreateZipCode(ZipCode zipCode)
+        public async Task<bool> ZipCodeExits(ZipCode zipCode)
         {
-            var zipCodeExists = _context.ZipCode.Any(z => z.CityId == z.CityId && z.Digits == zipCode.Digits);
-            if (!zipCodeExists)
+            var zipCodeExists = await _usZipCode.Find(z => z.CityId == zipCode.CityId && z.Digits == zipCode.Digits);
+
+            if (zipCodeExists != null)// or can I just check if Ienum exists? like this
             {
-                Add(zipCode);
-                await SaveAll();
-            }
-            else
-            {
-                zipCode.ZipCodeId = -1;
+                return false;
             }
 
-            return zipCode;
+            return true;
+        }
+
+        public async Task<bool> WorldRegionExists(WorldRegion worldRegion)
+        {
+            var worldRegionExists = await _worldRegion.Find(wr => wr.WorldRegionCountry == worldRegion.WorldRegionCountry
+                                                                    && wr.WorldRegionName == worldRegion.WorldRegionName);
+
+            if (worldRegionExists != null)// or can I just check if Ienum exists? like this
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

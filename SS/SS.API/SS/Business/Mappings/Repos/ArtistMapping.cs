@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Calculations;
 using SS.Business.Mappings.Interfaces;
@@ -37,7 +38,38 @@ namespace SS.Business.Mappings.Repos
             return artistList;
         }
 
-        public ArtistDto MapToArtistDetailDto(Artist a)
+        public IEnumerable<ArtistForListDto> MapToArtistForListDtoAsQueryable(IEnumerable<Artist> artists)
+        {
+            var artistsToReturn = artists.Select(a => new ArtistForListDto
+            {
+                Id = a.ArtistId,
+                Name = a.ArtistName,
+                // ArtistStatusId = a.ArtistStatusId,
+                // YearsActive = ArtistCalculations.CalculateArtistYearsActive(a.CareerBeginDate, a.CareerEndDate),
+                // ArtistGroup = a.ArtistGroup,
+                // UserId = a.UserId,
+                // Verified = a.Verified,
+                // HomeCity = GetHomeCity(a)
+            });
+
+            return artistsToReturn;
+        }
+
+        public PagedListDto<ArtistForListDto> MapToPagedListDto(PagedList<ArtistForListDto> artistList)
+        {
+            var toReturn = new PagedListDto<ArtistForListDto>()
+            {
+                List = artistList,
+                CurrentPage = artistList.CurrentPage,
+                TotalPages = artistList.TotalPages,
+                PageSize = artistList.PageSize,
+                TotalCount = artistList.TotalCount,
+            };
+
+            return toReturn;
+        }
+
+        public ArtistDetailDto MapToArtistDetailDto(Artist a)
         {
             var artist = new ArtistDetailDto()
             {
@@ -63,28 +95,19 @@ namespace SS.Business.Mappings.Repos
                 YearsActive = ArtistCalculations.CalculateArtistYearsActive(a.CareerBeginDate, a.CareerEndDate),
             };
 
-            return artist; // are years active still availible?
+            return artist;
         }
 
-        public void UpdateArtist(ArtistForUpdateDto a, Artist artist)
+        public void Update(ArtistForUpdateDto a, Artist artist)
         {
             artist.ArtistName = a.Name;
-            // artist.CareerBeginDate = a.CareerBeginDate;
+            artist.ArtistStatusId = a.StatusId;
             artist.ArtistGroup = a.Group;
             artist.UserId = a.UserId;
-            artist.Verified = a.Verified;
             artist.HomeCountryId = a.HomeCountryId;
             artist.HomeUscityId = a.HomeUsCityId;
-            // artist.ZipCodeId = a.HomeUsZipCodeId,
+            artist.HomeUszipCodeId = a.HomeUsZipCodeId;
             artist.HomeWorldCityId = a.HomeWorldCityId;
-            // artist.CurrentCountryId = a.CurrentCountryId;
-            // artist.CurrentUscityId = a.CurrentUscityId;
-            // artist.CurrentWorldCityId = a.CurrentWorldCityId;
-
-            if (a.StatusId != null)
-            {
-                artist.ArtistStatusId = a.StatusId;
-            }
         }
 
         public Artist MapToArtist(ArtistToCreateDto a)

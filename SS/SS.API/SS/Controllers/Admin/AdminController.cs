@@ -31,9 +31,9 @@ namespace SS.Controllers.Admin
 
         [HttpPatch]
         [Route("SaveUsers/{userName}")]
-        public async Task<IActionResult> SaveUsers(string userName, RoleEditDto selectedRoles)
+        public async Task<IActionResult> SaveUsers(string userName, RoleUpdateDto role)
         {
-            var result = await _admin.UpdateRolesForUser(userName, selectedRoles);
+            var result = await _admin.UpdateRolesForUser(userName, role.Names);
 
             if (!result.Succeeded)
             {

@@ -48,20 +48,53 @@ namespace SS.Business.Repos
         public async Task<UsCityDto> CreateCity(CityToCreateDto cityToCreateDto)
         {
             var newCity = _map.MapToCity(cityToCreateDto);
-            var created = await _utility.CreateCity(newCity);
-            var result = _map.MapToUsCityDto(created);
+            var cityExists = await _utility.CityExists(newCity);
+            var saved = false;
+            if (!cityExists)
+            {
+                _utility.Add(newCity);
+                saved = await _utility.SaveAll();
+            }
 
-            return result;
+            if (!saved)
+            {
+                newCity.CityId = -1;
+            }
+
+            var dtoToReturn = _map.MapToUsCityDto(newCity);
+
+            return dtoToReturn;
         }
 
         public async Task<ZipCodeDto> CreateZipCode(ZipCodeToCreateDto zipCodeToCreateDto)
         {
             var newZipCode = _map.MapToZipCode(zipCodeToCreateDto);
-            var created = await _utility.CreateZipCode(newZipCode);
-            var result = _map.MapToZipCodeDto(created);
+            var zipCodeExists = await _utility.ZipCodeExits(newZipCode);
+            var saved = false;
+            if (!zipCodeExists)
+            {
+                _utility.Add(newZipCode);
+                saved = await _utility.SaveAll();
+            }
 
-            return result;
+            if (!saved)
+            {
+                newZipCode.ZipCodeId = -1;
+            }
+
+            var dtoToReturn = _map.MapToZipCodeDto(newZipCode);
+
+            return dtoToReturn;
         }
+
+        // public async Task<ZipCodeDto> CreateWorldRegion(WorldRegionToCreateDto worldRegionToCreateDto)
+        // {
+        //     // var newZipCode = _map.MapToZipCode(zipCodeToCreateDto);
+        //     // var created = await _utility.CreateZipCode(newZipCode);
+        //     // var result = _map.MapToZipCodeDto(created);
+
+        //     // return result;
+        // }
 
         public async Task<int> GetNewCityId(string name, int stateId)
         {
@@ -88,6 +121,20 @@ namespace SS.Business.Repos
 
             return cityToReturn.Id;
         }
+
+        public async Task<int> GetNewWorldRegionId(string zipCodeDigits, int cityId)
+        {
+            var zipCode = new ZipCodeToCreateDto()
+            {
+                ZipCode = zipCodeDigits,
+                CityId = cityId
+            };
+
+            var cityToReturn = await CreateZipCode(zipCode);
+
+            return cityToReturn.Id;
+        }
+        // a.HomeWorldRegionId = await _utility.GetNewWorldRegionId(a.HomeWorldRegion, a.HomeCountryId);
 
     }
 }

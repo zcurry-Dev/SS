@@ -21,7 +21,7 @@ namespace SS.Business.Repos
 
         public async Task<UserForDetailDto> GetUserById(int userId)
         {
-            var ssUser = await _user.GetUserById(userId.ToString());
+            var ssUser = await _user.GetById(userId);
 
             if (ssUser == null)
             {
@@ -63,7 +63,7 @@ namespace SS.Business.Repos
 
         public async Task<UserForDetailDto> GetUserForDetailToReturn(string userName)
         {
-            var user = await _user.GetUserByUserName(userName);
+            var user = await _user.GetByName(userName); // dunno if works properly?
             var userToReturn = _map.MapToUserForDetailDto(user);
             return userToReturn;
         }

@@ -18,26 +18,23 @@ namespace SS.Business.Repos
     {
         private readonly IAuthDataRepository _auth;
         private readonly IConfiguration _config;
-        private readonly IAuthMapping _map;
         private readonly IUserDataRepository _user;
 
         public AuthRepository(
             IAuthDataRepository auth,
             IConfiguration config,
-            IAuthMapping map,
             IUserDataRepository user
             )
         {
             _auth = auth;
             _config = config;
-            _map = map;
             _user = user;
         }
 
-        public async Task<SignInResult> CheckPasswordSignInAsync(UserForDetailDto user, string password)
+        public async Task<SignInResult> CheckPasswordSignInAsync(UserForDetailDto dto, string password)
         {
-            var ssUser = await _user.GetUserByUserName(user.UserName);
-            var result = await _auth.CheckPasswordSignInAsync(ssUser, password);
+            var user = await _user.GetByName(dto.UserName); // dunno if this works
+            var result = await _auth.CheckPasswordSignInAsync(user, password);
             return result;
         }
 
@@ -48,8 +45,7 @@ namespace SS.Business.Repos
                 new Claim (ClaimTypes.Name, user.DisplayName)
             };
 
-            var ssUser = _map.MapToSsuser(user);
-            var roles = await _user.GetRolesForUser(ssUser);
+            var roles = await _user.GetRolesForUserByUserName(user.UserName);
 
             foreach (var role in roles)
             {

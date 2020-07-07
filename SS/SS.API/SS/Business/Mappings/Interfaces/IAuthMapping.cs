@@ -5,6 +5,5 @@ namespace SS.Business.Mappings.Interfaces
 {
     public interface IAuthMapping
     {
-        Ssuser MapToSsuser(UserForDetailDto user);
     }
 }

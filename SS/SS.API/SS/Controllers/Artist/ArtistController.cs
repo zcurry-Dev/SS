@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SS.Business.Interfaces;
 using SS.Business.Models.Artist;
 using SS.Helpers;
+using SS.Helpers.Enums;
 using SS.Helpers.Pagination.PagedParams;
 
 namespace SS.Controllers.Artist
@@ -65,9 +66,19 @@ namespace SS.Controllers.Artist
         {
             var result = await _artist.UpdateArtist(id, artistForUpdateDto);
 
-            if (result)
+            if (result == Result.Pass)
             {
-                return NoContent();
+                return Ok("Artist updates have been saved");
+            }
+
+            if (result == Result.NoChange)
+            {
+                return Ok("No changes have been saved");
+            }
+
+            if (result == Result.Fail)
+            {
+                return BadRequest("Error updating the artist");
             }
 
             throw new Exception($"Updating artist {id} failed on save");

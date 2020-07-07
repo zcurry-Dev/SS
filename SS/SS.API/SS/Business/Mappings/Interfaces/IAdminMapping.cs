@@ -9,7 +9,8 @@ namespace SS.Business.Mappings.Interfaces
 {
     public interface IAdminMapping
     {
-        PagedListDto<UserForAdminReturnDto> MapToUserListForAdminReturnDto(PagedList<Ssuser> plUsers);
-        IEnumerable<RoleDto> MapToRoleDto(IList<Ssrole> ssroles);
+        IEnumerable<UserForAdminReturnDto> MapToAdminReturnAsQueryable(IEnumerable<Ssuser> ssUsers);
+        PagedListDto<UserForAdminReturnDto> MapToPagedListDto(PagedList<UserForAdminReturnDto> userList);
+        IEnumerable<RoleDto> MapToRoleDto(IEnumerable<Ssrole> ssroles);
     }
 }

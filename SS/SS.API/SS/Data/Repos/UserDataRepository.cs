@@ -1,52 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 
 namespace SS.Data.Repos
 {
-    public class UserDataRepository : IUserDataRepository
+    public class UserDataRepository : DataRepository<Ssuser>, IUserDataRepository
     {
-        private readonly DataContext _context;
         private readonly UserManager<Ssuser> _userManager;
-        public UserDataRepository(
-            DataContext context,
-            UserManager<Ssuser> userManager)
+        public UserDataRepository(DataContext context, UserManager<Ssuser> userManager) : base(context)
         {
-            _context = context;
             _userManager = userManager;
-        }
-
-        public void Add<T>(T entity) where T : class
-        {
-            _context.Add(entity);
-        }
-
-        public void Delete<T>(T entity) where T : class
-        {
-            _context.Remove(entity);
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
-        public async Task<Ssuser> GetUserById(string userId)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            return user;
-        }
-
-        public async Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp)
-        {
-            var user = await _userManager.GetUserAsync(cp);
-            user.LastActive = DateTime.Now;
-
-            return await _userManager.UpdateAsync(user);
         }
 
         public async Task<IdentityResult> CreateUser(Ssuser user, string password)
@@ -61,23 +30,60 @@ namespace SS.Data.Repos
             return result;
         }
 
-        public async Task<Ssuser> GetUserByUserName(string userName)
+        public async Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp)
         {
-            var user = await _userManager.FindByNameAsync(userName);
-            return user;
+            var user = await _userManager.GetUserAsync(cp);
+            user.LastActive = DateTime.Now;
+
+            return await _userManager.UpdateAsync(user);
         }
 
-        public async Task<IList<string>> GetRolesForUser(Ssuser user)
+        public async Task<IEnumerable<string>> GetRolesForUser(Ssuser user)
         {
             var roles = await _userManager.GetRolesAsync(user);
             return roles;
         }
 
-        public async Task<IList<string>> GetRolesForUserByUserName(string userName)
+        public async Task<IEnumerable<string>> GetRolesForUserByUserName(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var roles = await _userManager.GetRolesAsync(user);
             return roles;
+        }
+
+        public async Task<IdentityResult> AddRolesToUser(Ssuser user, IEnumerable<string> roles)
+        {
+            var result = await _userManager.AddToRolesAsync(user, roles);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> RemoveRolesFromUser(Ssuser user, IEnumerable<string> roles)
+        {
+            var result = await _userManager.RemoveFromRolesAsync(user, roles);
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Ssuser>> GetUsersForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
+        {
+            var users = _userManager.Users
+                    .Where(s => s.UserName.Contains(search));
+
+            if (orderBy == "")
+            {
+                users.OrderByDescending(u => u.UserId);
+            }
+            else
+            {
+                users.OrderByDescending(u => u.UserName);
+            }
+
+            await users.Skip((pageIndex - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+            return users;
         }
     }
 }

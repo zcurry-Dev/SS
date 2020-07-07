@@ -7,17 +7,21 @@ using SS.Data.Models;
 
 namespace SS.Data.Interfaces
 {
-    public interface IUserDataRepository
+    public interface IUserDataRepository : IDataRepository<Ssuser>
     {
-        void Add<T>(T entity) where T : class;
-        void Delete<T>(T entity) where T : class;
-        Task<bool> SaveAll();
-        Task<Ssuser> GetUserById(string userId);
-        Task<Ssuser> GetUserByUserName(string userName);
-        Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp);
+        // Task<Ssuser> GetUserById(string userId);
+        // Task<Ssuser> GetUserByUserName(string userName);
         Task<IdentityResult> CreateUser(Ssuser user, string password);
         Task<IdentityResult> AddUserRoleOnRegister(Ssuser user);
-        Task<IList<string>> GetRolesForUser(Ssuser user);
-        Task<IList<string>> GetRolesForUserByUserName(string userName);
+        Task<IdentityResult> UpdateLastActiveForUser(ClaimsPrincipal cp);
+
+        //
+        //
+
+        // 070620
+        Task<IEnumerable<Ssuser>> GetUsersForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "");
+        Task<IdentityResult> AddRolesToUser(Ssuser user, IEnumerable<string> roles);
+        Task<IdentityResult> RemoveRolesFromUser(Ssuser user, IEnumerable<string> roles);
+        Task<IEnumerable<string>> GetRolesForUserByUserName(string userName);
     }
 }

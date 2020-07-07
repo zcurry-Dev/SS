@@ -19,72 +19,61 @@ namespace SS.Business.Repos
         private readonly IAdminDataRepository _admin;
         private readonly IAdminMapping _map;
         private readonly IUserDataRepository _user;
+        private readonly IUserRoleDataRepository _role;
 
-        public AdminRepository(IAdminDataRepository admin, IAdminMapping map, IUserDataRepository user)
+        public AdminRepository(IAdminDataRepository admin, IAdminMapping map, IUserDataRepository user, IUserRoleDataRepository role)
         {
             _admin = admin;
             _map = map;
+            _role = role;
             _user = user;
         }
 
-        public async Task<PagedListDto<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams adminUsersParams)
+        public async Task<PagedListDto<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams p) //TODO need better naming of variables
         {
-            var usersWithRoles = _admin.GetAllUsers();
+            string orderBy = p.OrderBy;
+            string search = p.Search;
 
-            if (!string.IsNullOrEmpty(adminUsersParams.OrderBy))
-            {
-                switch (adminUsersParams.OrderBy)
-                {
-                    case "UserName":
-                        usersWithRoles = usersWithRoles.OrderByDescending(a => a.UserName);
-                        break;
-                    default:
-                        usersWithRoles = usersWithRoles.OrderByDescending(a => a.UserId);
-                        break;
-                }
-            }
+            var users = await _user.GetUsersForList(p.PN, p.PS); // what are the values of 2 above values?            
+            var dto = _map.MapToAdminReturnAsQueryable(users).AsQueryable(); // wait, this may break either here or in paged list? can't remember
+            var pagedList = await PagedList<UserForAdminReturnDto>.CreateAsync(dto, p.PN, p.PS);
+            var pagedListDto = _map.MapToPagedListDto(pagedList);
 
-            if (!string.IsNullOrEmpty(adminUsersParams.Search))
-            {
-                usersWithRoles = usersWithRoles.Where(s => s.UserName.Contains(adminUsersParams.Search));
-            }
-
-            var ssUsersList = await PagedList<Ssuser>.CreateAsync(usersWithRoles, adminUsersParams.PN, adminUsersParams.PS);
-            var usersToReturn = _map.MapToUserListForAdminReturnDto(ssUsersList);
-
-            return usersToReturn;
+            return pagedListDto;
         }
 
         public async Task<IEnumerable<RoleDto>> GetAllAvailibleRoles()
         {
-            var ssRoles = await _admin.GetAllAvailibleRoles();
+            var ssRoles = await _role.GetAll();
             var rolesToReturn = _map.MapToRoleDto(ssRoles);
 
             return rolesToReturn;
         }
 
-        public async Task<IdentityResult> UpdateRolesForUser(string userName, RoleEditDto roleEditDto)
+        public async Task<IdentityResult> UpdateRolesForUser(string userName, string[] roles)
         {
-            var user = await _user.GetUserByUserName(userName);
-            var userRoles = await _user.GetRolesForUser(user);
-            var selectedRoles = roleEditDto.Names;
-            selectedRoles = selectedRoles ?? new string[] { };
+            var user = await _user.GetByName(userName); //no idea if this actually works
+            var assignedRoles = user.SsuserRole.Select(r => r.Role.Name);
 
-            var result = await _admin.AddRolesToUser(user, selectedRoles, userRoles);
+            var rolesToAdd = roles.Except(assignedRoles);
+            var rolesToRemove = assignedRoles.Except(roles);
+
+            var result = await _user.AddRolesToUser(user, rolesToAdd);
 
             if (!result.Succeeded)
             {
                 return result;
             }
 
-            result = await _admin.RemoveRolesFromUser(user, userRoles, selectedRoles);
+            result = await _user.RemoveRolesFromUser(user, rolesToRemove);
 
             return result;
         }
 
-        public async Task<IList<string>> GetRolesForUser(string userName)
+        public async Task<IEnumerable<string>> GetRolesForUser(string userName)
         {
-            var roles = await _user.GetRolesForUserByUserName(userName);
+            var user = await _user.GetByName(userName); //no idea if this actually works
+            var roles = user.SsuserRole.Select(r => r.Role.Name);
             return roles;
         }
     }

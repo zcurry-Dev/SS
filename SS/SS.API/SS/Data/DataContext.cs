@@ -628,21 +628,15 @@ namespace SS.Data
 
                 entity.Property(e => e.CountryId).HasColumnName("CountryID");
 
-                entity.Property(e => e.CountryAbbreviation2)
-                    .IsRequired()
-                    .HasMaxLength(2);
+                entity.Property(e => e.CountryAbbreviation2).HasMaxLength(2);
 
-                entity.Property(e => e.CountryAbbreviation3)
-                    .IsRequired()
-                    .HasMaxLength(3);
+                entity.Property(e => e.CountryAbbreviation3).HasMaxLength(3);
 
                 entity.Property(e => e.CountryName)
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.CountryNameShorter)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.CountryNameShorter).HasMaxLength(255);
 
                 entity.Property(e => e.Iso3166)
                     .IsRequired()
@@ -1615,9 +1609,7 @@ namespace SS.Data
                     .IsRequired()
                     .HasMaxLength(255);
 
-                entity.Property(e => e.WorldRegionType)
-                    .IsRequired()
-                    .HasMaxLength(255);
+                entity.Property(e => e.WorldRegionType).HasMaxLength(255);
 
                 entity.HasOne(d => d.WorldRegionCountryNavigation)
                     .WithMany(p => p.WorldRegion)

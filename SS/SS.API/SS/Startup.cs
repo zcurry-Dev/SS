@@ -119,6 +119,8 @@ namespace SS.API
             services.AddScoped<IAuthDataRepository, AuthDataRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IUtilityDataRepository, UtilityDataRepository>();
+            services.AddScoped<IUserRoleDataRepository, UserRoleDataRepository>();
+            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
 
             // Business
             services.AddScoped<IAdminRepository, AdminRepository>();
