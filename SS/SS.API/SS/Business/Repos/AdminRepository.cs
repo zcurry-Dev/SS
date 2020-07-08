@@ -21,7 +21,10 @@ namespace SS.Business.Repos
         private readonly IUserDataRepository _user;
         private readonly IUserRoleDataRepository _role;
 
-        public AdminRepository(IAdminDataRepository admin, IAdminMapping map, IUserDataRepository user, IUserRoleDataRepository role)
+        public AdminRepository(IAdminDataRepository admin,
+                                IAdminMapping map,
+                                IUserDataRepository user,
+                                IUserRoleDataRepository role)
         {
             _admin = admin;
             _map = map;
@@ -29,14 +32,14 @@ namespace SS.Business.Repos
             _user = user;
         }
 
-        public async Task<PagedListDto<UserForAdminReturnDto>> GetAllUsersWithRoles(AdminUsersParams p) //TODO need better naming of variables
+        public async Task<PagedListDto<UserWithRolesDto>> GetAllUsersWithRoles(AdminUsersParams p) //TODO need better naming of variables
         {
             string orderBy = p.OrderBy;
             string search = p.Search;
 
             var users = await _user.GetUsersForList(p.PN, p.PS); // what are the values of 2 above values?            
             var dto = _map.MapToAdminReturnAsQueryable(users).AsQueryable(); // wait, this may break either here or in paged list? can't remember
-            var pagedList = await PagedList<UserForAdminReturnDto>.CreateAsync(dto, p.PN, p.PS);
+            var pagedList = await PagedList<UserWithRolesDto>.CreateAsync(dto, p.PN, p.PS);
             var pagedListDto = _map.MapToPagedListDto(pagedList);
 
             return pagedListDto;

@@ -1,10 +1,13 @@
 using System;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Models.User;
 using SS.Data.Interfaces;
+using SS.Data.Models;
 
 namespace SS.Business.Repos
 {
@@ -19,7 +22,7 @@ namespace SS.Business.Repos
             _user = user;
         }
 
-        public async Task<UserForDetailDto> GetUserById(int userId)
+        public async Task<UserDto> GetUserById(int userId)
         {
             var ssUser = await _user.GetById(userId);
 
@@ -42,10 +45,10 @@ namespace SS.Business.Repos
         {
             var user = _map.MapToSsuser(userForRegisterDto);
 
-            if (user == null)
-            {
-                throw new NullReferenceException();
-            }
+            // if (user == null)
+            // {
+            //     throw new NullReferenceException();
+            // }
 
             user.UserStatusId = 1;
 
@@ -61,9 +64,9 @@ namespace SS.Business.Repos
             return result;
         }
 
-        public async Task<UserForDetailDto> GetUserForDetailToReturn(string userName)
+        public async Task<UserDto> GetUserForDetailToReturn(string userName)
         {
-            var user = await _user.GetByName(userName); // dunno if works properly?
+            var user = await _user.Find(_user.GetUserByUserName(userName));
             var userToReturn = _map.MapToUserForDetailDto(user);
             return userToReturn;
         }

@@ -93,14 +93,14 @@ namespace SS.Business.Repos
 
         public async Task<IEnumerable<City>> GetUSCities(int usStateId)
         {
-            var usCities = await _usCity.Find(c => c.StateId == usStateId);
+            var usCities = await _usCity.FindMany(c => c.StateId == usStateId);
 
             return usCities;
         }
 
         public async Task<IEnumerable<ZipCode>> GetZipCodes(int usCityId)
         {
-            var zipCodes = await _usZipCode.Find(z => z.CityId == usCityId);
+            var zipCodes = await _usZipCode.FindMany(z => z.CityId == usCityId);
 
             return zipCodes;
         }
@@ -108,7 +108,7 @@ namespace SS.Business.Repos
         public async Task<bool> CityExists(City city)
         {
             // bad practice? 070620
-            var cityExists = (await _usCity.Find(c => c.CityName == city.CityName && c.StateId == city.StateId)).FirstOrDefault();
+            var cityExists = (await _usCity.FindMany(c => c.CityName == city.CityName && c.StateId == city.StateId)).FirstOrDefault();
 
             if (cityExists != null) // or can I just check if Ienum exists?
             {
@@ -120,7 +120,7 @@ namespace SS.Business.Repos
 
         public async Task<bool> ZipCodeExits(ZipCode zipCode)
         {
-            var zipCodeExists = await _usZipCode.Find(z => z.CityId == zipCode.CityId && z.Digits == zipCode.Digits);
+            var zipCodeExists = await _usZipCode.FindMany(z => z.CityId == zipCode.CityId && z.Digits == zipCode.Digits);
 
             if (zipCodeExists != null)// or can I just check if Ienum exists? like this
             {
@@ -132,7 +132,7 @@ namespace SS.Business.Repos
 
         public async Task<bool> WorldRegionExists(WorldRegion worldRegion)
         {
-            var worldRegionExists = await _worldRegion.Find(wr => wr.WorldRegionCountry == worldRegion.WorldRegionCountry
+            var worldRegionExists = await _worldRegion.FindMany(wr => wr.WorldRegionCountry == worldRegion.WorldRegionCountry
                                                                     && wr.WorldRegionName == worldRegion.WorldRegionName);
 
             if (worldRegionExists != null)// or can I just check if Ienum exists? like this

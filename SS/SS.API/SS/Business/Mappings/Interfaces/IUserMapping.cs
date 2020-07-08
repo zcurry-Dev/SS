@@ -5,7 +5,7 @@ namespace SS.Business.Mappings.Interfaces
 {
     public interface IUserMapping
     {
-        UserForDetailDto MapToUserForDetailDto(Ssuser Ssuser);
+        UserDto MapToUserForDetailDto(Ssuser Ssuser);
         Ssuser MapToSsuser(UserForRegisterDto user);
     }
 }

@@ -19,6 +19,37 @@ namespace SS.Controllers.Auth
             _user = user;
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        {
+            var user = await _user.GetUserForDetailToReturn(userForLoginDto.UserName);
+
+            //
+            //for testing for now
+            if (user.UserName == "z")
+            {
+                return Ok(new
+                {
+                    token = _auth.GenerateJwtToken(user).Result,
+                    user
+                });
+            }
+            //
+
+            var result = await _auth.CheckPasswordSignIn(user, userForLoginDto.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok(new
+                {
+                    token = _auth.GenerateJwtToken(user).Result,
+                    user
+                });
+            }
+
+            return Unauthorized();
+        }
+
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
         {
@@ -38,37 +69,6 @@ namespace SS.Controllers.Auth
             }
 
             return BadRequest(result.Errors);
-        }
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
-        {
-            var user = await _user.GetUserForDetailToReturn(userForLoginDto.UserName);
-
-            //
-            //for testing for now
-            if (user.UserName == "z")
-            {
-                return Ok(new
-                {
-                    token = _auth.GenerateJwtToken(user).Result,
-                    user
-                });
-            }
-            //
-
-            var result = await _auth.CheckPasswordSignInAsync(user, userForLoginDto.Password);
-
-            if (result.Succeeded)
-            {
-                return Ok(new
-                {
-                    token = _auth.GenerateJwtToken(user).Result,
-                    user
-                });
-            }
-
-            return Unauthorized();
         }
     }
 }

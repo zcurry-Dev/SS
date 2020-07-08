@@ -11,30 +11,15 @@
 			"processId": "${command:pickProcess}"
 		},
 		{
-			"name": ".NET Core Launch (web)",
+			"name": ".NET Core Launch (console)",
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/SS.API/bin/Debug/netcoreapp3.1/SS.dll",
+			"program": "${workspaceFolder}/SS.API/Test/bin/Debug/netcoreapp3.1/Test.dll",
 			"args": [],
-			"cwd": "${workspaceFolder}/SS.API",
-			"stopAtEntry": false,
-			"serverReadyAction": {
-				"action": "openExternally",
-				"pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
-			},
-			"env": {
-				"ASPNETCORE_ENVIRONMENT": "Development"
-			},
-			"sourceFileMap": {
-				"/Views": "${workspaceFolder}/Views"
-			}
-		},
-		{
-			"name": ".NET Core Attach",
-			"type": "coreclr",
-			"request": "attach",
-			"processId": "${command:pickProcess}"
+			"cwd": "${workspaceFolder}",
+			"console": "internalConsole",
+			"stopAtEntry": false
 		}
 	]
 }

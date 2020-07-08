@@ -6,9 +6,9 @@ namespace SS.Business.Mappings.Repos
 {
     public class UserMapping : IUserMapping
     {
-        public UserForDetailDto MapToUserForDetailDto(Ssuser u)
+        public UserDto MapToUserForDetailDto(Ssuser u)
         {
-            var user = new UserForDetailDto()
+            var user = new UserDto()
             {
                 Id = u.Id,
                 // Id = u.UserId, // "u.UserId is always 0" -z 062820
@@ -16,7 +16,7 @@ namespace SS.Business.Mappings.Repos
                 LastName = u.LastName,
                 Email = u.Email,
                 DateOfBirth = u.DateOfBirth,
-                Created = u.CreatedDate,
+                CreatedDate = u.CreatedDate,
                 LastActive = u.LastActive,
                 UserName = u.UserName,
                 DisplayName = u.DisplayName,

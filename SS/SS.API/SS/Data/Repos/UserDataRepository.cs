@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -12,9 +13,11 @@ namespace SS.Data.Repos
 {
     public class UserDataRepository : DataRepository<Ssuser>, IUserDataRepository
     {
+        private readonly SignInManager<Ssuser> _signInManager;
         private readonly UserManager<Ssuser> _userManager;
-        public UserDataRepository(DataContext context, UserManager<Ssuser> userManager) : base(context)
+        public UserDataRepository(DataContext context, UserManager<Ssuser> userManager, SignInManager<Ssuser> signInManager) : base(context)
         {
+            _signInManager = signInManager;
             _userManager = userManager;
         }
 
@@ -84,6 +87,17 @@ namespace SS.Data.Repos
                     .ToListAsync();
 
             return users;
+        }
+
+        public async Task<SignInResult> CheckPasswordSignIn(Ssuser user, string password)
+        {
+            var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
+            return result;
+        }
+
+        public Expression<Func<Ssuser, bool>> GetUserByUserName(string userName)
+        {
+            return u => u.UserName == userName;
         }
     }
 }

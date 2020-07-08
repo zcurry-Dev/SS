@@ -6,12 +6,20 @@ namespace SS.Business.Models.User
 {
     public class UserDto
     {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string NormalizedUserName { get; set; }
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastActive { get; set; }
+        public string UserName { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    public class UserDetailDto : UserDto
+    {
+        public string NormalizedUserName { get; set; }
         public string NormalizedEmail { get; set; }
         public bool EmailConfirmed { get; set; }
         public string PasswordHash { get; set; }
@@ -23,11 +31,7 @@ namespace SS.Business.Models.User
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
-        public string DisplayName { get; set; }
-        public DateTime DateOfBirth { get; set; }
         public int UserStatusId { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime LastActive { get; set; }
     }
 
     // Accept
@@ -70,23 +74,10 @@ namespace SS.Business.Models.User
     }
 
     // Return    
-    public class UserForAdminReturnDto
+    public class UserWithRolesDto
     {
         public int Id { get; set; }
         public string UserName { get; set; }
         public List<string> Roles { get; set; }
-    }
-
-    public class UserForDetailDto //UserDto instead? look into 070120
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime LastActive { get; set; }
-        public string UserName { get; set; }
-        public string DisplayName { get; set; }
     }
 }

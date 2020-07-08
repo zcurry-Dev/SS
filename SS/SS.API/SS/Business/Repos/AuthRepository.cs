@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SS.Business.Interfaces;
-using SS.Business.Mappings.Interfaces;
 using SS.Business.Models.User;
 using SS.Data.Interfaces;
 
@@ -16,29 +15,26 @@ namespace SS.Business.Repos
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly IAuthDataRepository _auth;
         private readonly IConfiguration _config;
         private readonly IUserDataRepository _user;
 
         public AuthRepository(
-            IAuthDataRepository auth,
             IConfiguration config,
             IUserDataRepository user
             )
         {
-            _auth = auth;
             _config = config;
             _user = user;
         }
 
-        public async Task<SignInResult> CheckPasswordSignInAsync(UserForDetailDto dto, string password)
+        public async Task<SignInResult> CheckPasswordSignIn(UserDto dto, string password)
         {
-            var user = await _user.GetByName(dto.UserName); // dunno if this works
-            var result = await _auth.CheckPasswordSignInAsync(user, password);
+            var user = await _user.Find(_user.GetUserByUserName(dto.UserName));
+            var result = await _user.CheckPasswordSignIn(user, password);
             return result;
         }
 
-        public async Task<string> GenerateJwtToken(UserForDetailDto user)
+        public async Task<string> GenerateJwtToken(UserDto user)
         {
             var claims = new List<Claim> {
                 new Claim (ClaimTypes.NameIdentifier, user.Id.ToString()),
@@ -59,7 +55,7 @@ namespace SS.Business.Repos
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddDays(1), // should be shortened 070820
                 SigningCredentials = creds
             };
 

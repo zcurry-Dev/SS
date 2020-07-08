@@ -19,6 +19,7 @@ namespace SS.Data.Interfaces
         Task<TEntity> GetById(int id);
         Task<TEntity> GetByName(string name);
         Task<IEnumerable<TEntity>> GetAll();
-        Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> FindMany(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
     }
 }

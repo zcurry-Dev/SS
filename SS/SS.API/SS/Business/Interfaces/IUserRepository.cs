@@ -6,8 +6,8 @@ namespace SS.Business.Interfaces
 {
     public interface IUserRepository
     {
-        Task<UserForDetailDto> GetUserById(int userId);
         Task<IdentityResult> RegisterUser(UserForRegisterDto userForRegisterDto);
-        Task<UserForDetailDto> GetUserForDetailToReturn(string userName);
+        Task<UserDto> GetUserById(int userId);
+        Task<UserDto> GetUserForDetailToReturn(string userName);
     }
 }

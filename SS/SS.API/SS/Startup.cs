@@ -116,7 +116,6 @@ namespace SS.API
             // Data
             services.AddScoped<IAdminDataRepository, AdminDataRepository>();
             services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
-            services.AddScoped<IAuthDataRepository, AuthDataRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IUtilityDataRepository, UtilityDataRepository>();
             services.AddScoped<IUserRoleDataRepository, UserRoleDataRepository>();
@@ -130,7 +129,6 @@ namespace SS.API
             services.AddScoped<IUtilityRepository, UtilityRepository>();
 
             // Mappings
-            services.AddScoped<IAuthMapping, AuthMapping>();
             services.AddScoped<IAdminMapping, AdminMapping>();
             services.AddScoped<IArtistMapping, ArtistMapping>();
             services.AddScoped<IUserMapping, UserMapping>();

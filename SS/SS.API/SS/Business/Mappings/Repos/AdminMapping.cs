@@ -11,9 +11,9 @@ namespace SS.Business.Mappings.Repos
 {
     public class AdminMapping : IAdminMapping
     {
-        public IEnumerable<UserForAdminReturnDto> MapToAdminReturnAsQueryable(IEnumerable<Ssuser> ssUsers)
+        public IEnumerable<UserWithRolesDto> MapToAdminReturnAsQueryable(IEnumerable<Ssuser> ssUsers)
         {
-            var users = ssUsers.Select(u => new UserForAdminReturnDto()
+            var users = ssUsers.Select(u => new UserWithRolesDto()
             {
                 Id = u.Id,
                 UserName = u.UserName,
@@ -23,9 +23,9 @@ namespace SS.Business.Mappings.Repos
             return users;
         }
 
-        public PagedListDto<UserForAdminReturnDto> MapToPagedListDto(PagedList<UserForAdminReturnDto> userList)
+        public PagedListDto<UserWithRolesDto> MapToPagedListDto(PagedList<UserWithRolesDto> userList)
         {
-            var toReturn = new PagedListDto<UserForAdminReturnDto>()
+            var toReturn = new PagedListDto<UserWithRolesDto>()
             {
                 List = userList,
                 CurrentPage = userList.CurrentPage,

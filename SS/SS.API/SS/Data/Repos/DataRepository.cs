@@ -30,9 +30,14 @@ namespace SS.Data.Repos
         {
             return await _context.Set<TEntity>().ToListAsync();
         }
-        public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> FindMany(Expression<Func<TEntity, bool>> predicate)
         {
             return await _context.Set<TEntity>().Where(predicate).ToListAsync();
+        }
+
+        public async Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _context.Set<TEntity>().Where(predicate).FirstOrDefaultAsync();
         }
 
         public void Add(TEntity entity)
