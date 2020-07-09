@@ -66,7 +66,7 @@ namespace SS.Business.Repos
 
         public async Task<UserDto> GetUserForDetailToReturn(string userName)
         {
-            var user = await _user.Find(_user.GetUserByUserName(userName));
+            var user = await _user.Find(u => u.UserName == userName);
             var userToReturn = _map.MapToUserForDetailDto(user);
             return userToReturn;
         }

@@ -4,45 +4,34 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models.PagedList;
 using SS.Business.Models.Role;
 using SS.Business.Models.User;
+using SS.Business.Pagination;
 using SS.Data.Interfaces;
-using SS.Data.Models;
-using SS.Helpers.Pagination;
-using SS.Helpers.Pagination.PagedParams;
 
 namespace SS.Business.Repos
 {
     public class AdminRepository : IAdminRepository
     {
-        private readonly IAdminDataRepository _admin;
         private readonly IAdminMapping _map;
         private readonly IUserDataRepository _user;
         private readonly IUserRoleDataRepository _role;
 
-        public AdminRepository(IAdminDataRepository admin,
-                                IAdminMapping map,
+        public AdminRepository(IAdminMapping map,
                                 IUserDataRepository user,
                                 IUserRoleDataRepository role)
         {
-            _admin = admin;
             _map = map;
             _role = role;
             _user = user;
         }
 
-        public async Task<PagedListDto<UserWithRolesDto>> GetAllUsersWithRoles(AdminUsersParams p) //TODO need better naming of variables
+        public async Task<PagedListDto<UserWithRolesDto>> GetAllUsersWithRoles(AdminUsersParams p)
         {
-            string orderBy = p.OrderBy;
-            string search = p.Search;
+            var users = await _user.GetUsersForList(p.PN, p.IPP, p.Search, p.OrderBy);
+            var usersWithRoles = _map.MapToUserWithRolesDto(users);
 
-            var users = await _user.GetUsersForList(p.PN, p.PS); // what are the values of 2 above values?            
-            var dto = _map.MapToAdminReturnAsQueryable(users).AsQueryable(); // wait, this may break either here or in paged list? can't remember
-            var pagedList = await PagedList<UserWithRolesDto>.CreateAsync(dto, p.PN, p.PS);
-            var pagedListDto = _map.MapToPagedListDto(pagedList);
-
-            return pagedListDto;
+            return usersWithRoles;
         }
 
         public async Task<IEnumerable<RoleDto>> GetAllAvailibleRoles()
@@ -55,7 +44,7 @@ namespace SS.Business.Repos
 
         public async Task<IdentityResult> UpdateRolesForUser(string userName, string[] roles)
         {
-            var user = await _user.GetByName(userName); //no idea if this actually works
+            var user = await _user.Find(u => u.UserName == userName);
             var assignedRoles = user.SsuserRole.Select(r => r.Role.Name);
 
             var rolesToAdd = roles.Except(assignedRoles);
@@ -75,7 +64,7 @@ namespace SS.Business.Repos
 
         public async Task<IEnumerable<string>> GetRolesForUser(string userName)
         {
-            var user = await _user.GetByName(userName); //no idea if this actually works
+            var user = await _user.Find(u => u.UserName == userName);
             var roles = user.SsuserRole.Select(r => r.Role.Name);
             return roles;
         }

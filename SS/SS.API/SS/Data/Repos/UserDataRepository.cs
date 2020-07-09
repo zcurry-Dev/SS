@@ -15,7 +15,10 @@ namespace SS.Data.Repos
     {
         private readonly SignInManager<Ssuser> _signInManager;
         private readonly UserManager<Ssuser> _userManager;
-        public UserDataRepository(DataContext context, UserManager<Ssuser> userManager, SignInManager<Ssuser> signInManager) : base(context)
+        public UserDataRepository(DataContext context,
+                                    UserManager<Ssuser> userManager,
+                                    SignInManager<Ssuser> signInManager)
+                                     : base(context)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -68,7 +71,7 @@ namespace SS.Data.Repos
             return result;
         }
 
-        public async Task<IEnumerable<Ssuser>> GetUsersForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
+        public async Task<PagedList<Ssuser>> GetUsersForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
         {
             var users = _userManager.Users
                     .Where(s => s.UserName.Contains(search));
@@ -82,22 +85,17 @@ namespace SS.Data.Repos
                 users.OrderByDescending(u => u.UserName);
             }
 
-            await users.Skip((pageIndex - 1) * pageSize)
-                    .Take(pageSize)
-                    .ToListAsync();
+            users.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
-            return users;
+            var pagedList = await PagedList<Ssuser>.CreateAsync(users, pageIndex, pageSize);
+
+            return pagedList;
         }
 
         public async Task<SignInResult> CheckPasswordSignIn(Ssuser user, string password)
         {
             var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
             return result;
-        }
-
-        public Expression<Func<Ssuser, bool>> GetUserByUserName(string userName)
-        {
-            return u => u.UserName == userName;
         }
     }
 }

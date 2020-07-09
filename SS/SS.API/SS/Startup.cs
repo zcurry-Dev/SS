@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using SS.Business;
+using SS.Business.Helpers;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
 using SS.Business.Mappings.Repos;
@@ -21,7 +23,6 @@ using SS.Data;
 using SS.Data.Interfaces;
 using SS.Data.Models;
 using SS.Data.Repos;
-using SS.Helpers;
 
 namespace SS.API
 {
@@ -114,7 +115,6 @@ namespace SS.API
             services.AddCors();
 
             // Data
-            services.AddScoped<IAdminDataRepository, AdminDataRepository>();
             services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
             services.AddScoped<IUserDataRepository, UserDataRepository>();
             services.AddScoped<IUtilityDataRepository, UtilityDataRepository>();

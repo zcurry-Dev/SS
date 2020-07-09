@@ -9,7 +9,7 @@ import { AdminApiService } from '../_services/admin.service/admin.api.service';
 @Injectable()
 export class AdminUsersResolver implements Resolve<User[]> {
   pn = 1;
-  ps = 10;
+  ipp = 10;
   search: string;
 
   constructor(
@@ -19,7 +19,7 @@ export class AdminUsersResolver implements Resolve<User[]> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<User[]> {
-    return this._adminApiService.ListUsers(this.pn, this.ps, this.search).pipe(
+    return this._adminApiService.ListUsers(this.pn, this.ipp, this.search).pipe(
       catchError((error) => {
         this.alertify.error('Problem retrieving data');
         this.router.navigate(['/home']);

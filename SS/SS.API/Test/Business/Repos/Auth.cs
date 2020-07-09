@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -63,8 +62,8 @@ namespace Test.Business.Repos
                 var user = new Ssuser { UserName = userName };
                 Expression<Func<Ssuser, bool>> ex = u => u.UserName == userName;
 
-                mock.Mock<IUserDataRepository>().Setup(x => x.GetUserByUserName(userName)).Returns(ex);
-                mock.Mock<IUserDataRepository>().Setup(x => x.Find(ex)).Returns(Task.FromResult(user));
+                // mock.Mock<IUserDataRepository>().Setup(x => x.GetUserByUserName(userName)).Returns(ex);
+                mock.Mock<IUserDataRepository>().Setup(x => x.Find(u => u.UserName == userName)).Returns(Task.FromResult(user));
                 mock.Mock<IUserMapping>().Setup(x => x.MapToUserForDetailDto(user)).Returns(userDto);
 
                 var cls = mock.Create<UserRepository>();
@@ -108,22 +107,23 @@ namespace Test.Business.Repos
         // Login
         [Theory]
         [ClassData(typeof(UserWithPasswordData))]
-        public async Task CheckPasswordSignIn(UserDto user, string password)
+        public async Task CheckPasswordSignIn(UserDto dto, string password)
         {
             using (var mock = AutoMock.GetLoose())
             {
-                var ssUser = new Ssuser { UserName = user.UserName };
-                Expression<Func<Ssuser, bool>> ex = u => u.UserName == user.UserName;
+                var ssUser = new Ssuser { UserName = dto.UserName };
+                Expression<Func<Ssuser, bool>> ex = u => u.UserName == dto.UserName;
                 var sr = SignInResult.Success;
 
-                mock.Mock<IUserDataRepository>().Setup(x => x.GetUserByUserName(user.UserName)).Returns(ex);
+                // mock.Mock<IUserDataRepository>().Setup(x => x.GetUserByUserName(user.UserName)).Returns(ex);
+                mock.Mock<IUserDataRepository>().Setup(x => x.Add(ssUser));
                 mock.Mock<IUserDataRepository>().Setup(x => x.Find(ex)).Returns(Task.FromResult(ssUser));
                 mock.Mock<IUserDataRepository>().Setup(x => x.CheckPasswordSignIn(ssUser, password))
                     .Returns(Task.FromResult(sr));
 
                 var cls = mock.Create<AuthRepository>();
                 var expected = SignInResult.Success;
-                var actual = await cls.CheckPasswordSignIn(user, password);
+                var actual = await cls.CheckPasswordSignIn(dto, password);
 
                 Assert.True(actual != null);
                 Assert.Equal(expected, actual);

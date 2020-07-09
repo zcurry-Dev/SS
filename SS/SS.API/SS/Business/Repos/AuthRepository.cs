@@ -29,7 +29,7 @@ namespace SS.Business.Repos
 
         public async Task<SignInResult> CheckPasswordSignIn(UserDto dto, string password)
         {
-            var user = await _user.Find(_user.GetUserByUserName(dto.UserName));
+            var user = await _user.Find(u => u.UserName == dto.UserName);
             var result = await _user.CheckPasswordSignIn(user, password);
             return result;
         }

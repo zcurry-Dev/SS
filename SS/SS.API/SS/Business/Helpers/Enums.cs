@@ -1,4 +1,4 @@
-namespace SS.Helpers.Enums
+namespace SS.Business.Enums
 {
     public enum Result
     {

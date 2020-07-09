@@ -1,10 +1,9 @@
-using System;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SS.Helpers.Pagination;
+using SS.Business.Pagination;
 
-namespace SS.Helpers
+namespace SS.Business
 {
     public static class Extensions
     {
@@ -18,7 +17,7 @@ namespace SS.Helpers
         public static void AddPagination(this HttpResponse response,
             int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
-            var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalItems, totalPages);
+            var paginationHeader = new PaginationHeader(currentPage, totalPages, itemsPerPage, totalItems);
             var camelCaseFormatter = new JsonSerializerSettings();
             camelCaseFormatter.ContractResolver = new CamelCasePropertyNamesContractResolver();
             response.Headers.Add("Pagination",

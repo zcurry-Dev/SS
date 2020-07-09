@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using SS.Business;
 using SS.Business.Interfaces;
 using SS.Business.Models.Role;
-using SS.Helpers;
-using SS.Helpers.Pagination.PagedParams;
+using SS.Business.Pagination;
 
 namespace SS.Controllers.Admin
 {
@@ -23,10 +22,10 @@ namespace SS.Controllers.Admin
         public async Task<IActionResult> ListUsers([FromQuery] AdminUsersParams adminUsersParams)
         {
             var users = await _admin.GetAllUsersWithRoles(adminUsersParams);
-            Response.AddPagination(users.CurrentPage, users.PageSize,
-                users.TotalCount, users.TotalPages);
+            Response.AddPagination(users.CurrentPage, users.ItemsPerPage,
+                users.TotalItems, users.TotalPages);
 
-            return Ok(users.List);
+            return Ok(users.Items);
         }
 
         [HttpPatch]

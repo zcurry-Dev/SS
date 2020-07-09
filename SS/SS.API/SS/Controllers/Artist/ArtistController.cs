@@ -2,11 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SS.Business;
+using SS.Business.Enums;
+using SS.Business.Helpers;
 using SS.Business.Interfaces;
 using SS.Business.Models.Artist;
-using SS.Helpers;
-using SS.Helpers.Enums;
-using SS.Helpers.Pagination.PagedParams;
+using SS.Business.Pagination;
 
 namespace SS.Controllers.Artist
 {
@@ -54,10 +55,10 @@ namespace SS.Controllers.Artist
         public async Task<IActionResult> List([FromQuery] ArtistParams artistParams)
         {
             var artists = await _artist.GetArtists(artistParams);
-            Response.AddPagination(artists.CurrentPage, artists.PageSize,
-                artists.TotalCount, artists.TotalPages);
+            Response.AddPagination(artists.CurrentPage, artists.ItemsPerPage,
+                artists.TotalItems, artists.TotalPages);
 
-            return Ok(artists.List);
+            return Ok(artists.Items);
         }
 
         [HttpPatch]

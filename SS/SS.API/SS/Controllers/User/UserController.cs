@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SS.Business.Helpers;
 using SS.Business.Interfaces;
 using SS.Business.Models.User;
-using SS.Helpers;
 
 namespace SS.Controllers.User
 {

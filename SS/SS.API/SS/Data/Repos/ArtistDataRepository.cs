@@ -11,7 +11,7 @@ namespace SS.Data.Repos
     {
         public ArtistDataRepository(DataContext context) : base(context) { }
 
-        public async Task<IEnumerable<Artist>> GetArtistsForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
+        public async Task<PagedList<Artist>> GetArtistsForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
         {
             var artists = _context.Artist.Where(a => a.ArtistName.Contains(search));
 
@@ -24,12 +24,11 @@ namespace SS.Data.Repos
                 artists.OrderByDescending(a => a.ArtistName);
             }
 
-            var a = await artists
-                    // .Skip((pageIndex - 1) * pageSize)
-                    // .Take(pageSize)
-                    .ToListAsync();
+            artists.Skip((pageIndex - 1) * pageSize).Take(pageSize);
 
-            return a;
+            var pagedList = await PagedList<Artist>.CreateAsync(artists, pageIndex, pageSize);
+
+            return pagedList;
         }
     }
 }

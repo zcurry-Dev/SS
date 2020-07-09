@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SS.Data.Interfaces;
 
-namespace SS.Helpers
+namespace SS.Business.Helpers
 {
     public class LogUserActivity : IAsyncActionFilter
     {

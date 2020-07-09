@@ -17,11 +17,10 @@ namespace SS.Data.Interfaces
 
         //
         //
-        Task<IEnumerable<Ssuser>> GetUsersForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "");
+        Task<PagedList<Ssuser>> GetUsersForList(int pageIndex, int pageSize = 10, string search = "", string orderBy = "");
         Task<IdentityResult> AddRolesToUser(Ssuser user, IEnumerable<string> roles);
         Task<IdentityResult> RemoveRolesFromUser(Ssuser user, IEnumerable<string> roles);
         Task<IEnumerable<string>> GetRolesForUserByUserName(string userName);
-        Expression<Func<Ssuser, bool>> GetUserByUserName(string userName);
         Task<SignInResult> CheckPasswordSignIn(Ssuser user, string password);
     }
 }

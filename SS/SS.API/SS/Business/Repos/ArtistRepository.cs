@@ -1,17 +1,12 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SS.Business.Enums;
 using SS.Business.Interfaces;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models;
 using SS.Business.Models.Artist;
-using SS.Business.Models.PagedList;
+using SS.Business.Pagination;
 using SS.Data.Interfaces;
-using SS.Data.Models;
-using SS.Data.Repos;
-using SS.Helpers.Enums;
-using SS.Helpers.Pagination;
-using SS.Helpers.Pagination.PagedParams;
 
 namespace SS.Business.Repos
 {
@@ -58,19 +53,10 @@ namespace SS.Business.Repos
 
         public async Task<PagedListDto<ArtistForListDto>> GetArtists(ArtistParams p)
         {
-            string orderBy = p.OrderBy;
-            string search = p.Search;
+            var pagedList = await _artist.GetArtistsForList(p.PN, p.IPP, p.Search, p.OrderBy);
+            var artistsForList = _map.MapToArtistForListDto(pagedList);
 
-            var artists = await _artist.GetArtistsForList(p.PN, p.PS); // what are the values of 2 above values?            
-                                                                       // var dto = _map.MapToArtistForListDtoAsQueryable(artists); // wait, this may break either here or in paged list? can't remember
-                                                                       // var pagedList = await PagedList<ArtistForListDto>.CreateAsync(dto, p.PN, p.PS);
-                                                                       // var pagedListDto = _map.MapToPagedListDto(pagedList);
-
-
-            var pagedList = PagedList<Artist>.CreateAsync(artists, p.PN, p.PS);
-            var pagedListDto = _map.MapToListForReturnDto(pagedList);
-
-            return pagedListDto;
+            return artistsForList;
         }
 
         public async Task<ArtistDto> GetArtistById(int artistId)

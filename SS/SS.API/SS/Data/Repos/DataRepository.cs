@@ -21,11 +21,6 @@ namespace SS.Data.Repos
             return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task<TEntity> GetByName(string name)
-        {
-            return await _context.Set<TEntity>().FindAsync(name); // dunno if this works?
-        }
-
         public async Task<IEnumerable<TEntity>> GetAll()
         {
             return await _context.Set<TEntity>().ToListAsync();
@@ -67,16 +62,9 @@ namespace SS.Data.Repos
 
         public bool ContextUpdated()
         {
-            var entityToUpdate = _context.ChangeTracker.Entries()
-                        .Where(e => e.State != EntityState.Unchanged)
-                        .FirstOrDefault();
+            var changesExist = _context.ChangeTracker.HasChanges();
 
-            if (entityToUpdate == null)
-            {
-                return false;
-            }
-
-            return true;
+            return changesExist;
         }
     }
 }

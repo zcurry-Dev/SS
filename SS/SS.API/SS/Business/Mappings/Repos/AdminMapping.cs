@@ -1,40 +1,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using SS.Business.Mappings.Interfaces;
-using SS.Business.Models.PagedList;
 using SS.Business.Models.Role;
 using SS.Business.Models.User;
+using SS.Business.Pagination;
+using SS.Data;
 using SS.Data.Models;
-using SS.Helpers.Pagination;
 
 namespace SS.Business.Mappings.Repos
 {
     public class AdminMapping : IAdminMapping
     {
-        public IEnumerable<UserWithRolesDto> MapToAdminReturnAsQueryable(IEnumerable<Ssuser> ssUsers)
+        public PagedListDto<UserWithRolesDto> MapToUserWithRolesDto(PagedList<Ssuser> pl)
         {
-            var users = ssUsers.Select(u => new UserWithRolesDto()
+            var users = pl.Select(u => new UserWithRolesDto()
             {
                 Id = u.Id,
                 UserName = u.UserName,
-                Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(), // is this right?? 062820/070620
+                Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(), // is this right?? 062820/070620/070920
             });
 
-            return users;
-        }
-
-        public PagedListDto<UserWithRolesDto> MapToPagedListDto(PagedList<UserWithRolesDto> userList)
-        {
-            var toReturn = new PagedListDto<UserWithRolesDto>()
+            var pldto = new PagedListDto<UserWithRolesDto>
             {
-                List = userList,
-                CurrentPage = userList.CurrentPage,
-                TotalPages = userList.TotalPages,
-                PageSize = userList.PageSize,
-                TotalCount = userList.TotalCount,
+                Items = users,
+                CurrentPage = pl.CurrentPage,
+                TotalPages = pl.TotalPages,
+                ItemsPerPage = pl.ItemsPerPage,
+                TotalItems = pl.TotalItems,
             };
 
-            return toReturn;
+            return pldto;
         }
 
         public IEnumerable<RoleDto> MapToRoleDto(IEnumerable<Ssrole> ssroles)
