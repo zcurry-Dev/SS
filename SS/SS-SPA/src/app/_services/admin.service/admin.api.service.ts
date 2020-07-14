@@ -24,7 +24,7 @@ export class AdminApiService {
 
     if (page != null && itemsPerPage != null) {
       params = params.append('pn', page);
-      params = params.append('ps', itemsPerPage);
+      params = params.append('ipp', itemsPerPage);
     }
 
     if (search) {

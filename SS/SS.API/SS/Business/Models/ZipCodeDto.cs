@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SS.Business.Models.Utility
 {
-    public class ZipCodeDto
+    public class UsZipCodeDto
     {
         public int Id { get; set; }
         public string ZipCode { get; set; }
@@ -10,7 +10,7 @@ namespace SS.Business.Models.Utility
     }
 
     // Accept
-    public class ZipCodeToCreateDto
+    public class UsZipCodeToCreateDto
     {
         [Required]
         [StringLength(5, MinimumLength = 5, ErrorMessage = "ZipCode must be 5 characters ")]
@@ -21,7 +21,7 @@ namespace SS.Business.Models.Utility
     }
 
     // Return
-    public class ZipCodeToReturnDto
+    public class UsZipCodeToReturnDto
     {
         public int Id { get; set; }
         public string ZipCode { get; set; }

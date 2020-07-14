@@ -46,7 +46,7 @@ namespace SS.Business.Models.Artist
             CreatedDate = now;
         }
 
-        public string Name { get; }
+        public string Name { get; set; }
         public DateTime CareerBeginDate { get; }
         public bool ArtistGroup { get; }
         public bool Verified { get; }

@@ -57,6 +57,7 @@ export class ArtistListComponent implements OnInit {
   }
 
   getArtists() {
+    console.log(this.pagination?.currentPage, this.pageSize, this.search);
     this._artistAPI
       .List(this.pagination?.currentPage, this.pageSize, this.search)
       .subscribe((artistList: PaginatedResult<Artist[]>) => {

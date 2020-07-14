@@ -16,8 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using SS.Business;
 using SS.Business.Helpers;
 using SS.Business.Interfaces;
-using SS.Business.Mappings.Interfaces;
-using SS.Business.Mappings.Repos;
+using SS.Business.Mappings;
 using SS.Business.Repos;
 using SS.Data;
 using SS.Data.Interfaces;
@@ -115,24 +114,25 @@ namespace SS.API
             services.AddCors();
 
             // Data
-            services.AddScoped<IArtistDataRepository, ArtistDataRepository>();
-            services.AddScoped<IUserDataRepository, UserDataRepository>();
-            services.AddScoped<IUtilityDataRepository, UtilityDataRepository>();
-            services.AddScoped<IUserRoleDataRepository, UserRoleDataRepository>();
-            services.AddScoped(typeof(IDataRepository<>), typeof(DataRepository<>));
+            services.AddScoped<IArtistData, ArtistData>();
+            services.AddScoped<IUserData, UserData>();
+            services.AddScoped(typeof(IDataRepo<>), typeof(DataRepo<>));
+            // Within IAllData
+            services.AddScoped<ICountryData, CountryData>();
+            services.AddScoped<IUsStateData, UsStateData>();
+            services.AddScoped<IUsCityData, UsCityData>();
+            services.AddScoped<IUsZipCodeData, UsZipCodeData>();
+            services.AddScoped<IUserRoleData, UserRoleData>();
 
             // Business
-            services.AddScoped<IAdminRepository, AdminRepository>();
-            services.AddScoped<IArtistRepository, ArtistRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUtilityRepository, UtilityRepository>();
+            services.AddScoped<IAdmin, AdminRepo>();
+            services.AddScoped<IArtist, Business.Repos.ArtistRepo>();
+            services.AddScoped<IAuth, AuthRepo>();
+            services.AddScoped<IUser, UserRepo>();
+            services.AddScoped<IUtility, Business.Repos.UtilityRepo>();
 
             // Mappings
-            services.AddScoped<IAdminMapping, AdminMapping>();
-            services.AddScoped<IArtistMapping, ArtistMapping>();
-            services.AddScoped<IUserMapping, UserMapping>();
-            services.AddScoped<IUtilityMapping, UtilityMapping>();
+            services.AddScoped<IMap, MapRepo>();
             //
         }
 

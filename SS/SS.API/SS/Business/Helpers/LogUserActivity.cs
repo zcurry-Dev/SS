@@ -7,8 +7,8 @@ namespace SS.Business.Helpers
 {
     public class LogUserActivity : IAsyncActionFilter
     {
-        private readonly IUserDataRepository _user;
-        public LogUserActivity(IUserDataRepository user)
+        private readonly IUserData _user;
+        public LogUserActivity(IUserData user)
         {
             _user = user;
         }
@@ -18,7 +18,7 @@ namespace SS.Business.Helpers
             var resultContext = await next();
             if (resultContext.HttpContext.User.Identities.FirstOrDefault().IsAuthenticated)
             {
-                await _user.UpdateLastActiveForUser(resultContext.HttpContext.User);
+                await _user.UpdateLastActiveAsync(resultContext.HttpContext.User);
             }
         }
     }

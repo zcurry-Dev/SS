@@ -4,12 +4,6 @@ namespace SS.Business.Pagination
     {
         private const int MaxPageSize = 50;
         public int PN { get; set; } = 1;
-        private int ipp = 10; // does this block the other params?
-        public int IPP
-        {
-            get { return ipp; }
-            set { ipp = (value > MaxPageSize) ? MaxPageSize : value; }
-        }
         public string OrderBy { get; set; }
         public string Search { get; set; }
     }
@@ -18,12 +12,22 @@ namespace SS.Business.Pagination
     {
         private const int MaxPageSize = 50;
         private int ipp = 10;
+        public int IPP
+        {
+            get { return ipp; }
+            set { ipp = (value > MaxPageSize) ? MaxPageSize : value; }
+        }
     }
 
-    public class ArtistParams : PageParams
+    public class ArtistPageParams : PageParams
     {
         private const int MaxPageSize = 50;
         private int ipp = 10;
+        public int IPP
+        {
+            get { return ipp; }
+            set { ipp = (value > MaxPageSize) ? MaxPageSize : value; }
+        }
     }
 
 }
