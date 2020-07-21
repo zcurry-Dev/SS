@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Autofac.Extras.Moq;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using SS.Business.Interfaces;
 using SS.Business.Mappings;
 using SS.Business.Models.Role;
 using SS.Business.Pagination;
@@ -121,7 +120,7 @@ namespace Test.Business.Repos
                 var actual = await cls.UpdateRolesAsync(userName, rolesToUpdate);
 
                 Assert.True(actual != null);
-                // Assert.Equal(actual, expected);
+                // Assert.Equal(expected, actual);
                 // More Tests needed
             }
         }

@@ -5,6 +5,7 @@ using SS.Business.Enums;
 using SS.Business.Interfaces;
 using SS.Business.Mappings;
 using SS.Business.Models.Artist;
+using SS.Business.Models.Utility;
 using SS.Business.Pagination;
 using SS.Business.Repos;
 using SS.Data;
@@ -37,7 +38,7 @@ namespace Test.Business.Repos
                 var actual = await cls.CreateArtistAsync(artistToCreate);
 
                 Assert.True(actual != null);
-                Assert.Equal(actual.Name, expected.Name);
+                Assert.Equal(expected.Name, actual.Name);
                 // More Tests needed
             }
         }
@@ -59,7 +60,7 @@ namespace Test.Business.Repos
                 var actual = await cls.GetArtistAsync(artistId);
 
                 Assert.True(actual != null);
-                Assert.Equal(actual.Id, expected.Id);
+                Assert.Equal(expected.Id, actual.Id);
                 // More Tests needed
             }
         }
@@ -81,7 +82,7 @@ namespace Test.Business.Repos
                 var actual = await cls.GetArtistsAsync(p);
 
                 Assert.True(actual != null);
-                Assert.Equal(actual, expected);
+                Assert.Equal(expected, actual);
                 // More Tests needed
             }
         }
@@ -93,9 +94,19 @@ namespace Test.Business.Repos
             using (var mock = AutoMock.GetLoose())
             {
                 var artist = new Artist { ArtistId = artistId };
+                var cityToCreate = new CityToCreateDto
+                {
+                    CityName = a.HomeUsCity,
+                    StateId = a.HomeUsStateId ?? 1
+                };
+                var city = new UsCityDto
+                {
+                    Id = 1,
+                    Name = a.HomeUsCity,
+                };
 
-                mock.Mock<IUtility>().Setup(x => x.CreateCityAsync(a.HomeUsCity, a.HomeUsStateId.Value)).Returns(Task.FromResult(1));
-                mock.Mock<IUtility>().Setup(x => x.CreateZipCodeAsync(a.HomeUsZipcode, a.HomeUsCityId.Value)).Returns(Task.FromResult(1));
+                mock.Mock<IUtility>().Setup(x => x.CreateCityAsync(a.HomeUsCity, a.HomeUsStateId ?? 1)).Returns(Task.FromResult(1));
+                mock.Mock<IUtility>().Setup(x => x.CreateZipCodeAsync(a.HomeUsZipcode, a.HomeUsCityId ?? 1)).Returns(Task.FromResult(1));
                 mock.Mock<IArtistData>().Setup(x => x.GetByIdAsync(artistId)).Returns(Task.FromResult(artist));
                 mock.Mock<IArtistData>().Setup(x => x.ContextUpdated()).Returns(true);
                 mock.Mock<IArtistData>().Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
@@ -104,8 +115,7 @@ namespace Test.Business.Repos
                 var expected = Result.Pass;
                 var actual = await cls.UpdateArtistAsync(artistId, a);
 
-                Assert.True(actual != null);
-                Assert.Equal(actual, expected);
+                Assert.Equal(expected, actual);
                 // More Tests needed
             }
         }

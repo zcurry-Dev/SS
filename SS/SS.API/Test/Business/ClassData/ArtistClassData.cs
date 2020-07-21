@@ -44,32 +44,47 @@ namespace Test.Business.ClassData
             var now = new DateTime();
             yield return new object[] {
                 1,
-                    new ArtistForUpdateDto
-                    {
-                        Id = 1,
-                        Name = "testName",
-                        CareerBeginDate = now,
-                        Group = true,
-                        Verified = false,
-                        HomeCountryId = 1,
-                        CurrentCountryId = 1,
-                        CreatedBy = 1,
-                        CreatedDate = now,
-                        HomeUsCity= "homeCity",
-                        HomeUsZipcode = "99999",
-                        HomeWorldRegion = "",
-                        HomeWorldCity = "",
-                        HomeUsStateId = 1,
-                        HomeUsCityId = 1
-                    },
-                };
+                new ArtistForUpdateDto
+                {
+                    Id = 1,
+                    Name = "testName",
+                    CareerBeginDate = now,
+                    Group = true,
+                    Verified = false,
+                    HomeCountryId = 1,
+                    CurrentCountryId = 1,
+                    CreatedBy = 1,
+                    CreatedDate = now,
+                    HomeUsCity= "homeCity",
+                    HomeUsZipcode = "99999",
+                    HomeWorldRegion = "",
+                    HomeWorldCity = "",
+                    HomeUsStateId = 1,
+                    HomeUsCityId = 1
+                },
+            };
+            yield return new object[]{
+                1,
+                new ArtistForUpdateDto
+                {
+                    Id = 1,
+                    Name = "testName",
+                    CareerBeginDate = now,
+                    Group = true,
+                    Verified = false,
+                    HomeCountryId = 1,
+                    CurrentCountryId = 1,
+                    CreatedBy = 1,
+                    CreatedDate = now,
+                    HomeUsCity= "homeCity",
+                    HomeUsZipcode = "99999",
+                    HomeWorldRegion = "",
+                    HomeWorldCity = "",
+                    HomeUsStateId = 1,
+                    // HomeUsCityId = 1
+                },
+            };
         }
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
-
-
-
-
-
-
 }

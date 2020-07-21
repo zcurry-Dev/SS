@@ -5,13 +5,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Autofac.Extras.Moq;
 using Moq;
-using SS.Business.Interfaces;
 using SS.Business.Mappings;
 using SS.Business.Models.Utility;
 using SS.Business.Repos;
 using SS.Data.Interfaces;
 using SS.Data.Models;
-using SS.Data.Repos;
 using Test.Business.ClassData;
 using Test.Business.Interfaces;
 using Xunit;
@@ -54,7 +52,7 @@ namespace Test.Business.Repos
                 var actual = await cls.CreateCityAsync(d);
 
                 Assert.True(actual != null);
-                Assert.Equal(actual, expected);
+                Assert.Equal(expected, actual);
                 // More Tests needed
             }
         }
@@ -93,7 +91,7 @@ namespace Test.Business.Repos
                 var actual = await cls.CreateZipCodeAsync(d);
 
                 Assert.True(actual != null);
-                Assert.Equal(actual, expected);
+                Assert.Equal(expected, actual);
                 // More Tests needed
             }
         }
@@ -130,7 +128,7 @@ namespace Test.Business.Repos
         {
             using (var mock = AutoMock.GetLoose())
             {
-                var toCreate = new CityToCreateDto()
+                var toCreate = new CityToCreateDto
                 {
                     CityName = name,
                     StateId = stateId
@@ -140,21 +138,19 @@ namespace Test.Business.Repos
                     CityName = name,
                     StateId = stateId
                 };
+                var returnDto = new UsCityDto
+                {
+                    Id = 1,
+                    Name = name
+                };
 
                 // Expression<Func<City, bool>> ex = c => c.StateId == d.StateId && c.CityName == d.CityName;
                 // // would like to test with ^^this^^ but don't think I'm able to
                 // mock.Mock<IUsCityData>().Setup(x => x.Find(ex)).Returns(Task.FromResult(city));
                 var cityList = new List<City>();
                 var matchingCities = cityList.AsEnumerable();
-                var returnDto = new UsCityDto
-                {
-                    Name = name,
-                    Id = stateId
-                };
 
-                // mock.Mock<IUtility>().Setup(x => x.CreateCityAsync(toCreate)).Returns(Task.FromResult(returnDto));
-                mock.Mock<IMap>().Setup(x => x.MapToCity(toCreate)).Returns(city);
-                // mock.Mock<IMap>().Setup(x => x.MapToCity(toCreate)).Returns(It.IsAny<City>);
+                mock.Mock<IMap>().Setup(x => x.MapToCity(It.IsAny<CityToCreateDto>())).Returns(city);
                 mock.Mock<IUsCityData>().Setup(x => x.FindManyAsync(It.IsAny<Expression<Func<City, bool>>>()))
                     .Returns(Task.FromResult(matchingCities));
                 mock.Mock<IUsCityData>().Setup(x => x.Add(city));
@@ -165,23 +161,51 @@ namespace Test.Business.Repos
                 var expected = 1;
                 var actual = await cls.CreateCityAsync(name, stateId);
 
-                Assert.True(actual != null);
-                Assert.Equal(actual, expected);
+                Assert.Equal(expected, actual);
                 // More Tests needed
             }
         }
 
         [Theory]
-        [InlineData("99999", 1)]
+        [InlineData("99999", 9999)]
         public async Task CreateZipCodeWithNameAndId(string zipCodeDigits, int cityId)
         {
             using (var mock = AutoMock.GetLoose())
             {
+                var toCreate = new UsZipCodeToCreateDto
+                {
+                    ZipCode = zipCodeDigits,
+                    CityId = cityId
+                };
+                var zipCode = new ZipCode
+                {
+                    Digits = zipCodeDigits,
+                    CityId = cityId
+                };
+                var returnDto = new UsZipCodeDto
+                {
+                    Id = 1,
+                    ZipCode = zipCodeDigits,
+                    CityId = cityId
+                };
+
+                // Expression<Func<ZipCode, bool>> ex = z => z.CityId == d.CityId && z.Digits == d.ZipCode;
+                // // would like to test with ^^this^^ but don't think I'm able to
+                // mock.Mock<IUsZipCodeData>().Setup(x => x.Find(ex)).Returns(Task.FromResult(zipCode));
+                var zipCodeList = new List<ZipCode>();
+                var matchingZipCodes = zipCodeList.AsEnumerable();
+
+                mock.Mock<IMap>().Setup(x => x.MapToZipCode(It.IsAny<UsZipCodeToCreateDto>())).Returns(zipCode);
+                mock.Mock<IUsZipCodeData>().Setup(x => x.FindManyAsync(It.IsAny<Expression<Func<ZipCode, bool>>>()))
+                    .Returns(Task.FromResult(matchingZipCodes));
+                mock.Mock<IUsZipCodeData>().Setup(x => x.Add(zipCode));
+                mock.Mock<IUsZipCodeData>().Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
+                mock.Mock<IMap>().Setup(x => x.MapToUsZipCodeDto(zipCode)).Returns(returnDto);
+
                 var cls = mock.Create<UtilityRepo>();
                 var expected = 1;
-                var actual = await cls.CreateCityAsync(zipCodeDigits, cityId);
+                var actual = await cls.CreateZipCodeAsync(zipCodeDigits, cityId);
 
-                Assert.True(actual != null);
                 Assert.Equal(expected, actual);
             }
         }
