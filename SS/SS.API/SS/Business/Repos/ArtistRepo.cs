@@ -52,7 +52,7 @@ namespace SS.Business.Repos
             return artistToReturn;
         }
 
-        public async Task<Result> UpdateArtistAsync(int artistId, ArtistForUpdateDto a)
+        public async Task<bool> UpdateArtistAsync(int artistId, ArtistForUpdateDto a)
         {
             var validValues = ArtistAttributesValid(a);
             if (validValues)
@@ -73,14 +73,14 @@ namespace SS.Business.Repos
                 {
                     if (await _artist.SaveAllAsync())
                     {
-                        return Result.Pass;
+                        return true;
                     }
-                    else return Result.Fail;
+                    else return false;
                 }
-                else return Result.NoChange;
+                else return true;
             }
 
-            return Result.Fail;
+            return false;
         }
 
         private async Task USCheckForNewLocations(ArtistForUpdateDto a)

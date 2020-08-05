@@ -35,18 +35,13 @@ export class NavComponent implements OnInit {
   }
 
   watchLoggedIn() {
-    this._authService.decodedToken$
-      .pipe(
-        distinctUntilChanged()
-        // tap((token) => console.log('Found token', token))
-      )
-      .subscribe(
-        (decodedToken) => {
-          this.decodedToken = decodedToken;
-        },
-        (error) => {
-          this.alertify.error(error);
-        }
-      );
+    this._authService.decodedToken$.pipe(distinctUntilChanged()).subscribe(
+      (decodedToken) => {
+        this.decodedToken = decodedToken;
+      },
+      (error) => {
+        this.alertify.error(error);
+      }
+    );
   }
 }

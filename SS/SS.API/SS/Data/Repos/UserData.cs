@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Castle.Core.Internal;
 using Microsoft.AspNetCore.Identity;
 using SS.Business.Pagination;
 using SS.Data.Interfaces;
@@ -68,19 +69,21 @@ namespace SS.Data.Repos
 
         public async Task<PagedListData<Ssuser>> GetUsersAsync(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
         {
-            var users = _userManager.Users
-                    .Where(s => s.UserName.Contains(search));
-
-            if (orderBy == "")
+            if (!search.IsNullOrEmpty())
             {
-                users.OrderByDescending(u => u.UserId);
+                _userManager.Users.Where(s => s.UserName.Contains(search));  //todo more searching fields
+            }
+
+            if (orderBy.IsNullOrEmpty())
+            {
+                _userManager.Users.OrderByDescending(u => u.LastName); //todo
             }
             else
             {
-                users.OrderByDescending(u => u.UserName);
+                _userManager.Users.OrderByDescending(u => u.Id); //todo
             }
 
-            var pagedList = await PagedListData<Ssuser>.CreateAsync(users, pageIndex, pageSize);
+            var pagedList = await PagedListData<Ssuser>.CreateAsync(_userManager.Users, pageIndex, pageSize);
 
             return pagedList;
         }

@@ -24,7 +24,13 @@ namespace SS.Business.Mappings
                     Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(), // is this right?? 062820/070620/070920
                 }).ToList();
 
-            var pldto = new PagedListDto<UserWithRolesDto>(items);
+            var pldto = new PagedListDto<UserWithRolesDto>(items)
+            {
+                TotalItems = pl.TotalItems,
+                ItemsPerPage = pl.ItemsPerPage,
+                CurrentPage = pl.CurrentPage,
+                TotalPages = pl.TotalPages
+            };
 
             return pldto;
         }
@@ -57,7 +63,13 @@ namespace SS.Business.Mappings
                 HomeCity = GetHomeCity(a)
             }).ToList();
 
-            var pldto = new PagedListDto<ArtistForListDto>(artists);
+            var pldto = new PagedListDto<ArtistForListDto>(artists)
+            {
+                TotalItems = pl.TotalItems,
+                ItemsPerPage = pl.ItemsPerPage,
+                CurrentPage = pl.CurrentPage,
+                TotalPages = pl.TotalPages
+            }; ;
 
             return pldto;
         }

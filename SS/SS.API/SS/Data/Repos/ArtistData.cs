@@ -12,21 +12,28 @@ namespace SS.Data.Repos
 
         public async Task<PagedListData<Artist>> GetArtistsAsync(int pageIndex, int pageSize = 10, string search = "", string orderBy = "")
         {
+            var query = Enumerable.Empty<Artist>().AsQueryable();
             if (!search.IsNullOrEmpty())
             {
-                _context.Artist.Where(a => a.ArtistName.Contains(search));
+                query = _context.Artist.Where(a => a.ArtistName.Contains(search));
+            }
+            else
+            {
+                query = _context.Artist;
             }
 
             if (orderBy.IsNullOrEmpty())
             {
-                _context.Artist.OrderByDescending(a => a.ArtistName);
+                query.OrderByDescending(a => a.ArtistName);
             }
             else
             {
-                _context.Artist.OrderByDescending(a => a.ArtistName);
+                query.OrderByDescending(a => a.ArtistId);
             }
 
-            var pagedList = await PagedListData<Artist>.CreateAsync(_context.Artist, pageIndex, pageSize);
+            // var a = _context.Artist.ToList();
+
+            var pagedList = await PagedListData<Artist>.CreateAsync(query, pageIndex, pageSize);
 
             return pagedList;
         }

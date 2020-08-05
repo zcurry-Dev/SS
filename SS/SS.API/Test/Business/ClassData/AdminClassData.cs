@@ -29,7 +29,13 @@ namespace Test.Business.ClassData
                 Roles = u.SsuserRole.Select(r => r.Role.ToString()).ToList(),
             }).ToList();
 
-            return new PagedListDto<UserWithRolesDto>(items);
+            return new PagedListDto<UserWithRolesDto>(items)
+            {
+                TotalItems = pl.TotalItems,
+                ItemsPerPage = pl.ItemsPerPage,
+                CurrentPage = pl.CurrentPage,
+                TotalPages = pl.TotalPages
+            }; ;
         }
     }
 

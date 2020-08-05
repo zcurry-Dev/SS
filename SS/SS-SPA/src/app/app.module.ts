@@ -45,14 +45,14 @@ import { ArtistCardComponent } from './artist/artist-card/artist-card.component'
 import { ArtistDetailComponent } from './artist/artist-detail/artist-detail.component';
 import { ArtistEditComponent } from './artist/artist-edit/artist-edit.component';
 import { ArtistListComponent } from './artist/artist-list/artist-list.component';
-import { BeersComponent } from './beers/beers.component';
+import { EventComponent } from './event/event.component';
 import { HomeComponent } from './home/home.component';
 import { NavComponent } from './nav/nav.component';
 import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { RegisterComponent } from './register/register.component';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
-import { VenuesComponent } from './venues/venues.component';
+import { VenueComponent } from './venue/venue.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
 import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
 import { LoginComponent } from './login/login.component';
@@ -72,14 +72,14 @@ export function tokenGetter() {
     ArtistDetailComponent,
     ArtistEditComponent,
     ArtistListComponent,
-    BeersComponent,
+    EventComponent,
     HomeComponent,
     NavComponent,
     PhotoManagementComponent,
     RegisterComponent,
     RolesModalComponent,
     UserManagementComponent,
-    VenuesComponent,
+    VenueComponent,
     HasRoleDirective,
     LoginComponent,
     ProfileComponent,

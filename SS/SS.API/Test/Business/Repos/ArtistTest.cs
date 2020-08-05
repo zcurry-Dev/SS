@@ -112,7 +112,7 @@ namespace Test.Business.Repos
                 mock.Mock<IArtistData>().Setup(x => x.SaveAllAsync()).Returns(Task.FromResult(true));
 
                 var cls = mock.Create<ArtistRepo>();
-                var expected = Result.Pass;
+                var expected = true;
                 var actual = await cls.UpdateArtistAsync(artistId, a);
 
                 Assert.Equal(expected, actual);

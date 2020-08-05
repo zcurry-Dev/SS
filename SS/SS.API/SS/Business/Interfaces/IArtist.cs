@@ -11,6 +11,6 @@ namespace SS.Business.Interfaces
         Task<ArtistDetailDto> CreateArtistAsync(ArtistToCreateDto artistToCreate);
         Task<ArtistDetailDto> GetArtistAsync(int artistId);
         Task<PagedListDto<ArtistForListDto>> GetArtistsAsync(ArtistPageParams p);
-        Task<Result> UpdateArtistAsync(int artistId, ArtistForUpdateDto artistForUpdateDto);
+        Task<bool> UpdateArtistAsync(int artistId, ArtistForUpdateDto artistForUpdateDto);
     }
 }

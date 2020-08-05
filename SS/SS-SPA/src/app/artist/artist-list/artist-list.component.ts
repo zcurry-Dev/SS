@@ -53,11 +53,10 @@ export class ArtistListComponent implements OnInit {
   }
 
   sortData(data) {
-    console.log(data); // to debug why matsort sorts name after verified
+    // console.log(data); // to debug why matsort sorts name after verified
   }
 
   getArtists() {
-    console.log(this.pagination?.currentPage, this.pageSize, this.search);
     this._artistAPI
       .List(this.pagination?.currentPage, this.pageSize, this.search)
       .subscribe((artistList: PaginatedResult<Artist[]>) => {
@@ -115,6 +114,7 @@ export class ArtistListComponent implements OnInit {
     }
 
     this.getArtists();
+    console.log('uno');
   }
 
   openAddArtistDialog() {

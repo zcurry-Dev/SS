@@ -53,7 +53,6 @@ export class UtilityService {
   constructor() {}
 
   public update(state: any) {
-    // console.log('UtilityService Updating', state);
     this.updateState({ ..._state, ...state });
   }
 

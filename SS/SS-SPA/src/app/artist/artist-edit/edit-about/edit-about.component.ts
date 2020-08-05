@@ -75,7 +75,6 @@ export class EditAboutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('artist', this.artist);
     this.watchArtist();
     this.watchUtilities();
     this.setArtistForm();
@@ -84,9 +83,7 @@ export class EditAboutComponent implements OnInit {
   }
 
   updateArtist() {
-    // console.log(this.artist);
     this.setArtistValues();
-    console.log(this.artist);
 
     this.artistService.Save(this.artist).subscribe(
       (next) => {
@@ -103,8 +100,6 @@ export class EditAboutComponent implements OnInit {
   // there has to be a better way
   setArtistValues() {
     const f = this.editArtistAboutForm.value;
-    console.log(f);
-
     this.artist.name = f.name;
     if (f.usHomeCountry) {
       this.setUSArtist(f);

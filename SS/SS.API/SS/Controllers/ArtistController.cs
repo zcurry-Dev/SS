@@ -67,17 +67,11 @@ namespace SS.Controllers
         {
             var result = await _artist.UpdateArtistAsync(id, artistForUpdateDto);
 
-            if (result == Result.Pass)
+            if (result)
             {
-                return Ok("Artist updates have been saved");
+                return Ok();
             }
-
-            if (result == Result.NoChange)
-            {
-                return Ok("No changes have been saved");
-            }
-
-            if (result == Result.Fail)
+            else
             {
                 return BadRequest("Error updating the artist");
             }

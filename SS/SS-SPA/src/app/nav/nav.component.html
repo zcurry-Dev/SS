@@ -53,11 +53,11 @@
       <a mat-button routerLinkActive="mat-accent" [routerLink]="['/artist']">
         Artists
       </a>
-      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/venues']">
+      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/venue']">
         Venues
       </a>
-      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/beers']">
-        Beers
+      <a mat-button routerLinkActive="mat-accent" [routerLink]="['/event']">
+        Events
       </a>
     </div>
   </div>
@@ -77,8 +77,8 @@
     <div fxLayout="column">
       <mat-nav-list>
         <a mat-list-item [routerLink]="['/artist']">Artists</a>
-        <a mat-list-item [routerLink]="['/venues']">Venues</a>
-        <a mat-list-item [routerLink]="['/beers']">Beers</a>
+        <a mat-list-item [routerLink]="['/venue']">Venues</a>
+        <a mat-list-item [routerLink]="['/event']">Events</a>
       </mat-nav-list>
 
       <mat-nav-list *ngIf="loggedIn()">

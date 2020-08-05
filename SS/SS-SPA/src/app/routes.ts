@@ -1,7 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { VenuesComponent } from './venues/venues.component';
-import { BeersComponent } from './beers/beers.component';
+import { VenueComponent } from './venue/venue.component';
+import { EventComponent } from './event/event.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { ArtistListComponent } from './artist/artist-list/artist-list.component';
 import { ArtistDetailComponent } from './artist/artist-detail/artist-detail.component';
@@ -12,8 +12,6 @@ import { ArtistEditResolver } from './_resolver/artist-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminUsersResolver } from './_resolver/adminUsers.resolver';
-import { ArtistAddComponent } from './artist/artist-add/artist-add.component';
-import { ProfileComponent } from './profile/profile.component';
 
 export const AppRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,8 +20,8 @@ export const AppRoutes: Routes = [
     component: ArtistListComponent,
     resolve: { artists: ArtistListResolver },
   },
-  { path: 'venues', component: VenuesComponent },
-  { path: 'beers', component: BeersComponent },
+  { path: 'venue', component: VenueComponent },
+  { path: 'event', component: EventComponent },
   {
     path: 'artist/:id',
     component: ArtistDetailComponent,
