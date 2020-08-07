@@ -18,16 +18,6 @@ import { UtilityService } from 'src/app/_services/utility.service/utility.subjec
 import { UsCity } from 'src/app/_models/usCity';
 import { UsZipCode } from 'src/app/_models/usZipCode';
 
-interface ArtistForm {
-  name: string;
-  usHomeCountry: boolean;
-  homeCountryId: number;
-  homeUsState: UsState;
-  homeWorldRegion: any;
-  homeUsCity: UsCity;
-  homeUsZipCode: UsZipCode;
-}
-
 @Component({
   selector: 'app-edit-about',
   templateUrl: './edit-about.component.html',
@@ -65,12 +55,8 @@ export class EditAboutComponent implements OnInit {
   // }
 
   constructor(
-    private alertify: AlertifyService,
-    private artistService: ArtistApiService,
-    private router: Router,
     private fb: FormBuilder,
     private _artist: ArtistService,
-    private _utilityApi: UtilityApiService,
     private _utility: UtilityService
   ) {}
 
@@ -80,66 +66,6 @@ export class EditAboutComponent implements OnInit {
     this.setArtistForm();
     this.usCityFilterPipe();
     this.usZipCodeFilterPipe();
-  }
-
-  updateArtist() {
-    this.setArtistValues();
-
-    this.artistService.Save(this.artist).subscribe(
-      (next) => {
-        this.alertify.success('Artist updated successfully');
-        this.editArtistAboutForm.reset(this.artist);
-        this.router.navigate(['/artist', this.artist.id]);
-      },
-      (error) => {
-        this.alertify.error(error);
-      }
-    );
-  }
-
-  // there has to be a better way
-  setArtistValues() {
-    const f = this.editArtistAboutForm.value;
-    this.artist.name = f.name;
-    if (f.usHomeCountry) {
-      this.setUSArtist(f);
-    } else {
-      this.setNonUSArtist(f);
-    }
-  }
-
-  setUSArtist(f: ArtistForm) {
-    const a = this.artist;
-    a.homeCountryId = 1;
-    a.homeWorldRegionId = null;
-    a.homeWorldCityId = null;
-  }
-
-  setNonUSArtist(f: ArtistForm) {
-    const a = this.artist;
-    a.homeCountryId = 2;
-    a.homeUsState = null;
-    a.homeUsCity = null;
-    a.homeUsZipCode = null;
-  }
-
-  usRadioChange(bool) {
-    this._utility.update({ usCountry: bool.value });
-  }
-
-  changeUSState() {
-    const newStateId = this.controls.homeUsState.value;
-    this.artist.homeUsStateId = newStateId;
-
-    this.controls.homeUsCity.patchValue('');
-    if (this.controls.homeUsZipCode) {
-      this.controls.homeUsZipCode.patchValue('');
-      this.controls.homeUsZipCode.disable();
-    }
-
-    this._artist.update({ artist: this.artist });
-
-    this.getUSStateCities();
   }
 
   watchArtist() {
@@ -162,12 +88,6 @@ export class EditAboutComponent implements OnInit {
   }
 
   watchUtilities() {
-    this._utility.usCountry$.pipe(distinctUntilChanged()).subscribe((data) => {
-      if (!this.usStates) {
-        this.getUsStates();
-      }
-    });
-
     this._utility.usStates$
       .pipe(distinctUntilChanged())
       .subscribe((states: UsState[]) => {
@@ -176,16 +96,10 @@ export class EditAboutComponent implements OnInit {
 
     this._utility.usCities$
       .pipe(distinctUntilChanged())
-      .subscribe((cities: UsCity[]) => {
-        if (cities) {
-          this.usCities = cities;
-          this.controls.homeUsCity.enable();
-          const city = this.usCities.find(
-            (c) => c.id === this.artist.homeUsCityId
-          );
-          if (city) {
-            this.controls.homeUsCity.patchValue(city.name);
-          }
+      .subscribe((usCities: UsCity[]) => {
+        this.usCities = usCities;
+        if (usCities) {
+          this.setHomeCity();
         } else {
           this.usCities = [];
         }
@@ -194,40 +108,12 @@ export class EditAboutComponent implements OnInit {
     this._utility.usZipCodes$
       .pipe(distinctUntilChanged())
       .subscribe((zipCodes: UsZipCode[]) => {
+        this.usZipCodes = zipCodes;
         if (zipCodes) {
-          this.usZipCodes = zipCodes;
-          this.controls.homeUsZipCode.enable();
-          const zip = this.usZipCodes.find(
-            (z) => z.id === this.artist.homeUsZipCodeId
-          );
-          if (zip) {
-            this.controls.homeUsZipCode.patchValue(zip.zipCode);
-          }
+          this.setZipCode();
         } else {
           this.usZipCodes = [];
         }
-      });
-  }
-
-  getUsStates() {
-    this._utilityApi.ListUsStates().subscribe((usStates: UsState[]) => {
-      this._utility.update({ usStates });
-    });
-  }
-
-  getUSStateCities() {
-    this._utilityApi
-      .ListUSStateCities(this.artist.homeUsStateId)
-      .subscribe((usCities: UsCity[]) => {
-        this._utility.update({ usCities });
-      });
-  }
-
-  getUSCityZipCodes() {
-    this._utilityApi
-      .ListUSZipCodes(this.artist.homeUsCityId)
-      .subscribe((usZipCodes: UsZipCode[]) => {
-        this._utility.update({ usZipCodes });
       });
   }
 
@@ -241,7 +127,6 @@ export class EditAboutComponent implements OnInit {
     }
   }
 
-  // better name for this?
   usCityFilterPipe() {
     this.filteredCities = this.controls.homeUsCity.valueChanges.pipe(
       debounceTime(500),
@@ -254,7 +139,6 @@ export class EditAboutComponent implements OnInit {
     );
   }
 
-  // better name for this?
   usZipCodeFilterPipe() {
     this.filteredZipCodes = this.controls.homeUsZipCode.valueChanges.pipe(
       debounceTime(500),
@@ -267,32 +151,80 @@ export class EditAboutComponent implements OnInit {
     );
   }
 
-  filterCities(name: string) {
-    let results = this.usCities
-      .map((c) => c.name)
-      .filter((city) => city.toLowerCase().indexOf(name.toLowerCase()) === 0);
-
-    if (results.length < 1) {
-      results = [this.question + name + '"?'];
+  private setHomeCity() {
+    this.controls.homeUsCity.enable();
+    const city = this.usCities.find((c) => c.id === this.artist.homeUsCityId);
+    if (city) {
+      this.controls.homeUsCity.patchValue(city.name);
     }
-
-    return results;
   }
 
-  filterZipCodes(name: string) {
-    let results = this.usZipCodes
-      .map((z) => z.zipCode)
+  private setZipCode() {
+    this.controls.homeUsZipCode.enable();
+    const zip = this.usZipCodes.find(
+      (z) => z.id === this.artist.homeUsZipCodeId
+    );
+    if (zip) {
+      this.controls.homeUsZipCode.patchValue(zip.zipCode);
+    }
+  }
+
+  //
+  updateArtist() {
+    const f = this.editArtistAboutForm.value;
+    this._artist.readyArtistForSave(f, this.artist);
+    // this._artist.saveArtist(this.artist);
+  }
+
+  usRadioChange(bool) {
+    this._utility.update({ usCountry: bool.value });
+  }
+
+  changeUSState() {
+    const newStateId = this.controls.homeUsState.value;
+    this.artist.homeUsStateId = newStateId;
+
+    this.controls.homeUsCity.patchValue('');
+    if (this.controls.homeUsZipCode) {
+      this.controls.homeUsZipCode.patchValue('');
+      this.controls.homeUsZipCode.disable();
+    }
+
+    this._artist.update({ artist: this.artist });
+
+    this.getUSStateCities();
+  }
+
+  filterCities(cityName: string) {
+    let results = this.usCities
+      .map((c) => c.name)
       .filter(
-        (zipCode) => zipCode.toLowerCase().indexOf(name.toLowerCase()) === 0
+        (city) => city.toLowerCase().indexOf(cityName.toLowerCase()) === 0
       );
 
     if (results.length < 1) {
-      results = [this.question + name + '"?'];
+      results = [this.question + cityName + '"?'];
     }
 
     return results;
   }
 
+  filterZipCodes(zipCodeDigits: string) {
+    let results = this.usZipCodes
+      .map((z) => z.zipCode)
+      .filter(
+        (zipCode) =>
+          zipCode.toLowerCase().indexOf(zipCodeDigits.toLowerCase()) === 0
+      );
+
+    if (results.length < 1) {
+      results = [this.question + zipCodeDigits + '"?'];
+    }
+
+    return results;
+  }
+
+  // Cities
   citySelected(option) {
     if (option.value.indexOf(this.question) === 0) {
       const newCityName: string = option.value
@@ -326,10 +258,11 @@ export class EditAboutComponent implements OnInit {
     this.usCities.push(newCity);
     this.controls.homeUsCity.setValue(newCityName);
     this.controls.homeUsZipCode.setValue(null);
-    this.artist.homeUsStateId = null;
+    this.artist.homeUsCityId = null;
     this.artist.homeUsZipCodeId = null;
   }
 
+  // ZipCodes
   loadZipCodesForCity(value: string) {
     if (value) {
       const city = this.usCities.find((c) => c.name === value);
@@ -378,5 +311,16 @@ export class EditAboutComponent implements OnInit {
     this.usZipCodes.push(newZipCode);
     this.controls.homeUsZipCode.setValue(newZipCodeDigits);
     this.artist.homeUsZipCodeId = null;
+  }
+
+  // API Calls
+  getUSStateCities() {
+    // if (this.artist.homeUsStateId) {
+    this._artist.getUSStateCities(this.artist.homeUsStateId);
+    // }
+  }
+
+  getUSCityZipCodes() {
+    this._artist.getUSCityZipCodes(this.artist.homeUsCityId);
   }
 }

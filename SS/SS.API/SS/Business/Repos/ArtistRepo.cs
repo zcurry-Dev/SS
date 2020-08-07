@@ -87,12 +87,13 @@ namespace SS.Business.Repos
         {
             if (a.HomeUsCityId == null && a.HomeUsCity != null)
             {
-                a.HomeUsCityId = await _utility.CreateCityAsync(a.HomeUsCity, a.HomeUsStateId.Value);
+                // Check if new city exists already with null id for State; if not, create new city
+                a.HomeUsCityId = await _utility.LookForExistingCityInState(a.HomeUsCity, a.HomeUsStateId.Value);
             }
 
             if (a.HomeUsZipCodeId == null && a.HomeUsZipcode != null)
             {
-                a.HomeUsZipCodeId = await _utility.CreateZipCodeAsync(a.HomeUsZipcode, a.HomeUsCityId.Value);
+                a.HomeUsZipCodeId = await _utility.LookForExistingZipCodeInCity(a.HomeUsZipcode, a.HomeUsCityId.Value);
             }
         }
 

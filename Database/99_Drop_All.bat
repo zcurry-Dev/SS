@@ -1,1 +1,1 @@
-sqlcmd -d SceneSwarm01 -i 98_DROP_ALL.sql
+sqlcmd -d SceneSwarm -i 98_DROP_ALL.sql

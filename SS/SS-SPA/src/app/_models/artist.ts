@@ -15,6 +15,7 @@ export interface Artist {
   usArtist: boolean;
   homeCountryId: number;
   homeCountry: Country;
+  homeCity: string;
   homeUsStateId: number;
   homeUsState: UsState;
   homeUsCityId: number;
@@ -44,4 +45,14 @@ export class Artist {
   public constructor(init?: Partial<Artist>) {
     Object.assign(this, init);
   }
+}
+
+export interface ArtistForm {
+  name: string;
+  usHomeCountry: boolean;
+  homeCountryId: number;
+  homeUsState: UsState;
+  homeWorldRegion: any;
+  homeUsCity: UsCity;
+  homeUsZipCode: UsZipCode;
 }

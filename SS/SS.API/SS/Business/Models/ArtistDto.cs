@@ -12,6 +12,8 @@ namespace SS.Business.Models.Artist
         public bool Group { get; set; }
         public int? UserId { get; set; }
         public bool Verified { get; set; }
+        public string HomeCity { get; set; }
+        public string CurrentCity { get; set; }
         public int HomeCountryId { get; set; }
         public int? HomeUsStateId { get; set; }
         public int? HomeUsCityId { get; set; }

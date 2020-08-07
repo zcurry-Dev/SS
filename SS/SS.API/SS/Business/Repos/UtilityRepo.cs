@@ -59,6 +59,28 @@ namespace SS.Business.Repos
             return zipCodesToReturn;
         }
 
+        public async Task<int> LookForExistingCityInState(string cityName, int stateId)
+        {
+            var foundCity = await _usCity.FindAsync(c => c.StateId == stateId && c.CityName == cityName);
+            if (foundCity != null)
+            {
+                return foundCity.CityId;
+            }
+
+            return await CreateCityAsync(cityName, stateId);
+        }
+
+        public async Task<int> LookForExistingZipCodeInCity(string zipCode, int cityId)
+        {
+            var foundZipCode = await _usZipCode.FindAsync(z => z.CityId == cityId && z.Digits == zipCode);
+            if (foundZipCode != null)
+            {
+                return foundZipCode.CityId;
+            }
+
+            return await CreateZipCodeAsync(zipCode, cityId);
+        }
+
         public async Task<UsCityDto> CreateCityAsync(CityToCreateDto d)
         {
             var newCity = _map.MapToCity(d);

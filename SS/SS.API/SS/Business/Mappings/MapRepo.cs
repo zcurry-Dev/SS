@@ -86,10 +86,11 @@ namespace SS.Business.Mappings
                 Group = a.ArtistGroup,
                 UserId = a.UserId,
                 Verified = a.Verified,
+                HomeCity = GetHomeCity(a),
                 HomeCountryId = a.HomeCountryId,
                 HomeUsStateId = a.HomeUscity?.StateId,
                 HomeUsCityId = a.HomeUscityId,
-                HomeUsZipCodeId = a.HomeUscity?.ZipCode?.Where(z => z.CityId == a.HomeUscityId).FirstOrDefault()?.ZipCodeId,
+                HomeUsZipCodeId = a.HomeUszipCodeId,
                 HomeWorldRegionId = a.HomeWorldCity?.WorldRegionId,
                 HomeWorldCityId = a.HomeWorldCityId,
                 CurrentCountryId = a.CurrentCountryId,
@@ -136,7 +137,11 @@ namespace SS.Business.Mappings
         {
             if (a.HomeUscityId.HasValue)
             {
-                return a.HomeUscity.CityName + ", " + a.HomeUscity.State.StateAbbreviation;
+                if (a.HomeUscity.CityName != "")
+                {
+                    return a.HomeUscity.CityName + ", " + a.HomeUscity.State.StateAbbreviation;
+                }
+                return a.HomeUscity.State.StateAbbreviation;
             }
             if (a.HomeWorldCityId.HasValue)
             {

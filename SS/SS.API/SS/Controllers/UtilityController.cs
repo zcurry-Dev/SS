@@ -21,7 +21,8 @@ namespace SS.Controllers
             var countries = await _utility.GetCountriesAsync();
             return Ok(countries);
         }
-
+        
+        [AllowAnonymous]
         [HttpGet]
         [Route("ListUSStates")]
         public async Task<IActionResult> ListUSStates()

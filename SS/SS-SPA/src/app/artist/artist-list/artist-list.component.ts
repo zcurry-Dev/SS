@@ -114,7 +114,6 @@ export class ArtistListComponent implements OnInit {
     }
 
     this.getArtists();
-    console.log('uno');
   }
 
   openAddArtistDialog() {

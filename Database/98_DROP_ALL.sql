@@ -1,5 +1,5 @@
 --
-USE SceneSwarm01
+USE SceneSwarm
 
 -- DROP SELTZER TABLES
 DROP TABLE dbo.Seltzer

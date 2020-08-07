@@ -122,7 +122,7 @@ CREATE TABLE ident.[SSUserRole] (
 );
 
 
-INSERT INTO [SceneSwarm01].[ident].[SSUserRole]
+INSERT INTO ident.[SSUserRole]
 VALUES
 (1,1)
 ,(1,2)

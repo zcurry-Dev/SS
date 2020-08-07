@@ -1,5 +1,5 @@
 --
-USE SceneSwarm01
+USE SceneSwarm
 GO
 
 CREATE SCHEMA const
