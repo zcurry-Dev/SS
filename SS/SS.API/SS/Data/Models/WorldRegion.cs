@@ -7,6 +7,7 @@ namespace SS.Data.Models
     {
         public WorldRegion()
         {
+            Artist = new HashSet<Artist>();
             WorldCity = new HashSet<WorldCity>();
         }
 
@@ -17,6 +18,7 @@ namespace SS.Data.Models
         public string WorldRegionType { get; set; }
 
         public virtual Country WorldRegionCountryNavigation { get; set; }
+        public virtual ICollection<Artist> Artist { get; set; }
         public virtual ICollection<WorldCity> WorldCity { get; set; }
     }
 }

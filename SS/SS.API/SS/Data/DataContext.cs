@@ -128,9 +128,13 @@ namespace SS.Data
 
                 entity.Property(e => e.HomeUscityId).HasColumnName("HomeUSCityID");
 
+                entity.Property(e => e.HomeUsstateId).HasColumnName("HomeUSStateID");
+
                 entity.Property(e => e.HomeUszipCodeId).HasColumnName("HomeUSZipCodeID");
 
                 entity.Property(e => e.HomeWorldCityId).HasColumnName("HomeWorldCityID");
+
+                entity.Property(e => e.HomeWorldRegionId).HasColumnName("HomeWorldRegionID");
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
@@ -172,6 +176,11 @@ namespace SS.Data
                     .HasForeignKey(d => d.HomeUscityId)
                     .HasConstraintName("FK_Artist_HomeUSCityID");
 
+                entity.HasOne(d => d.HomeUsstate)
+                    .WithMany(p => p.Artist)
+                    .HasForeignKey(d => d.HomeUsstateId)
+                    .HasConstraintName("FK_Artist_HomeUSStateID");
+
                 entity.HasOne(d => d.HomeUszipCode)
                     .WithMany(p => p.Artist)
                     .HasForeignKey(d => d.HomeUszipCodeId)
@@ -181,6 +190,11 @@ namespace SS.Data
                     .WithMany(p => p.ArtistHomeWorldCity)
                     .HasForeignKey(d => d.HomeWorldCityId)
                     .HasConstraintName("FK_Artist_HomeWorldCityID");
+
+                entity.HasOne(d => d.HomeWorldRegion)
+                    .WithMany(p => p.Artist)
+                    .HasForeignKey(d => d.HomeWorldRegionId)
+                    .HasConstraintName("FK_Artist_HomeWorldRegionID");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ArtistUser)

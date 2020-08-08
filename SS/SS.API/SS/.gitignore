@@ -2,6 +2,6 @@
 /obj
 /appsettings.json
 /appsettings.Development.json
-/Data/Models/SceneSwarm01Context.cs
+/Data/Models/SceneSwarmContext.cs
 /*.jpg
 wwwroot

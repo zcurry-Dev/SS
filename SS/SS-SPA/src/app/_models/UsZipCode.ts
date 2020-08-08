@@ -4,3 +4,12 @@ export interface UsZipCode {
   cityId: number;
   cityName: string;
 }
+
+export function initUsZipCode(): UsZipCode {
+  return {
+    id: -1,
+    zipCode: '',
+    cityId: -1,
+    cityName: '',
+  };
+}

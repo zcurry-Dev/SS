@@ -24,8 +24,7 @@ import { UsZipCode } from 'src/app/_models/usZipCode';
   styleUrls: ['./edit-about.component.css'],
 })
 export class EditAboutComponent implements OnInit {
-  @Input() artist: Artist;
-  updatedArtist: Artist = new Artist();
+  artist: Artist;
   editArtistAboutForm = this.fb.group({
     name: new FormControl(this.artist?.name, [Validators.required]),
     usHomeCountry: new FormControl('', [Validators.required]),
@@ -74,15 +73,9 @@ export class EditAboutComponent implements OnInit {
       .subscribe((artist: Artist) => {
         this.artist = artist;
         if (this.artist.homeUsStateId) {
-          this.controls.homeUsCity.enable();
-          this.getUSStateCities();
-          if (this.artist.homeUsCityId) {
-            this.controls.homeUsZipCode.enable();
-            this.getUSCityZipCodes();
-          }
+          this.setArtist();
         } else {
-          this._utility.update({ usCities: null });
-          this._utility.update({ usZipCodes: null });
+          this._utility.update({ usCities: null, usZipCodes: null });
         }
       });
   }
@@ -151,11 +144,21 @@ export class EditAboutComponent implements OnInit {
     );
   }
 
+  private setArtist() {
+    this.controls.homeUsCity.enable();
+    this.getUSStateCities();
+    if (this.artist.homeUsCityId) {
+      this.controls.homeUsZipCode.enable();
+      this.getUSCityZipCodes();
+    }
+  }
+
   private setHomeCity() {
     this.controls.homeUsCity.enable();
     const city = this.usCities.find((c) => c.id === this.artist.homeUsCityId);
     if (city) {
       this.controls.homeUsCity.patchValue(city.name);
+      this.artist.homeUsCity = city;
     }
   }
 
@@ -166,6 +169,7 @@ export class EditAboutComponent implements OnInit {
     );
     if (zip) {
       this.controls.homeUsZipCode.patchValue(zip.zipCode);
+      this.artist.homeUsZipCode = zip;
     }
   }
 
@@ -173,7 +177,7 @@ export class EditAboutComponent implements OnInit {
   updateArtist() {
     const f = this.editArtistAboutForm.value;
     this._artist.readyArtistForSave(f, this.artist);
-    // this._artist.saveArtist(this.artist);
+    this._artist.saveArtist(this.artist);
   }
 
   usRadioChange(bool) {
@@ -183,15 +187,10 @@ export class EditAboutComponent implements OnInit {
   changeUSState() {
     const newStateId = this.controls.homeUsState.value;
     this.artist.homeUsStateId = newStateId;
-
     this.controls.homeUsCity.patchValue('');
-    if (this.controls.homeUsZipCode) {
-      this.controls.homeUsZipCode.patchValue('');
-      this.controls.homeUsZipCode.disable();
-    }
-
+    this.controls.homeUsZipCode.patchValue('');
+    this.controls.homeUsZipCode.disable();
     this._artist.update({ artist: this.artist });
-
     this.getUSStateCities();
   }
 
@@ -249,6 +248,7 @@ export class EditAboutComponent implements OnInit {
     const city = this.usCities.find((c) => c.name === cityName);
     if (city) {
       this.artist.homeUsCityId = city.id;
+      this.artist.homeUsCity = city;
     }
   }
 
@@ -256,8 +256,8 @@ export class EditAboutComponent implements OnInit {
     const newCity = {} as UsCity;
     newCity.name = newCityName;
     this.usCities.push(newCity);
-    this.controls.homeUsCity.setValue(newCityName);
-    this.controls.homeUsZipCode.setValue(null);
+    this.controls.homeUsCity.patchValue(newCityName);
+    this.controls.homeUsZipCode.patchValue(null);
     this.artist.homeUsCityId = null;
     this.artist.homeUsZipCodeId = null;
   }
@@ -302,6 +302,7 @@ export class EditAboutComponent implements OnInit {
     const zipCode = this.usZipCodes.find((z) => z.zipCode === zipCodeDigits);
     if (zipCode) {
       this.artist.homeUsZipCodeId = zipCode.id;
+      this.artist.homeUsZipCode = zipCode;
     }
   }
 
@@ -309,15 +310,13 @@ export class EditAboutComponent implements OnInit {
     const newZipCode = {} as UsZipCode;
     newZipCode.zipCode = newZipCodeDigits;
     this.usZipCodes.push(newZipCode);
-    this.controls.homeUsZipCode.setValue(newZipCodeDigits);
+    this.controls.homeUsZipCode.patchValue(newZipCodeDigits);
     this.artist.homeUsZipCodeId = null;
   }
 
   // API Calls
   getUSStateCities() {
-    // if (this.artist.homeUsStateId) {
     this._artist.getUSStateCities(this.artist.homeUsStateId);
-    // }
   }
 
   getUSCityZipCodes() {

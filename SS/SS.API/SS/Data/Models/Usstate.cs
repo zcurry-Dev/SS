@@ -7,6 +7,7 @@ namespace SS.Data.Models
     {
         public Usstate()
         {
+            Artist = new HashSet<Artist>();
             City = new HashSet<City>();
         }
 
@@ -14,6 +15,7 @@ namespace SS.Data.Models
         public string StateAbbreviation { get; set; }
         public string StateName { get; set; }
 
+        public virtual ICollection<Artist> Artist { get; set; }
         public virtual ICollection<City> City { get; set; }
     }
 }

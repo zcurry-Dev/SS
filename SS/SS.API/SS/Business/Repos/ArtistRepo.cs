@@ -1,6 +1,5 @@
-using System;
 using System.Threading.Tasks;
-using SS.Business.Enums;
+using Castle.Core.Internal;
 using SS.Business.Interfaces;
 using SS.Business.Mappings;
 using SS.Business.Models.Artist;
@@ -85,17 +84,30 @@ namespace SS.Business.Repos
 
         private async Task USCheckForNewLocations(ArtistForUpdateDto a)
         {
-            if (a.HomeUsCityId == null && a.HomeUsCity != null)
+            if (!a.HomeUsCity.Name.IsNullOrEmpty() &&
+                (a.HomeUsCity.Id < 0 || a.HomeUsCityId == null)
+            )
             {
                 // Check if new city exists already with null id for State; if not, create new city
-                a.HomeUsCityId = await _utility.LookForExistingCityInState(a.HomeUsCity, a.HomeUsStateId.Value);
+                a.HomeUsCityId = await _utility.LookForExistingCityInState(a.HomeUsCity.Name, a.HomeUsStateId.Value);
+                a.HomeUsZipCodeId = null;
             }
 
-            if (a.HomeUsZipCodeId == null && a.HomeUsZipcode != null)
+            if (!a.HomeUsZipcode.ZipCode.IsNullOrEmpty() &&
+                (a.HomeUsZipcode.Id < 0 || a.HomeUsZipCodeId == null)
+            )
             {
-                a.HomeUsZipCodeId = await _utility.LookForExistingZipCodeInCity(a.HomeUsZipcode, a.HomeUsCityId.Value);
+                a.HomeUsZipCodeId = await _utility.LookForExistingZipCodeInCity(a.HomeUsZipcode.ZipCode, a.HomeUsCityId.Value);
             }
         }
+
+        // private async Task CheckForNullValues(ArtistForUpdateDto a){
+        //     if (a.HomeUsCity.Id == -1){
+        //         a.HomeUsCityId = null;
+        //     }if (a.HomeUsZipCodeid == -1){
+        //         a.HomeUsCityId = null;
+        //     }
+        // }
 
         // private async Task UpdateWorldArtist(ArtistForUpdateDto a)
         // {
@@ -113,8 +125,6 @@ namespace SS.Business.Repos
         {
             if (a.HomeCountryId == 1)
             {
-
-
                 a.HomeWorldRegionId = null;
                 a.HomeWorldCityId = null;
                 return true;
@@ -122,14 +132,11 @@ namespace SS.Business.Repos
 
             if (a.HomeCountryId > 1)
             {
-
                 a.HomeUsStateId = null;
                 a.HomeUsCityId = null;
-                a.HomeUsCity = null;
-                a.HomeUsCityId = null;
-                a.HomeUsCityId = null;
-                a.HomeUsCityId = null;
-
+                a.HomeUsZipCodeId = null;
+                // a.HomeUsCity = null;
+                // a.HomeUsZipcode = null;
                 return true;
             }
 

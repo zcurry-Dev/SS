@@ -30,8 +30,6 @@ export class ArtistDetailComponent implements OnInit {
     this.route.data
       .subscribe((data) => {
         this._artist.update({ artist: data['artist'] });
-        // console.log('??', data['artist']);
-        // console.log('homeUsZipCodeId', data['artist'].homeUsZipCodeId);
       })
       .unsubscribe();
   }

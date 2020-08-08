@@ -3,3 +3,7 @@ dotnet build
 dotnet clean
 
 dotnet publish -c Release
+
+
+ng build --prod
+

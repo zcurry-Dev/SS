@@ -1,4 +1,5 @@
 using System;
+using SS.Business.Models.Utility;
 
 namespace SS.Business.Models.Artist
 {
@@ -60,8 +61,8 @@ namespace SS.Business.Models.Artist
 
     public class ArtistForUpdateDto : ArtistDto
     {
-        public string HomeUsCity { get; set; }
-        public string HomeUsZipcode { get; set; }
+        public UsCityDto HomeUsCity { get; set; }
+        public UsZipCodeDto HomeUsZipcode { get; set; }
         public string HomeWorldRegion { get; set; }
         public string HomeWorldCity { get; set; }
     }

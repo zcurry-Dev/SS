@@ -5,8 +5,8 @@ import { distinctUntilChanged, map, filter } from 'rxjs/operators';
 import { Artist, ArtistForm } from 'src/app/_models/artist';
 import { PaginatedResult } from 'src/app/_models/pagination';
 import { UtilityApiService } from '../utility.service/utility.api.service';
-import { UsCity } from 'src/app/_models/usCity';
-import { UsZipCode } from 'src/app/_models/usZipCode';
+import { UsCity, initUsCity } from 'src/app/_models/usCity';
+import { UsZipCode, initUsZipCode } from 'src/app/_models/usZipCode';
 import { Router } from '@angular/router';
 import { AlertifyService } from '../alertify.service/alertify.service';
 import { UtilityService } from '../utility.service/utility.subject.service';
@@ -46,7 +46,7 @@ export class ArtistService {
   ) {}
 
   public update(state: any) {
-    console.log('ArtistService Updating', state);
+    // console.log('ArtistService Updating', state);
     this.updateState({ ..._state, ...state });
   }
 
@@ -70,7 +70,7 @@ export class ArtistService {
       });
   }
 
-  readyArtistForSave(f, artist: Artist) {
+  readyArtistForSave(f: ArtistForm, artist: Artist) {
     artist.name = f.name;
     if (f.usHomeCountry) {
       this.setUSArtist(f, artist);
@@ -84,8 +84,8 @@ export class ArtistService {
       (next) => {
         this._alertify.success('Artist updated successfully');
         // // this.editArtistAboutForm.reset(this.artist);
-        this._router.navigate(['/artist', artist.id]);
         this.update({ artist });
+        this._router.navigate(['/artist', artist.id]);
       },
       (error) => {
         this._alertify.error(error);
@@ -96,10 +96,8 @@ export class ArtistService {
   private setUSArtist(f: ArtistForm, toSet: Artist) {
     const a = toSet;
     a.homeUsState = f.homeUsState;
-    // this.cityDiffent(f);
-    a.homeUsCity = f.homeUsCity;
-    // this.zipCodeDiffent(f);
-    a.homeUsZipCode = f.homeUsZipCode;
+    this.cityDiffent(f, a);
+    this.zipCodeDiffent(f, a);
 
     a.homeCountryId = 1;
     a.homeWorldRegionId = null;
@@ -114,19 +112,30 @@ export class ArtistService {
     a.homeUsZipCode = null;
   }
 
-  // private cityDiffent(f: ArtistForm) {
-  //   const a = this.artist;
-  //   if (a.homeUsCity !== f.homeUsCity) {
-  //     a.homeUsCityId = null;
-  //     f.homeUsZipCode = null;
-  //     a.homeUsZipCodeId = null;
-  //   }
-  // }
+  private cityDiffent(f: ArtistForm, a: Artist) {
+    if (a.homeUsCity) {
+      if (a.homeUsCity.name.localeCompare(f.homeUsCity)) {
+        a.homeUsCity = initUsCity();
+        a.homeUsCityId = null;
+        a.homeUsZipCode = initUsZipCode();
+        f.homeUsZipCode = null;
+        a.homeUsZipCodeId = -1;
+      }
+    } else {
+      a.homeUsCity = initUsCity();
+    }
+    a.homeUsCity.name = f.homeUsCity;
+  }
 
-  // private zipCodeDiffent(f: ArtistForm) {
-  //   const a = this.artist;
-  //   if (a.homeUsZipCode !== f.homeUsZipCode) {
-  //     a.homeUsZipCodeId = null;
-  //   }
-  // }
+  private zipCodeDiffent(f: ArtistForm, a: Artist) {
+    if (a.homeUsZipCode) {
+      if (a.homeUsZipCode.zipCode.localeCompare(f.homeUsZipCode)) {
+        a.homeUsZipCodeId = null;
+        a.homeUsZipCode = initUsZipCode();
+      }
+    } else {
+      a.homeUsZipCode = initUsZipCode();
+    }
+    a.homeUsZipCode.zipCode = f.homeUsZipCode;
+  }
 }

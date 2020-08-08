@@ -53,6 +53,6 @@ export interface ArtistForm {
   homeCountryId: number;
   homeUsState: UsState;
   homeWorldRegion: any;
-  homeUsCity: UsCity;
-  homeUsZipCode: UsZipCode;
+  homeUsCity: string;
+  homeUsZipCode: string;
 }

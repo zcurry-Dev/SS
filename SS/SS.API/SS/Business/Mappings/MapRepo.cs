@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Castle.Core.Internal;
 using SS.Business.Calculations;
 using SS.Business.Models.Artist;
 using SS.Business.Models.Role;
@@ -88,10 +89,10 @@ namespace SS.Business.Mappings
                 Verified = a.Verified,
                 HomeCity = GetHomeCity(a),
                 HomeCountryId = a.HomeCountryId,
-                HomeUsStateId = a.HomeUscity?.StateId,
+                HomeUsStateId = a.HomeUsstateId,
                 HomeUsCityId = a.HomeUscityId,
                 HomeUsZipCodeId = a.HomeUszipCodeId,
-                HomeWorldRegionId = a.HomeWorldCity?.WorldRegionId,
+                HomeWorldRegionId = a.HomeWorldRegionId,
                 HomeWorldCityId = a.HomeWorldCityId,
                 CurrentCountryId = a.CurrentCountryId,
                 CurrentUscityId = a.CurrentUscityId,
@@ -111,8 +112,10 @@ namespace SS.Business.Mappings
             artist.ArtistGroup = a.Group;
             artist.UserId = a.UserId;
             artist.HomeCountryId = a.HomeCountryId;
+            artist.HomeUsstateId = a.HomeUsStateId;
             artist.HomeUscityId = a.HomeUsCityId;
             artist.HomeUszipCodeId = a.HomeUsZipCodeId;
+            artist.HomeWorldRegionId = a.HomeWorldRegionId;
             artist.HomeWorldCityId = a.HomeWorldCityId;
         }
 
@@ -135,17 +138,22 @@ namespace SS.Business.Mappings
 
         private string GetHomeCity(Artist a)
         {
-            if (a.HomeUscityId.HasValue)
+            if (a.HomeUsstateId.HasValue)
             {
-                if (a.HomeUscity.CityName != "")
+                if (a.HomeUscityId.HasValue)
                 {
                     return a.HomeUscity.CityName + ", " + a.HomeUscity.State.StateAbbreviation;
                 }
-                return a.HomeUscity.State.StateAbbreviation;
+                return a.HomeUsstate.StateAbbreviation;
             }
-            if (a.HomeWorldCityId.HasValue)
+
+            if (a.HomeWorldRegionId.HasValue)
             {
-                return a.HomeWorldCity.CityName + ", " + a.HomeWorldCity.WorldRegion.WorldRegionAbbreviation;
+                if (a.HomeWorldCityId.HasValue)
+                {
+                    return a.HomeWorldCity.CityName + ", " + a.HomeWorldCity.WorldRegion.WorldRegionAbbreviation;
+                }
+                return a.HomeWorldRegion.WorldRegionAbbreviation;
             }
 
             return "";
