@@ -20,3 +20,12 @@ table {
   height: 50px;
   margin: auto;
 }
+
+.colorCheckMark {
+  /* color: #450084; */
+  color: #ad9c65;
+}
+
+.ztest {
+  margin: auto;
+}

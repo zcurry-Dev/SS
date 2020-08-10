@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ArtistAddComponent } from '../artist-add/artist-add.component';
 import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
 import { AuthService } from 'src/app/_services/auth.service/auth.subject.service';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-artist-list',
@@ -26,9 +27,8 @@ export class ArtistListComponent implements OnInit {
     'id',
     'photo',
     'name',
-    'verified',
-    'currentCity',
     'homeCity',
+    'currentCity',
   ];
   dataSource = new MatTableDataSource(this.artists);
   pageEvent: PageEvent;
@@ -43,8 +43,15 @@ export class ArtistListComponent implements OnInit {
     private alertify: AlertifyService,
     public dialog: MatDialog,
     private _artist: ArtistService,
-    public _authService: AuthService
-  ) {}
+    public _authService: AuthService,
+    breakpointObserver: BreakpointObserver
+  ) {
+    breakpointObserver.observe(['(max-width: 600px)']).subscribe((result) => {
+      this.displayedColumns = result.matches
+        ? ['name', 'currentCity']
+        : ['id', 'photo', 'name', 'homeCity', 'currentCity'];
+    });
+  }
 
   ngOnInit() {
     this.getArtists();
