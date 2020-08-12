@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Castle.Core.Internal;
 using SS.Business.Calculations;
 using SS.Business.Models.Artist;
 using SS.Business.Models.Role;
@@ -186,6 +185,7 @@ namespace SS.Business.Mappings
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
+                DisplayName = u.UserName,
                 CreatedDate = u.Created,
                 LastActive = u.LastActive, //does this break? 062820
                 UserName = u.UserName

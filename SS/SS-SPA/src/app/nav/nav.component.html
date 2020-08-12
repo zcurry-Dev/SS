@@ -99,13 +99,15 @@
   <mat-sidenav-content fxFlexFill>
     <div class="allPagesWidth">
       <router-outlet></router-outlet>
+
+      <mat-toolbar color="accent">
+        <mat-toolbar-row class="fText ss-footer">
+          This site is under development. Feel free to click around. Data is
+          reset and does not persist for too long. Database is cleared every so
+          often. Use bogus email to register/login. Passwords are hashed in the
+          database. -Zach
+        </mat-toolbar-row>
+      </mat-toolbar>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-
-<mat-toolbar color="accent" class="ss-footer">
-  <mat-toolbar-row class="fText">
-    This site is under development. Feel free to click around. Data is reset and
-    does not persist for too long. Database is cleared every so often. -Zach
-  </mat-toolbar-row>
-</mat-toolbar>
