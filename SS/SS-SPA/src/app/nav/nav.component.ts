@@ -52,14 +52,12 @@ export class NavComponent implements OnInit {
   }
 
   watchUtilities() {
-    this._utility.usCountry$.pipe(distinctUntilChanged()).subscribe((data) => {
-      const myUsStates = JSON.parse(localStorage.getItem('usStates'));
-      if (!myUsStates) {
-        this.getUsStates();
-      } else {
-        this.setUSStatesObservable(myUsStates);
-      }
-    });
+    const myUsStates = JSON.parse(localStorage.getItem('usStates'));
+    if (!myUsStates) {
+      this.getUsStates();
+    } else {
+      this.setUSStatesObservable(myUsStates);
+    }
   }
 
   getUsStates() {

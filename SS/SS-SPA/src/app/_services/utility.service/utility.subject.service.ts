@@ -7,19 +7,22 @@ import { UsCity } from 'src/app/_models/usCity';
 import { UsZipCode } from 'src/app/_models/usZipCode';
 
 export interface Utilities {
-  usCountry: boolean;
   countries: Country[];
   usStates: UsState[];
   usCities: UsCity[];
   usZipCodes: UsZipCode[];
+  artistHome: {
+    usCities: UsCity[];
+    usZipCodes: UsZipCode[];
+  };
 }
 
 let _state: Utilities = {
-  usCountry: true,
   countries: null,
   usStates: null,
   usCities: null,
   usZipCodes: null,
+  artistHome: null,
 };
 
 @Injectable({
@@ -29,10 +32,6 @@ export class UtilityService {
   private store = new BehaviorSubject<Utilities>(_state);
   private state$ = this.store.asObservable();
 
-  usCountry$ = this.state$.pipe(
-    map((state) => state.usCountry),
-    distinctUntilChanged()
-  );
   countries$ = this.state$.pipe(
     map((state) => state.countries),
     distinctUntilChanged()
@@ -47,6 +46,10 @@ export class UtilityService {
   );
   usZipCodes$ = this.state$.pipe(
     map((state) => state.usZipCodes),
+    distinctUntilChanged()
+  );
+  artistHome$ = this.state$.pipe(
+    map((state) => state.artistHome),
     distinctUntilChanged()
   );
 

@@ -36,9 +36,10 @@ import { ArtistApiService } from './_services/artist.service/artist.api.service'
 import { AuthApiService } from './_services/auth.service/auth.api.service';
 import { UtilityApiService } from './_services/utility.service/utility.api.service';
 import { AdminService } from './_services/admin.service/admin.subject.service';
-import { ArtistService } from './_services/artist.service/artist.subject.service';
+import { Artist$ } from './_services/artist.service/artist.subject.service';
 import { AuthService } from './_services/auth.service/auth.subject.service';
 import { UtilityService } from './_services/utility.service/utility.subject.service';
+import { ArtistService } from './_services/artist.service/artist.shared.service';
 
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { ArtistCardComponent } from './artist/artist-card/artist-card.component';
@@ -126,6 +127,7 @@ export function tokenGetter() {
     ArtistApiService,
     AuthApiService,
     UtilityApiService,
+    Artist$,
     ArtistService,
     AdminService,
     AuthService,

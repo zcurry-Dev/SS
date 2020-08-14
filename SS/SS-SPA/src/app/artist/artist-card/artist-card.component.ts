@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
-import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
+import { Artist$ } from 'src/app/_services/artist.service/artist.subject.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -14,14 +14,14 @@ export class ArtistCardComponent implements OnInit {
   followArtist = false;
   editMode = true;
 
-  constructor(private _artist: ArtistService) {}
+  constructor(private _artist$: Artist$) {}
 
   ngOnInit() {
     this.watchArtist();
   }
 
   watchArtist() {
-    this._artist.artist$
+    this._artist$.artist$
       .pipe(distinctUntilChanged())
       // .subscribe((artist) => (this.artist = artist || initArtist()));
       .subscribe((artist) => (this.artist = artist));

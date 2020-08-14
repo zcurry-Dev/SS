@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
 import { ActivatedRoute } from '@angular/router';
-import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
+import { Artist$ } from 'src/app/_services/artist.service/artist.subject.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +12,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 export class ArtistEditComponent implements OnInit {
   artist: Artist;
 
-  constructor(private route: ActivatedRoute, private _artist: ArtistService) {}
+  constructor(private route: ActivatedRoute, private _artist$: Artist$) {}
 
   ngOnInit() {
     this.getArtist();
@@ -20,7 +20,7 @@ export class ArtistEditComponent implements OnInit {
   }
 
   watchArtist() {
-    this._artist.artist$.pipe(distinctUntilChanged()).subscribe((artist) => {
+    this._artist$.artist$.pipe(distinctUntilChanged()).subscribe((artist) => {
       this.artist = artist;
     });
   }
@@ -28,7 +28,7 @@ export class ArtistEditComponent implements OnInit {
   getArtist() {
     this.route.data
       .subscribe((data) => {
-        this._artist.update({ artist: data['artist'] });
+        this._artist$.update({ artist: data['artist'] });
       })
       .unsubscribe();
   }

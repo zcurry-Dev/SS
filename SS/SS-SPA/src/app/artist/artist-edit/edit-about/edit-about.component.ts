@@ -1,8 +1,5 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertifyService } from 'src/app/_services/alertify.service/alertify.service';
-import { ArtistApiService } from 'src/app/_services/artist.service/artist.api.service';
 import { FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import {
@@ -11,12 +8,12 @@ import {
   startWith,
   debounceTime,
 } from 'rxjs/operators';
-import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
-import { UtilityApiService } from 'src/app/_services/utility.service/utility.api.service';
+import { Artist$ } from 'src/app/_services/artist.service/artist.subject.service';
 import { UsState } from 'src/app/_models/usState';
 import { UtilityService } from 'src/app/_services/utility.service/utility.subject.service';
 import { UsCity } from 'src/app/_models/usCity';
 import { UsZipCode } from 'src/app/_models/usZipCode';
+import { ArtistService } from 'src/app/_services/artist.service/artist.shared.service';
 
 @Component({
   selector: 'app-edit-about',
@@ -27,6 +24,12 @@ export class EditAboutComponent implements OnInit {
   artist: Artist;
   editArtistAboutForm = this.fb.group({
     name: new FormControl(this.artist?.name, [Validators.required]),
+    usCurrentCountry: new FormControl('', [Validators.required]),
+    currentCountryId: new FormControl(1, [Validators.required]),
+    currentUsState: new FormControl(),
+    currentUsCity: new FormControl({ value: '', disabled: true }),
+    currentUsZipCode: new FormControl({ value: '', disabled: true }),
+    //
     usHomeCountry: new FormControl('', [Validators.required]),
     homeCountryId: new FormControl(1, [Validators.required]),
     homeUsState: new FormControl(),
@@ -55,6 +58,7 @@ export class EditAboutComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private _artist$: Artist$,
     private _artist: ArtistService,
     private _utility: UtilityService
   ) {}
@@ -68,7 +72,7 @@ export class EditAboutComponent implements OnInit {
   }
 
   watchArtist() {
-    this._artist.artist$
+    this._artist$.artist$
       .pipe(distinctUntilChanged())
       .subscribe((artist: Artist) => {
         this.artist = artist;
@@ -146,7 +150,7 @@ export class EditAboutComponent implements OnInit {
 
   private setArtist() {
     this.controls.homeUsCity.enable();
-    this.getUSStateCities();
+    this.getUSStateCities(this.artist.homeUsStateId);
     if (this.artist.homeUsCityId) {
       this.controls.homeUsZipCode.enable();
       this.getUSCityZipCodes();
@@ -180,9 +184,9 @@ export class EditAboutComponent implements OnInit {
     this._artist.saveArtist(this.artist);
   }
 
-  usRadioChange(bool) {
-    this._utility.update({ usCountry: bool.value });
-  }
+  // usHomeRadioChange(bool) {
+  //   this._utility.update({ usCountry: bool.value });
+  // }
 
   changeUSState() {
     const newStateId = this.controls.homeUsState.value;
@@ -190,9 +194,19 @@ export class EditAboutComponent implements OnInit {
     this.controls.homeUsCity.patchValue('');
     this.controls.homeUsZipCode.patchValue('');
     this.controls.homeUsZipCode.disable();
-    this._artist.update({ artist: this.artist });
-    this.getUSStateCities();
+    this._artist$.update({ artist: this.artist });
+    this.getUSStateCities(this.artist.homeUsStateId);
   }
+
+  // changeCurrentUSState() {
+  //   const newStateId = this.controls.currentUsState.value;
+  //   this.artist.currentLoc.usStateId = newStateId;
+  //   this.controls.currentUsCity.patchValue('');
+  //   this.controls.currentUsZipCode.patchValue('');
+  //   this.controls.currentUsZipCode.disable();
+  //   this._artist.update({ artist: this.artist });
+  //   this.getUSStateCities(this.artist.currentLoc.usStateId);
+  // }
 
   filterCities(cityName: string) {
     let results = this.usCities
@@ -315,8 +329,8 @@ export class EditAboutComponent implements OnInit {
   }
 
   // API Calls
-  getUSStateCities() {
-    this._artist.getUSStateCities(this.artist.homeUsStateId);
+  getUSStateCities(usStateId: number) {
+    this._artist.getUSStateCities(usStateId);
   }
 
   getUSCityZipCodes() {

@@ -10,7 +10,7 @@ import { Subject, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ArtistAddComponent } from '../artist-add/artist-add.component';
-import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
+import { Artist$ } from 'src/app/_services/artist.service/artist.subject.service';
 import { AuthService } from 'src/app/_services/auth.service/auth.subject.service';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
@@ -40,9 +40,9 @@ export class ArtistListComponent implements OnInit {
 
   constructor(
     private _artistAPI: ArtistApiService,
-    private alertify: AlertifyService,
+    private _alertify: AlertifyService,
     public dialog: MatDialog,
-    private _artist: ArtistService,
+    private _artist$: Artist$,
     public _authService: AuthService,
     breakpointObserver: BreakpointObserver
   ) {
@@ -67,12 +67,12 @@ export class ArtistListComponent implements OnInit {
     this._artistAPI
       .List(this.pagination?.currentPage, this.pageSize, this.search)
       .subscribe((artistList: PaginatedResult<Artist[]>) => {
-        this._artist.update({ artistList });
+        this._artist$.update({ artistList });
       });
   }
 
   watchArtistList() {
-    this._artist.artistList$
+    this._artist$.artistList$
       .pipe(
         distinctUntilChanged()
         // tap((artists) => console.log('Found artists', artists?.result))
@@ -88,7 +88,7 @@ export class ArtistListComponent implements OnInit {
           }
         },
         (error) => {
-          this.alertify.error(error);
+          this._alertify.error(error);
         }
       );
   }
@@ -137,7 +137,7 @@ export class ArtistListComponent implements OnInit {
   openArtist(row: Artist) {
     const artistId = row.id;
     this._artistAPI.Get(artistId).subscribe((artist) => {
-      this._artist.update({ artist });
+      this._artist$.update({ artist });
     });
   }
 

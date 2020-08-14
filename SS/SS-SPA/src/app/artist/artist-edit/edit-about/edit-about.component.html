@@ -11,76 +11,149 @@
     </mat-form-field>
   </div>
   <div class="mt">
-    <h1>Home</h1>
-    <p>
-      <mat-radio-group
-        aria-label="Select an option"
-        formControlName="usHomeCountry"
-        (change)="usRadioChange($event)"
-      >
-        <mat-radio-button #USHomeCountry [value]="true">US</mat-radio-button>
-        <mat-radio-button [value]="false">Other</mat-radio-button>
-      </mat-radio-group>
-    </p>
-  </div>
-  <div *ngIf="USHomeCountry.checked">
-    <mat-form-field>
-      <mat-label>US State</mat-label>
-      <mat-select
-        #USHomeState
-        formControlName="homeUsState"
-        (selectionChange)="changeUSState()"
-      >
-        <mat-option *ngFor="let usState of usStates" [value]="usState.id">
-          {{ usState.abbreviation + ' - ' + usState.name }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="full-width">
-      <input
-        matInput
-        placeholder="City"
-        [matAutocomplete]="autoCity"
-        formControlName="homeUsCity"
-        (keydown.enter)="citySelectOnEnterKey(); trigger.closePanel()"
-        #trigger="matAutocompleteTrigger"
-      />
-      <mat-autocomplete
-        #autoCity="matAutocomplete"
-        (optionSelected)="citySelected($event.option)"
-      >
-        <mat-option
-          *ngFor="let city of filteredCities | async"
-          [value]="city"
-          (onSelectionChange)="loadZipCodesForCity($event.source.value)"
-        >
-          <span>{{ city }}</span>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <br />
+    <!-- <div class="currentSection">
+      <h1>Current</h1>
+      <p>
+        <mat-radio-group formControlName="usCurrentCountry">
+          <mat-radio-button #USCurrentCountry [value]="true"
+            >US</mat-radio-button
+          >
+          <mat-radio-button [value]="false">Other</mat-radio-button>
+        </mat-radio-group>
+      </p>
 
-    <mat-form-field class="full-width">
-      <input
-        matInput
-        placeholder="ZipCode"
-        [matAutocomplete]="autoZipCode"
-        formControlName="homeUsZipCode"
-        (keydown.enter)="zipCodeSelectOnEnterKey(); trigger2.closePanel()"
-        #trigger2="matAutocompleteTrigger"
-      />
-      <mat-autocomplete
-        #autoZipCode="matAutocomplete"
-        (optionSelected)="zipCodeSelected($event.option)"
-      >
-        <mat-option
-          *ngFor="let zipCode of filteredZipCodes | async"
-          [value]="zipCode"
+      <div *ngIf="USCurrentCountry.checked">
+        <mat-form-field>
+          <mat-label>US State</mat-label>
+          <mat-select
+            #USCurrentState
+            formControlName="currentUsState"
+            (selectionChange)="changeCurrentUSState()"
+          >
+            <mat-option *ngFor="let usState of usStates" [value]="usState.id">
+              {{ usState.abbreviation + ' - ' + usState.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="City"
+            [matAutocomplete]="autoCity"
+            formControlName="currentUsCity"
+            (keydown.enter)="citySelectOnEnterKey(); trigger.closePanel()"
+            #trigger="matAutocompleteTrigger"
+          />
+          <mat-autocomplete
+            #autoCity="matAutocomplete"
+            (optionSelected)="citySelected($event.option)"
+          >
+            <mat-option
+              *ngFor="let city of filteredCities | async"
+              [value]="city"
+              (onSelectionChange)="loadZipCodesForCity($event.source.value)"
+            >
+              <span>{{ city }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <br />
+
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="ZipCode"
+            [matAutocomplete]="autoZipCode"
+            formControlName="homeUsZipCode"
+            (keydown.enter)="zipCodeSelectOnEnterKey(); trigger2.closePanel()"
+            #trigger2="matAutocompleteTrigger"
+          />
+          <mat-autocomplete
+            #autoZipCode="matAutocomplete"
+            (optionSelected)="zipCodeSelected($event.option)"
+          >
+            <mat-option
+              *ngFor="let zipCode of filteredZipCodes | async"
+              [value]="zipCode"
+            >
+              <span>{{ zipCode }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div> -->
+
+    <div class="homeSection">
+      <h1>Home</h1>
+      <p>
+        <mat-radio-group
+          aria-label="Select an option"
+          formControlName="usHomeCountry"
         >
-          <span>{{ zipCode }}</span>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+          <mat-radio-button #USHomeCountry [value]="true">US</mat-radio-button>
+          <mat-radio-button [value]="false">Other</mat-radio-button>
+        </mat-radio-group>
+      </p>
+      <div *ngIf="USHomeCountry.checked">
+        <mat-form-field>
+          <mat-label>US State</mat-label>
+          <mat-select
+            #USHomeState
+            formControlName="homeUsState"
+            (selectionChange)="changeUSState()"
+          >
+            <mat-option *ngFor="let usState of usStates" [value]="usState.id">
+              {{ usState.abbreviation + ' - ' + usState.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="City"
+            [matAutocomplete]="autoCity"
+            formControlName="homeUsCity"
+            (keydown.enter)="citySelectOnEnterKey(); trigger.closePanel()"
+            #trigger="matAutocompleteTrigger"
+          />
+          <mat-autocomplete
+            #autoCity="matAutocomplete"
+            (optionSelected)="citySelected($event.option)"
+          >
+            <mat-option
+              *ngFor="let city of filteredCities | async"
+              [value]="city"
+              (onSelectionChange)="loadZipCodesForCity($event.source.value)"
+            >
+              <span>{{ city }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <br />
+
+        <mat-form-field class="full-width">
+          <input
+            matInput
+            placeholder="ZipCode"
+            [matAutocomplete]="autoZipCode"
+            formControlName="homeUsZipCode"
+            (keydown.enter)="zipCodeSelectOnEnterKey(); trigger2.closePanel()"
+            #trigger2="matAutocompleteTrigger"
+          />
+          <mat-autocomplete
+            #autoZipCode="matAutocomplete"
+            (optionSelected)="zipCodeSelected($event.option)"
+          >
+            <mat-option
+              *ngFor="let zipCode of filteredZipCodes | async"
+              [value]="zipCode"
+            >
+              <span>{{ zipCode }}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </div>
   </div>
   <div>
     <br />

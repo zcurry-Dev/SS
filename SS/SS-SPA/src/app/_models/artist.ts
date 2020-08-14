@@ -13,6 +13,9 @@ export interface Artist {
   userId?: number;
   verified: boolean;
   usArtist: boolean;
+  //
+  currentLoc: ArtistLocation;
+  //
   homeCountryId: number;
   homeCountry: Country;
   homeCity: string;
@@ -55,4 +58,16 @@ export interface ArtistForm {
   homeWorldRegion: any;
   homeUsCity: string;
   homeUsZipCode: string;
+}
+
+interface ArtistLocation {
+  countryId: number;
+  country: Country;
+  city: string;
+  usStateId: number;
+  usState: UsState;
+  usCityId: number;
+  usCity: UsCity;
+  usZipCodeId: number;
+  usZipCode: UsZipCode;
 }

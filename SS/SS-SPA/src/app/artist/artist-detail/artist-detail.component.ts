@@ -1,7 +1,7 @@
 import { Component, OnInit, SecurityContext, Output } from '@angular/core';
 import { Artist } from 'src/app/_models/artist';
 import { ActivatedRoute } from '@angular/router';
-import { ArtistService } from 'src/app/_services/artist.service/artist.subject.service';
+import { Artist$ } from 'src/app/_services/artist.service/artist.subject.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -13,7 +13,7 @@ export class ArtistDetailComponent implements OnInit {
   artist: Artist;
   followArtist = false;
 
-  constructor(private _artist: ArtistService, private route: ActivatedRoute) {}
+  constructor(private _artist$: Artist$, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getArtist();
@@ -21,7 +21,7 @@ export class ArtistDetailComponent implements OnInit {
   }
 
   watchArtist() {
-    this._artist.artist$.pipe(distinctUntilChanged()).subscribe((artist) => {
+    this._artist$.artist$.pipe(distinctUntilChanged()).subscribe((artist) => {
       this.artist = artist;
     });
   }
@@ -29,7 +29,7 @@ export class ArtistDetailComponent implements OnInit {
   getArtist() {
     this.route.data
       .subscribe((data) => {
-        this._artist.update({ artist: data['artist'] });
+        this._artist$.update({ artist: data['artist'] });
       })
       .unsubscribe();
   }
